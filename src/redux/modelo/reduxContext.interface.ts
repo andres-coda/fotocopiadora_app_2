@@ -1,5 +1,3 @@
-export type EmpleadorSortableKeys = 'nombre' | 'cuit' | 'dni';
-
 export interface filtroLlamada{
   id:string;
   estado:boolean;
