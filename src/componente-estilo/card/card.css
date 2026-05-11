@@ -1,0 +1,77 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 1px var(--colorSombra);
+  background-color: var(--colorBlanco);
+  padding: .8rem;
+  gap: .5rem;
+  border-radius: 5px;
+  margin-bottom: .1rem;
+}
+
+.activo {
+  background-color: var(--colorActivo);
+}
+
+.jubilado {
+  background-color: var(--colorJubilado);
+}
+
+.inactivo {
+  background-color: var(--colorInactivo);
+}
+
+.card-click:hover {
+  box-shadow: 2px 2px 2px var(--colorSombra);
+  scale: 1.008;
+  cursor: pointer;
+}
+
+.no-desplegado {
+  opacity: 0;
+  pointer-events: none;
+  max-height: 0;
+  overflow: hidden;
+  transition:
+    opacity 0.3s ease,
+    max-height 0.3s ease;
+}
+
+.desplegado {
+  opacity: 1;
+  pointer-events: auto;
+  transition:
+    opacity 0.3s ease,
+    max-height 0.3s ease;
+  max-height: 500px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.card-horizontal {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.card-vertical {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 .5rem .5rem .5rem;
+  gap: .5rem;
+}
+
+.card-reducido{
+  max-width: 120px;
+}

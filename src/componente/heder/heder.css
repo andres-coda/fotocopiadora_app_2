@@ -1,0 +1,139 @@
+.nav-parcial,
+.miniNav{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: auto;
+    padding: 0 0.1rem;
+    background-color: var(--color5);
+}
+
+.nav-parcial{
+    top: 0;
+    height: 73px;
+    max-width: 800px;
+    width: 100%;
+    z-index: 100;
+    position: absolute;
+}
+
+.miniNav{
+    top: 75px;
+    height: auto;
+    max-width: 800px;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+}
+
+.nav-parcial-superior,
+.nav-parcial-inferior{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.nav-parcial-superior{
+    position: relative;
+}
+
+.nav-parcial-superior a,
+.nav-parcial-inferior a,
+.nav-parcial a,
+.miniNav li{
+    text-decoration: none;
+    margin:1px;
+    color: var(--color1);
+    font-size: 0.8em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+}
+
+.nav-parcial-superior a:hover,
+.nav-parcial-inferior a:hover,
+.nav-parcial a:hover,
+.miniNav li:hover{
+    background-color: var(--color4);
+    color: var(--color2);
+    border-radius: 4px;
+}
+
+.nav-parcial-superior img{
+    height: 32px;
+    width: 32px;
+    margin: 0.2rem;
+}
+
+.activa{
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px var(--color1);
+    background-color: var(--color3);
+}
+
+
+.miniNav ul{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.miniNav h5{
+    margin: 0;
+    padding: 0 0.5rem;
+    font-size: 1em;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu {
+    position: fixed;
+    z-index: 300;
+    top: 50px;
+    right: -250px; /* Menú oculto por defecto */
+    width: 200px;
+    height: auto;
+    background-color: var(--color91);
+    border: 1px solid var(--color1);
+    color: var(--color2);
+    transition: right 0.3s;
+    padding: 0;
+    margin: 0;
+    border-radius: 4px;
+  }
+  
+  .menu.open {
+    right: 8px; /* Mostrar el menú cuando esté abierto */
+  }
+
+.menu-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .menu-content ul li {
+    margin: 0;
+    border-radius: 4px;
+    padding: 0;
+  }
+  
+  .menu-content ul li a {
+    color: var(--color2);
+    text-decoration: none;
+    font-size: 1.2em;
+    margin: 0;
+    padding: 0.3rem 0;
+  }
+  
+  .menu-content ul li a:hover {
+    box-shadow: 1px 1px 1px var(--color1);
+  }

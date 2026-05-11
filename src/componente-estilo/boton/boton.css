@@ -1,0 +1,113 @@
+.btn-general { 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.1rem 1.5rem;
+  border-radius: 50px;
+  min-height: 32px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  text-wrap: nowrap;
+  box-sizing: border-box;
+  margin: 0;
+  box-shadow: 1px 1px 1px var(--colorNegro);
+  transition: background-color 0.2s ease;
+  color: var(--colorPrimario);
+}
+
+.btn-general:hover {
+  scale: 1.1;
+  box-shadow: 2px 2px 4px var(--colorNegro);
+
+}
+
+.btn-icono{
+  width: 70px;
+  height: 50px;
+  padding: 0 10px;
+  fill: currentColor;
+  flex-shrink: 0;
+  display: inline-block; 
+  vertical-align: middle;
+}
+
+.btn-icono-chico{
+  padding: 0;
+  width: 36px;
+  height: 36px;
+}
+
+
+.btn-icono-arriba svg{
+  transform: rotate(90deg); /* rotá 90 grados */
+}
+
+.btn-icono-derecha svg{
+  transform: rotate(180deg); /* rotá 90 grados */
+}
+
+.btn-icono-abajo svg{
+  transform: rotate(-90deg); /* rotá 90 grados */
+}
+
+.btn-texto {
+  color: var(--colorPrimario) !important;
+}
+
+.primario {
+  background-color: var(--colorPrimario);
+  color: var(--colorBlanco);
+}
+
+.secundario {
+  background-color: var(--colorSecundario);
+}
+
+.terciario {
+  background-color: var(--colorBlanco);
+}
+
+.edit {
+  background-color: var(--colorSombra);
+  box-shadow: 1px 1px 1px var(--colorNegro);
+}
+
+.terciario,
+.edit {
+  padding: 0;
+}
+
+.secundario:hover,
+.terciario:hover,
+.edit:hover {
+  border: 1px solid var(--colorPrimario);
+}
+
+.cerrar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 101;
+  background-color: transparent;
+  color: var(--colorPrimario);
+}
+
+.btn-concepto{
+  width: fit-content;
+  padding: .5rem 1rem;
+}
+
+.btn-simbolo-letra{
+  width: 100%;
+  height: 40px;
+  padding: 0 .2rem;
+  border-radius: 10px;
+
+}
+
+.btn-simbolo{
+  width: 100%;
+  height: 40px;
+  padding: 0 .2rem;
+  border-radius: 10px;
+}

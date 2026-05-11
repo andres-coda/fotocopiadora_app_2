@@ -1,0 +1,19 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+  max-width: 1910px;
+}
+
+.general{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex: 1;
+  height: calc(100vh - 80px);
+  gap: .5rem;
+  padding: .5rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}

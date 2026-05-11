@@ -1,0 +1,63 @@
+
+.texto {
+  font-size: 1em;
+  font-weight: 400;
+  text-align: left;
+  width: 100%;
+  margin: 0;
+  color:var(--colorNegro);
+}
+
+.chica {
+  font-size: 0.8em;
+}
+
+.mediana{
+  font-size: 1.2em;
+  font-weight: 500;
+} 
+
+.grande{
+  font-size: 1.4em;
+  font-weight: 600;
+}
+
+.muyGrande{
+  font-size: 2.1em;
+  font-weight: 700;
+}
+
+.sombra{
+  color: var(--colorSombra);
+}
+
+.error{
+  color: var(--colorError);
+}
+
+.inverso{
+  color: var(--colorBlanco);
+}
+
+.derecha {
+  text-align: right;
+}
+
+.centrado {
+  text-align: center;
+}
+
+.ajustado{
+  width: max-content;
+  padding: 0 0.1rem;
+}
+
+.alCien{
+  width: 100%;
+  padding: 0 0.1rem;
+  max-width: 120px;
+}
+
+.negrita {
+  font-weight: 700;
+}

@@ -1,0 +1,11 @@
+.filtro-contenedor{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+}
+
+.filtro-botonera{
+  margin-top: .5rem;
+}

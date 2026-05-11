@@ -1,0 +1,15 @@
+.etiqueta {
+  display: flex;
+  min-width: 100px;
+  background-color: var(--colorVerde);
+  padding: .2rem .5rem;
+  border-radius: 5px;
+}
+
+.etiqueta-inactivo {
+  background-color: var(--colorFondoLateral);
+}
+
+.seccion-card{
+  gap:.5rem;
+}
