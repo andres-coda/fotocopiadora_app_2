@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction, MouseEventHandler, forwardRef, RefObject, ChangeEvent, useState, useEffect } from 'react';
-import Arrow from '../../assets/icons/arrow-small.svg?react'
-import Mas from '../../assets/icons/mas.svg?react'
-import Lupa from '../../assets/icons/lupa.svg?react'
-import BtnFiltro from '../../assets/icons/filtro.svg?react'
-import BtnOrden from '../../assets/icons/orden.svg?react'
+
+//import Mas from '../../assets/icons/mas.svg?react'
+//import Lupa from '../../assets/icons/lupa.svg?react'
+//import BtnFiltro from '../../assets/icons/filtro.svg?react'
+//import BtnOrden from '../../assets/icons/orden.svg?react'
 import Titulo from '../../componente-estilo/texto/titulo';
 import Botonera from '../../componente-estilo/botonera/botonera';
 import Boton from '../../componente-estilo/boton/boton';
@@ -83,7 +83,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
                         : !visible ? 'div-oculto' : ''}`
                 }>
                     <Boton
-                        icono={<Arrow />}
+                        icono={<p>Flecha</p>}
                         terciario
                         nuevoEstilo={
                             `btn-icono-chico btn-buscador-completo ${!visible ? 'btn-oculto-buscador' : ''}`
@@ -117,7 +117,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
 
                     {variante === varianteEnum.MINIMALISTA &&
                         <Boton
-                            icono={<Lupa />}
+                            icono={<p>Lupa</p>}
                             terciario
                             nuevoEstilo='btn-icono-chico'
                             onClick={() => setVisible(true)}
@@ -126,7 +126,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
                     {/* Botones de navegación/paginación */}
                     {handleIzquierda && (
                         <Boton
-                            icono={<Arrow />}
+                            icono={<p>Flecha</p>}
                             terciario
                             nuevoEstilo='btn-icono-chico'
                             onClick={handleIzquierda}
@@ -136,7 +136,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
 
                     {handleDerecha && (
                         <Boton
-                            icono={<Arrow />}
+                            icono={<p>Flecha</p>}
                             terciario
                             nuevoEstilo='btn-icono-chico btn-icono-derecha'
                             onClick={handleDerecha}
@@ -147,7 +147,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
                     {/* Botones de filtro y orden */}
                     {handleFiltro && (
                         <Boton
-                            icono={<BtnFiltro />}
+                            icono={<p>Filtro</p>}
                             terciario
                             nuevoEstilo='btn-icono-chico'
                             onClick={handleFiltro}
@@ -157,7 +157,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
 
                     {handleOrden && (
                         <Boton
-                            icono={<BtnOrden />}
+                            icono={<p>Orden</p>}
                             terciario
                             nuevoEstilo='btn-icono-chico'
                             onClick={handleOrden}
@@ -168,7 +168,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
                     {/* Botón scroll arriba */}
                     {etiquetaArriba &&
                         <Boton
-                            icono={<Arrow />}
+                            icono={<p>Flecha</p>}
                             secundario
                             nuevoEstilo='btn-icono-chico btn-icono-arriba'
                             onClick={handleArrow}
@@ -179,7 +179,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
                     {/* Botón agregar */}
                     {handleMas && (
                         <Boton
-                            icono={<Mas />}
+                            icono={<p>Mas</p>}
                             nuevoEstilo='btn-icono-chico'
                             onClick={handleMas}
                             titulo={etiquetaMas || 'Agregar'}

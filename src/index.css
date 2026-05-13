@@ -38,11 +38,11 @@
   color: var(--colorNegro);
   background-color: var(--colorBlanco);
 
-  --colorFondo: #f1f1c6c2;
+  --colorFondo: #f7f7e4;
   --colorBoton: #145a1ee5;
   --colorSubmenu: #8ed14a91;
   --colorCardGris: #dfd9d9be;
-  --colorCardVerde: #b9f280;
+  --colorCardVerde: #beec8f;
   --colorCardRosa: #f5a79f;
   --colorCardEdit: #F5EFB7;
   --colorError: #df32328e;

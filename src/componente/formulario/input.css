@@ -81,7 +81,7 @@
   font-size: 0.8em !important;
   font-weight: 400 !important;
   color: var(--colorSombra);
-  background-color: var(--colorBlanco);
+  background-color: var(--colorFondo);
   padding: 0.1rem 1rem;
   transform: translate(15%, -50%);
   border-radius: 20px;

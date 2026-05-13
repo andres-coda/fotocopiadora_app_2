@@ -4,6 +4,7 @@ import { usuarioProps } from '../../modelo/usuario/Usuario.interface';
 import { useUsuario } from '../../servicio/usuario/useUsuario';
 import { Link } from 'react-router-dom';
 import Texto from '../../componente-estilo/texto/texto';
+import { rutaPrivadaBase, RutasPrivadas } from '../../privado/rutas/rutasPrivadas';
 
 function Heder() {
   const [userActual, setUserActual] = useState<usuarioProps | null>(null);
@@ -19,10 +20,7 @@ function Heder() {
   return (
     <nav className="heder">
       <ul>
-        <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.EMPLEADOR_LISTA}`} ><Texto texto={'Empleadores'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
-        <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.OBRASOCIAL}`}><Texto texto={'Obra social'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
-        <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CONVENIO}`} ><Texto texto={'Convenio'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
-        <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SINDICATOS}`} ><Texto texto={'Sindicatos'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
+        <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_LISTA}`} ><Texto texto={'Libros'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
         <li>{userActual
           ? <Link to='/' ><Texto texto={userActual.email} mediana centrado nuevoEstilo='txt-heder' /></Link>
           : <Link to='/' ><Texto texto={'Iniciar sesión'} mediana centrado nuevoEstilo='txt-heder' /></Link>

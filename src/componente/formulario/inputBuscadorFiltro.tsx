@@ -1,6 +1,4 @@
 import Boton from '../../componente-estilo/boton/boton';
-import Arrow from '../../assets/icons/arrow.svg?react';
-import Lupa from '../../assets/icons/lupa.svg?react';
 import './input.css';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 
@@ -59,7 +57,7 @@ const InputBuscarFiltro = ({
     <div className='input-buscador'>
       {/* Botón de volver - solo visible cuando está expandido */}
       <Boton
-        icono={<Arrow />}
+        icono={ <p>Flecha</p>}
         terciario
         nuevoEstilo={`btn-icono-chico btn-buscador ${!expandido ? 'btn-oculto' : ''}`}
         onClick={handleContraer}
@@ -85,7 +83,7 @@ const InputBuscarFiltro = ({
 
       {/* Botón de búsqueda - solo visible cuando NO está expandido */}
       <Boton
-        icono={<Lupa />}
+        icono={<p>Lupa</p>}
         terciario
         nuevoEstilo={`btn-icono-chico ${!boton ? 'btn-buscador btn-lupa' : ''} ${expandido ? 'btn-oculto' : ''}`}
         onClick={handleExpandir}

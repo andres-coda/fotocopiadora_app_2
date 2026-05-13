@@ -9,8 +9,8 @@ function App({ children }: AppProp) {
 
   return (
     <>
+      <Heder />
       <div className="general">
-        <Heder />
         {children}
       </div>
     </>

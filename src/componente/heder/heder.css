@@ -1,139 +1,92 @@
-.nav-parcial,
-.miniNav{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    margin-left: auto;
-    padding: 0 0.1rem;
-    background-color: var(--colorCardVerde);
+.heder {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background-color: var(--colorCardVerde);
+  box-sizing: border-box;
 }
 
-.nav-parcial{
-    top: 0;
-    height: 73px;
-    max-width: 800px;
-    width: 100%;
-    z-index: 100;
-    position: absolute;
+.heder ul {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
 }
 
-.miniNav{
-    top: 75px;
-    height: auto;
-    max-width: 800px;
-    width: 100%;
-    position: fixed;
-    z-index: 1;
+.heder ul li {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  transition: background-color 0.2s ease;
+  box-sizing: border-box;
 }
 
-.nav-parcial-superior,
-.nav-parcial-inferior{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-.nav-parcial-superior{
-    position: relative;
+.heder ul li a:focus{
+  background-color: var(--colorBoton);
 }
 
-.nav-parcial-superior a,
-.nav-parcial-inferior a,
-.nav-parcial a,
-.miniNav li{
-    text-decoration: none;
-    margin:1px;
-    color: var(--colorNegro);
-    font-size: 0.8em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    cursor: pointer;
+.heder ul li a:focus:hover{
+  color: var(--colorCardVerde);
+  background-color: var(--colorBoton);
+  box-shadow: 2px 2px 4px var(--colorNegro);
 }
 
-.nav-parcial-superior a:hover,
-.nav-parcial-inferior a:hover,
-.nav-parcial a:hover,
-.miniNav li:hover{
-    background-color: var(--colorSubmenu);
-    color: var(--color2);
-    border-radius: 4px;
-}
-
-.nav-parcial-superior img{
-    height: 32px;
-    width: 32px;
-    margin: 0.2rem;
-}
-
-.activa{
-    border-radius: 4px;
-    box-shadow: 1px 1px 1px var(--colorSombra);
-    background-color: var(--colorBoton);
+.heder ul li:hover{
+  background-color: var(--colorBoton);
+  box-shadow: 2px 2px 4px var(--colorNegro);
 }
 
 
-.miniNav ul{
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    padding: 0;
-    margin: 0;
-    width: 100%;
+.heder ul li:hover .txt-heder {
+  color: var(--colorCardVerde);
 }
 
-.miniNav h5{
-    margin: 0;
-    padding: 0 0.5rem;
-    font-size: 1em;
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis;
+.heder ul li a:active{
+  background-color: var(--colorBlanco);
 }
 
-.menu {
-    position: fixed;
-    z-index: 300;
-    top: 50px;
-    right: -250px; /* Menú oculto por defecto */
-    width: 200px;
-    height: auto;
-    background-color: var(--colorSubmenu);
-    border: 1px solid var(--colorBoton);
-    color: var(--color2);
-    transition: right 0.3s;
-    padding: 0;
-    margin: 0;
-    border-radius: 4px;
-  }
-  
-  .menu.open {
-    right: 8px; /* Mostrar el menú cuando esté abierto */
-  }
 
-.menu-content ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+.heder ul li a {
+  color: var(--colorNegro);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.heder-convenio{
+  padding: 0 .5rem;
+}
+.heder-convenio ul, .heder-empleador ul{
+  border-top: 1px solid var(--colorSombra);  
+  border-left: 1px solid var(--colorSombra);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
 
-  .menu-content ul li {
-    margin: 0;
-    border-radius: 4px;
-    padding: 0;
-  }
-  
-  .menu-content ul li a {
-    color: var(--color2);
-    text-decoration: none;
-    font-size: 1.2em;
-    margin: 0;
-    padding: 0.3rem 0;
-  }
-  
-  .menu-content ul li a:hover {
-    box-shadow: 1px 1px 1px var(--colorSombra);
-  }
+.heder-convenio ul li{  
+  box-shadow: 1px 1px 1px var(--colorSombra);
+  min-height: 40px;
+}
+
+.heder-empleador ul li{  
+  box-shadow: 1px 1px 1px var(--colorSombra);
+}
+
+.heder-empleador{
+  height: 30px;
+}

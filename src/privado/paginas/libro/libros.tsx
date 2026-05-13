@@ -42,7 +42,8 @@ const Libros = () => {
         {elementosFiltrados.length > 0
           ? elementosFiltrados
             .map(dato => (
-              <LibroCard libro={dato} key={dato.id} />
+              <p>Cada libro {dato.nombre}</p>
+              //<LibroCard libro={dato} key={dato.id} />
             ))
           : <TextoVacio entidad='libro' />
         }

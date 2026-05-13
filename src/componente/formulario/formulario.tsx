@@ -1,11 +1,9 @@
 import { BaseSyntheticEvent, ReactNode } from "react";
 import './formulario.css'
 import Boton from "../../componente-estilo/boton/boton";
-import Botonera from "../../componente-estilo/botonera/botonera";
 import Titulo from "../../componente-estilo/texto/titulo";
-import Arrow from '../../assets/icons/arrow.svg?react';
-import Reset from '../../assets/icons/reset.svg?react';
 import Texto from "../../componente-estilo/texto/texto";
+import Botonera from "../../componente-estilo/botonera/botonera";
 
 interface FormularioProps {
   children: ReactNode;
@@ -48,11 +46,11 @@ function Formulario({
         <Botonera
           children={
             <>
-              {onReset ? <Boton icono={<Reset/>} reset secundario nuevoEstilo="btn-icono-chico"/> : null}
+              {onReset ? <Boton icono={ <p>Reset</p>} reset secundario nuevoEstilo="btn-icono-chico"/> : null}
               {onClickSecundario
                 ? <Boton
                   texto={textBtnSecundario && textBtnSecundario}
-                  icono={!textBtnSecundario && <Arrow />}
+                  icono={!textBtnSecundario &&  <p>Flecha</p>}
                   secundario
                   titulo={etiquetaSecundaria}
                   onClick={onClickSecundario}
@@ -60,7 +58,7 @@ function Formulario({
                 : null}
               <Boton 
               texto={loading ? 'Procesando...' : textBtnConfirmar && textBtnConfirmar} 
-              icono={!textBtnConfirmar && !loading && <Arrow/>}
+              icono={!textBtnConfirmar && !loading && <p>Flecha</p>}
               submit={loading ? false : true}
               nuevoEstilo={!textBtnConfirmar ? `btn-icono-derecha ${estiloBoton}` : estiloBoton} 
               titulo={etiquetaPrimaria}

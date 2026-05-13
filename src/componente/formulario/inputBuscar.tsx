@@ -1,6 +1,4 @@
 import Boton from '../../componente-estilo/boton/boton';
-import Arrow from '../../assets/icons/arrow.svg?react'
-import Lupa from '../../assets/icons/lupa.svg?react'
 import './input.css'
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 
@@ -38,7 +36,7 @@ const InputBuscar = ({ name, texto, valor = '', setValor}: InputBuscadorProps) =
   return (
     <div className='input-buscador'>
       <Boton
-        icono={<Arrow />}
+        icono={ <p>Flecha</p>}
         terciario
         nuevoEstilo={
           `btn-icono-chico btn-buscador ${!visible ? 'btn-oculto' : ''}`
@@ -62,7 +60,7 @@ const InputBuscar = ({ name, texto, valor = '', setValor}: InputBuscadorProps) =
         </div>
       </div>
       <Boton
-        icono={<Lupa />}
+        icono={ <p>Lupa</p>}
         terciario
         nuevoEstilo={
           `btn-icono-chico btn-buscador btn-lupa ${visible ? 'btn-oculto' : ''}`
