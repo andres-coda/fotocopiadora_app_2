@@ -10,14 +10,14 @@
   text-wrap: nowrap;
   box-sizing: border-box;
   margin: 0;
-  box-shadow: 1px 1px 1px var(--colorNegro);
+  box-shadow: 1px 1px 1px var(--colorSombra);
   transition: background-color 0.2s ease;
-  color: var(--colorPrimario);
+  color: var(--colorBoton);
 }
 
 .btn-general:hover {
   scale: 1.1;
-  box-shadow: 2px 2px 4px var(--colorNegro);
+  box-shadow: 2px 2px 4px var(--colorSombra);
 
 }
 
@@ -51,16 +51,16 @@
 }
 
 .btn-texto {
-  color: var(--colorPrimario) !important;
+  color: var(--colorBoton) !important;
 }
 
 .primario {
-  background-color: var(--colorPrimario);
+  background-color: var(--colorBoton);
   color: var(--colorBlanco);
 }
 
 .secundario {
-  background-color: var(--colorSecundario);
+  background-color: var(--colorSubmenu);
 }
 
 .terciario {
@@ -80,7 +80,7 @@
 .secundario:hover,
 .terciario:hover,
 .edit:hover {
-  border: 1px solid var(--colorPrimario);
+  border: 1px solid var(--colorBoton);
 }
 
 .cerrar {
@@ -89,7 +89,7 @@
   right: 10px;
   z-index: 101;
   background-color: transparent;
-  color: var(--colorPrimario);
+  color: var(--colorBoton);
 }
 
 .btn-concepto{

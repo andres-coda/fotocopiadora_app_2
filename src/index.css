@@ -4,24 +4,28 @@
   font-weight: 400;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Noto Sans';
   src: url('./assets/fonts/notoSans/NotoSans-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Noto Sans';
   src: url('./assets/fonts/notoSans/NotoSans-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Noto Sans';
   src: url('./assets/fonts/notoSans/NotoSans-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Noto Sans';
   src: url('/assets/fonts/notoSans/NotoSans-Bold.ttf') format('truetype');
@@ -34,26 +38,28 @@
   color: var(--colorNegro);
   background-color: var(--colorBlanco);
 
-  --colorPrimario:#212B6D;
+  --colorFondo: #f1f1c6c2;
+  --colorBoton: #145a1ee5;
+  --colorSubmenu: #8ed14a91;
+  --colorCardGris: #dfd9d9be;
+  --colorCardVerde: #b9f280;
+  --colorCardRosa: #f5a79f;
+  --colorCardEdit: #F5EFB7;
+  --colorError: #df32328e;
+  --colorSombra: #242422ce;
+  --colorStock: #5e67a2;
+  --colorBlanco: #f2f2f3;
   --colorNegro: #000000;
-  --colorSombra:#8D8B92;
-  --colorSecundario:#C6B8D5;
-  --colorFondoLateral:#EBEBF6;
-  --colorBlanco:#f2f2f3;
-  --colorActivo:#F6F6C7;
-  --colorInactivo:#F5E6F6;
-  --colorJubilado:#E2F0F6;
-  --colorVerde:#D8F2B9;
-  --colorError:#E40000;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
-.icono{
+.icono {
   width: 100%;
   height: 100%;
   color: inherit;
@@ -71,7 +77,8 @@ body {
   height: 100vh;
   min-width: 1280px;
   min-height: 200px;
-  background-color: var(--colorBlanco);
+  background-color: var(--colorFondo);
+  color: var(--colorNegro);
   overflow: hidden;
   gap: 1rem
 }
@@ -79,6 +86,6 @@ body {
 @media (prefers-color-scheme: light) {
   :root {
     color: var(--colorNegro);
-    background-color: var(--colorBlanco);
+    background-color: var(--colorFondo);
   }
 }

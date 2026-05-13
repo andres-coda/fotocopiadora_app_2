@@ -204,12 +204,12 @@
 }
 
 .input-checkbox input[type="checkbox"]:checked {
-  background-color: var(--colorVerde);
+  background-color: var(--colorCardVerde);
   border-color: var(--colorNegro);
 }
 
 .input-checkbox input:checked {
-  background-color: var(--colorVerde);
+  background-color: var(--colorCardVerde);
   /* Cambia el color de fondo cuando está marcado */
   border-color: 2px solid var(--colorNegro);
   /* Cambia el color del borde cuando está marcado */

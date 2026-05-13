@@ -1,13 +1,13 @@
 .etiqueta {
   display: flex;
   min-width: 100px;
-  background-color: var(--colorVerde);
+  background-color: var(--colorCardEdit);
   padding: .2rem .5rem;
   border-radius: 5px;
 }
 
 .etiqueta-inactivo {
-  background-color: var(--colorFondoLateral);
+  background-color: var(--colorCardGris);
 }
 
 .seccion-card{

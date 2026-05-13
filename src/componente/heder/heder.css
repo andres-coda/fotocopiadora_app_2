@@ -5,7 +5,7 @@
     justify-content: space-around;
     margin-left: auto;
     padding: 0 0.1rem;
-    background-color: var(--color5);
+    background-color: var(--colorCardVerde);
 }
 
 .nav-parcial{
@@ -45,7 +45,7 @@
 .miniNav li{
     text-decoration: none;
     margin:1px;
-    color: var(--color1);
+    color: var(--colorNegro);
     font-size: 0.8em;
     display: flex;
     align-items: center;
@@ -58,7 +58,7 @@
 .nav-parcial-inferior a:hover,
 .nav-parcial a:hover,
 .miniNav li:hover{
-    background-color: var(--color4);
+    background-color: var(--colorSubmenu);
     color: var(--color2);
     border-radius: 4px;
 }
@@ -71,8 +71,8 @@
 
 .activa{
     border-radius: 4px;
-    box-shadow: 1px 1px 1px var(--color1);
-    background-color: var(--color3);
+    box-shadow: 1px 1px 1px var(--colorSombra);
+    background-color: var(--colorBoton);
 }
 
 
@@ -101,8 +101,8 @@
     right: -250px; /* Menú oculto por defecto */
     width: 200px;
     height: auto;
-    background-color: var(--color91);
-    border: 1px solid var(--color1);
+    background-color: var(--colorSubmenu);
+    border: 1px solid var(--colorBoton);
     color: var(--color2);
     transition: right 0.3s;
     padding: 0;
@@ -135,5 +135,5 @@
   }
   
   .menu-content ul li a:hover {
-    box-shadow: 1px 1px 1px var(--color1);
+    box-shadow: 1px 1px 1px var(--colorSombra);
   }

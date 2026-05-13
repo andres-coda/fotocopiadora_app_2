@@ -7,12 +7,12 @@
   gap: 1rem;
   flex:2 1 auto;
   min-width: 580px;
-  background-color: var(--colorBlanco);
+  background-color: var(--colorFondo);
   border-radius: 5px;
   box-sizing: border-box;
   overflow-y: auto;
   overflow-x: hidden;  
-  scrollbar-color: var(--colorPrimario) var(--colorSecundario);
+  scrollbar-color: var(--colorSubmenu) var(--colorFondo);
   scrollbar-width:thin;
   scrollbar-gutter: stable;
 }
