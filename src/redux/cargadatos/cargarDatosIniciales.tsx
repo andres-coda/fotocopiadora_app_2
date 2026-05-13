@@ -21,6 +21,7 @@ import usePreciosApi from "../../servicio/precio/usePreciosApi";
 import useSedesApi from "../../servicio/sede/useSedesApi";
 import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
 import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
+import useSockets from "../../hooks/sockets/useSockets";
 
 const CargarDatosIniciales = ({ children }: AppProp) => {
 
@@ -47,9 +48,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const componenteItems: ComponenteProp[] = useSelector((store: appStore) => store.componente.items);
 
   const {
-    responseObraSocial,
   } = useSockets({
-    obraSocial: true,
   })
 
   useEffect(() => {

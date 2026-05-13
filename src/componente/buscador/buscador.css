@@ -1,0 +1,16 @@
+.buscador {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: stretch;
+  gap: 1rem;
+}
+
+.botonera-buscador {
+  width: fit-content;
+  margin-top: .6rem;
+}
+
+.buscador-titulo{
+  margin-top: .5rem;
+}

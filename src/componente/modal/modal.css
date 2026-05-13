@@ -1,0 +1,55 @@
+.modal-fondo {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 900;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000d3;
+  box-sizing: border-box;
+  transform: scale(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  box-sizing: border-box;
+}
+
+.modal-abierto {
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.modal-frente {
+  position: relative;
+  max-width: 800px;
+  width: calc(100% - 4rem);
+  margin: 0.5rem 2rem;
+  max-height: 80vh;
+  background-color: var(--colorBlanco);
+  transform: scale(1);
+  border-radius: 8px;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 1px 1px 1px var(--colorNegro);
+  overflow-y: auto;
+  overflow-x: hidden;  
+  scrollbar-color: var(--colorPrimario) var(--colorSecundario);
+  scrollbar-width:thin;
+}
+
+.modal-frente h6 {
+  font-size: 0.9em;
+  font-weight: 500;
+  text-align: center;
+}
+
+.modal-chico{
+  width:max-content;
+}
+
+.modal-sin-scroll{
+  overflow: hidden;
+  height: 80vh;
+}

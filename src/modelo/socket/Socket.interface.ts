@@ -1,33 +1,43 @@
-import { mens } from "./enum/mens.enum";
+import { Mens } from "./enum/mens.enum";
 
-export const entidad = {
-  "ANTIGUEDAD": "antiguedad",
-  "ANTIGUEDAD_TIPO": "antiguedad_tipo",
-  "CARGO": "cargo",
-  "CBU": "cbu",
-  "CLASIFICACION": "clasificacion",
-  "CONCEPTO": "concepto",
-  "CONSTANTE": "constante",
-  "EMPLEADO": "empleado",
-  "EMPLEADOR":"empleador",
-  "LICENCIA": "licencia",
-  "LIQUIDACION": "liquidacion",
-  "LIQINDIVIDUAL": "liquidacionIndividual",
-  "OBRASOCIAL": "obraSocial",
-  "OSEMPRESA": "obraSocialEmpresa",
-  "REVISTA": "revista",
-  "SECCIONES":"secciones",
-  "FORMULA": "formula",
-  "CONVENIO": "convenio",
-  "GRUPO": "grupo",
-  "EMPLEADOR_SECCION": "empleador_seccion",
-  "SINDICATO" : "sindicato",
+export const EntidadDatoMap = {
+  "CLIENTE": "cliente",
+  "COMPONENTE": "componente",
+  "ESPECIFICACION": "esp",
+  "LIBRO": "libro",
+  "PEDIDO_LIBRO": "libro_pedido",
+  "MATERIA": "materia",
+  "PEDIDO": "pedido",
+  "PRECIO": "precio",
+  "PREOPUESTA": "propuesta_pedido",
+  "SEDE": "sede",
+  "STOCK": "stock",
+  "RESUMEN": "resumen",
 } as const;
 
-type entidadType =(typeof entidad)[keyof typeof entidad];
+export type EntidadDatoMapType = typeof EntidadDatoMap;
 
-export interface Mensaje{
-  mensaje:mens;
-  entidad:entidadType;
-  id:string;
-}
+export const Entidad = Object.freeze(
+  Object.fromEntries(
+    Object.keys(EntidadDatoMap).map((key) => [key.toUpperCase(), key])
+  )
+) as {
+    [K in keyof typeof EntidadDatoMap as Uppercase<K & string>]: K;
+  };
+
+
+export type Mensaje<
+  K extends keyof EntidadDatoMapType = keyof EntidadDatoMapType
+> =
+  | {
+    mensaje: Mens.ELIMINAR;
+    entidad: K;
+    id: string;
+    dato?: never;
+  }
+  | {
+    mensaje: Exclude<Mens, Mens.ELIMINAR>;
+    entidad: K;
+    dato: EntidadDatoMapType[K];
+    id?: never;
+  };

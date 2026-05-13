@@ -18,11 +18,3 @@ function App({ children }: AppProp) {
 }
 
 export default App
-
-
-/*
-<LateralIzq/>
-        {children}
-        <MostrarConstante/>
-
-*/

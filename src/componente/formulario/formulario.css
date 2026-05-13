@@ -1,0 +1,34 @@
+.formulario {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  height: max-content;
+  padding: 1rem 1rem 2rem 1rem;
+  gap: .5rem;
+  box-shadow: 1px 1px 1px var(--colorSombra);
+  border-radius: 10px;
+}
+
+.form {
+  gap: .1rem;
+}
+
+.form-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+  gap: .5rem;
+  box-sizing: border-box;
+}
+
+.form-vertical {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: .5rem;
+  box-sizing: border-box;
+}

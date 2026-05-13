@@ -31,6 +31,7 @@ export interface appStore {
   precio: filterContext<PrecioProp>,
   componente: filterContext<ComponenteProp>,
   sede: filterContext<SedeProp>,
+  //propuesta: filterContext<PropuestaProp>
   usuario: usuarioProps,
 }
 

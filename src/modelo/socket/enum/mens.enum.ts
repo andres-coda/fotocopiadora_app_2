@@ -1,4 +1,4 @@
-export enum mens{
+export enum Mens{
   CREAR = "create",
   EDITAR = "updeate",
   ELIMINAR = "deleted",

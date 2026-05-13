@@ -1,0 +1,153 @@
+.buscador-filtros-completo {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 0 1rem;
+    padding-top: .5rem;
+    background: var(--color-fondo);
+    border-radius: 8px;
+    margin: 0;
+    margin-bottom: .5rem;
+    min-height: 40px;
+    /* Cambia height por min-height */
+    position: relative;
+    /* Para posicionamiento absoluto */
+    box-sizing: border-box;
+}
+
+.botonera-buscador-filtros {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    max-width: fit-content;
+    height: 40px;
+}
+
+.input-buscador-completo {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: stretch;
+    gap: 0;
+    flex-shrink: 0;
+    vertical-align: middle;
+}
+
+.btn-buscador-completo {
+    border-radius: 5px;
+    margin-top: 3px;
+    border: .5px solid var(--colorSombra);
+    box-shadow: none;
+    color: var(--colorNegro);
+    width: 36px;
+    height: 36px;
+    margin-right: 3px;
+    flex-shrink: 0;
+    /* Evita que se comprima */
+}
+
+.inputs-span-buscador {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 0.2rem 0;
+    box-sizing: border-box;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.inputs-entero-buscador {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.inputs-entero-buscador input {
+    font-size: 1rem;
+    background-color: transparent;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px;
+    height: 36px;
+    padding: 9px 0.5rem 0 0.5rem;
+    border: .5px solid var(--colorSombra);
+    color: var(--colorNegro)
+}
+
+.inputs-entero-buscador input:focus {
+    border: .5px solid var(--colorNegro);
+    outline: none;
+}
+
+.inputs-entero-buscador label {
+    position: absolute;
+    font-weight: 300;
+    color: var(--colorSombra);
+    top: 50%;
+    left: 0.5rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+.inputs-entero-buscador input:focus+label,
+.inputs-entero-buscador input:not(:placeholder-shown)+label {
+    top: 0;
+    left: 0;
+    font-size: 0.8em !important;
+    font-weight: 400 !important;
+    color: var(--colorSombra);
+    background-color: var(--colorBlanco);
+    padding: 0.1rem 1rem;
+    transform: translate(15%, -50%);
+    border-radius: 20px;
+}
+
+/* ✅ Solución para ocultar sin comprimir */
+.div-oculto {
+    display: none;
+    /* En lugar de opacity + width: 0 */
+}
+
+.btn-oculto-buscador{
+  display: none;
+}
+
+.div-reducido{
+  flex:1;
+}
+
+/* Animación suave al aparecer */
+.botonera-buscador-filtros:not(.div-oculto),
+.input-buscador-completo:not(.div-oculto),
+.btn-buscador-completo:not(.btn-oculto-buscador) {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.buscador-titulo {
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .buscador-filtros-completo {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .botonera-buscador-filtros {
+        justify-content: center;
+    }
+}
