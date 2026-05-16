@@ -29,8 +29,8 @@ const Libros = () => {
     <>
       <BuscadorFiltros
         ref={contenedorRef}
-        texto='Buscar sindicato'
-        handleMas={() => nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_LISTA}`)}
+        texto='Buscar libro'
+        handleMas={() => nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`)}
         valor={valor}
         setValor={setValor}
         handleOrden={() =>dispatch(cambiarOrdenLibro())}

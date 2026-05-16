@@ -1,6 +1,7 @@
 import Boton from "../../../../componente-estilo/boton/boton"
 import Card from "../../../../componente-estilo/card/card"
 import Texto from "../../../../componente-estilo/texto/texto"
+import useEditar from "../../../../hooks/editar/useEditar"
 import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface"
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas"
 
@@ -20,10 +21,10 @@ const LibroCard = ({ libro }: Props) => {
       <Texto texto={libro.nombre} mediana centrado />
       <div className='card-horizontal'>
         <div className='card-vertical'>
-          <Texto texto={`Aporte afiliado: ${libro.apAfiliado}`} />
-          <Texto texto={`Aporte solidario no afiliado: ${libro.apNoAfiliado}`} />
+          <Texto texto={`${libro.nombre} - ${libro.componentes} - ${libro.nivel}`} />
+          <Texto texto={`Editorial: ${libro.editorial}`} />
         </div>
-        <Boton icono={<Editar />} nuevoEstilo='btn-icono-chico' terciario onClick={handleEdit} />
+        <Boton icono={<p>Editar</p>} nuevoEstilo='btn-icono-chico' terciario onClick={handleEdit} />
       </div>
     </Card>
   )

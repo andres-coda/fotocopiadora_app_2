@@ -33,6 +33,5 @@ export const crearElementosContexto = ({
   if (sedes) dispatch(createSedes(sedes));
   if (componentes) dispatch(createComponentes(componentes));
 
-  if (constante) dispatch(addConstantes(constante));
 
 }
