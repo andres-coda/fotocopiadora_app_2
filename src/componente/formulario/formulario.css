@@ -14,14 +14,21 @@
   gap: .1rem;
 }
 
-.form-horizontal {
+.form-horizontal, .form-horizontal-flexible {
   display: flex;
-  flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   flex: 1;
   gap: .5rem;
   box-sizing: border-box;
+}
+
+.form-horizontal{
+  flex-direction: row;
+}
+
+.form-horizontal-flexible {
+  flex-wrap: wrap;
 }
 
 .form-vertical {

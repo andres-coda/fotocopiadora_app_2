@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { LibroProp } from "./libro.interface";
-import { ComponenteProp } from "./componente.interface";
 import { Especificaciones } from "../especificacion/especificacion.enum";
+import { transformarComponente } from "../../../utils/componente";
+import { transformarEspecificaciones } from "../../../utils/especificaciones";
 
 export const libro = z.object({
   nombre: z.string().min(1, 'El libro debe tener un nombre'),
@@ -16,8 +17,42 @@ export const libro = z.object({
   img: z.string().optional(),
   materia: z.string().min(1, 'El libro debe pertenecer a una materia'),
   componentes: z.string().optional(),
-  especificacionesDefecto: z.string().optional(),
+  color: z.boolean().optional(),
+  byn: z.boolean().optional(),
+  anillado: z.boolean().optional(),
+  d_f: z.boolean().optional(),
+  s_f: z.boolean().optional(),
+  adhesivo: z.boolean().optional(),
 })
+  .superRefine((data, ctx) => {
+    const incompatibles = [
+      {
+        a: 'color',
+        b: 'byn',
+        mensaje: 'No puede ser color y blanco y negro al mismo tiempo',
+      },
+      {
+        a: 'd_f',
+        b: 's_f',
+        mensaje: 'No puede ser doble y simple faz al mismo tiempo',
+      },
+    ] as const;
+
+    incompatibles.forEach(({ a, b, mensaje }) => {
+      if (data[a] && data[b]) {
+        ctx.addIssue({
+          code: 'custom',
+          message: mensaje,
+          path: [a],
+        });
+        ctx.addIssue({
+          code: 'custom',
+          message: mensaje,
+          path: [b],
+        });
+      }
+    });
+  });
 
 export type formValuesLibro = z.infer<typeof libro>;
 
@@ -34,7 +69,12 @@ export const libroFormDefault: formValuesLibro = {
   img: '',
   materia: '',
   componentes: '',
-  especificacionesDefecto: '',
+  color: true,
+  byn: false,
+  anillado: true,
+  d_f: true,
+  s_f: false,
+  adhesivo: false,
 }
 
 export const libroFormEdit = (libro?: LibroProp | null): formValuesLibro => {
@@ -52,16 +92,12 @@ export const libroFormEdit = (libro?: LibroProp | null): formValuesLibro => {
     img: libro?.img || libroFormDefault.img,
     materia: libro?.materia.nombre || libroFormDefault.materia,
     componentes: transformarComponente(libro?.componentes),
-    especificacionesDefecto: transformarEspecificaciones(libro?.especificacionesDefecto),
+    color: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.COLOR),
+    byn: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.BLANCO_Y_NEGRO),
+    anillado: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.ANILLADO),
+    d_f: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.DOBLE_FAZ),
+    s_f: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.SIMPLE_FAZ),
+    adhesivo: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.ADHESIVO),
   }
 }
 
-const transformarComponente = (componentes: ComponenteProp[] | undefined): string => {
-  if (!componentes) return '';
-  return componentes.map(c => c.nombre).join(', ');
-}
-
-const transformarEspecificaciones = (esp: Especificaciones[] | undefined): string => {
-  if (!esp) return '';
-  return esp.map(e => e).join(', ');
-}

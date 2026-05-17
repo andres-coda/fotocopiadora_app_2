@@ -45,7 +45,7 @@
   --colorCardVerde: #beec8f;
   --colorCardRosa: #f5a79f;
   --colorCardEdit: #F5EFB7;
-  --colorError: #df32328e;
+  --colorError: #df3232;
   --colorSombra: #242422ce;
   --colorStock: #5e67a2;
   --colorBlanco: #f2f2f3;
@@ -75,8 +75,8 @@ body {
   align-items: flex-start;
   width: 100vw;
   height: 100vh;
-  min-width: 1280px;
-  min-height: 200px;
+  min-width: 350px;
+  min-height: 500px;
   background-color: var(--colorFondo);
   color: var(--colorNegro);
   overflow: hidden;

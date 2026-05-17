@@ -5,21 +5,16 @@
   padding: .5rem;
   margin: 0;
   gap: 1rem;
-  flex:2 1 auto;
-  min-width: 580px;
+  flex: 2 1 auto;
+  min-width: 300px;
   background-color: var(--colorFondo);
   border-radius: 5px;
   box-sizing: border-box;
   overflow-y: auto;
-  overflow-x: hidden;  
+  overflow-x: hidden;
   scrollbar-color: var(--colorSubmenu) var(--colorFondo);
-  scrollbar-width:thin;
+  scrollbar-width: thin;
   scrollbar-gutter: stable;
-}
-
-.centro-chico{
-  min-width: 350px;
-  height: 100%;
 }
 
 .div-horizontal {
@@ -27,7 +22,7 @@
   flex-direction: row;
   align-items: center;
   flex: 1;
-  gap:1rem;
+  gap: 1rem;
 }
 
 .div-vertical {
@@ -38,27 +33,27 @@
   box-sizing: border-box;
 }
 
-.div-checkbox{
+.div-checkbox {
   height: fit-content;
 }
 
-.centrado-vertical{
+.centrado-vertical {
   justify-content: center;
   align-items: center;
 }
 
-.centro{
-    animation: fadeIn 0.5s ease;
+.centro {
+  animation: fadeIn 0.5s ease;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
 
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

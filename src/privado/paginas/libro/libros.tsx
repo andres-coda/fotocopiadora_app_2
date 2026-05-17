@@ -9,6 +9,7 @@ import useBuscadorCompleto from '../../../hooks/buscador/useBuscadorCompleto';
 import { filtrosLibroFuntion, libroKeyBuscador } from '../../../filtro/libro.filtro';
 import BuscadorFiltros from '../../../componente/buscador/buscadorCompleto';
 import { cambiarOrdenLibro } from '../../../redux/state/libro.state';
+import LibroCard from './componente/libroCard';
 
 const Libros = () => {
   const dispatch = useDispatch();
@@ -42,10 +43,9 @@ const Libros = () => {
         {elementosFiltrados.length > 0
           ? elementosFiltrados
             .map(dato => (
-              <p>Cada libro {dato.nombre}</p>
-              //<LibroCard libro={dato} key={dato.id} />
+              <LibroCard libro={dato} key={dato.id} />
             ))
-          : <TextoVacio entidad='libro' />
+          : <TextoVacio entidad='libros' />
         }
       </Centro>
     </>

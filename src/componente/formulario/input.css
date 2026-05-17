@@ -171,6 +171,7 @@
 
 .input-checkbox-label {
   display: flex;
+  text-wrap: nowrap;
   align-items: center;
   cursor: pointer;
   width: 100%;

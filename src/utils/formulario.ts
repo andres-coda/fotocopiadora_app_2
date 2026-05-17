@@ -11,7 +11,7 @@ export function esCampoRequerido<T extends ZodRawShape>(
 }
 
 export const parseNumero = (value: unknown, maxLength = 50): string => {
-  const str = String(value ?? ""); 
+  const str = String(value ?? "");
   return str.replace(/\D/g, "").slice(0, maxLength);
 };
 
@@ -22,17 +22,22 @@ export const parseOrden = (value: unknown, maxLength = 2): string => {
 };
 
 // ALTERNATIVA: Si prefieres coma como separador decimal (estilo argentino)
-export const parseDecimal = (value: string, maxLength = 50, maxDecimals = 2): string => {
-  let resultado = value
-    .replace(/[^\d.]/g, "") // Solo dígitos y punto
-    .replace(/(\..*)\./g, "$1"); // Solo un punto decimal
-  
-  // Limitar decimales
+export const parseDecimal = (
+  value: string | number | undefined | null,
+  maxLength = 50,
+  maxDecimals = 2
+): string => {
+
+  let resultado = String(value ?? '')
+    .replace(/[^\d.]/g, "")
+    .replace(/(\..*)\./g, "$1");
+
   const partes = resultado.split(".");
+
   if (partes.length > 1 && partes[1].length > maxDecimals) {
     resultado = `${partes[0]}.${partes[1].slice(0, maxDecimals)}`;
   }
-  
+
   return resultado.slice(0, maxLength);
 };
 
