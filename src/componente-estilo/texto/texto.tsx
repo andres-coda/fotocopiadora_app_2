@@ -17,7 +17,8 @@ function Texto({
   ajustado = undefined,
   alCien = undefined,
   nuevoEstilo = undefined,
-  etiqueta = undefined
+  etiqueta = undefined,
+  textoResaltado = undefined,
 }: textoProps) {
 
   const { clase } = useTexto({ 
@@ -36,7 +37,7 @@ function Texto({
     nuevoEstilo,
   })
   return (
-    <p className={`texto ${clase}`} title={etiqueta && etiqueta}>{texto}</p>
+    <p className={`texto ${clase}`} title={etiqueta && etiqueta}><b>{textoResaltado}</b> {texto}</p>
   )
 }
 

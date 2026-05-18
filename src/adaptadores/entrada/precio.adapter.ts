@@ -13,6 +13,7 @@ export const precioAdapter = (precio?:PrecioAdapterProp):PrecioProp | undefined=
     ...base,
     nombre: precio.nombre,
     importe: precio.importe,
+    abreviatura: precio.abreviatura
   }
   return newPrecio;
 }

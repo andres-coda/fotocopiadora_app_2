@@ -62,11 +62,7 @@ const calcularHojas = (
     ? Math.ceil(libro.cantidadPg / 2)
     : libro.cantidadPg;
 
-  if (libro.adhesivos && !tieneAdhesivos(libro, esp)) {
-    pg += doble
-      ? libro.adhesivos * 2
-      : libro.adhesivos;
-  }
+  if (libro.adhesivos && !tieneAdhesivos(libro, esp)) pg += libro.adhesivos
 
   return {
     pg,
@@ -78,7 +74,8 @@ const buscarPrecio = (
   precios: PrecioProp[],
   abreviaturas: PrecioAbareviatura[]
 ): number => {
-  return Number(
+  console.log('precios: ', precios);
+  const precio: number = Number(
     precios.find(
       p =>
         abreviaturas.every(a =>
@@ -86,12 +83,16 @@ const buscarPrecio = (
         )
     )?.importe ?? 0
   );
+  console.log('precio: ', precio)
+  return precio;
 };
 
 const calcularPrecioAnillado = (
   pg: number,
-  precios: PrecioProp[]
+  precios: PrecioProp[],
+  esp: Especificaciones[]
 ): number => {
+  if (!esp.includes(Especificaciones.ANILLADO)) return 0;
   const base = 100;
   const rango = 150;
 
@@ -134,8 +135,11 @@ export const calcularPrecio = ({
   );
 
   const adhesivos = calcularPrecioAdhesivos(esp, libro, precios);
-  const anillado = calcularPrecioAnillado(hojas.pg + (tieneAdhesivos(libro, esp) ? libro.adhesivos ?? 0 : 0), precios);
 
-  return (precioBase * hojas.pg + anillado + adhesivos) * cantidad;
+  const anillado = calcularPrecioAnillado(hojas.pg + (tieneAdhesivos(libro, esp) ? libro.adhesivos ?? 0 : 0), precios, esp);
+
+  return Math.ceil(
+    ((precioBase * hojas.pg + anillado + adhesivos) * cantidad) / 100
+  ) * 100;
 };
 

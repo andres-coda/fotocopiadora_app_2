@@ -2,9 +2,9 @@ import { CardProp } from "../modelo/card.interface";
 
 function useCard({
    chica,
-  activo,
-  jubilado,
-  inactivo,
+  listo,
+  pendiente,
+  retirado,
   ruta,
   nuevoEstilo,
   onClick,
@@ -12,9 +12,9 @@ function useCard({
 
   const clase = [
     chica && 'chica',
-    !activo && !jubilado && inactivo && 'inactivo',
-    !activo && jubilado && 'jubilado',
-    activo && 'activo',
+    !listo && !pendiente && retirado && 'retirado',
+    !listo && pendiente && 'pendiente',
+    listo && 'listo',
     ruta || onClick && 'card-click',
     nuevoEstilo,
   ]

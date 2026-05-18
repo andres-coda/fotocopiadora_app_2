@@ -1,4 +1,4 @@
-import { usuarioAdapterProps, usuarioProps } from "../../modelo/usuario/Usuario.interface";
+import { TokenAdapterProp, TokenProp, usuarioAdapterProps, usuarioProps } from "../../modelo/usuario/Usuario.interface";
 
 export const usuarioAdapter = (user?:usuarioAdapterProps):usuarioProps | undefined=> {
   if(!user) return undefined
@@ -10,4 +10,11 @@ export const usuarioAdapter = (user?:usuarioAdapterProps):usuarioProps | undefin
 
   }
   return newUser;
+}
+
+export const tokenAdapter = (token?: TokenAdapterProp | null): TokenProp | undefined => {
+  if(!token) return undefined;
+  return {
+    access_token: token.access_token
+  }
 }

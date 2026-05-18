@@ -1,76 +1,39 @@
-.libro-superior{
+.libro-superior {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,
+      minmax(170px, 1fr));
+  justify-content: center;
+  box-sizing: border-box;
+  padding: .5rem;
+  gap: 1rem;
+}
+
+.libro-superior img {
+  width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(1px 1px 2px var(--colorSombra));
+  box-sizing: border-box;
+}
+
+.libro-select {
+  position: relative;
   display: flex;
-  flex-wrap: row;
-}
-.libro-superior img{
-    object-fit: contain;
-    margin: 0 0.5rem 0.5rem 0;
-    max-width: 500px;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    filter: drop-shadow(1px 1px 2px var(--colorSombra));
-    float: left;
+  flex-direction: column;
+  align-items: space-between;
+  justify-content: space-between;
+  border-radius: 5px;
+  border: 1px solid var(--colorSombra);
+  padding: .5rem .5rem 1rem .5rem;
+  gap: 1rem;
+  height: fit-content;
 }
 
-.super-desactivo{
-    height: 151px;
-    min-height: 150px;
-    overflow: hidden;
+.copiado-presupuesto button {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
 }
 
-.super-desactivo img{
-    width: 100px;
-    height: 150px;
-    float: left;
-}
+@media (width < 600px) {
 
-.super-activo img{
-    width: 90%;
-    height: 250px;
-    float: none;
-}
-
-.super-activo{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 0.5rem;
-}
-
-.superCard-descr-interna{
-    padding: 0 0.5rem;
-    width: 100%;
-    box-sizing: border-box;
-    display: block;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: start;
-}
-
-.super-curso{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    margin: 0.1rem;
-    background-color: var(--color6);
-    border-radius: 4px;
-    position: relative;
-}
-
-.super-curso ul{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    font-size: 0.9em;
-    text-align: start;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-.super-curso li{
-    font-weight: 600;
-    margin: 0;
-    padding-right: 0.5rem;
 }

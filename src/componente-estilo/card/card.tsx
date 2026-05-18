@@ -9,17 +9,17 @@ export default function Card({
   children,
   ultActualizacion = undefined,
   chica = undefined,
-  activo = undefined,
-  jubilado = undefined,
-  inactivo = undefined,
+  listo = undefined,
+  pendiente = undefined,
+  retirado = undefined,
   onClick = undefined,
   nuevoEstilo = undefined,
   ruta = undefined
 }: CardPropComp) {
   const { clase } = useCard({
-    activo,
-    jubilado,
-    inactivo,
+    listo,
+    pendiente,
+    retirado,
     ruta,
     nuevoEstilo,
     onClick

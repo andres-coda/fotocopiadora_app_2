@@ -4,7 +4,7 @@
     align-items: center;
     padding: 0 1rem;
     padding-top: .5rem;
-    background: var(--color-fondo);
+    background: var(--colorFondo);
     border-radius: 8px;
     margin: 0;
     margin-bottom: .5rem;
@@ -110,12 +110,12 @@
     /* En lugar de opacity + width: 0 */
 }
 
-.btn-oculto-buscador{
-  display: none;
+.btn-oculto-buscador {
+    display: none;
 }
 
-.div-reducido{
-  flex:1;
+.div-reducido {
+    flex: 1;
 }
 
 /* Animación suave al aparecer */
@@ -139,15 +139,4 @@
 
 .buscador-titulo {
     margin-bottom: 0.5rem;
-}
-
-@media (max-width: 768px) {
-    .buscador-filtros-completo {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .botonera-buscador-filtros {
-        justify-content: center;
-    }
 }

@@ -2,15 +2,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { REGISTRO } from "../../../utils/endpoint";
-import { httpMethod } from "../../../modelo/HTTP/HttpMethod.enum";
 import Centro from "../../../componente-estilo/centro/centro";
 import Formulario from "../../../componente/formulario/formulario";
 import Input from "../../../componente/formulario/input";
 import { rutaPrivadaBase } from "../../../privado/rutas/rutasPrivadas";
-import { LoginResponseProp } from "../login/login";
 import { formValuesRegistro, registro, registroFormDefault } from "../../../modelo/usuario/esqUsuario.esquema";
-import useApi from "../../../servicio/hooks/useApi";
+import useUsuarioTokens from "../../../servicio/usuario/useUsuarioTokens";
 
 const Registro = () => {
   const navigate = useNavigate()
@@ -18,40 +15,33 @@ const Registro = () => {
     resolver: zodResolver(registro),
     defaultValues: registroFormDefault
   });
-  const { fetchData, response, loading, errorFetch } = useApi<LoginResponseProp>({
-    urlGet: REGISTRO
-  })
+  const { crearUsuario, userLoading, userError, user } = useUsuarioTokens()
 
   useEffect(() => {
-    if (response) {
-      console.log('Token: ', response)
-      localStorage.setItem('token', response.access_token);
+    if (user) {
+      localStorage.setItem('token', user.access_token);
       navigate(`/${rutaPrivadaBase.PRIVADO}`)
     }
-  }, [response])
+  }, [user])
 
   const onSubmit = (data: formValuesRegistro) => {
-    fetchData({
-      methodo: httpMethod.POST,
-      bodyData: JSON.stringify(data)
-    })
+    crearUsuario(data)
   }
 
   const handleBack = () => {
-    navigate(`/`)
-
+    navigate('/')
   }
 
   return (
     <Centro>
       <Formulario
-        titulo={`${loading ? 'En proceso' : 'Registrarse'}`}
+        titulo={`${userLoading ? 'En proceso' : 'Registrarse'}`}
         onSubmit={handleSubmit(onSubmit)}
         onClickSecundario={handleBack}
         etiquetaPrimaria="Registrarse"
         etiquetaSecundaria="Atras"
-        loading={loading}
-        errorFetch={errorFetch}
+        loading={userLoading}
+        errorFetch={userError}
       >
         <>
           <Input<formValuesRegistro> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={registro} />

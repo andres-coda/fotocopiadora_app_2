@@ -29,7 +29,7 @@ export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined =>
     nivel: libro.nivel,
     cantidadPg: libro.cantidadPg,
     anio: libro.anio,
-    adhesivos: libro.adhesivos,
+    adhesivos: libro.adhesivo ?? 0,
     autor: libro.autor,
     img: libro.img,
     especificacionesDefecto: libro.especificacionesDefecto,

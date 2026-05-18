@@ -7,6 +7,6 @@
   margin: 0;
   flex:2;
   gap: .5rem;
-  min-width: 400px;
+  min-width: 300px;
   box-sizing: border-box;
 }

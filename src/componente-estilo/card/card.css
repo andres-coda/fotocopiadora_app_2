@@ -7,14 +7,14 @@
   min-width: 150px;
   box-sizing: border-box;
   box-shadow: 1px 1px 1px var(--colorSombra);
-  background-color: var(--colorCardEdit);
-  padding: .8rem;
+  background-color: var(--colorCardGris);
+  padding: 0.8rem;
   border-radius: 5px;
   margin-bottom: .1rem;
   cursor: pointer;
 }
 
-.activo {
+.listo {
   background-color: var(--colorCardVerde);
 }
 
@@ -22,7 +22,7 @@
   background-color: var(--colorCardRosa);
 }
 
-.inactivo {
+.retirado {
   background-color: var(--colorCardGris);
 }
 
@@ -56,7 +56,7 @@
 .card-horizontal {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: .5rem;
   width: 100%;
   justify-content: space-between;
   align-items: center;
@@ -70,7 +70,7 @@
   align-items: stretch;
   width: 100%;
   box-sizing: border-box;
-  padding: 0 .5rem .5rem .5rem;
+  padding: 0 .5rem;
   gap: .5rem;
 }
 

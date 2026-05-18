@@ -20,3 +20,10 @@ export const usuarioInicial: usuarioProps = {
   role: '',
 }
 
+export interface TokenAdapterProp {
+  access_token: string;
+}
+
+export interface TokenProp {
+  access_token: string;
+}

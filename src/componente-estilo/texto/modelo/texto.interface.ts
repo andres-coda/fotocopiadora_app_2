@@ -14,6 +14,7 @@ export interface estilosTextoProps {
   alCien?: boolean | undefined;
   nuevoEstilo?: string | undefined;
   etiqueta?: string | undefined;
+  textoResaltado?: string;
 }
 
 export interface textoProps extends estilosTextoProps {

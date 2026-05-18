@@ -2,6 +2,7 @@ export const BASE: string = 'http://localhost:3000';
 
 export const LOGIN:string = `${BASE}/auth/login`;
 export const PERFIL:string = `${BASE}/auth/profile`;
+export const USER:string = `${BASE}/user`;
 export const REGISTRO:string = `${BASE}/usuario`;
 export const LIBRO:string = `${BASE}/libro`;
 export const CLIENTE:string = `${BASE}/cliente`;

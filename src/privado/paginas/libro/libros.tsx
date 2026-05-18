@@ -4,7 +4,7 @@ import { appStore } from '../../../redux/store';
 import { rutaPrivadaBase, RutasPrivadas } from '../../rutas/rutasPrivadas';
 import Centro from '../../../componente-estilo/centro/centro';
 import TextoVacio from '../../../componente/Textos/textoVacio';
-import { LibroProp } from '../../../modelo/Entidades/libro/libro.interface';
+import { LibroProp, libroPrueba } from '../../../modelo/Entidades/libro/libro.interface';
 import useBuscadorCompleto from '../../../hooks/buscador/useBuscadorCompleto';
 import { filtrosLibroFuntion, libroKeyBuscador } from '../../../filtro/libro.filtro';
 import BuscadorFiltros from '../../../componente/buscador/buscadorCompleto';
@@ -25,31 +25,32 @@ const Libros = () => {
 
 
   });
-
-  return (
-    <>
-      <BuscadorFiltros
-        ref={contenedorRef}
-        texto='Buscar libro'
-        handleMas={() => nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`)}
-        valor={valor}
-        setValor={setValor}
-        handleOrden={() =>dispatch(cambiarOrdenLibro())}
-        etiquetaArriba='Al comienzo de la lista'
-        etiquetaMas='Nueva libro'
-        titulo='Lista de libros'
-      />
-      <Centro ref={contenedorRef}>
-        {elementosFiltrados.length > 0
-          ? elementosFiltrados
-            .map(dato => (
-              <LibroCard libro={dato} key={dato.id} />
-            ))
-          : <TextoVacio entidad='libros' />
-        }
-      </Centro>
-    </>
-  )
+  
+return (
+  <>
+    <BuscadorFiltros
+      ref={contenedorRef}
+      texto='Buscar libro'
+      handleMas={() => nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`)}
+      valor={valor}
+      setValor={setValor}
+      handleOrden={() => dispatch(cambiarOrdenLibro())}
+      etiquetaArriba='Al comienzo de la lista'
+      etiquetaMas='Nueva libro'
+      titulo='Lista de libros'
+    />
+    <Centro ref={contenedorRef}>
+          <LibroCard libro={libroPrueba} key={'1'}></LibroCard>
+      {elementosFiltrados.length > 0
+        ? elementosFiltrados
+          .map(dato => (
+            <LibroCard libro={dato} key={dato.id} />
+          ))
+        : <TextoVacio entidad='libros' />
+      }
+    </Centro>
+  </>
+)
 }
 
 export default Libros

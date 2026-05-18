@@ -4,7 +4,7 @@ import { rutaPublica } from "../publico/rutas/rutasPublicas";
 
 const RutaPrivadaGuard = () => {
 const {token} = useAutenticacion();
-const autenticado:boolean = /*token ? true : false */ true;
+const autenticado:boolean = token ? true : false;
   return autenticado
     ? <Outlet />
     : <Navigate to={rutaPublica.LOGIN} replace/>
