@@ -21,6 +21,8 @@ function Heder() {
     <nav className="heder">
       <ul>
         <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_LISTA}`} ><Texto texto={'Libros'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
+        <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE_LISTA}`} ><Texto texto={'Clientes'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
+        
         <li>{userActual
           ? <Link to='/' ><Texto texto={userActual.email} mediana centrado nuevoEstilo='txt-heder' /></Link>
           : <Link to='/' ><Texto texto={'Iniciar sesión'} mediana centrado nuevoEstilo='txt-heder' /></Link>

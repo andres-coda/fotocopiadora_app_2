@@ -6,6 +6,8 @@ import CargarDatosIniciales from "../redux/cargadatos/cargarDatosIniciales";
 import Libros from "./paginas/libro/libros";
 import LibroCargar from "./paginas/libro/cargar/libroCargar";
 import LibroSelect from "./paginas/libro/componente/libroSelect";
+import Clientes from "./paginas/cliente/cliente";
+import ClienteCargar from "./paginas/cliente/cargar/clienteCargar";
 
 const PrivadoRuta = () => {
   return (
@@ -17,6 +19,8 @@ const PrivadoRuta = () => {
             <Route path={RutasPrivadas.LIBRO_LISTA} element={<Libros/>}></Route>
             <Route path={RutasPrivadas.LIBRO_CARGAR} element={<LibroCargar/>}></Route>
             <Route path={RutasPrivadas.LIBRO} element={<LibroSelect/>}></Route>
+            <Route path={RutasPrivadas.CLIENTE_LISTA} element={<Clientes/>}></Route>
+            <Route path={RutasPrivadas.CLIENTE_CARGAR} element={<ClienteCargar/>}></Route>
           </RutaInvalida>
         </PrivadoContenedor>
     </CargarDatosIniciales>
