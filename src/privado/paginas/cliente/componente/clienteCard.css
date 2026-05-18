@@ -1,9 +1,9 @@
 .card-cliente {
   padding: 0;
   flex-direction: row;
-  height: 75px;
 }
-.card-cliente ul{
+
+.card-cliente ul {
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -14,9 +14,32 @@
   height: 100%;
   overflow: hidden;
 }
+
 .card-cliente li {
+  min-width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: .1rem 0.2rem;
   margin: 0;
   white-space: nowrap;
   height: 100%;
 }
+
+.datos-cliente{
+  padding: .5rem;
+}
+
+.cliente-renglon{
+  display:flex;
+  justify-content: flex-start;
+  align-items:center;
+  gap:1rem;
+}
+
+.cliente-renglon svg{
+  height: 25px;
+  width: 25px;
+  fill: var(--colorNegro);
+}
+

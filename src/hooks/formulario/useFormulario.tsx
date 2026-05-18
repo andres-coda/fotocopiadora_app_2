@@ -12,23 +12,24 @@ interface recetProp<F extends FieldValues> {
   ruta?: string;
   setModal?: Dispatch<SetStateAction<boolean>>;
   atras?: boolean;
-  watch?:string;
+  watch?: string;
 }
 
-interface useFormularioProp<T, F extends FieldValues,P extends HasId> extends recetProp<F> {
+interface useFormularioProp<T, F extends FieldValues, P extends HasId> extends recetProp<F> {
   response?: T | null;
-  selectElemento?: (e:T) => UnknownAction;
-  selectElementoWatch?: (e:P) => UnknownAction;
+  selectElemento?: (e: T) => UnknownAction;
+  agregarElemento?: (e: T) => UnknownAction;
+  selectElementoWatch?: (e: P) => UnknownAction;
   itemsWatch?: P[];
   setWatch?: Dispatch<SetStateAction<P>>
 }
 
-interface Prop<T, K extends keyof T = keyof T>{
+interface Prop<T, K extends keyof T = keyof T> {
   items: T[]
-  clave?: K; 
+  clave?: K;
 }
 
-const useFormulario = <T, F extends FieldValues,P extends HasId>({
+const useFormulario = <T, F extends FieldValues, P extends HasId>({
   reset,
   resetSelect = undefined,
   ruta = undefined,
@@ -36,9 +37,10 @@ const useFormulario = <T, F extends FieldValues,P extends HasId>({
   atras = undefined,
   response = undefined,
   selectElemento = undefined,
+  agregarElemento = undefined,
   selectElementoWatch = undefined,
   watch = undefined,
-  itemsWatch = undefined,  
+  itemsWatch = undefined,
   setWatch = undefined,
 }: useFormularioProp<T, F, P>) => {
 
@@ -47,20 +49,21 @@ const useFormulario = <T, F extends FieldValues,P extends HasId>({
 
   useEffect(() => {
     if (response) {
+      if (agregarElemento) dispatch(agregarElemento(response))
       if (selectElemento) dispatch(selectElemento(response))
       resetForm({})
     }
   }, [response])
 
   useEffect(() => {
-    if (watch && itemsWatch && itemsWatch.length!=0 && resetSelect ) {
-        const dato:P | undefined = itemsWatch.find(c => c.id === watch)
-        if(dato){
-          if(setWatch) setWatch(dato);
-          if(selectElementoWatch) dispatch(selectElementoWatch(dato))
-        } else {
-          dispatch(resetSelect());
-        }
+    if (watch && itemsWatch && itemsWatch.length != 0 && resetSelect) {
+      const dato: P | undefined = itemsWatch.find(c => c.id === watch)
+      if (dato) {
+        if (setWatch) setWatch(dato);
+        if (selectElementoWatch) dispatch(selectElementoWatch(dato))
+      } else {
+        dispatch(resetSelect());
+      }
     }
   }, [watch, itemsWatch])
 
@@ -91,7 +94,7 @@ const useFormulario = <T, F extends FieldValues,P extends HasId>({
 
   const pasarDesplegable = <T extends HasId, K extends keyof T = keyof T>({ items, clave }: Prop<T, K>): Opcion[] => {
     const newClave: K = (clave || 'nombre') as K
-    const opciones: Opcion[] =  [{ value: '', label: 'Seleccionar' }]
+    const opciones: Opcion[] = [{ value: '', label: 'Seleccionar' }]
     items.map(d => {
       opciones.push({ value: d.id, label: String(d[newClave]) });
     });

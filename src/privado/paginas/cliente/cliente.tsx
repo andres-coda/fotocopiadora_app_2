@@ -22,8 +22,6 @@ const Clientes = () => {
     keyBuscador: clienteKeyBuscador,
     sortBy: clienteContext.filter.sortBy,
     sortOrder: clienteContext.filter.sortOrder,
-
-
   });
   
 return (

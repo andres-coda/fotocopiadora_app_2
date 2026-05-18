@@ -14,10 +14,10 @@ const useClienteApi = () => {
     fetchData({ url: `${CLIENTE}/${id}`, methodo: httpMethod.GET, adapter: clienteAdapter });
 
   const crearCliente = (data: formValuesCliente) =>
-    fetchData({ url: CLIENTE, methodo: httpMethod.POST, bodyData: JSON.stringify(clienteDtoAdapter(data)) });
+    fetchData({ url: CLIENTE, methodo: httpMethod.POST, bodyData: JSON.stringify(clienteDtoAdapter(data)), adapter: clienteAdapter });
 
   const editarCliente = (data: formValuesCliente, id: string) =>
-    fetchData({ url: `${CLIENTE}/${id}`, methodo: httpMethod.PUT, bodyData: JSON.stringify(clienteDtoAdapter(data)) });
+    fetchData({ url: `${CLIENTE}/${id}`, methodo: httpMethod.PUT, bodyData: JSON.stringify(clienteDtoAdapter(data)), adapter: clienteAdapter });
 
 
   return { obtenerClienteById, crearCliente, editarCliente, responseCliente: response, loadingCliente: loading, errorFetchCliente: errorFetch };

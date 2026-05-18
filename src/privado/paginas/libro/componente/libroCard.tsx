@@ -29,13 +29,12 @@ const LibroCard = ({ libro }: Props) => {
       <div className="card-vertical vertical-libro-card">
         <Texto texto={`${libro.nombre} - ${transformarComponente(libro.componentes)} - ${libro.nivel}`} chica negrita centrado/>
         <div className="card-horizontal">
-
           <div className='card-vertical'>
-            <Texto texto={`Editorial: ${libro.editorial}`} chica/>
             <div className='card-horizontal'>
               {libro.anio && <Texto texto={`Año de edición: ${libro.anio}`} chica></Texto>}
               {libro.edicion && <Texto texto={`Edición: ${libro.anio}`} chica></Texto>}
             </div>
+            <Texto texto={`Editorial: ${libro.editorial}`} chica/>
           </div>
         </div>
 
