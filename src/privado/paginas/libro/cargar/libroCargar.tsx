@@ -13,12 +13,16 @@ import useLibroApi from "../../../../servicio/libro/useLibroApi";
 import { formValuesLibro, libro, libroFormEdit } from "../../../../modelo/Entidades/libro/esqLibro.esquema";
 import { addLibros, resetSelectLibro } from "../../../../redux/state/libro.state";
 import InputCheck from "../../../../componente/formulario/inputCheck";
+import Predictivo from "../../../../componente-estilo/predictivo/predictivo";
+import { ComponenteProp } from "../../../../modelo/Entidades/libro/componente.interface";
 
 const LibroCargar = () => {
   const libroSelect: LibroProp | null = useSelector((store: appStore) => store.libro.selected);
+  const componentes: ComponenteProp[] = useSelector((store: appStore) => store.componente.items);
+  
   const { editarLibro, crearLibro, responseLibro, errorFetchLibro, loadingLibro } = useLibroApi()
 
-  const { control, handleSubmit, formState: { errors }, reset } = useForm<formValuesLibro>({
+  const { control, handleSubmit, formState: { errors }, reset, watch } = useForm<formValuesLibro>({
     resolver: zodResolver(libro),
     defaultValues: libroFormEdit(libroSelect)
   });
@@ -51,7 +55,10 @@ const LibroCargar = () => {
       >
         <>
           <Input<formValuesLibro> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={libro} />
+          <div>
           <Input<formValuesLibro> name='componentes' control={control} label='Componentes, ej: Student, Activity, etc...' tipo='text' error={errors.componentes} esquema={libro} />
+          <Predictivo<ComponenteProp> nombre={watch().componentes} elementos={componentes} keys={['nombre']}/>
+          </div>
           <Input<formValuesLibro> name='nivel' control={control} label='Nivel, ej: 1, 2A, etc' tipo='text' error={errors.nivel} esquema={libro} />
           <Input<formValuesLibro> name='descripcion' control={control} label='Descripción para impresión' tipo='text' error={errors.descripcion} esquema={libro} />
           <div className="form-horizontal">

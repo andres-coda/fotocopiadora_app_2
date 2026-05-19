@@ -1,0 +1,9 @@
+.predictivo-contenedor{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 200px;
+  background-color: var(--colorCardGris);
+  margin: 0 0 .5rem 0;
+  padding: .5rem;
+}
