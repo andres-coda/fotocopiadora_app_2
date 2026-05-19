@@ -1,3 +1,26 @@
-.cliente-select ul{
+.cliente-select {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.cliente-vertical {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  width: 100%;
+}
+
+.cliente-vertical ul {
   list-style: none;
+  padding: 0;
+}
+
+.cliente-vertical li {
+  margin: .5rem 0;
+  padding: .2rem 1rem;
+  border: 1px solid var(--colorSombra);
+  border-radius: 4px;
+  text-align: start;
 }

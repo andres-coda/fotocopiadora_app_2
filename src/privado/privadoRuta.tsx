@@ -9,6 +9,10 @@ import LibroSelect from "./paginas/libro/componente/libroSelect";
 import Clientes from "./paginas/cliente/cliente";
 import ClienteCargar from "./paginas/cliente/cargar/clienteCargar";
 import ClienteSelect from "./paginas/cliente/componente/clienteSelect";
+import Precios from "./paginas/precio/precio";
+import PrecioCargar from "./paginas/precio/cargar/precioCargar";
+import Sedes from "./paginas/sede/sede";
+import SedeCargar from "./paginas/sede/cargar/sedeCargar";
 
 const PrivadoRuta = () => {
   return (
@@ -23,6 +27,10 @@ const PrivadoRuta = () => {
             <Route path={RutasPrivadas.CLIENTE_LISTA} element={<Clientes/>}></Route>
             <Route path={RutasPrivadas.CLIENTE_CARGAR} element={<ClienteCargar/>}></Route>
             <Route path={RutasPrivadas.CLIENTE} element={<ClienteSelect/>}></Route>
+            <Route path={RutasPrivadas.PRECIO_LISTO} element={<Precios/>}></Route>
+            <Route path={RutasPrivadas.PRECIO_CARGAR} element={<PrecioCargar/>}></Route>
+            <Route path={RutasPrivadas.SEDE_LISTA} element={<Sedes/>}></Route>
+            <Route path={RutasPrivadas.SEDE_CARGAR} element={<SedeCargar/>}></Route>
           </RutaInvalida>
         </PrivadoContenedor>
     </CargarDatosIniciales>

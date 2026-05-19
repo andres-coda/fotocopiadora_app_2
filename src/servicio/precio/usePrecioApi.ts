@@ -1,4 +1,6 @@
 import { precioAdapter } from "../../adaptadores/entrada/precio.adapter";
+import { precioDtoAdapter } from "../../adaptadores/salida/precioDto.adapter";
+import { formValuesPrecio } from "../../modelo/Entidades/precio/esqPrecio.esquema";
 import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { PRECIO } from "../../utils/endpoint";
@@ -10,16 +12,16 @@ const usePrecioApi = () => {
 
   const obtenerPrecioById = (id: string) =>
     fetchData({ url: `${PRECIO}/${id}`, methodo: httpMethod.GET, adapter: precioAdapter });
-/*
+
   const crearPrecio = (data: formValuesPrecio) =>
-    fetchData({ url: BANCO, methodo: httpMethod.POST, bodyData: JSON.stringify(precioDto(data)) });
+    fetchData({ url: PRECIO, methodo: httpMethod.POST, bodyData: JSON.stringify(precioDtoAdapter(data)), adapter: precioAdapter });
 
   const editarPrecio = (data: formValuesPrecio, id: string) =>
-    fetchData({ url: `${BANCO}/${id}`, methodo: httpMethod.PUT, bodyData: JSON.stringify(precioDto(data)) });
+    fetchData({ url: `${PRECIO}/${id}`, methodo: httpMethod.PUT, bodyData: JSON.stringify(precioDtoAdapter(data)), adapter: precioAdapter });
 
-*/
 
-  return { obtenerPrecioById, responsePrecio: response, loadingPrecio: loading, errorFetchPrecio: errorFetch };
+
+  return { obtenerPrecioById, editarPrecio, crearPrecio, responsePrecio: response, loadingPrecio: loading, errorFetchPrecio: errorFetch };
 
 }
 

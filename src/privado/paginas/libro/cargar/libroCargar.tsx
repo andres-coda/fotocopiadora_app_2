@@ -11,7 +11,7 @@ import { parseDecimal } from "../../../../utils/formulario";
 import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface";
 import useLibroApi from "../../../../servicio/libro/useLibroApi";
 import { formValuesLibro, libro, libroFormEdit } from "../../../../modelo/Entidades/libro/esqLibro.esquema";
-import { resetSelectLibro } from "../../../../redux/state/libro.state";
+import { addLibros, resetSelectLibro } from "../../../../redux/state/libro.state";
 import InputCheck from "../../../../componente/formulario/inputCheck";
 
 const LibroCargar = () => {
@@ -26,6 +26,7 @@ const LibroCargar = () => {
   const { retroceder } = useFormulario<LibroProp, formValuesLibro, LibroProp>({
     response: responseLibro,
     resetSelect: resetSelectLibro,
+    agregarElemento: addLibros,
     reset,
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
   })

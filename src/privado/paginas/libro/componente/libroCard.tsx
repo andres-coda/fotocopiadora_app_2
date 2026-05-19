@@ -38,7 +38,7 @@ const LibroCard = ({ libro }: Props) => {
           </div>
         </div>
 
-      <Texto texto={`${libro.cantidadPg}'`} etiqueta="Cantidad pg" chica derecha  nuevoEstilo="pg-flotante"></Texto>
+      <Texto texto={`${libro.cantidadPg}' ${libro.adhesivos ? `- ${libro.adhesivos}''` : ''}`} etiqueta="Cantidad pg' - cantidad adhesivos ''" chica derecha ajustado nuevoEstilo="pg-flotante"></Texto>
       </div>
       <ul>
         <li className='enStock' title='libros en stock'>{libro.stock.stock}</li>
