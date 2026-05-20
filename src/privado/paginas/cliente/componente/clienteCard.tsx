@@ -7,8 +7,6 @@ import ClienteDatos from "./clienteDatos";
 import useClienteApi from "../../../../servicio/cliente/useClienteApi";
 import Texto from "../../../../componente-estilo/texto/texto";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { selectCliente } from "../../../../redux/state/cliente.state";
 
 interface Props {
   cliente: ClienteProp
@@ -16,7 +14,6 @@ interface Props {
 
 const ClienteCard = ({ cliente }: Props) => {
   const {obtenerClienteById, responseCliente, loadingCliente, errorFetchCliente} = useClienteApi();
-  const dispatch = useDispatch();
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`,
     cliente
@@ -28,8 +25,7 @@ const ClienteCard = ({ cliente }: Props) => {
 
   useEffect(()=>{
     if(responseCliente){
-      dispatch(selectCliente(responseCliente));
-      handleSelect(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`);
+      handleSelect({rutaLocal:`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`, cliente:responseCliente});
     }
   },[responseCliente])
 

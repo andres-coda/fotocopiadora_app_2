@@ -1,18 +1,17 @@
 import Card from "../../../../componente-estilo/card/card"
 import useEditar from "../../../../hooks/editar/useEditar"
 import './pedidoCard.css'
-import { PedidoProp } from "../../../../modelo/Entidades/pedido/pedido.interface"
+import { PedidoClienteProp } from "../../../../modelo/Entidades/pedido/pedido.interface"
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas"
-import Calendario from "../../../../assets/calendario.svg?react"
-import Texto from "../../../../componente-estilo/texto/texto"
-import { formatoFecha, formatoHora } from "../../../../utils/calendario"
-import { claseXestado } from "../../../../utils/formatoDatos"
+import CardFechas from "../../../../componente/pedido/cardFechas"
+import CardArchivos from "../../../../componente/pedido/cardArchivos"
+import CardImporte from "../../../../componente/pedido/cardImporte"
 
-interface Props {
-  pedido: PedidoProp
+interface Props<T extends PedidoClienteProp> {
+  pedido: T;
 }
 
-const PedidoCard = ({ pedido }: Props) => {
+const PedidoCard =<T extends PedidoClienteProp>({ pedido }: Props<T>) => {
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     pedido
@@ -23,18 +22,9 @@ const PedidoCard = ({ pedido }: Props) => {
       onClick={() => handleSelect(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`)}
       nuevoEstilo={'card-pedido'}
     >
-      <div className={`card-pedido-fechas ${claseXestado(pedido.estado)}`}> 
-        <Calendario/>
-        <div className="pedido-fecha-interno" title={`Tomado a las ${formatoHora({fecha:pedido.fechaTomado})}`}>
-          <Texto texto={'Tomado'} centrado/>
-          <Texto texto={formatoFecha({fecha:pedido.fechaTomado})} negrita centrado/>
-        </div>
-        <div className="pedido-fecha-interno">
-          <Texto texto={'Entrega'} centrado/>
-          <Texto texto={pedido.fechaEntrega} negrita centrado/>
-        </div>
-      </div>
-      
+      <CardFechas pedido={pedido} />
+      <CardArchivos pedido={pedido}/>
+      <CardImporte pedido={pedido} />
     </Card>
   )
 }

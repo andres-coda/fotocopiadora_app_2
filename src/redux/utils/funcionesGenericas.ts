@@ -47,7 +47,7 @@ export const selectElemento = <T extends HasId>(
   action: actionProp<T>
 ) => ({
   ...state,
-  selected: action.payload
+  selected: {...action.payload}
 })
 
 export const resetSelectElemento = <T extends HasId>(

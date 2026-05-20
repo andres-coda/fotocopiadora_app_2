@@ -44,7 +44,7 @@ return (
       {elementosFiltrados.length > 0
         ? elementosFiltrados
           .map(dato => (
-            <PedidoCard pedido={dato} key={dato.id} />
+            <PedidoCard<PedidoProp> pedido={dato} key={dato.id} />
           ))
         : <TextoVacio entidad='pedidos' />
       }

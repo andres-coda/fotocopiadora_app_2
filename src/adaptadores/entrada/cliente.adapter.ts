@@ -1,6 +1,8 @@
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { ClienteAdapterProp, ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
+import { PedidoClienteProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { baseAdapter } from "./base.adapter";
+import { pedidoClienteAdapterArray } from "./pedido.adapter";
 
 export const clienteAdapter = (cliente?: ClienteAdapterProp): ClienteProp | undefined => {
   if (!cliente) return undefined;
@@ -9,6 +11,8 @@ export const clienteAdapter = (cliente?: ClienteAdapterProp): ClienteProp | unde
 
   if (!base) return undefined;
 
+  const pedidos: PedidoClienteProp[] = pedidoClienteAdapterArray(cliente.pedidos);
+
   const newCliente: ClienteProp = {
     ...base,
     nombre: cliente.nombre ?? undefined,
@@ -16,8 +20,10 @@ export const clienteAdapter = (cliente?: ClienteAdapterProp): ClienteProp | unde
     email: cliente.email ?? undefined,
     pendiente: cliente.resumen?.pendiente ?? undefined,
     listo: cliente.resumen?.listo ?? undefined,
-    retirado: cliente.resumen?.retirado ?? undefined
+    retirado: cliente.resumen?.retirado ?? undefined,
+    pedidos: pedidos
   }
+
   return newCliente;
 }
 

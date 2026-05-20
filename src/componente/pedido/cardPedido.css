@@ -1,0 +1,26 @@
+.card-pedido-fechas{
+  display: flex;
+  flex-direction: row;
+  padding: .5rem 1rem ;
+  align-items: center;
+  margin: 0;
+}
+
+.pedido-fecha-interno{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap:.5rem;
+}
+
+.pedido-archivos{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+}
+
+.icono-pedido{
+  height: 25px;
+  width: 25px;
+}

@@ -10,6 +10,7 @@
   flex-direction: column;
   max-width: 800px;
   width: 100%;
+  gap: 1rem;
 }
 
 .cliente-vertical ul {

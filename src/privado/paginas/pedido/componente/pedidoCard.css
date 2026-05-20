@@ -6,19 +6,6 @@
   overflow: hidden;
 }
 
-.card-pedido-fechas{
-  display: flex;
-  flex-direction: row;
-  padding: .5rem 1rem ;
-  align-items: center;
-}
-
-.pedido-fecha-interno{
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
 .retirado{
     background-color: var(--colorCardGris);
 }

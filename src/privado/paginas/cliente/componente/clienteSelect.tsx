@@ -6,11 +6,14 @@ import Centro from "../../../../componente-estilo/centro/centro";
 import ClienteDatos from "./clienteDatos";
 import './cliente-select.css'
 import Texto from "../../../../componente-estilo/texto/texto";
+import PedidoCard from "../../pedido/componente/pedidoCard";
+import { PedidoClienteProp } from "../../../../modelo/Entidades/pedido/pedido.interface";
 
 const ClienteSelect = () => {
   const cliente: ClienteProp | null = useSelector((store: appStore) => store.cliente.selected);
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
+  console.log('cliente select: ', cliente)
   if (!cliente) return <p>No se encontro el cliente seleccionado</p>
 
   return (
@@ -18,7 +21,6 @@ const ClienteSelect = () => {
       ref={contenedorRef} texto="Datos del cliente"
       nuevoEstilo={'cliente-select'}>
       <div className="cliente-vertical">
-
         <ClienteDatos cliente={cliente} />
         <ul>
           <li className='pendiente' title='Pedidos pendientes'>Pendiente: {cliente.pendiente}</li>
@@ -26,6 +28,9 @@ const ClienteSelect = () => {
           <li className='retirado' title='Pedidos retirados'>Retirados: {cliente.retirado}</li>
         </ul>
         <Texto texto={'Lista de pedidos'} mediana negrita centrado/>
+        {cliente.pedidos.map(pedido=> (
+          <PedidoCard<PedidoClienteProp> pedido={pedido} key={pedido.id}/>
+        ))}
         <div>
 
         </div>

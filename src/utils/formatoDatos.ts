@@ -17,9 +17,22 @@ export const formatoTelefono = (telefono: string): string => {
     .join(' ');
 };
 
-export const claseXestado = (estado:Estado):string => {
-  if(estado === Estado.LISTO) return 'listo';
-  if(estado === Estado.RETIRADO) return 'retirado';
-  if(estado === Estado.CANCELADO) return 'cancelado';
+export const claseXestado = (estado: Estado): string => {
+  if (estado === Estado.LISTO) return 'listo';
+  if (estado === Estado.RETIRADO) return 'retirado';
+  if (estado === Estado.CANCELADO) return 'cancelado';
   return 'pendiente'
+}
+
+export const estadoXstring = (estado: Estado): string => {
+  switch (estado) {
+    case Estado.PENDIENTE: return 'Pendiente';
+    case Estado.LISTO: return 'Listo';
+    case Estado.RETIRADO: return 'Retirado';
+    case Estado.CANCELADO: return 'Cancelado';
+    case Estado.IMPRESO_COMPLETO: return 'Impreso completo';
+    case Estado.IMPRESO_MITAD: return 'Impreso el simple faz';
+    case Estado.STOCK: return 'En stock';
+    default: return 'todavía no se resolvió este estado';
+  }
 }
