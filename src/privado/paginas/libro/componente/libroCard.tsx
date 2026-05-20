@@ -6,6 +6,7 @@ import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface"
 import { transformarComponente } from "../../../../utils/componente"
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas"
 import { useEffect } from "react"
+import useLibroApi from "../../../../servicio/libro/useLibroApi"
 
 interface Props {
   libro: LibroProp
@@ -16,30 +17,39 @@ const LibroCard = ({ libro }: Props) => {
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     libro
   });
+  const { obtenerLibroById, responseLibro, loadingLibro, errorFetchLibro } = useLibroApi()
 
   useEffect(() => {
-    console.log('libro ', libro);
-  }, [])
+    if (responseLibro) {
+      handleSelect({ rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`, libro: responseLibro })
+    }
+  }, [responseLibro])
+
   return (
     <Card
-      onClick={() => handleSelect(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`)}
+      onClick={() => obtenerLibroById(libro.id)}
       nuevoEstilo={'card-libro'}
     >
       <img src={libro.img} alt={libro.nombre} />
-      <div className="card-vertical vertical-libro-card">
-        <Texto texto={`${libro.nombre} - ${transformarComponente(libro.componentes)} - ${libro.nivel}`} chica negrita centrado/>
-        <div className="card-horizontal">
-          <div className='card-vertical'>
-            <div className='card-horizontal'>
-              {libro.anio && <Texto texto={`Año de edición: ${libro.anio}`} chica></Texto>}
-              {libro.edicion && <Texto texto={`Edición: ${libro.anio}`} chica></Texto>}
+      {!loadingLibro && !errorFetchLibro
+        ? <div className="card-vertical vertical-libro-card">
+          <Texto texto={`${libro.nombre} - ${transformarComponente(libro.componentes)} - ${libro.nivel}`} chica negrita centrado />
+          <div className="card-horizontal">
+            <div className='card-vertical'>
+              <div className='card-horizontal'>
+                {libro.anio && <Texto texto={`Año de edición: ${libro.anio}`} chica></Texto>}
+                {libro.edicion && <Texto texto={`Edición: ${libro.anio}`} chica></Texto>}
+              </div>
+              <Texto texto={`Editorial: ${libro.editorial}`} chica />
             </div>
-            <Texto texto={`Editorial: ${libro.editorial}`} chica/>
           </div>
-        </div>
 
-      <Texto texto={`${libro.cantidadPg}' ${libro.adhesivos ? `- ${libro.adhesivos}''` : ''}`} etiqueta="Cantidad pg' - cantidad adhesivos ''" chica derecha ajustado nuevoEstilo="pg-flotante"></Texto>
-      </div>
+          <Texto texto={`${libro.cantidadPg}' ${libro.adhesivos ? `- ${libro.adhesivos}''` : ''}`} etiqueta="Cantidad pg' - cantidad adhesivos ''" chica derecha ajustado nuevoEstilo="pg-flotante"></Texto>
+        </div>
+        : !errorFetchLibro
+          ? <Texto texto={'Cargando...'} centrado mediana />
+          : <Texto texto={errorFetchLibro} centrado mediana />
+      }
       <ul>
         <li className='enStock' title='libros en stock'>{libro.stock.stock}</li>
         <li className='pendiente' title='libros pendientes'>{libro.stock.pendiente}</li>
