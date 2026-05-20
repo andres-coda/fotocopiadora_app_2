@@ -1,5 +1,5 @@
 interface FechaProp {
-  fecha: Date
+  fecha?: Date
 }
 
 interface RestarFechasProp {
@@ -24,6 +24,7 @@ export interface ultActProp {
 
 
 export const formatoFecha = ({ fecha }: FechaProp): string => {
+  if(!fecha) return '';
   const date = new Date(fecha);
   const dia = date.getDay() + 1;
   const mes = date.getMonth() + 1;
@@ -32,6 +33,7 @@ export const formatoFecha = ({ fecha }: FechaProp): string => {
 }
 
 export const formatoHora = ({ fecha }: FechaProp): string => {
+  if(!fecha) return '';
   const date = new Date(fecha);
   const horas = date.getHours();
   const minutos = date.getMinutes();

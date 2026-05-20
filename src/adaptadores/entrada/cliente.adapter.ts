@@ -14,9 +14,9 @@ export const clienteAdapter = (cliente?: ClienteAdapterProp): ClienteProp | unde
     nombre: cliente.nombre ?? undefined,
     telefono: cliente.telefono ?? undefined,
     email: cliente.email ?? undefined,
-    pendiente: cliente.resumen.pendiente,
-    listo: cliente.resumen.listo,
-    retirado: cliente.resumen.retirado
+    pendiente: cliente.resumen?.pendiente ?? undefined,
+    listo: cliente.resumen?.listo ?? undefined,
+    retirado: cliente.resumen?.retirado ?? undefined
   }
   return newCliente;
 }

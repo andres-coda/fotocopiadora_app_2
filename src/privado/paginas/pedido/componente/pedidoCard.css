@@ -1,0 +1,135 @@
+.card-pedido{
+  background-color: var(--colorFondo);
+  gap:.2rem;
+  box-shadow: none;
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-pedido-fechas{
+  display: flex;
+  flex-direction: row;
+  padding: .5rem 1rem ;
+  align-items: center;
+}
+
+.pedido-fecha-interno{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.retirado{
+    background-color: var(--colorCardGris);
+}
+
+.terminado{
+    background-color: var(--colorCardVerde);
+}
+
+.pendiente{
+    background-color: var(--colorCardRosa);
+}
+
+.cliente-pedidos{
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    margin-top: 0.1rem;
+    cursor: pointer;
+    margin: 0.1rem;
+    padding: 0.2rem;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 8px;
+  }
+
+  .cliente-pedidos:hover{
+    box-shadow: 1px 1px 1px var(--color1);
+  }
+
+  .cliente-pedidos-interno{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    margin: 1px 0;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0.2rem;
+  }
+
+  .pedido-cantidad{
+    justify-content: start !important;
+  }
+
+  .pedido-cantidad h6{
+    margin: 0.5rem 1rem;
+    font-size: 1.5em;
+    font-weight: 600;
+  }
+
+  .cliente-pedidos-interno svg{
+    margin: 0.2rem 0.8rem;
+  }
+
+  .cliente-pedidos-interno:first-child{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .cliente-pedidos-interno:last-child{
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding-right: 0.5rem;
+  }
+  
+.cliente-pedidos-interno-vertical{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: calc(100% - 1rem);
+  margin-top: 0.3rem 0.5rem;
+  align-items: start;
+}
+
+.cliente-pedidos-interno-vertical p{
+  text-align: start;
+  font-size: 0.8em;
+  font-weight: 400;
+  margin: 0.2rem 0.5rem;
+}
+
+.cliente-pedidos-interno-vertical img{
+  vertical-align: bottom;
+  margin: 0 0.5rem 0 0;
+  height: 24px;
+  width: 24px;
+}
+
+
+.cliente-pedidos-interno-vertical h6{
+  text-align: start;
+  font-size: 1em;
+  font-weight: 600;
+  margin: 0 0.3em;
+}
+
+.especificaciones-horizontal{
+  width: 100%;
+}
+.especificaciones-horizontal ul{
+  flex-direction: row !important;
+  width: 100%;
+  justify-content: space-around !important;
+}
+
+.especificaciones-horizontal li{
+  flex-grow: 1 !important;
+  margin: 0.2rem 0.5rem !important;
+  text-align: center !important;
+}
+
+.position-relative{
+  position: relative;
+}

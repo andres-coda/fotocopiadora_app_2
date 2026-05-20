@@ -24,7 +24,8 @@ function Heder() {
         <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE_LISTA}`} ><Texto texto={'Clientes'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
         <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PRECIO_LISTO}`} ><Texto texto={'Precios'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
         <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SEDE_LISTA}`} ><Texto texto={'Sedes'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
-        
+        <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_LISTA}`} ><Texto texto={'Pedidos'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
+         
         <li>{userActual
           ? <Link to='/' ><Texto texto={userActual.email} mediana centrado nuevoEstilo='txt-heder' /></Link>
           : <Link to='/' ><Texto texto={'Iniciar sesión'} mediana centrado nuevoEstilo='txt-heder' /></Link>

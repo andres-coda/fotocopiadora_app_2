@@ -5,16 +5,16 @@ export interface ClienteAdapterProp extends BaseAdapterProp{
   nombre?: string;
   telefono?: string;
   email?: string;  
-  resumen:ResumenAdapterProp;
+  resumen?:ResumenAdapterProp;
 }
 
 export interface ClienteProp extends BaseProp{
   nombre?: string;
   telefono?: string;
   email?: string;  
-  pendiente: number;
-  listo: number;
-  retirado: number;  
+  pendiente?: number;
+  listo?: number;
+  retirado?: number;  
 }
 
 export const clienteInicial :ClienteProp= {

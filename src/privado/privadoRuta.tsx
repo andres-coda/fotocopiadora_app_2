@@ -13,6 +13,7 @@ import Precios from "./paginas/precio/precio";
 import PrecioCargar from "./paginas/precio/cargar/precioCargar";
 import Sedes from "./paginas/sede/sede";
 import SedeCargar from "./paginas/sede/cargar/sedeCargar";
+import Pedidos from "./paginas/pedido/pedidos";
 
 const PrivadoRuta = () => {
   return (
@@ -31,6 +32,8 @@ const PrivadoRuta = () => {
             <Route path={RutasPrivadas.PRECIO_CARGAR} element={<PrecioCargar/>}></Route>
             <Route path={RutasPrivadas.SEDE_LISTA} element={<Sedes/>}></Route>
             <Route path={RutasPrivadas.SEDE_CARGAR} element={<SedeCargar/>}></Route>
+            <Route path={RutasPrivadas.PEDIDO_LISTA} element={<Pedidos/>}></Route>
+            <Route path={RutasPrivadas.PEDIDO_CARGAR} element={<SedeCargar/>}></Route>
           </RutaInvalida>
         </PrivadoContenedor>
     </CargarDatosIniciales>

@@ -1,3 +1,5 @@
+import { Estado } from "../modelo/Entidades/pedido_libro/estado.enum";
+
 export const formatoTelefono = (telefono: string): string => {
   const t = telefono.replace(/\D/g, '');
 
@@ -14,3 +16,10 @@ export const formatoTelefono = (telefono: string): string => {
     .filter(Boolean)
     .join(' ');
 };
+
+export const claseXestado = (estado:Estado):string => {
+  if(estado === Estado.LISTO) return 'listo';
+  if(estado === Estado.RETIRADO) return 'retirado';
+  if(estado === Estado.CANCELADO) return 'cancelado';
+  return 'pendiente'
+}
