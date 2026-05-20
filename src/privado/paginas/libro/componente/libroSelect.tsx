@@ -2,29 +2,17 @@ import { useSelector } from "react-redux";
 import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface";
 import { appStore } from "../../../../redux/store";
 import Centro from "../../../../componente-estilo/centro/centro";
-import { RefObject, useRef, useState } from "react";
+import { RefObject, useRef } from "react";
 import './libroSelect.css'
 import { transformarComponente } from "../../../../utils/componente";
 import Texto from "../../../../componente-estilo/texto/texto";
-import { transformarEspecificacinesATexto } from "../../../../utils/especificaciones";
-import { calcularPrecio } from "../../../../utils/precio";
-import { PrecioProp } from "../../../../modelo/Entidades/precio/precio.interface";
-import { Especificaciones } from "../../../../modelo/Entidades/especificacion/especificacion.enum";
-import EspecificacionesSelect from "../../../../componente/especificaciones/especificacionesSelect";
-import Boton from "../../../../componente-estilo/boton/boton";
+import Presupuesto from "../../../../componente/pedido/presupuesto/presupuesto";
 
 const LibroSelect = () => {
   const libro: LibroProp | null = useSelector((store: appStore) => store.libro.selected);
-  const precios: PrecioProp[] = useSelector((store: appStore) => store.precio.items);
-  const [especificaciones, setEspecificaciones] = useState<Especificaciones[]>(libro?.especificacionesDefecto ?? [])
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
   if (!libro) return <p>No se encontro el libro seleccionado</p>
-
-  const presupuestoTexto = `El libro ${libro.nombre} ${libro.nivel}
-${transformarComponente(libro.componentes)},
-${transformarEspecificacinesATexto(especificaciones, libro)},
-te sale $${calcularPrecio({ libro, precios, especificaciones })}`;
 
   return (
     <Centro ref={contenedorRef}>
@@ -46,12 +34,7 @@ te sale $${calcularPrecio({ libro, precios, especificaciones })}`;
           </div>
         </div>
       </div>
-      <div className="copiado-presupuesto libro-select">
-        <Texto texto={'Presupuesto'} centrado mediana negrita></Texto>
-        <Texto texto={presupuestoTexto} />
-        <EspecificacionesSelect setEspecificaciones={setEspecificaciones} especificaciones={especificaciones} />
-        <Boton secundario texto="Copiar" onClick={() => navigator.clipboard.writeText(presupuestoTexto)}></Boton>
-      </div>
+      <Presupuesto libro={libro} />
     </Centro>
   )
 }
