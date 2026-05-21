@@ -56,7 +56,7 @@ const LibroCard = ({ libro }: Props) => {
         </div>
         : !errorFetchLibro
           ? <Texto texto={'Cargando...'} centrado mediana />
-          : <Texto texto={errorFetchLibro} centrado mediana />
+          : <Texto texto={errorFetchLibro} centrado chica />
       }
       <ul>
         <li className='enStock' title='libros en stock'>{libro.stock.stock}</li>
