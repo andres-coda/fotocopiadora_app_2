@@ -4,6 +4,7 @@ import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { PedidoClienteProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
 import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
+import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
 
 export interface PropEditar<P extends PedidoClienteProp>{
   cliente?: ClienteProp;
@@ -11,6 +12,7 @@ export interface PropEditar<P extends PedidoClienteProp>{
   pedido?: P;
   sede?: SedeProp;
   precio?: PrecioProp;
+  propuesta?: PropuestaProp;
 }
 
 export interface PropEditarCompleto<P extends PedidoClienteProp> extends PropEditar<P> {

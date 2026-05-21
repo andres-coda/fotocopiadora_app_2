@@ -2,6 +2,7 @@ import { Especificaciones } from "../Entidades/especificacion/especificacion.enu
 import { LibroProp } from "../Entidades/libro/libro.interface";
 
 export interface PresupuestoProp{
-    libro: LibroProp;
+    libro?: LibroProp;
     nuevasEsp?: Especificaciones[];
+    libros?:LibroProp[];
 }

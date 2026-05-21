@@ -10,7 +10,7 @@ import { EspecificacionProp } from "../modelo/Entidades/especificacion/especific
 import { especificacionSlice } from "./state/especificacion.state";
 import { MateriaProp } from "../modelo/Entidades/libro/materia.interface";
 import { materiaSlice } from "./state/materia.state";
-import { PedidoProp } from "../modelo/Entidades/pedido/pedido.interface";
+import { PedidoClienteProp, PedidoProp } from "../modelo/Entidades/pedido/pedido.interface";
 import { pedidoSlice } from "./state/pedido.state";
 import { PedidoLibroProp } from "../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { pedidoLibroSlice } from "./state/pedido_libro.state";
@@ -20,18 +20,20 @@ import { SedeProp } from "../modelo/Entidades/sede/sede.interface";
 import { sedeSlice } from "./state/sede.state";
 import { ComponenteProp } from "../modelo/Entidades/libro/componente.interface";
 import { componenteSlice } from "./state/componente.state";
+import { PropuestaProp } from "../modelo/Entidades/propuesta/propuesta.interface";
+import { propuestaSlice } from "./state/propuesta.state";
 
 export interface appStore {
   libro: filterContext<LibroProp>,
   cliente: filterContext<ClienteProp>,
   especificacion: filterContext<EspecificacionProp>
   materia: filterContext<MateriaProp>,
-  pedido: filterContext<PedidoProp>,
+  pedido: filterContext<PedidoProp | PedidoClienteProp>,
   pedidoLibro: filterContext<PedidoLibroProp>,
   precio: filterContext<PrecioProp>,
   componente: filterContext<ComponenteProp>,
   sede: filterContext<SedeProp>,
-  //propuesta: filterContext<PropuestaProp>
+  propuesta: filterContext<PropuestaProp>
   usuario: usuarioProps,
 }
 
@@ -43,6 +45,7 @@ export default configureStore<appStore>({
     especificacion: especificacionSlice.reducer,
     materia: materiaSlice.reducer,
     pedido: pedidoSlice.reducer,
+    propuesta: propuestaSlice.reducer,
     pedidoLibro: pedidoLibroSlice.reducer,
     precio: precioSlice.reducer,
     sede: sedeSlice.reducer,
