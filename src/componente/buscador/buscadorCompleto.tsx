@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction, MouseEventHandler, forwardRef, RefObject, ChangeEvent, useState, useEffect } from 'react';
 
-import Mas from '../../assets/add.svg?react'
+import Mas from '../../assets/mas.svg?react'
 import Lupa from '../../assets/lupa.svg?react'
 import BtnFiltro from '../../assets/filtro.svg?react'
 import BtnOrden from '../../assets/orden.svg?react'
-import ArrowUp from '../../assets/arrowLeft.svg?react'
+import Arrow from '../../assets/arrow-small.svg?react'
 import Titulo from '../../componente-estilo/texto/titulo';
 import Botonera from '../../componente-estilo/botonera/botonera';
 import Boton from '../../componente-estilo/boton/boton';
@@ -84,7 +84,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
           : !visible ? 'div-oculto' : ''}`
         }>
           <Boton
-            icono={<ArrowUp/>}
+            icono={<Arrow/>}
             terciario
             nuevoEstilo={
               `btn-icono-chico btn-buscador-completo ${!visible ? 'btn-oculto-buscador' : ''}`
@@ -127,7 +127,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
           {/* Botones de navegación/paginación */}
           {handleIzquierda && (
             <Boton
-              icono={<ArrowUp/>}
+              icono={<Arrow/>}
               terciario
               nuevoEstilo='btn-icono-chico'
               onClick={handleIzquierda}
@@ -137,7 +137,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
 
           {handleDerecha && (
             <Boton
-              icono={<ArrowUp/>}
+              icono={<Arrow/>}
               terciario
               nuevoEstilo='btn-icono-chico btn-icono-derecha'
               onClick={handleDerecha}
@@ -169,7 +169,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
           {/* Botón scroll arriba */}
           {etiquetaArriba &&
             <Boton
-              icono={<ArrowUp/>}
+              icono={<Arrow/>}
               secundario
               nuevoEstilo='btn-icono-chico btn-icono-arriba'
               onClick={handleArrow}
