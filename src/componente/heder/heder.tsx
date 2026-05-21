@@ -5,6 +5,13 @@ import { useUsuario } from '../../servicio/usuario/useUsuario';
 import { Link } from 'react-router-dom';
 import Texto from '../../componente-estilo/texto/texto';
 import { rutaPrivadaBase, RutasPrivadas } from '../../privado/rutas/rutasPrivadas';
+import Libro from './../../assets/books.svg?react'
+import Cliente from './../../assets/buscar.svg?react'
+import Pesos from './../../assets/pesos.svg?react'
+import Pedido from './../../assets/pedidos.svg?react'
+import Sedes from './../../assets/direccion.svg?react'
+import UserCheck from './../../assets/userCheck.svg?react'
+import User from './../../assets/user.svg?react'
 
 function Heder() {
   const [userActual, setUserActual] = useState<usuarioProps | null>(null);
@@ -20,15 +27,15 @@ function Heder() {
   return (
     <nav className="heder">
       <ul>
-        <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_LISTA}`} ><Texto texto={'Libros'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
-        <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE_LISTA}`} ><Texto texto={'Clientes'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
-        <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PRECIO_LISTO}`} ><Texto texto={'Precios'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
-        <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SEDE_LISTA}`} ><Texto texto={'Sedes'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
-        <li><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_LISTA}`} ><Texto texto={'Pedidos'} mediana centrado nuevoEstilo='txt-heder' /></Link></li>
+        <li title='Libros'><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_LISTA}`} ><Libro /></Link></li>
+        <li title='Clientes'><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE_LISTA}`} ><Cliente/></Link></li>
+        <li title={'Precios'}><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PRECIO_LISTO}`} ><Pesos/></Link></li>
+        <li title={'Pedidos'}><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_LISTA}`} ><Pedido/></Link></li>
+        <li title={'Sedes'}><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SEDE_LISTA}`} ><Sedes /></Link></li>
          
-        <li>{userActual
-          ? <Link to='/' ><Texto texto={userActual.email} mediana centrado nuevoEstilo='txt-heder' /></Link>
-          : <Link to='/' ><Texto texto={'Iniciar sesión'} mediana centrado nuevoEstilo='txt-heder' /></Link>
+        <li title={'Usuario'}>{userActual
+          ? <Link to='/' ><UserCheck/></Link>
+          : <Link to='/' ><User/></Link>
         }
         </li>
       </ul>
