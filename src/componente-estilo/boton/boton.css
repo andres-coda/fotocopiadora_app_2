@@ -18,7 +18,11 @@
 .btn-general:hover {
   scale: 1.1;
   box-shadow: 2px 2px 4px var(--colorSombra);
+}
 
+.btn-general:active {
+  scale: .8;
+  box-shadow: none;
 }
 
 .btn-icono{
@@ -32,6 +36,12 @@
 }
 
 .btn-icono-chico{
+  padding: 0;
+  width: 28px;
+  height: 28px;
+}
+
+.btn-icono-mediano{
   padding: 0;
   width: 36px;
   height: 36px;
@@ -60,16 +70,21 @@
 }
 
 .secundario {
-  background-color: var(--colorSubmenu);
+  background-color: var(--colorBlanco);
+  color: var(--colorBoton);
 }
 
 .terciario {
-  background-color: var(--colorBlanco);
+  background-color: transparent;
 }
 
 .edit {
-  background-color: var(--colorSombra);
-  box-shadow: 1px 1px 1px var(--colorNegro);
+  background-color: transparent;
+  box-shadow:none;
+}
+
+.edit:hover{  
+  border: 2px solid transparent;
 }
 
 .terciario,
@@ -78,8 +93,7 @@
 }
 
 .secundario:hover,
-.terciario:hover,
-.edit:hover {
+.terciario:hover {
   border: 1px solid var(--colorBoton);
 }
 

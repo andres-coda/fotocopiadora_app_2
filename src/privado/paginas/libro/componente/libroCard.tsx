@@ -7,12 +7,16 @@ import { transformarComponente } from "../../../../utils/componente"
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas"
 import { useEffect } from "react"
 import useLibroApi from "../../../../servicio/libro/useLibroApi"
+import Boton from "../../../../componente-estilo/boton/boton"
+import Copiar from "../../../../assets/copiar.svg?react"
+import usePresupuesto from "../../../../hooks/presupuesto/usePresupuesto"
 
 interface Props {
   libro: LibroProp
 }
 
 const LibroCard = ({ libro }: Props) => {
+  const {copiarPresupuesto} = usePresupuesto({libro})
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     libro
@@ -33,7 +37,11 @@ const LibroCard = ({ libro }: Props) => {
       <img src={libro.img} alt={libro.nombre} />
       {!loadingLibro && !errorFetchLibro
         ? <div className="card-vertical vertical-libro-card">
-          <Texto texto={`${libro.nombre} - ${transformarComponente(libro.componentes)} - ${libro.nivel}`} chica negrita centrado />
+          <div className="card-horizontal">
+            <Texto texto={`${libro.nombre} - ${libro.nivel} - ${transformarComponente(libro.componentes)}`} chica negrita centrado />
+            <Boton icono={<Copiar />} edit nuevoEstilo="btn-icono-chico" titulo={`Copiar presupuesto`} onClick={copiarPresupuesto}/>
+
+          </div>
           <div className="card-horizontal">
             <div className='card-vertical'>
               <div className='card-horizontal'>

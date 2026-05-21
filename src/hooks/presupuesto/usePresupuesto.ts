@@ -8,16 +8,20 @@ import { calcularPrecio } from "../../utils/precio";
 import { transformarEspecificacinesATexto } from "../../utils/especificaciones";
 import { transformarComponente } from "../../utils/componente";
 
-const usePresupuesto = ({libro, nuevasEsp}:PresupuestoProp) => {
-    const [especificaciones, setEspecificaciones] = useState<Especificaciones[]>(nuevasEsp ?? libro?.especificacionesDefecto ?? [])
-    const precios: PrecioProp[] = useSelector((store: appStore) => store.precio.items);
+const usePresupuesto = ({ libro, nuevasEsp }: PresupuestoProp) => {
+  const [especificaciones, setEspecificaciones] = useState<Especificaciones[]>(nuevasEsp ?? libro?.especificacionesDefecto ?? [])
+  const precios: PrecioProp[] = useSelector((store: appStore) => store.precio.items);
 
-    const presupuesto = `El libro ${libro.nombre} ${libro.nivel}
+  const presupuesto = `El libro ${libro.nombre} ${libro.nivel}
         ${transformarComponente(libro.componentes)},
         ${transformarEspecificacinesATexto(especificaciones, libro)},
         te sale $${calcularPrecio({ libro, precios, especificaciones })}`;
 
-    return {presupuesto, setEspecificaciones, especificaciones}
+  const copiarPresupuesto = () => {
+    navigator.clipboard.writeText(presupuesto);
+  }
+
+  return { presupuesto, setEspecificaciones, especificaciones, copiarPresupuesto }
 }
 
 export default usePresupuesto;
