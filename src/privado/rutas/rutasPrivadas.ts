@@ -23,5 +23,7 @@ export const RutasPrivadas = {
   PRECIO_CARGAR: 'new_precio',
   PEDIDO_LIBRO: 'pedido-libro',
   PEDIDO_LIBRO_LISTA: 'pedido-libros',
-  PEDIDO_LIBRO_CARGAR: 'new-pedido-libro'
+  PEDIDO_LIBRO_CARGAR: 'new-pedido-libro',
+  PROPUESTA_LISTA:'propuestas',
+  PROPUESTA_CARGAR:'new-propuesta',
 }

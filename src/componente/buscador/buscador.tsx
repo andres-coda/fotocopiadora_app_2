@@ -2,8 +2,8 @@ import { Dispatch, forwardRef, MouseEventHandler, RefObject, SetStateAction } fr
 import Boton from '../../componente-estilo/boton/boton'
 import Botonera from '../../componente-estilo/botonera/botonera'
 import InputBuscar from '../formulario/inputBuscar'
-import Arrow from '../../assets/icons/arrow-small.svg?react'
-import Mas from '../../assets/icons/mas.svg?react'
+//import Arrow from '../../assets/icons/arrow-small.svg?react'
+//import Mas from '../../assets/mas.svg?react'
 import './buscador.css'
 import Titulo from '../../componente-estilo/texto/titulo';
 
@@ -47,8 +47,8 @@ const Buscador = forwardRef<HTMLDivElement, BuscadorProp>(({
         setValor={setValor}
         />
       <Botonera nuevoEstilo='botonera-buscador'>
-        <Boton icono={<Arrow/>}  secundario nuevoEstilo='btn-icono-chico btn-icono-arriba' onClick={handleArrow} titulo={etiquetaArriba ? etiquetaArriba : ''}/>
-        <Boton icono={<Mas/>} nuevoEstilo='btn-icono-chico ' onClick={handleMas && handleMas} titulo={etiquetaMas ? etiquetaMas : ''}/>
+        <Boton icono={<p>Flecha</p>}  secundario nuevoEstilo='btn-icono-chico btn-icono-arriba' onClick={handleArrow} titulo={etiquetaArriba ? etiquetaArriba : ''}/>
+        <Boton icono={<p>Mas</p>} nuevoEstilo='btn-icono-chico ' onClick={handleMas && handleMas} titulo={etiquetaMas ? etiquetaMas : ''}/>
       </Botonera>
     </div>
       </>
