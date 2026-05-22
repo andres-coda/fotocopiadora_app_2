@@ -1,13 +1,14 @@
+import { camposBusquedaComponente } from "../../filtro/componente.filtro";
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { ComponenteAdapterProp, ComponenteProp } from "../../modelo/Entidades/libro/componente.interface";
 import { baseAdapter } from "./base.adapter";
 
-export const componenteAdapter = (componente?:ComponenteAdapterProp):ComponenteProp | undefined=> {
-  if(!componente) return undefined;
+export const componenteAdapter = (componente?: ComponenteAdapterProp): ComponenteProp | undefined => {
+  if (!componente) return undefined;
 
-  const base: BaseProp | undefined= baseAdapter(componente);
+  const base: BaseProp | undefined = baseAdapter<ComponenteAdapterProp>({ base: componente, busqueda: camposBusquedaComponente });
 
-  if(!base) return undefined;
+  if (!base) return undefined;
 
   const newComponente: ComponenteProp = {
     ...base,

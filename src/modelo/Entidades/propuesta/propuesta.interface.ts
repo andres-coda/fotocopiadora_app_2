@@ -1,4 +1,4 @@
-import { BaseAdapterProp, BaseProp } from "../base/base.interface";
+import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
 import { LibroAdapterProp, LibroProp } from "../libro/libro.interface";
 
 export interface PropuestaAdapterProp extends BaseAdapterProp {
@@ -13,10 +13,8 @@ export interface PropuestaProp extends BaseProp{
 }
 
 export const PropuestaInicial:PropuestaProp = {
-  id: '',
-  ultAct: '',
-  deleted: false,
+  ...baseInicial,
   nombre: '',
   cantidadLibros: 0,
-  libro: []
+  libro: [],
 } 

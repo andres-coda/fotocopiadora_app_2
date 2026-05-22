@@ -1,3 +1,4 @@
+import { camposBusquedaCliente } from "../../filtro/cliente.filtro";
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { ClienteAdapterProp, ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
 import { PedidoClienteProp } from "../../modelo/Entidades/pedido/pedido.interface";
@@ -7,7 +8,7 @@ import { pedidoClienteAdapterArray } from "./pedido.adapter";
 export const clienteAdapter = (cliente?: ClienteAdapterProp): ClienteProp | undefined => {
   if (!cliente) return undefined;
 
-  const base: BaseProp | undefined = baseAdapter(cliente);
+  const base: BaseProp | undefined = baseAdapter<ClienteAdapterProp>({ base: cliente, busqueda: camposBusquedaCliente });
 
   if (!base) return undefined;
 

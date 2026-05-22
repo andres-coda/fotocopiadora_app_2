@@ -76,14 +76,16 @@ export const libroPrueba: LibroProp = {
       "id": "4a664b79-ff87-4942-b1fa-c0d4abec8db1",
       "deleted": false,
       "ultAct": "No se conoce",
-      "nombre": "Activity Book"
+      "nombre": "Activity Book",
+      campoBusqueda: []
     }
   ],
   "materia": {
     "id": "49236ca3-8a7d-4d88-b85e-4597219ef684",
     "deleted": false,
     "ultAct": "No se conoce",
-    "nombre": "Ingles"
+    "nombre": "Ingles",
+    campoBusqueda: []
   },
   "stock": {
     "id": "685bfdc1-56d2-4c5c-bf3a-860f61fa3d56",
@@ -93,6 +95,8 @@ export const libroPrueba: LibroProp = {
     "pendiente": 2,
     "listo": 282,
     "retirado": 2882,
-    "cancelado": 2
-  }
+    "cancelado": 2,
+    campoBusqueda: []
+  },
+  campoBusqueda: []
 }

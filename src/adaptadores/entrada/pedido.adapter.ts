@@ -1,3 +1,4 @@
+import { camposBusquedaPedido } from "../../filtro/pedido.filtro";
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { clienteInicial, ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
 import { PedidoAdapterProp, PedidoClienteProp, PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
@@ -9,7 +10,7 @@ import { pedidoLibroAdapter } from "./pedidoLibro.adapter";
 export const pedidoClienteAdapter = (pedido?: PedidoAdapterProp): PedidoClienteProp | undefined => {
   if (!pedido) return undefined;
 
-  const base: BaseProp | undefined = baseAdapter(pedido);
+  const base: BaseProp | undefined = baseAdapter<PedidoAdapterProp>({ base: pedido, busqueda: camposBusquedaPedido });
 
   if (!base) return undefined;
 
@@ -34,9 +35,9 @@ export const pedidoClienteAdapter = (pedido?: PedidoAdapterProp): PedidoClienteP
   return newPedido;
 }
 
-const pedidoAdapter = (pedido: PedidoAdapterProp):PedidoProp | undefined => {
-  const pedidoParcial: PedidoClienteProp | undefined= pedidoClienteAdapter(pedido);
-  if(!pedidoParcial) return undefined;
+const pedidoAdapter = (pedido: PedidoAdapterProp): PedidoProp | undefined => {
+  const pedidoParcial: PedidoClienteProp | undefined = pedidoClienteAdapter(pedido);
+  if (!pedidoParcial) return undefined;
   const cliente: ClienteProp | undefined = clienteAdapter(pedido.cliente);
 
   const newPedido: PedidoProp = {

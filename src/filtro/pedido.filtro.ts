@@ -1,4 +1,5 @@
-import { PedidoProp } from "../modelo/Entidades/pedido/pedido.interface";
+import { CampoBusqueda } from "../modelo/Entidades/base/base.interface";
+import { PedidoAdapterProp, PedidoProp } from "../modelo/Entidades/pedido/pedido.interface";
 import { filtroLlamada } from "../redux/modelo/reduxContext.interface";
 import { FiltroIndividual } from "./filtro.interface";
 
@@ -9,4 +10,9 @@ export const filtrosInicialesPedido: filtroLlamada[] = [
 ]
 
 export const filtrosPedidoFuntion: FiltroIndividual<PedidoProp>[] = [
+]
+
+export const camposBusquedaPedido:CampoBusqueda<PedidoAdapterProp>[] = [
+  c => c.fechaEntrega ?? '',
+  c => c.fechaCreacion?.toString() ?? '',
 ]

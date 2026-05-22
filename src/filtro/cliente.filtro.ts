@@ -1,4 +1,5 @@
-import { ClienteProp } from "../modelo/Entidades/cliente/cliente.interface";
+import { CampoBusqueda } from "../modelo/Entidades/base/base.interface";
+import { ClienteAdapterProp, ClienteProp } from "../modelo/Entidades/cliente/cliente.interface";
 import { filtroLlamada } from "../redux/modelo/reduxContext.interface";
 import { FiltroIndividual } from "./filtro.interface";
 
@@ -9,4 +10,10 @@ export const filtrosInicialesCliente: filtroLlamada[] = [
 ]
 
 export const filtrosClienteFuntion: FiltroIndividual<ClienteProp>[] = [
+]
+
+export const camposBusquedaCliente:CampoBusqueda<ClienteAdapterProp>[] = [
+  c => c.nombre ?? '',
+  c => c.email ?? '',
+  c => c.telefono ?? ''
 ]

@@ -1,13 +1,14 @@
+import { camposBusquedaMateria } from "../../filtro/materia.filtro";
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { MateriaAdapterProp, MateriaProp } from "../../modelo/Entidades/libro/materia.interface";
 import { baseAdapter } from "./base.adapter";
 
-export const materiaAdapter = (materia?:MateriaAdapterProp):MateriaProp | undefined=> {
-  if(!materia) return undefined;
+export const materiaAdapter = (materia?: MateriaAdapterProp): MateriaProp | undefined => {
+  if (!materia) return undefined;
 
-  const base: BaseProp | undefined= baseAdapter(materia);
+  const base: BaseProp | undefined = baseAdapter<MateriaAdapterProp>({ base: materia, busqueda: camposBusquedaMateria });
 
-  if(!base) return undefined;
+  if (!base) return undefined;
 
   const newMateria: MateriaProp = {
     ...base,

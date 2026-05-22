@@ -1,4 +1,5 @@
-import { ComponenteProp } from "../modelo/Entidades/libro/componente.interface";
+import { CampoBusqueda } from "../modelo/Entidades/base/base.interface";
+import { ComponenteAdapterProp, ComponenteProp } from "../modelo/Entidades/libro/componente.interface";
 import { filtroLlamada } from "../redux/modelo/reduxContext.interface";
 import { FiltroIndividual } from "./filtro.interface";
 
@@ -9,4 +10,8 @@ export const filtrosInicialesComponente: filtroLlamada[] = [
 ]
 
 export const filtrosComponenteFuntion: FiltroIndividual<ComponenteProp>[] = [
+]
+
+export const camposBusquedaComponente:CampoBusqueda<ComponenteAdapterProp>[] = [
+  c => c.nombre ?? '',
 ]

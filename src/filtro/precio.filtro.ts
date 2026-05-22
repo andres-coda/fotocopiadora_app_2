@@ -1,4 +1,5 @@
-import { PrecioProp } from "../modelo/Entidades/precio/precio.interface";
+import { CampoBusqueda } from "../modelo/Entidades/base/base.interface";
+import { PrecioAdapterProp, PrecioProp } from "../modelo/Entidades/precio/precio.interface";
 import { filtroLlamada } from "../redux/modelo/reduxContext.interface";
 import { FiltroIndividual } from "./filtro.interface";
 
@@ -9,4 +10,9 @@ export const filtrosInicialesPrecio: filtroLlamada[] = [
 ]
 
 export const filtrosPrecioFuntion: FiltroIndividual<PrecioProp>[] = [
+]
+
+export const camposBusquedaPrecio:CampoBusqueda<PrecioAdapterProp>[] = [
+  c => c.nombre ?? '',
+  c => c.importe.toString() ?? '',
 ]

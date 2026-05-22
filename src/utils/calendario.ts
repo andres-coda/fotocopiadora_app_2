@@ -18,8 +18,8 @@ export interface FechasProp {
 }
 
 export interface ultActProp {
-  fechaActualizacion?: Date;
   fechaCreacion?: Date;
+  fechaActualizacion?: Date;
 }
 
 
