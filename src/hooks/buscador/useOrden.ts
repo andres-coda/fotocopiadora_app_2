@@ -3,12 +3,12 @@ import { formValuesOrden, ordenDto, ordenForm, ordenFormEdit } from "../../model
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useOrdenProp } from "./useBuscadorProp.interface";
 import { useDispatch } from "react-redux";
-import { HasId } from "../../modelo/general/hasId.interface";
 import { useModalContext } from "../../contexto/contextoModal";
+import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 
 
 
-const useOrden =<T extends HasId>({sortBy, sortOrder, setOrden}:useOrdenProp<T>) => {
+const useOrden =<T extends BaseProp>({sortBy, sortOrder, setOrden}:useOrdenProp<T>) => {
 
     const dispatch = useDispatch()
 

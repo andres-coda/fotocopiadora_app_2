@@ -3,18 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useModalContext } from "../../contexto/contextoModal";
 import { useDispatch } from "react-redux";
 import { BuscadorProp } from "./useBuscadorProp.interface";
-import { HasId } from "../../modelo/general/hasId.interface";
+import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 
-const useBuscador = <T extends HasId>({ 
-  setModalLocal, 
-  elementos, 
-  filtros, 
-  keyBuscador, 
-  keyExterna, 
-  sortBy, 
-  sortOrder, 
-  elementoSelect, 
-  resetSelectElemento 
+const useBuscador = <T extends BaseProp>({
+  setModalLocal,
+  elementos,
+  filtros,
+  keyBuscador,
+  keyExterna,
+  sortBy,
+  sortOrder,
+  elementoSelect,
+  resetSelectElemento
 }: BuscadorProp<T>) => {
 
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
@@ -59,34 +59,30 @@ const useBuscador = <T extends HasId>({
       resultado = resultado.filter(e => filtros(e));
     }
 
-    if(filtros && elementoSelect && resetSelectElemento){
-      if (!filtros(elementoSelect)){
+    if (filtros && elementoSelect && resetSelectElemento) {
+      if (!filtros(elementoSelect)) {
         dispatch(resetSelectElemento())
       }
     }
 
     // 2. Aplicar filtro de búsqueda por texto
-    if (valor && (keyBuscador || keyExterna)) {
+    if (valor.trim()) {
+
+      const palabrasBusqueda = valor
+        .trim()
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(Boolean);
+
       resultado = resultado.filter(dato => {
-        let coincide = false;
 
-        // Buscar en keys básicas
-        if (keyBuscador && keyBuscador.length > 0) {
-          coincide = keyBuscador.some(key => {
-            const valorCampo = dato[key];
-            if (typeof valorCampo === 'string' || typeof valorCampo === 'number') {
-              return valorCampo.toString().toLowerCase().includes(valor.toLowerCase());
-            }
-            return false;
-          });
-        }
+        const textoBusqueda = dato.campoBusqueda
+          .join(' ')
+          .toLowerCase();
 
-        // Buscar en keys externas (anidadas)
-        if (!coincide && keyExterna) {
-          coincide = keyExterna(valor, dato);
-        }
-
-        return coincide;
+        return palabrasBusqueda.every(palabra =>
+          textoBusqueda.includes(palabra)
+        );
       });
     }
 

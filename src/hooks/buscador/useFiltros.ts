@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { HasId } from "../../modelo/general/hasId.interface";
 import { useFiltroProp } from "./useBuscadorProp.interface";
+import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 
 // Hook actualizado
-export const useFiltrosDinamicos = <T extends HasId>({
+export const useFiltrosDinamicos = <T extends BaseProp>({
   estadoFiltros, 
   filtros
 }: useFiltroProp<T>) => {

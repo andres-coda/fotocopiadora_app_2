@@ -1,9 +1,9 @@
-import { HasId } from "../../modelo/general/hasId.interface";
+import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import useBuscador from "./useBuscador";
 import { useBuscadorCompletoProp } from "./useBuscadorProp.interface";
 import { useFiltrosDinamicos } from "./useFiltros";
 
-const useBuscadorCompleto = <T extends HasId>({
+const useBuscadorCompleto = <T extends BaseProp>({
   estadoFiltros, 
   filtros,
   keyBuscador,
