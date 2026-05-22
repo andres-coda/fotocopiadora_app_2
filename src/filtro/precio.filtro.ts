@@ -13,6 +13,5 @@ export const filtrosPrecioFuntion: FiltroIndividual<PrecioProp>[] = [
 ]
 
 export const camposBusquedaPrecio:CampoBusqueda<PrecioAdapterProp>[] = [
-  c => c.nombre ?? '',
-  c => c.importe.toString() ?? '',
+  c => ({ valor: c.nombre ?? '' }),
 ]

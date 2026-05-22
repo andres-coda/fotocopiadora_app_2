@@ -13,5 +13,5 @@ export const filtrosPropuestaFuntion: FiltroIndividual<PropuestaProp>[] = [
 ]
 
 export const camposBusquedaPropuesta:CampoBusqueda<PropuestaAdapterProp>[] = [
-  p => p.nombre ?? '',
+  p => ({ valor: p.nombre ?? '' }),
 ]

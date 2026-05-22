@@ -1,4 +1,4 @@
-import { CampoBusqueda } from "../modelo/Entidades/base/base.interface";
+import { CampoBusqueda, TipoBusqueda } from "../modelo/Entidades/base/base.interface";
 import { PedidoLibroAdapterProp, PedidoLibroProp } from "../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { filtroLlamada } from "../redux/modelo/reduxContext.interface";
 import { FiltroIndividual } from "./filtro.interface";
@@ -7,19 +7,19 @@ import { FiltroIndividual } from "./filtro.interface";
 export const pedidoLibroKeyBuscador: (keyof PedidoLibroProp)[] = ['cantidad', 'detalles', 'estado'];
 
 export const filtrosInicialesPedidoLibro: filtroLlamada[] = [
-  { id: '', estado: false},
+  { id: '', estado: false },
 ]
 
 export const filtrosPedidoLibroFuntion: FiltroIndividual<PedidoLibroProp>[] = [
 ]
 
-export const camposBusquedaPedidoLibro:CampoBusqueda<PedidoLibroAdapterProp>[] = [
-  c => c.detalles ?? '',
-  c => c.libro.nombre ?? '',
-  c => c.libro.nivel ?? '',
-  c => c.libro.editorial ?? '',
-  c => c.libro.autor ?? '',
-  c => c.libro.anio ?? '',
-  c => c.libro.materia?.nombre ?? '',
-  c => c.libro.componentes?.map(comp => comp.nombre).join(' ')
+export const camposBusquedaPedidoLibro: CampoBusqueda<PedidoLibroAdapterProp>[] = [
+  c => ({ valor: c.detalles ?? '' }),
+  c => ({ valor: c.libro.nombre ?? '' }),
+  c => ({ valor: c.libro.nivel ?? '' }),
+  c => ({ valor: c.libro.editorial ?? '' }),
+  c => ({ valor: c.libro.autor ?? '' }),
+  c => ({ valor: c.libro.anio ?? '', tipo: TipoBusqueda.ESTRICTO }),
+  c => ({ valor: c.libro.materia.nombre ?? '' }),
+  c => ({ valor: c.libro.componentes?.map(comp => comp.nombre).join(' ') })
 ]

@@ -6,12 +6,12 @@ import { FiltroIndividual } from "./filtro.interface";
 export const clienteKeyBuscador: (keyof MateriaProp)[] = ['nombre'];
 
 export const filtrosInicialesMateria: filtroLlamada[] = [
-  { id: '', estado: false},
+  { id: '', estado: false },
 ]
 
 export const filtrosMateriaFuntion: FiltroIndividual<MateriaProp>[] = [
 ]
 
-export const camposBusquedaMateria:CampoBusqueda<MateriaAdapterProp>[] = [
-  c => c.nombre ?? '',
+export const camposBusquedaMateria: CampoBusqueda<MateriaAdapterProp>[] = [
+  c => ({ valor: c.nombre ?? '' }),
 ]

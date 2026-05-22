@@ -1,4 +1,4 @@
-import { CampoBusqueda } from "../modelo/Entidades/base/base.interface";
+import { CampoBusqueda, TipoBusqueda } from "../modelo/Entidades/base/base.interface";
 import { LibroAdapterProp, LibroProp } from "../modelo/Entidades/libro/libro.interface";
 import { filtroLlamada } from "../redux/modelo/reduxContext.interface";
 import { FiltroIndividual } from "./filtro.interface";
@@ -13,11 +13,13 @@ export const filtrosLibroFuntion: FiltroIndividual<LibroProp>[] = [
 ]
 
 export const camposBusquedaLibro: CampoBusqueda<LibroAdapterProp>[] = [
-  c => c.nombre ?? '',
-  c => c.editorial ?? '',
-  c => c.nivel ?? '',
-  c => c.anio ?? '',
-  c => c.autor ?? '',
-  c => c.materia?.nombre ?? '',
-  l => l.componentes?.map(c => c.nombre).join(' ')
+  c => ({ valor: c.nombre ?? '' }),
+  c => ({ valor: c.editorial ?? '' }),
+  c => ({ valor: c.nivel ?? '' }),
+  c => ({ valor: c.anio ?? '', tipo: TipoBusqueda.ESTRICTO }),
+  c => ({ valor: c.autor ?? '' }),
+  c => ({ valor: c.materia.nombre ?? '' }),
+  l => ({
+    valor: l.componentes?.map(c => c.nombre ?? '').join(' ') ?? ''
+  })
 ]

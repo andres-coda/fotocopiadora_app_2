@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useModalContext } from "../../contexto/contextoModal";
 import { useDispatch } from "react-redux";
 import { BuscadorProp } from "./useBuscadorProp.interface";
-import { BaseProp } from "../../modelo/Entidades/base/base.interface";
+import { BaseProp, TipoBusqueda } from "../../modelo/Entidades/base/base.interface";
 
 const useBuscador = <T extends BaseProp>({
   setModalLocal,
@@ -76,13 +76,25 @@ const useBuscador = <T extends BaseProp>({
 
       resultado = resultado.filter(dato => {
 
-        const textoBusqueda = dato.campoBusqueda
-          .join(' ')
-          .toLowerCase();
+        return palabrasBusqueda.every(palabra => {
 
-        return palabrasBusqueda.every(palabra =>
-          textoBusqueda.includes(palabra)
-        );
+          return dato.campoBusqueda.some(campo => {
+
+            const texto = campo.valor.toLowerCase();
+
+            switch (campo.tipo) {
+
+              case TipoBusqueda.INVERSO:
+                return texto.endsWith(palabra);
+
+              case TipoBusqueda.ESTRICTO:
+                return texto === palabra;
+
+              default:
+                return texto.includes(palabra);
+            }
+          });
+        });
       });
     }
 

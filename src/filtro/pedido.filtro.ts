@@ -6,13 +6,13 @@ import { FiltroIndividual } from "./filtro.interface";
 export const pedidoKeyBuscador: (keyof PedidoProp)[] = ['fechaEntrega'];
 
 export const filtrosInicialesPedido: filtroLlamada[] = [
-  { id: '', estado: false},
+  { id: '', estado: false },
 ]
 
 export const filtrosPedidoFuntion: FiltroIndividual<PedidoProp>[] = [
 ]
 
-export const camposBusquedaPedido:CampoBusqueda<PedidoAdapterProp>[] = [
-  c => c.fechaEntrega ?? '',
-  c => c.fechaCreacion?.toString() ?? '',
+export const camposBusquedaPedido: CampoBusqueda<PedidoAdapterProp>[] = [
+  c => ({ valor: c.fechaEntrega ?? '' }),
+  c => ({ valor: c.fechaCreacion?.toString() ?? '' })
 ]
