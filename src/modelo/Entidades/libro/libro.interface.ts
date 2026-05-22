@@ -12,7 +12,7 @@ export interface LibroAdapterProp extends BaseAdapterProp {
   nivel?: string;
   cantidadPg: number;
   anio?: string;
-  adhesivo?: number;
+  adhesivos?: number;
   autor?: string;
   img?: string;
   especificacionesDefecto?: Especificaciones[];

@@ -14,3 +14,11 @@
 .buscador-titulo{
   margin-top: .5rem;
 }
+
+.buscador-vertical{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: .5rem;
+  margin: 0;
+}

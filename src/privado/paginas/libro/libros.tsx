@@ -25,32 +25,32 @@ const Libros = () => {
 
 
   });
-  
-return (
-  <>
-    <BuscadorFiltros
-      ref={contenedorRef}
-      texto='Buscar libro'
-      handleMas={() => nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`)}
-      valor={valor}
-      setValor={setValor}
-      handleOrden={() => dispatch(cambiarOrdenLibro())}
-      etiquetaArriba='Al comienzo de la lista'
-      etiquetaMas='Nueva libro'
-      titulo='Lista de libros'
-    />
-    <Centro ref={contenedorRef}>
-          <LibroCard libro={libroPrueba} key={'1'}></LibroCard>
-      {elementosFiltrados.length > 0
-        ? elementosFiltrados
-          .map(dato => (
-            <LibroCard libro={dato} key={dato.id} />
-          ))
-        : <TextoVacio entidad='libros' />
-      }
-    </Centro>
-  </>
-)
+
+  return (
+    <>
+      <BuscadorFiltros
+        ref={contenedorRef}
+        texto='Buscar libro'
+        handleMas={() => nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`)}
+        valor={valor}
+        setValor={setValor}
+        handleOrden={() => dispatch(cambiarOrdenLibro())}
+        etiquetaArriba='Al comienzo de la lista'
+        etiquetaMas='Nueva libro'
+        titulo='Lista de libros'
+      />
+      <Centro ref={contenedorRef}>
+        <LibroCard libro={libroPrueba} key={'1'}></LibroCard>
+        {elementosFiltrados.length > 0
+          ? elementosFiltrados
+            .map(dato => (
+              <LibroCard libro={dato} key={dato.id} />
+            ))
+          : <TextoVacio entidad='libros' />
+        }
+      </Centro>
+    </>
+  )
 }
 
 export default Libros

@@ -10,12 +10,12 @@ import { transformarComponente } from "../../utils/componente";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 
 const usePresupuesto = ({ libro, nuevasEsp, libros }: PresupuestoProp) => {
-  const [especificaciones, setEspecificaciones] = useState<Especificaciones[]>(nuevasEsp ?? libro?.especificacionesDefecto ?? [])
+
   const precios: PrecioProp[] = useSelector((store: appStore) => store.precio.items);
   
   const calcularPresupuesto = ({libro:libroLocal, nuevasEsp:espLocales}:PresupuestoProp): string => {
     const libLocal: LibroProp | undefined= libro ?? libroLocal ?? undefined;
-    const esp:Especificaciones[] = espLocales || especificaciones;
+    const esp:Especificaciones[] = espLocales ?? nuevasEsp ?? libro?.especificacionesDefecto ?? [];
     if(!libLocal) return 'No hay libro para presupuestar'
     
     const pres:string = `El libro ${libLocal.nombre} ${libLocal.nivel}
@@ -45,7 +45,7 @@ const usePresupuesto = ({ libro, nuevasEsp, libros }: PresupuestoProp) => {
 
   useEffect(()=>{
     setPresupuesto(calcularPresupuesto({libro}))
-  },[especificaciones])
+  },[nuevasEsp])
 
   const copiarPresupuesto = () => {
     navigator.clipboard.writeText(presupuesto);
@@ -55,7 +55,7 @@ const usePresupuesto = ({ libro, nuevasEsp, libros }: PresupuestoProp) => {
     navigator.clipboard.writeText(presupuestoCompleto);
    }
 
-  return { presupuesto, setEspecificaciones, especificaciones, copiarPresupuesto, presupuestoCompleto, copiarPresupuestoLibros }
+  return { presupuesto, copiarPresupuesto, presupuestoCompleto, copiarPresupuestoLibros }
 }
 
 export default usePresupuesto;

@@ -231,3 +231,20 @@
   outline: none;
   /* Elimina el contorno al enfocar */
 }
+
+.inputCheck-fuera-formulario{
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .1rem;
+  margin: 0;
+  border-radius: 5px;
+  padding: 0.5rem 0;
+}
+
+.inputCheck-fuera-formulario li{
+  text-align: start;
+  padding: .2rem;
+  margin: 0 .2rem;
+  font-size: 0.8em;
+}

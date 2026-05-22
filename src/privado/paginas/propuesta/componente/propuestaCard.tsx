@@ -16,7 +16,7 @@ interface Prop {
 
 const PropuestaCard = ({ propuesta }: Prop) => {
   const { copiarPresupuestoLibros } = usePresupuesto({libros:propuesta.libro})
-  const { handleSelect } = useEditar({
+  const { handleSelect, handleEdit } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     propuesta
   });
@@ -31,8 +31,8 @@ const PropuestaCard = ({ propuesta }: Prop) => {
 
           <Texto texto={`Prop: ${propuesta.nombre}`} centrado negrita />
           <div className='card-horizontal'>
-            <Boton icono={<Editar />} terciario nuevoEstilo="btn-icono-chico" titulo={`Copiar presupuesto`} onClick={copiarPresupuesto} />
-            <Boton icono={<Arrow />} terciario nuevoEstilo="btn-icono-chico" titulo={`Copiar presupuesto`} onClick={copiarPresupuesto} />
+            <Boton icono={<Editar />} terciario nuevoEstilo="btn-icono-chico" titulo={`Copiar presupuesto`} onClick={()=>handleEdit({})} />
+            <Boton icono={<Arrow />} terciario nuevoEstilo="btn-icono-chico" titulo={`Copiar presupuesto`} />
           </div>
         </div>
       </div>
