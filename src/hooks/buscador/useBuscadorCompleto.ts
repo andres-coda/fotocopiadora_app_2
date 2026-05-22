@@ -6,8 +6,6 @@ import { useFiltrosDinamicos } from "./useFiltros";
 const useBuscadorCompleto = <T extends BaseProp>({
   estadoFiltros, 
   filtros,
-  keyBuscador,
-  keyExterna=undefined,
   sortBy,
   sortOrder= undefined,
   setModalLocal= undefined,
@@ -22,11 +20,9 @@ const useBuscadorCompleto = <T extends BaseProp>({
 
   const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento } = useBuscador<T>({
     elementos,
-    keyBuscador,
     filtros: filtroCompuesto,
     sortBy:sortBy,
     sortOrder: sortOrder,
-    keyExterna,
     setModalLocal,
     elementoSelect,
     resetSelectElemento,

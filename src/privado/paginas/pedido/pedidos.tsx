@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { filterContext } from "../../../redux/modelo/reduxContext.interface";
-import { PedidoProp } from "../../../modelo/Entidades/pedido/pedido.interface";
+import { PedidoClienteProp, PedidoProp } from "../../../modelo/Entidades/pedido/pedido.interface";
 import { appStore } from "../../../redux/store";
 import { filtrosPedidoFuntion } from "../../../filtro/pedido.filtro";
-import { pedidoKeyBuscador } from "../../../filtro/pedido.filtro";
 import BuscadorFiltros from "../../../componente/buscador/buscadorCompleto";
 import { rutaPrivadaBase, RutasPrivadas } from "../../rutas/rutasPrivadas";
 import { cambiarOrdenPedido } from "../../../redux/state/pedido.state";
@@ -14,13 +13,12 @@ import useBuscadorCompleto from "../../../hooks/buscador/useBuscadorCompleto";
 
 const Pedidos = () => {
   const dispatch = useDispatch();
-  const pedidoContext: filterContext<PedidoProp> = useSelector((store: appStore) => store.pedido);
+  const pedidoContext: filterContext<PedidoProp | PedidoClienteProp> = useSelector((store: appStore) => store.pedido);
 
-  const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento } = useBuscadorCompleto<PedidoProp>({
+  const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento } = useBuscadorCompleto<PedidoProp | PedidoClienteProp>({
     estadoFiltros: pedidoContext.filter.filtros,
     filtros: [...filtrosPedidoFuntion],
     elementos: pedidoContext.items,
-    keyBuscador: pedidoKeyBuscador,
     sortBy: pedidoContext.filter.sortBy,
     sortOrder: pedidoContext.filter.sortOrder,
 

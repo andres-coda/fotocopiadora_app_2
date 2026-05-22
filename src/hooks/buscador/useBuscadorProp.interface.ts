@@ -8,8 +8,6 @@ import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 export interface useBuscadorCompletoProp<T extends BaseProp>{
   estadoFiltros:filtroLlamada[]
   filtros:FiltroIndividual<T>[]
-  keyBuscador?: (keyof T)[];
-  keyExterna?: (v: string, e: T) => boolean;
   sortBy: keyof T;
   sortOrder?: 'asc' | 'desc';
   setModalLocal?: Dispatch<SetStateAction<boolean>>

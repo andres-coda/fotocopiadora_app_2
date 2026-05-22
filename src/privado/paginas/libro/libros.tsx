@@ -6,7 +6,7 @@ import Centro from '../../../componente-estilo/centro/centro';
 import TextoVacio from '../../../componente/Textos/textoVacio';
 import { LibroProp, libroPrueba } from '../../../modelo/Entidades/libro/libro.interface';
 import useBuscadorCompleto from '../../../hooks/buscador/useBuscadorCompleto';
-import { filtrosLibroFuntion, libroKeyBuscador } from '../../../filtro/libro.filtro';
+import { filtrosLibroFuntion } from '../../../filtro/libro.filtro';
 import BuscadorFiltros from '../../../componente/buscador/buscadorCompleto';
 import { cambiarOrdenLibro } from '../../../redux/state/libro.state';
 import LibroCard from './componente/libroCard';
@@ -19,7 +19,6 @@ const Libros = () => {
     estadoFiltros: libroContext.filter.filtros,
     filtros: [...filtrosLibroFuntion],
     elementos: libroContext.items,
-    keyBuscador: libroKeyBuscador,
     sortBy: libroContext.filter.sortBy,
     sortOrder: libroContext.filter.sortOrder,
 

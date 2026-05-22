@@ -2,13 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { filterContext } from "../../../redux/modelo/reduxContext.interface";
 import { PropuestaProp } from "../../../modelo/Entidades/propuesta/propuesta.interface";
 import { appStore } from "../../../redux/store";
-import { filtrosPropuestaFuntion, propuestaKeyBuscador } from "../../../filtro/propuesta.filtro";
+import { filtrosPropuestaFuntion } from "../../../filtro/propuesta.filtro";
 import BuscadorFiltros from "../../../componente/buscador/buscadorCompleto";
 import { rutaPrivadaBase, RutasPrivadas } from "../../rutas/rutasPrivadas";
 import { cambiarOrdenPropuesta } from "../../../redux/state/propuesta.state";
 import Centro from "../../../componente-estilo/centro/centro";
 import PropuestaCard from "./componente/propuestaCard";
-import TextoVacio from "../../../componente/Textos/textoVacio";
 import useBuscadorCompleto from "../../../hooks/buscador/useBuscadorCompleto";
 import BuscadorLibro from "../../../componente/buscador/buscadorLibro";
 
@@ -20,7 +19,6 @@ const Propuestas = () => {
     estadoFiltros: propuestaContext.filter.filtros,
     filtros: [...filtrosPropuestaFuntion],
     elementos: propuestaContext.items,
-    keyBuscador: propuestaKeyBuscador,
     sortBy: propuestaContext.filter.sortBy,
     sortOrder: propuestaContext.filter.sortOrder,
 

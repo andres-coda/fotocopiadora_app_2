@@ -3,7 +3,7 @@ import { filterContext } from "../../../redux/modelo/reduxContext.interface";
 import { SedeProp } from "../../../modelo/Entidades/sede/sede.interface";
 import { appStore } from "../../../redux/store";
 import useBuscadorCompleto from "../../../hooks/buscador/useBuscadorCompleto";
-import { filtrosSedeFuntion, sedeKeyBuscador } from "../../../filtro/sede.filtro";
+import { filtrosSedeFuntion } from "../../../filtro/sede.filtro";
 import BuscadorFiltros from "../../../componente/buscador/buscadorCompleto";
 import { rutaPrivadaBase, RutasPrivadas } from "../../rutas/rutasPrivadas";
 import { cambiarOrdenSede } from "../../../redux/state/sede.state";
@@ -19,7 +19,6 @@ const Sedes = () => {
     estadoFiltros: sedeContext.filter.filtros,
     filtros: [...filtrosSedeFuntion],
     elementos: sedeContext.items,
-    keyBuscador: sedeKeyBuscador,
     sortBy: sedeContext.filter.sortBy,
     sortOrder: sedeContext.filter.sortOrder,
 

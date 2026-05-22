@@ -3,7 +3,7 @@ import { filterContext } from "../../../redux/modelo/reduxContext.interface";
 import { PrecioProp } from "../../../modelo/Entidades/precio/precio.interface";
 import { appStore } from "../../../redux/store";
 import useBuscadorCompleto from "../../../hooks/buscador/useBuscadorCompleto";
-import { filtrosPrecioFuntion, precioKeyBuscador } from "../../../filtro/precio.filtro";
+import { filtrosPrecioFuntion } from "../../../filtro/precio.filtro";
 import BuscadorFiltros from "../../../componente/buscador/buscadorCompleto";
 import { rutaPrivadaBase, RutasPrivadas } from "../../rutas/rutasPrivadas";
 import { cambiarOrdenPrecio } from "../../../redux/state/precio.state";
@@ -19,7 +19,6 @@ const Precios = () => {
     estadoFiltros: precioContext.filter.filtros,
     filtros: [...filtrosPrecioFuntion],
     elementos: precioContext.items,
-    keyBuscador: precioKeyBuscador,
     sortBy: precioContext.filter.sortBy,
     sortOrder: precioContext.filter.sortOrder,
 

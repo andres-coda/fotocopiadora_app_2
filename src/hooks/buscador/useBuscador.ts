@@ -9,8 +9,6 @@ const useBuscador = <T extends BaseProp>({
   setModalLocal,
   elementos,
   filtros,
-  keyBuscador,
-  keyExterna,
   sortBy,
   sortOrder,
   elementoSelect,
@@ -50,7 +48,7 @@ const useBuscador = <T extends BaseProp>({
 
   const elementosFiltrados: T[] = useMemo(() => {
     if (!elementosOrdenados) return [];
-    if (!filtros && !keyBuscador && !keyExterna) return elementosOrdenados;
+    if (!filtros) return elementosOrdenados;
 
     let resultado = [...elementosOrdenados];
 
@@ -99,7 +97,7 @@ const useBuscador = <T extends BaseProp>({
     }
 
     return resultado;
-  }, [elementosOrdenados, valor, filtros, keyBuscador, keyExterna]);
+  }, [elementosOrdenados, valor, filtros]);
 
   const nuevoElemento = (ruta?: string) => {
     if (ruta) {

@@ -3,7 +3,7 @@ import { filterContext } from "../../../redux/modelo/reduxContext.interface";
 import { ClienteProp } from "../../../modelo/Entidades/cliente/cliente.interface";
 import { appStore } from "../../../redux/store";
 import useBuscadorCompleto from "../../../hooks/buscador/useBuscadorCompleto";
-import { clienteKeyBuscador, filtrosClienteFuntion } from "../../../filtro/cliente.filtro";
+import { filtrosClienteFuntion } from "../../../filtro/cliente.filtro";
 import BuscadorFiltros from "../../../componente/buscador/buscadorCompleto";
 import { rutaPrivadaBase, RutasPrivadas } from "../../rutas/rutasPrivadas";
 import { cambiarOrdenCliente } from "../../../redux/state/cliente.state";
@@ -19,7 +19,6 @@ const Clientes = () => {
     estadoFiltros: clienteContext.filter.filtros,
     filtros: [...filtrosClienteFuntion],
     elementos: clienteContext.items,
-    keyBuscador: clienteKeyBuscador,
     sortBy: clienteContext.filter.sortBy,
     sortOrder: clienteContext.filter.sortOrder,
   });
