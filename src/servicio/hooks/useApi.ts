@@ -4,6 +4,10 @@ import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { UseApiProps, FetchDataProps } from "../../modelo/HTTP/peticiones.interface";
 import useRetardo from "../../hooks/tiempo/useRetardo";
 
+//Diley artificial desarrollo
+const delay = (ms: number) =>
+  new Promise(resolve => setTimeout(resolve, ms));
+
 function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseApiProps<T>) {
   const {token} = useAutenticacion()
   const [response, setResponse] = useState<T | null>(null);
@@ -11,8 +15,8 @@ function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseAp
   const [errorFetch, setErrorFetch] = useState<string | null>(null);
   const [controlador, setControlador] = useState<boolean>(false);
 
-  const retardoRecetRetardo = useRetardo(() => { setResponse(null) }, 2000)
-  
+  const retardoRecetRetardo = useRetardo(() => { setResponse(null) }, 3000)
+
   useEffect(() => {
     if (controlador && !blob) {
       retardoRecetRetardo();
@@ -30,6 +34,9 @@ function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseAp
     setLoading(true);
     const controller:AbortController = new AbortController();
     try {
+      //Diley artificial desarrollo
+     // await delay(5000);
+
       const res:Response = await fetch(urlLocal, {
         method: methodo || httpMethod.GET,
         headers: {

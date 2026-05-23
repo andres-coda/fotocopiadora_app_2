@@ -11,6 +11,7 @@ import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
 import Centro from "../../../../componente-estilo/centro/centro";
 import Formulario from "../../../../componente/formulario/formulario";
 import Input from "../../../../componente/formulario/input";
+import { formatTelefono, parseDecimal } from "../../../../utils/formulario";
 
 const ClienteCargar = () => {
   const clienteSelect: ClienteProp | null = useSelector((store: appStore) => store.cliente.selected);
@@ -50,7 +51,7 @@ const ClienteCargar = () => {
       >
         <>
           <Input<formValuesCliente> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={cliente} />
-          <Input<formValuesCliente> name='telefono' control={control} label='Telefono' tipo='text' error={errors.telefono} esquema={cliente} />
+          <Input<formValuesCliente> name='telefono' control={control} label='Telefono' tipo='text' error={errors.telefono} esquema={cliente} formatValue={(v) => formatTelefono(v)} parseValue={(v) => parseDecimal(v, 12, 2)} />
           <Input<formValuesCliente> name='email' control={control} label='Email' tipo='text' error={errors.email} esquema={cliente} />
         </>
       </Formulario>

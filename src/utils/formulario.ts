@@ -51,3 +51,27 @@ export const parseTextoMayus = (value: string, maxLength = 50): string => {
 
   return resultado;
 };
+
+export const formatTelefono = (value: string = ''): string => {
+
+  const numeros = value.replace(/\D/g, '');
+
+  if (numeros.length <= 4) {
+    return numeros;
+  }
+
+  const ultimos4 = numeros.slice(-4);
+
+  if (numeros.length <= 7) {
+    const medio = numeros.slice(0, -4);
+
+    return `${medio} ${ultimos4}`;
+  }
+
+  const medio3 = numeros.slice(-7, -4);
+  const inicio = numeros.slice(0, -7);
+
+  return [inicio, medio3, ultimos4]
+    .filter(Boolean)
+    .join('-');
+};

@@ -10,6 +10,7 @@ import useLibroApi from "../../../../servicio/libro/useLibroApi"
 import Boton from "../../../../componente-estilo/boton/boton"
 import Copiar from "../../../../assets/copiar.svg?react"
 import usePresupuesto from "../../../../hooks/presupuesto/usePresupuesto"
+import Cargando from "../../../../componente/cargando/cargando"
 
 interface Props {
   libro: LibroProp
@@ -55,7 +56,7 @@ const LibroCard = ({ libro }: Props) => {
           <Texto texto={`${libro.cantidadPg}' ${libro.adhesivos ? `- ${libro.adhesivos}''` : ''}`} etiqueta="Cantidad pg' - cantidad adhesivos ''" chica derecha ajustado nuevoEstilo="pg-flotante"></Texto>
         </div>
         : !errorFetchLibro
-          ? <Texto texto={'Cargando...'} centrado mediana />
+          ? <Cargando/>
           : <Texto texto={errorFetchLibro} centrado chica />
       }
       <ul>

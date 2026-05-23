@@ -1,7 +1,36 @@
-.cargando{
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
+.cargando {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.cargando-texto{
+  text-align: end;
+}
+.cargando-puntos{
+  text-align: start;
+}
+
+.cargando-puntos::after {
+  content: '';
+  animation: puntos 1.5s infinite;
+}
+
+@keyframes puntos {
+  0% {
+    content: '.';
+  }
+
+  25% {
+    content: '..';
+  }
+
+  50% {
+    content: '...';
+  }
+   75% {
+    content: '....';
+  }
 }

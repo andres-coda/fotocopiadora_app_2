@@ -1,4 +1,6 @@
 import { pedidoAdapter } from "../../adaptadores/entrada/pedido.adapter";
+import { pedidoDtoAdapter } from "../../adaptadores/salida/pedidoDto.adapter";
+import { formValuesPedido } from "../../modelo/Entidades/pedido/esqPedido.esquema";
 import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { PEDIDO } from "../../utils/endpoint";
@@ -10,16 +12,16 @@ const usePedidoApi = () => {
 
   const obtenerPedidoById = (id: string) =>
     fetchData({ url: `${PEDIDO}/${id}`, methodo: httpMethod.GET, adapter: pedidoAdapter });
-/*
+
   const crearPedido = (data: formValuesPedido) =>
-    fetchData({ url: BANCO, methodo: httpMethod.POST, bodyData: JSON.stringify(pedidoDto(data)) });
+    fetchData({ url: PEDIDO, methodo: httpMethod.POST, bodyData: JSON.stringify(pedidoDtoAdapter({ p: data })), adapter: pedidoAdapter });
 
   const editarPedido = (data: formValuesPedido, id: string) =>
-    fetchData({ url: `${BANCO}/${id}`, methodo: httpMethod.PUT, bodyData: JSON.stringify(pedidoDto(data)) });
+    fetchData({ url: `${PEDIDO}/${id}`, methodo: httpMethod.PUT, bodyData: JSON.stringify(pedidoDtoAdapter({ p: data })), adapter: pedidoAdapter });
 
-*/
 
-  return { obtenerPedidoById, responsePedido: response, loadingPedido: loading, errorFetchPedido: errorFetch };
+
+  return { obtenerPedidoById, crearPedido, editarPedido, responsePedido: response, loadingPedido: loading, errorFetchPedido: errorFetch };
 
 }
 

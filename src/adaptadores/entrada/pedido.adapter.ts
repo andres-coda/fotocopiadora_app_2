@@ -7,7 +7,7 @@ import { baseAdapter } from "./base.adapter";
 import { clienteAdapter } from "./cliente.adapter";
 import { pedidoLibroAdapter } from "./pedidoLibro.adapter";
 
-const pedidoAdapter = (pedido: PedidoAdapterProp): PedidoProp | undefined => {
+export const pedidoAdapter = (pedido: PedidoAdapterProp): PedidoProp | undefined => {
   if (!pedido) return undefined;
 
   const base: BaseProp | undefined = baseAdapter<PedidoAdapterProp>({ base: pedido, busqueda: camposBusquedaPedido });
