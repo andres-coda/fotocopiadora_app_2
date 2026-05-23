@@ -1,13 +1,13 @@
-import { PedidoClienteProp } from "../../modelo/Entidades/pedido/pedido.interface"
+import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface"
 import Calendario from "../../assets/calendario.svg?react"
 import { claseXestado, estadoXstring } from "../../utils/formatoDatos";
 import { formatoFecha, formatoHora, invertirFecha } from "../../utils/calendario";
 import Texto from "../../componente-estilo/texto/texto";
 import './cardPedido.css'
-interface Prop<T extends PedidoClienteProp> {
-  pedido: T;
+interface Prop {
+  pedido: PedidoProp;
 }
-const CardFechas = <T extends PedidoClienteProp>({ pedido }: Prop<T>) => {
+const CardFechas = ({ pedido }: Prop) => {
   return (
     <div className={`card-pedido-fechas ${claseXestado(pedido.estado)}`}>
       <Calendario className="icono-pedido"/>

@@ -7,24 +7,23 @@ import { selectLibro } from "../../redux/state/libro.state";
 import { selectPedido } from "../../redux/state/pedido.state";
 import { selectSede } from "../../redux/state/sede.state";
 import { selectPrecio } from "../../redux/state/precio.state";
-import { PedidoClienteProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { selectPropuesta } from "../../redux/state/propuesta.state";
 
-const useEditar =<P extends PedidoClienteProp> ({ 
-  ruta, 
-  setModalLocal, 
+const useEditar = ({
+  ruta,
+  setModalLocal,
   cliente,
   libro,
   pedido,
   sede,
   precio,
   propuesta,
-}: PropEditarCompleto<P>) => {
+}: PropEditarCompleto) => {
   const { setModal } = useModalContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const select = ({cliente:cl, libro:l, pedido:p, sede:s, precio:pr, propuesta:prta}:PropEditar<P>) => {
+  const select = ({ cliente: cl, libro: l, pedido: p, sede: s, precio: pr, propuesta: prta }: PropEditar) => {
     const newCliente = cl || cliente;
     const newLibro = l || libro;
     const newPedido = p || pedido;
@@ -41,8 +40,8 @@ const useEditar =<P extends PedidoClienteProp> ({
 
 
 
-  const handleEdit = ({cliente:cl, libro:l, pedido:p, sede:s, precio:pr, propuesta:prta}:PropEditar<P>) => {
-    select({cliente:cl, libro:l, pedido:p, sede:s, precio:pr, propuesta:prta});
+  const handleEdit = ({ cliente: cl, libro: l, pedido: p, sede: s, precio: pr, propuesta: prta }: PropEditar) => {
+    select({ cliente: cl, libro: l, pedido: p, sede: s, precio: pr, propuesta: prta });
 
     ruta && navigate(ruta);
     if (setModalLocal) {
@@ -51,8 +50,8 @@ const useEditar =<P extends PedidoClienteProp> ({
     }
   }
 
-  const handleSelect = ({rutaLocal, cliente:cl, libro:l, pedido:p, sede:s, precio:pr, propuesta:prta}:HandleSelectProp<P>) => {
-    select({cliente:cl, libro:l, pedido:p, sede:s, precio:pr, propuesta:prta});
+  const handleSelect = ({ rutaLocal, cliente: cl, libro: l, pedido: p, sede: s, precio: pr, propuesta: prta }: HandleSelectProp) => {
+    select({ cliente: cl, libro: l, pedido: p, sede: s, precio: pr, propuesta: prta });
     rutaLocal && navigate(rutaLocal);
   }
 

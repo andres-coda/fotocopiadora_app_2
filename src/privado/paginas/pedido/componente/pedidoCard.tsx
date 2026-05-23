@@ -1,17 +1,17 @@
 import Card from "../../../../componente-estilo/card/card"
 import useEditar from "../../../../hooks/editar/useEditar"
 import './pedidoCard.css'
-import { PedidoClienteProp } from "../../../../modelo/Entidades/pedido/pedido.interface"
+import { PedidoProp } from "../../../../modelo/Entidades/pedido/pedido.interface"
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas"
 import CardFechas from "../../../../componente/pedido/cardFechas"
 import CardArchivos from "../../../../componente/pedido/cardArchivos"
 import CardImporte from "../../../../componente/pedido/cardImporte"
 
-interface Props<T extends PedidoClienteProp> {
-  pedido: T;
+interface Props {
+  pedido: PedidoProp;
 }
 
-const PedidoCard =<T extends PedidoClienteProp>({ pedido }: Props<T>) => {
+const PedidoCard =({ pedido }: Props) => {
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     pedido
@@ -19,7 +19,7 @@ const PedidoCard =<T extends PedidoClienteProp>({ pedido }: Props<T>) => {
  
   return (
     <Card
-      onClick={() => handleSelect(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`)}
+      onClick={() => handleSelect({rutaLocal:`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`, pedido})}
       nuevoEstilo={'card-pedido'}
     >
       <CardFechas pedido={pedido} />
