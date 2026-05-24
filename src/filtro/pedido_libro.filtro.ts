@@ -15,11 +15,11 @@ export const filtrosPedidoLibroFuntion: FiltroIndividual<PedidoLibroProp>[] = [
 
 export const camposBusquedaPedidoLibro: CampoBusqueda<PedidoLibroAdapterProp>[] = [
   c => ({ valor: c.detalles ?? '' }),
-  c => ({ valor: c.libro.nombre ?? '' }),
-  c => ({ valor: c.libro.nivel ?? '' }),
-  c => ({ valor: c.libro.editorial ?? '' }),
-  c => ({ valor: c.libro.autor ?? '' }),
-  c => ({ valor: c.libro.anio ?? '', tipo: TipoBusqueda.ESTRICTO }),
-  c => ({ valor: c.libro.materia.nombre ?? '' }),
-  c => ({ valor: c.libro.componentes?.map(comp => comp.nombre).join(' ') })
+  c => ({ valor: c.libro?.nombre ?? '' }),
+  c => ({ valor: c.libro?.nivel ?? '' }),
+  c => ({ valor: c.libro?.editorial ?? '' }),
+  c => ({ valor: c.libro?.autor ?? '' }),
+  c => ({ valor: c.libro?.anio ?? '', tipo: TipoBusqueda.ESTRICTO }),
+  c => ({ valor: c.libro?.materia.nombre ?? '' }),
+  c => ({ valor: c.libro?.componentes?.map(comp => comp.nombre).join(' ') ?? '' })
 ]

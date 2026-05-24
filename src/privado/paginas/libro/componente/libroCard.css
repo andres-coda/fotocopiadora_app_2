@@ -70,3 +70,33 @@
 .pendiente {
   background-color: var(--colorCardRosa);
 }
+
+.enProceso {
+  background-color: var(--colorCardEdit);
+  height: auto;
+}
+
+.card-libro-pedido{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: .5rem;
+  min-height: none;
+}
+
+.card-libro-pedido li{
+  background-color: var(--colorCardGris);
+  border: 1px solid var(--colorSombra);
+  padding: 0.1rem .5rem;
+  border-radius: 4px;
+}
+
+.card-libro-pedido-vertical{
+  margin: 0;
+}
+
+.cantidad-libro-card{
+  display: flex;
+  max-width: 2rem;
+  justify-content: center;
+}

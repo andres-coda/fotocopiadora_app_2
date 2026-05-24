@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { appStore } from "../../redux/store";
 
@@ -19,7 +19,7 @@ const espDefaultInicial: Especificaciones[] = [
   Especificaciones.DOBLE_FAZ,
 ];
 
-const gruposExclusivos:GruposExlusivosProp[] = [
+const gruposExclusivos: GruposExlusivosProp[] = [
   {
     opciones: [
       Especificaciones.SIMPLE_FAZ,
@@ -97,7 +97,8 @@ const normalizarEspecificaciones = (
 };
 
 const useEspecificacionesSelect = (
-  espDefault: Especificaciones[] = espDefaultInicial
+  espDefault: Especificaciones[] = espDefaultInicial,
+  cambioLibro?: string
 ) => {
 
   const esp: EspecificacionProp[] = useSelector(
@@ -133,6 +134,10 @@ const useEspecificacionesSelect = (
     nombre: e.nombre,
     texto: transformarEspecificacinParticularATexto(e),
   }));
+
+  useEffect(() => {
+    setEspecificaciones(() => normalizarEspecificaciones(espDefault))
+  }, [cambioLibro])
 
   return {
     listaEspecificaciones,

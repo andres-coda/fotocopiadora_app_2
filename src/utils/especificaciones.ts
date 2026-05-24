@@ -41,8 +41,12 @@ export const transformarEspecificacinesATexto = (esp: Especificaciones[] | undef
 }
 
 export const transformarEspecificacinParticularATexto = (esp: EspecificacionProp): string => {
+  return especificacionEnumXString(esp.nombre);
+}
 
-  switch (esp.nombre) {
+
+export const especificacionEnumXString = (e: Especificaciones) => {
+  switch (e) {
     case Especificaciones.ABROCHADO:
       return 'abrochado';
     case Especificaciones.ADHESIVO:

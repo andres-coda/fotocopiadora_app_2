@@ -18,7 +18,7 @@ export const agregarElementoItems = <T extends HasId>(
   ...state,
   items: arregloOrdenado<T>({
     dato: action.payload,
-    datoContexto: current(state.items) as T[],
+    datoContexto: [...state.items] as T[],
     sortKey: state.filter?.sortBy as keyof T | undefined,
     desendente: state.filter?.sortOrder === 'desc'
   })

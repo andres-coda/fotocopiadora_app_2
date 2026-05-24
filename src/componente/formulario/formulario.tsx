@@ -4,6 +4,7 @@ import Boton from "../../componente-estilo/boton/boton";
 import Titulo from "../../componente-estilo/texto/titulo";
 import Texto from "../../componente-estilo/texto/texto";
 import Botonera from "../../componente-estilo/botonera/botonera";
+import Arrow from "../../assets/arrow-small.svg?react"
 
 interface FormularioProps {
   children: ReactNode;
@@ -50,7 +51,7 @@ function Formulario({
               {onClickSecundario
                 ? <Boton
                   texto={textBtnSecundario && textBtnSecundario}
-                  icono={!textBtnSecundario &&  <p>Flecha</p>}
+                  icono={!textBtnSecundario &&  <Arrow/>}
                   secundario
                   titulo={etiquetaSecundaria}
                   onClick={onClickSecundario}
@@ -58,7 +59,7 @@ function Formulario({
                 : null}
               <Boton 
               texto={loading ? 'Procesando...' : textBtnConfirmar && textBtnConfirmar} 
-              icono={!textBtnConfirmar && !loading && <p>Flecha</p>}
+              icono={!textBtnConfirmar && !loading && <Arrow/>}
               submit={loading ? false : true}
               nuevoEstilo={!textBtnConfirmar ? `btn-icono-derecha ${estiloBoton}` : estiloBoton} 
               titulo={etiquetaPrimaria}

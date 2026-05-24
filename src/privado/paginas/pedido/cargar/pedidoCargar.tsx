@@ -12,10 +12,13 @@ import { addPedidos, resetSelectPedido } from "../../../../redux/state/pedido.st
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
 import Input from "../../../../componente/formulario/input";
 import { formatTelefono, parseDecimal } from "../../../../utils/formulario";
+import PedidoLibroCargar from "./pedidoLibroCargar";
+import { useState } from "react";
+import { pedidoLibroInicial, PedidoLibroProp } from "../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 
 const PedidoCargar = () => {
   const pedidoSelect: PedidoProp | null = useSelector((store: appStore) => store.pedido.selected);
-
+  const [pedidoLibro, setPedidoLibro] = useState<PedidoLibroProp>(pedidoLibroInicial)
   const { editarPedido, crearPedido, responsePedido, errorFetchPedido, loadingPedido } = usePedidoApi()
 
   const { control, handleSubmit, formState: { errors }, reset } = useForm<formValuesPedido>({
@@ -59,6 +62,7 @@ const PedidoCargar = () => {
             <Input<formValuesPedido> name='archivos' control={control} label='Archivos' tipo='text' error={errors.archivos} esquema={pedido} />
             <Input<formValuesPedido> name='anillados' control={control} label='Anillados' tipo='text' error={errors.anillados} esquema={pedido} />
           </div>
+          <PedidoLibroCargar pL={pedidoLibro}/>
           <Input<formValuesPedido> name='fechaEntrega' control={control} label='Fecha de entrega' tipo='date' error={errors.fechaEntrega} esquema={pedido} />
           <div className="form-horizontal">
             <Input<formValuesPedido> name='importeTotal' control={control} label='Total' tipo='text' error={errors.importeTotal} esquema={pedido} formatValue={(v) => parseDecimal(v, 12, 2)} parseValue={(v) => parseDecimal(v, 12, 2)} />

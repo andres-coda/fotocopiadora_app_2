@@ -52,6 +52,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   })
 
   useEffect(() => {
+    console.log('response pedido: ', responsePedidos)
     crearElementosContexto({
       libros: responseLibros || undefined,
       clientes: responseClientes || undefined,
@@ -78,11 +79,11 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   ]);
 
   useEffect(() => {
+    if (pedidoItems.length === 0) obtenerPedidos();
     if (libroItems.length === 0) obtenerLibros();
     if (clienteItems.length === 0) obtenerClientes();
     if (especificacionItems.length === 0) obtenerEspecificaciones();
     if (materiaItems.length === 0) obtenerMaterias();
-    if (pedidoItems.length === 0) obtenerPedidos();
     if (pedidoLibroItems.length === 0) obtenerPedidoLibross();
     if (precioItems.length === 0) obtenerPrecios();
     if (sedeItems.length === 0) obtenerSedes();

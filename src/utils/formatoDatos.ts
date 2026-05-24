@@ -1,4 +1,6 @@
+import { LibroProp } from "../modelo/Entidades/libro/libro.interface";
 import { Estado } from "../modelo/Entidades/pedido_libro/estado.enum";
+import { transformarComponente } from "./componente";
 
 export const formatoTelefonoMostrar = (telefono: string): string => {
   const t = telefono.replace(/\D/g, '');
@@ -35,4 +37,9 @@ export const estadoXstring = (estado: Estado): string => {
     case Estado.STOCK: return 'En stock';
     default: return 'todavía no se resolvió este estado';
   }
+}
+
+export const nombreLibroXstring = (libro:LibroProp | undefined) => {
+  if(!libro) return '';
+  return `${libro.nombre} - ${libro.nivel} - ${transformarComponente(libro.componentes)}`
 }

@@ -13,4 +13,5 @@ export interface CardProp {
 export interface CardPropComp extends CardProp {
   children: ReactNode;
   ultActualizacion?: string | undefined;
+  tituloCard?: string;
 }

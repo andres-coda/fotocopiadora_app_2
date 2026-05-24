@@ -5,7 +5,7 @@ import { PedidoAdapterProp, PedidoProp } from "../../modelo/Entidades/pedido/ped
 import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { baseAdapter } from "./base.adapter";
 import { clienteAdapter } from "./cliente.adapter";
-import { pedidoLibroAdapter } from "./pedidoLibro.adapter";
+import { pedidoLibroAdapterArray } from "./pedidoLibro.adapter";
 
 export const pedidoAdapter = (pedido: PedidoAdapterProp): PedidoProp | undefined => {
   if (!pedido) return undefined;
@@ -17,10 +17,7 @@ export const pedidoAdapter = (pedido: PedidoAdapterProp): PedidoProp | undefined
   
   const cliente: ClienteProp | undefined = clienteAdapter(pedido.cliente);
 
-  const pedidoLibro: PedidoLibroProp[] = pedido.libroPedidos?.flatMap(lp => {
-    const libPedido = pedidoLibroAdapter(lp);
-    return libPedido ? [libPedido] : [];
-  }) ?? [];
+  const pedidoLibro: PedidoLibroProp[] = pedidoLibroAdapterArray(pedido.libroPedidos);
 
 
   const newPedido: PedidoProp = {

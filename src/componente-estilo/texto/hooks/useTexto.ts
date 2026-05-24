@@ -13,6 +13,7 @@ function useTexto({
     derecha, 
     ajustado,
     alCien,
+    inline,
     nuevoEstilo 
   }: estilosTextoProps) {
   const clase = [
@@ -28,6 +29,7 @@ function useTexto({
     inverso && 'inverso',
     ajustado && 'ajustado',
     alCien && 'alCien',
+    inline && 'inline',
     nuevoEstilo,
   ]
     .filter(Boolean)

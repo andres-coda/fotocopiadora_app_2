@@ -4,9 +4,9 @@ import { appStore } from "../../../../redux/store";
 import Centro from "../../../../componente-estilo/centro/centro";
 import { RefObject, useRef } from "react";
 import './libroSelect.css'
-import { transformarComponente } from "../../../../utils/componente";
 import Texto from "../../../../componente-estilo/texto/texto";
 import Presupuesto from "../../../../componente/pedido/presupuesto/presupuesto";
+import { nombreLibroXstring } from "../../../../utils/formatoDatos";
 
 const LibroSelect = () => {
   const libro: LibroProp | null = useSelector((store: appStore) => store.libro.selected);
@@ -22,7 +22,7 @@ const LibroSelect = () => {
             <img src={libro.img} alt={libro.nombre} className="libro-img" />
           ) : (null)}
           <div className="div-vertical">
-            <Texto texto={`${libro.nombre} - ${libro.nivel} - ${transformarComponente(libro.componentes)} `} grande centrado negrita />
+            <Texto texto={nombreLibroXstring(libro)} grande centrado negrita />
             <Texto textoResaltado={'Año de edición:  '} texto={libro.anio ?? ''} chica />
             {libro.edicion && <Texto textoResaltado={'Número de edición:  '} texto={`${libro.edicion}`} chica />}
             <Texto textoResaltado={'Editorial:  '} texto={`${libro.editorial ?? ''}`} chica />

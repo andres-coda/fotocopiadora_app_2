@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { useSelector } from "react-redux";
 import { appStore } from "../../redux/store";
@@ -10,7 +10,12 @@ import { filterContext } from "../../redux/modelo/reduxContext.interface";
 
 const listaSeleccionable = [{ nombre: 'Propuestas' }];
 
-const BuscadorLibro = () => {
+interface Prop {
+  libro?: LibroProp;
+  setLibro: Dispatch<SetStateAction<LibroProp | undefined>>
+}
+
+const BuscadorLibro = ({ setLibro }: Prop) => {
   const libroContext: filterContext<LibroProp> = useSelector((store: appStore) => store.libro);
   const [opcionesActivas, setOpcionesActivas] = useState<string[]>([]);
 
@@ -18,7 +23,12 @@ const BuscadorLibro = () => {
     elementos: libroContext.items,
     sortBy: libroContext.filter.sortBy,
     sortOrder: libroContext.filter.sortOrder,
-  })
+  });
+
+  const handleClickLibro = (libro: LibroProp) => {
+    setLibro( libro);
+    setValor('');
+  }
 
 
   return (
@@ -31,10 +41,14 @@ const BuscadorLibro = () => {
       <Buscador
         valor={valor}
         setValor={setValor}
+        texto="Buscar libro"
+        etiquetaMas="Nuevo libro"
       />
-      <div>
-        {elementosFiltrados.map(l => <LibroCard libro={l} key={l.id} />)}
-      </div>
+      {valor.length > 2 && elementosFiltrados.length > 0 &&
+        <div className="buscador-desplegable">
+          {elementosFiltrados.map(l => <LibroCard libro={l} key={l.id} selecLibro={handleClickLibro} />)}
+        </div>
+      }
     </div>
   )
 };
