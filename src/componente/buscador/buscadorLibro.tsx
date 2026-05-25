@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, MouseEventHandler, SetStateAction, useState } from "react";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { useSelector } from "react-redux";
 import { appStore } from "../../redux/store";
@@ -12,7 +12,7 @@ const listaSeleccionable = [{ nombre: 'Propuestas' }];
 
 interface Prop {
   libro?: LibroProp;
-  setLibro: Dispatch<SetStateAction<LibroProp | undefined>>
+  setLibro:  (libro: LibroProp) => void
 }
 
 const BuscadorLibro = ({ setLibro }: Prop) => {
@@ -26,7 +26,7 @@ const BuscadorLibro = ({ setLibro }: Prop) => {
   });
 
   const handleClickLibro = (libro: LibroProp) => {
-    setLibro( libro);
+    setLibro(libro);
     setValor('');
   }
 
