@@ -16,7 +16,7 @@ export const propuestaAdapter = (propuesta?: PropuestaAdapterProp): PropuestaPro
 
   const newPropuesta: PropuestaProp = {
     ...base,
-    cantidadLibros: propuesta.libro.length,
+    cantidadLibros: propuesta.libro?.length ?? 0,
     nombre: propuesta.nombre,
     libro: libros,
   }

@@ -7,6 +7,7 @@ import LibroCard from "../../privado/paginas/libro/componente/libroCard";
 import Buscador from "./buscador";
 import useBuscador from "../../hooks/buscador/useBuscador";
 import { filterContext } from "../../redux/modelo/reduxContext.interface";
+import DesplegableLibros from "./desplegableLibros";
 
 const listaSeleccionable = [{ nombre: 'Propuestas' }];
 
@@ -45,9 +46,7 @@ const BuscadorLibro = ({ setLibro }: Prop) => {
         etiquetaMas="Nuevo libro"
       />
       {valor.length > 2 && elementosFiltrados.length > 0 &&
-        <div className="buscador-desplegable">
-          {elementosFiltrados.map(l => <LibroCard libro={l} key={l.id} selecLibro={handleClickLibro} />)}
-        </div>
+        <DesplegableLibros libros={elementosFiltrados} selectLibro={handleClickLibro}/>
       }
     </div>
   )
