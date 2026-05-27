@@ -10,11 +10,19 @@ import InputCheckFueraForm from "../../formulario/inputCheckFueraForm";
 interface Prop {
   libro: LibroProp;
   nuevasEsp?: Especificaciones[];
+  simple?:boolean;
 }
 
-const Presupuesto = ({ libro, nuevasEsp }: Prop) => {
-  const {especificaciones, setEspecificaciones, listaEspecificaciones, normalizarEspecificaciones} = useEspecificacionesSelect(nuevasEsp ?? libro.especificacionesDefecto ?? []);
+const Presupuesto = ({ libro, nuevasEsp, simple }: Prop) => {
+  const {especificaciones, setEspecificaciones, listaEspecificaciones, normalizarEspecificaciones} = useEspecificacionesSelect(nuevasEsp ?? libro.especificacionesDefecto ?? [], libro.id);
   const { presupuesto, copiarPresupuesto } = usePresupuesto({ libro, nuevasEsp:especificaciones });
+
+  if(simple) return (
+    <div className="copiado-presupuesto libro-select">
+      <InputCheckFueraForm lista={listaEspecificaciones} elementosSelect={especificaciones} setelementosSelect={setEspecificaciones} normalizar={normalizarEspecificaciones}/>
+      <Boton icono={<Copiar />} secundario onClick={copiarPresupuesto} nuevoEstilo='btn-icono-mediano' titulo={presupuesto}/>
+    </div>
+  )
 
   return (
     <div className="copiado-presupuesto libro-select">

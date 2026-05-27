@@ -3,20 +3,22 @@ import Texto from "../../../../componente-estilo/texto/texto"
 import useEditar from "../../../../hooks/editar/useEditar"
 import './libroCard.css'
 import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface"
-import { transformarComponente } from "../../../../utils/componente"
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas"
-import { useEffect } from "react"
+import {useEffect } from "react"
 import useLibroApi from "../../../../servicio/libro/useLibroApi"
 import Boton from "../../../../componente-estilo/boton/boton"
 import Copiar from "../../../../assets/copiar.svg?react"
 import usePresupuesto from "../../../../hooks/presupuesto/usePresupuesto"
+import Cargando from "../../../../componente/cargando/cargando"
+import { nombreLibroXstring } from "../../../../utils/formatoDatos"
 
 interface Props {
-  libro: LibroProp
+  libro: LibroProp;
+  selecLibro?: (libro: LibroProp) => void
 }
 
-const LibroCard = ({ libro }: Props) => {
-  const {copiarPresupuesto} = usePresupuesto({libro})
+const LibroCard = ({ libro, selecLibro }: Props) => {
+  const { copiarPresupuesto } = usePresupuesto({ libro })
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     libro
@@ -27,19 +29,28 @@ const LibroCard = ({ libro }: Props) => {
     if (responseLibro) {
       handleSelect({ rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`, libro: responseLibro })
     }
-  }, [responseLibro])
+  }, [responseLibro]);
+
+  const handleClick = () => {
+    if(selecLibro) {
+      selecLibro(libro);
+    } else {
+      obtenerLibroById(libro.id)
+    }
+  }
 
   return (
     <Card
-      onClick={() => obtenerLibroById(libro.id)}
+      onClick={handleClick}
       nuevoEstilo={'card-libro'}
+      tituloCard={nombreLibroXstring(libro)}
     >
-      <img src={libro.img} alt={libro.nombre} />
+      <img src={libro.img} alt={nombreLibroXstring(libro)} />
       {!loadingLibro && !errorFetchLibro
         ? <div className="card-vertical vertical-libro-card">
           <div className="card-horizontal">
-            <Texto texto={`${libro.nombre} - ${libro.nivel} - ${transformarComponente(libro.componentes)}`} chica negrita centrado />
-            <Boton icono={<Copiar />} edit nuevoEstilo="btn-icono-chico" titulo={`Copiar presupuesto`} onClick={copiarPresupuesto}/>
+            <Texto texto={nombreLibroXstring(libro)} chica negrita centrado />
+            <Boton icono={<Copiar />} edit nuevoEstilo="btn-icono-chico" titulo={`Copiar presupuesto`} onClick={copiarPresupuesto} />
 
           </div>
           <div className="card-horizontal">
@@ -48,14 +59,14 @@ const LibroCard = ({ libro }: Props) => {
                 {libro.anio && <Texto texto={`Año de edición: ${libro.anio}`} chica></Texto>}
                 {libro.edicion && <Texto texto={`Edición: ${libro.anio}`} chica></Texto>}
               </div>
-              <Texto texto={`Editorial: ${libro.editorial}`} chica />
+              <Texto texto={`Editorial: ${libro.editorial}`} chica inline/>
             </div>
           </div>
 
           <Texto texto={`${libro.cantidadPg}' ${libro.adhesivos ? `- ${libro.adhesivos}''` : ''}`} etiqueta="Cantidad pg' - cantidad adhesivos ''" chica derecha ajustado nuevoEstilo="pg-flotante"></Texto>
         </div>
         : !errorFetchLibro
-          ? <Texto texto={'Cargando...'} centrado mediana />
+          ? <Cargando />
           : <Texto texto={errorFetchLibro} centrado chica />
       }
       <ul>

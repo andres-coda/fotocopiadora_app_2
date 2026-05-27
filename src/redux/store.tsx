@@ -10,7 +10,7 @@ import { EspecificacionProp } from "../modelo/Entidades/especificacion/especific
 import { especificacionSlice } from "./state/especificacion.state";
 import { MateriaProp } from "../modelo/Entidades/libro/materia.interface";
 import { materiaSlice } from "./state/materia.state";
-import { PedidoClienteProp, PedidoProp } from "../modelo/Entidades/pedido/pedido.interface";
+import { PedidoProp } from "../modelo/Entidades/pedido/pedido.interface";
 import { pedidoSlice } from "./state/pedido.state";
 import { PedidoLibroProp } from "../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { pedidoLibroSlice } from "./state/pedido_libro.state";
@@ -28,7 +28,7 @@ export interface appStore {
   cliente: filterContext<ClienteProp>,
   especificacion: filterContext<EspecificacionProp>
   materia: filterContext<MateriaProp>,
-  pedido: filterContext<PedidoProp | PedidoClienteProp>,
+  pedido: filterContext<PedidoProp>,
   pedidoLibro: filterContext<PedidoLibroProp>,
   precio: filterContext<PrecioProp>,
   componente: filterContext<ComponenteProp>,

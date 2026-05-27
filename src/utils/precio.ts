@@ -74,7 +74,6 @@ const buscarPrecio = (
   precios: PrecioProp[],
   abreviaturas: PrecioAbareviatura[]
 ): number => {
-  console.log('precios: ', precios);
   const precio: number = Number(
     precios.find(
       p =>
@@ -83,7 +82,6 @@ const buscarPrecio = (
         )
     )?.importe ?? 0
   );
-  console.log('precio: ', precio)
   return precio;
 };
 

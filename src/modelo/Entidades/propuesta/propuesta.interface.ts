@@ -3,13 +3,13 @@ import { LibroAdapterProp, LibroProp } from "../libro/libro.interface";
 
 export interface PropuestaAdapterProp extends BaseAdapterProp {
   nombre:string;
-  libro: LibroAdapterProp[];
+  libro?: LibroAdapterProp[];
 }
 
 export interface PropuestaProp extends BaseProp{
   nombre: string;
   cantidadLibros: number;
-  libro:LibroProp[];
+  libro?:LibroProp[];
 }
 
 export const PropuestaInicial:PropuestaProp = {

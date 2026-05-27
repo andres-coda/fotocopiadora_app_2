@@ -4,9 +4,11 @@ import { ComponenteProp } from "../../modelo/Entidades/libro/componente.interfac
 import { LibroAdapterProp, LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { materiaInicial, MateriaProp } from "../../modelo/Entidades/libro/materia.interface";
 import { StockProp } from "../../modelo/Entidades/libro/stock.interface";
+import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
 import { baseAdapter } from "./base.adapter";
 import { componenteAdapterArray } from "./componente.adapter";
 import { materiaAdapter } from "./materia.adapter";
+import { propuestaAdapterArray } from "./propuesta.adapter";
 import { stockAdapter } from "./stock.adapter";
 
 export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined => {
@@ -20,6 +22,7 @@ export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined =>
 
   const materia: MateriaProp | undefined = materiaAdapter(libro.materia);
   const stock: StockProp = stockAdapter(libro.stock);
+  const propuesta: PropuestaProp[] = propuestaAdapterArray(libro.propuesta);
 
   const newLibro: LibroProp = {
     ...base,
@@ -37,6 +40,7 @@ export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined =>
     componentes,
     materia: materia ?? materiaInicial,
     stock,
+    propuesta: propuesta.length > 0 ? propuesta : undefined
   }
   return newLibro;
 }

@@ -48,7 +48,6 @@ const useBuscador = <T extends BaseProp>({
 
   const elementosFiltrados: T[] = useMemo(() => {
     if (!elementosOrdenados) return [];
-    if (!filtros) return elementosOrdenados;
 
     let resultado = [...elementosOrdenados];
 

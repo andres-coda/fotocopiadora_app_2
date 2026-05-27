@@ -1,5 +1,6 @@
 import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
 import { Especificaciones } from "../especificacion/especificacion.enum";
+import { PropuestaAdapterProp, PropuestaProp } from "../propuesta/propuesta.interface";
 import { ComponenteAdapterProp, ComponenteProp } from "./componente.interface";
 import { MateriaAdapterProp, materiaInicial, MateriaProp } from "./materia.interface";
 import { StockAdapterProp, stockInicial, StockProp } from "./stock.interface";
@@ -19,6 +20,7 @@ export interface LibroAdapterProp extends BaseAdapterProp {
   componentes: ComponenteAdapterProp[];
   materia: MateriaAdapterProp;
   stock: StockAdapterProp;
+  propuesta:PropuestaAdapterProp[]
 }
 
 export interface LibroProp extends BaseProp {
@@ -36,6 +38,7 @@ export interface LibroProp extends BaseProp {
   componentes?: ComponenteProp[];
   materia: MateriaProp;
   stock: StockProp;
+  propuesta?:PropuestaProp[]
 }
 
 export const libroInicial: LibroProp = {

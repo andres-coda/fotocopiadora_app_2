@@ -7,7 +7,6 @@ import ClienteDatos from "./clienteDatos";
 import './cliente-select.css'
 import Texto from "../../../../componente-estilo/texto/texto";
 import PedidoCard from "../../pedido/componente/pedidoCard";
-import { PedidoClienteProp } from "../../../../modelo/Entidades/pedido/pedido.interface";
 
 const ClienteSelect = () => {
   const cliente: ClienteProp | null = useSelector((store: appStore) => store.cliente.selected);
@@ -27,9 +26,9 @@ const ClienteSelect = () => {
           <li className='terminado' title='Pedidos listos para entregar'>Para retirar: {cliente.listo}</li>
           <li className='retirado' title='Pedidos retirados'>Retirados: {cliente.retirado}</li>
         </ul>
-        <Texto texto={'Lista de pedidos'} mediana negrita centrado/>
-        {cliente.pedidos.map(pedido=> (
-          <PedidoCard<PedidoClienteProp> pedido={pedido} key={pedido.id}/>
+        <Texto texto={'Lista de pedidos'} mediana negrita centrado />
+        {cliente.pedidos.map(pedido => (
+          <PedidoCard pedido={pedido} key={pedido.id} />
         ))}
         <div>
 

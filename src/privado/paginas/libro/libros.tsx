@@ -10,20 +10,49 @@ import { filtrosLibroFuntion } from '../../../filtro/libro.filtro';
 import BuscadorFiltros from '../../../componente/buscador/buscadorCompleto';
 import { cambiarOrdenLibro } from '../../../redux/state/libro.state';
 import LibroCard from './componente/libroCard';
+import { PropuestaProp } from '../../../modelo/Entidades/propuesta/propuesta.interface';
+import { useEffect, useState } from 'react';
+import PropuestaCard from '../propuesta/componente/propuestaCard';
 
 const Libros = () => {
   const dispatch = useDispatch();
   const libroContext: filterContext<LibroProp> = useSelector((store: appStore) => store.libro);
-
+  const [propuestas, setPropuestas] = useState<PropuestaProp[]>([])
   const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento } = useBuscadorCompleto<LibroProp>({
     estadoFiltros: libroContext.filter.filtros,
     filtros: [...filtrosLibroFuntion],
     elementos: libroContext.items,
     sortBy: libroContext.filter.sortBy,
     sortOrder: libroContext.filter.sortOrder,
-
-
   });
+
+  useEffect(() => {
+    const propuestasAux: PropuestaProp[] = [];
+    elementosFiltrados.map((e) => {
+      if (e.propuesta) {
+        e.propuesta.map(prop => {
+          const index: number = propuestasAux.findIndex(p => p.id === prop.id)
+          let propuesta: PropuestaProp | undefined = undefined;
+          if (index === -1) {
+            propuesta = {
+              ...prop,
+              libro: [e]
+            }
+          } else {
+            const libro: LibroProp[] = prop.libro ?? [];
+            libro.push(e);
+            propuesta = {
+              ...propuestasAux[index],
+              libro
+            }
+          }
+
+          propuestasAux.push(propuesta);
+        })
+      }
+    });
+    setPropuestas(propuestasAux)
+  }, [elementosFiltrados]);
 
   return (
     <>
@@ -39,7 +68,7 @@ const Libros = () => {
         titulo='Lista de libros'
       />
       <Centro ref={contenedorRef}>
-        <LibroCard libro={libroPrueba} key={'1'}></LibroCard>
+        {propuestas.map(p=> <PropuestaCard propuesta={p}/>)}
         {elementosFiltrados.length > 0
           ? elementosFiltrados
             .map(dato => (

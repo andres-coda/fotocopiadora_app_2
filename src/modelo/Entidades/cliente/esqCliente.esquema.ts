@@ -6,21 +6,39 @@ export const cliente = z.object({
   email: z.string().optional(),
   telefono: z
     .union([
-      z.string().min(1).refine(
-        (val) => {
-          const cleaned = val.replace(/[\s\-\(\)]/g, '');
-          return /^\+?54?9?\d{8,11}$/.test(cleaned);
-        },
-        { message: 'Debe ser un número de teléfono válido de Argentina, ej: +5491112345678' }
-      ).transform((val) => {
-        let cleaned = val.replace(/[\s\-\(\)]/g, '');
+      z.string()
+        .min(1)
+        .refine(
+          (val) => {
 
-        if (cleaned.startsWith('0')) cleaned = cleaned.substring(1);
-        if (!cleaned.startsWith('+54') && !cleaned.startsWith('54')) cleaned = '+54' + cleaned;
-        if (cleaned.startsWith('54') && !cleaned.startsWith('+')) cleaned = '+' + cleaned;
+            const cleaned = val.replace(/\D/g, '');
 
-        return cleaned;
-      }),
+            return cleaned.length >= 8
+              && cleaned.length <= 15;
+
+          },
+          {
+            message: 'Debe ser un teléfono válido'
+          }
+        )
+        .transform((val) => {
+
+          let cleaned = val.replace(/[^\d+]/g, '');
+
+          // sacar espacios y símbolos
+          cleaned = cleaned.replace(/(?!^\+)\D/g, '');
+
+          // quitar 0 inicial si no tiene código internacional
+          if (
+            !cleaned.startsWith('+')
+            && cleaned.startsWith('0')
+          ) {
+            cleaned = cleaned.slice(1);
+          }
+
+          return cleaned;
+        }),
+
       z.literal(''),
     ])
     .optional(),

@@ -10,16 +10,19 @@ import useFormulario from "../../../../hooks/formulario/useFormulario";
 import usePropuestaApi from "../../../../servicio/propuesta/usePropuestaApi";
 import { addPropuestas, resetSelectPropuesta } from "../../../../redux/state/propuesta.state";
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../../../../componente/formulario/input";
+import BuscadorLibro from "../../../../componente/buscador/buscadorLibro";
+import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface";
+import LibroCard from "../../libro/componente/libroCard";
 
 const PropuestaCargar = () => {
   const propuestaSelect: PropuestaProp | null = useSelector((store: appStore) => store.propuesta.selected);
-  const [librosIds, setLibrosIds] = useState<string[]>([]);
-
+  const [libros, setLibros] = useState<LibroProp[]>([]);
+ 
   const { editarPropuesta, crearPropuesta, responsePropuesta, errorFetchPropuesta, loadingPropuesta } = usePropuestaApi()
 
-  const { control, handleSubmit, formState: { errors }, reset, watch } = useForm<formValuesPropuesta>({
+  const { control, handleSubmit, formState: { errors }, reset } = useForm<formValuesPropuesta>({
     resolver: zodResolver(propuesta),
     defaultValues: propuestaFormEdit(propuestaSelect)
   });
@@ -33,11 +36,25 @@ const PropuestaCargar = () => {
   })
 
   const onSubmit = (data: formValuesPropuesta) => {
+    const librosIds:string[] = libros.map(l=>l.id);
     if (propuestaSelect?.id) {
       editarPropuesta(data, propuestaSelect.id, librosIds);
     } else {
       crearPropuesta(data, librosIds);
     }
+  }
+
+  const handleLibroBuscador = (libroBuscado:LibroProp) => {
+    if(!libros.find(l=>l.id === libroBuscado.id)){
+      setLibros(prev=>[...prev, libroBuscado]);
+    }
+  }
+
+  const handleSelectLibro = (libroSelec:LibroProp) => {
+    setLibros(prev=>{
+      const newLibros:LibroProp[] = prev.filter(l => libroSelec.id !=l.id);
+      return newLibros;
+    })
   }
 
   return (
@@ -52,7 +69,10 @@ const PropuestaCargar = () => {
         errorFetch={errorFetchPropuesta}
       >
           <Input<formValuesPropuesta> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={propuesta} />
-          
+          <BuscadorLibro setLibro={handleLibroBuscador}/>
+          {
+            libros?.map(l=> <LibroCard libro={l} selecLibro={handleSelectLibro}/>)
+          }
       </Formulario>
     </Centro>
   )

@@ -14,7 +14,8 @@ export default function Card({
   retirado = undefined,
   onClick = undefined,
   nuevoEstilo = undefined,
-  ruta = undefined
+  ruta = undefined,
+  tituloCard = undefined
 }: CardPropComp) {
   const { clase } = useCard({
     listo,
@@ -41,7 +42,7 @@ export default function Card({
   }
 
   return (
-    <div className={`card ${clase}`} onClick={handleClick}>
+    <div className={`card ${clase}`} onClick={handleClick} title={tituloCard}>
       {ultActualizacion && <Texto texto={ultAct} chica sombra derecha />}
 
       {children}

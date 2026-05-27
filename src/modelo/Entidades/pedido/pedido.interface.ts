@@ -14,7 +14,7 @@ export interface PedidoAdapterProp extends BaseAdapterProp{
   libroPedidos: PedidoLibroAdapterProp[];
 }
 
-export interface PedidoClienteProp extends BaseProp{
+export interface PedidoProp extends BaseProp{
   fechaEntrega: string;
   fechaTomado?: Date;
   importeTotal: number;
@@ -23,9 +23,6 @@ export interface PedidoClienteProp extends BaseProp{
   sena: number;
   estado:Estado;
   libroPedidos: PedidoLibroProp[];
-}
-
-export interface PedidoProp extends PedidoClienteProp{
   cliente: ClienteProp;
 }
 

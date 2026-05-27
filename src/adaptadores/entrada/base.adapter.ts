@@ -9,9 +9,7 @@ export const baseAdapter = <T extends BaseAdapterProp>({ base, busqueda }: BaseA
   if (!base) return undefined;
 
   const ultAct = ultFechaAdapter({ ...base });
-  const campoBusqueda = busqueda
-    .map(fn => fn(base))
-    .filter(Boolean) as string[];
+  const campoBusqueda = busqueda.map(fn => fn(base));
 
   return {
     id: base.id,
