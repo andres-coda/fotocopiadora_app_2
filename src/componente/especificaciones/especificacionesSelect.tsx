@@ -12,68 +12,91 @@ interface EspSelectProp {
   especificaciones: Especificaciones[]
 }
 
+const incompatibilidades: Record<
+  string,
+  string[]
+> = {
+  [Especificaciones.ANILLADO]: [
+    Especificaciones.SUELTO,
+    Especificaciones.ABROCHADO,
+  ],
+
+  [Especificaciones.SUELTO]: [
+    Especificaciones.ANILLADO,
+    Especificaciones.ABROCHADO,
+  ],
+
+  [Especificaciones.ABROCHADO]: [
+    Especificaciones.ANILLADO,
+    Especificaciones.SUELTO,
+  ],
+
+  [Especificaciones.TROKELADO]: [
+    Especificaciones.ADHESIVO,
+  ],
+
+  [Especificaciones.ADHESIVO]: [
+    Especificaciones.TROKELADO,
+  ],
+
+  [Especificaciones.DOBLE_FAZ]: [
+    Especificaciones.SIMPLE_FAZ,
+  ],
+
+  [Especificaciones.SIMPLE_FAZ]: [
+    Especificaciones.DOBLE_FAZ,
+  ],
+
+  [Especificaciones.COLOR]: [
+    Especificaciones.BLANCO_Y_NEGRO,
+  ],
+
+  [Especificaciones.BLANCO_Y_NEGRO]: [
+    Especificaciones.COLOR,
+  ],
+  [Especificaciones.SELECCION]: [
+    Especificaciones.SELECCION,
+  ],
+};
+
 const EspecificacionesSelect = ({ setEspecificaciones, especificaciones }: EspSelectProp) => {
   const esp: EspecificacionProp[] = useSelector((store: appStore) => store.especificacion.items);
 
-  const incompatibilidades: Record<
-    string,
-    string[]
-  > = {
-    [Especificaciones.ANILLADO]: [
-      Especificaciones.SUELTO,
-      Especificaciones.ABROCHADO,
-    ],
 
-    [Especificaciones.SUELTO]: [
-      Especificaciones.ANILLADO,
-      Especificaciones.ABROCHADO,
-    ],
 
-    [Especificaciones.ABROCHADO]: [
-      Especificaciones.ANILLADO,
-      Especificaciones.SUELTO,
-    ],
+  const normalizarEspecificaciones = (elementos: Especificaciones[]): Especificaciones[] => {
+    let resultado = [...new Set(elementos)];
 
-    [Especificaciones.TROKELADO]: [
-      Especificaciones.ADHESIVO,
-    ],
+    for (const elemento of resultado) {
 
-    [Especificaciones.ADHESIVO]: [
-      Especificaciones.TROKELADO,
-    ],
+      const incompatibles =
+        incompatibilidades[elemento] ?? [];
 
-    [Especificaciones.DOBLE_FAZ]: [
-      Especificaciones.SIMPLE_FAZ,
-    ],
+      resultado = resultado.filter(e => {
 
-    [Especificaciones.SIMPLE_FAZ]: [
-      Especificaciones.DOBLE_FAZ,
-    ],
+        if (e === elemento) {
+          return true;
+        }
 
-    [Especificaciones.COLOR]: [
-      Especificaciones.BLANCO_Y_NEGRO,
-    ],
+        return !incompatibles.includes(e);
+      });
+    }
 
-    [Especificaciones.BLANCO_Y_NEGRO]: [
-      Especificaciones.COLOR,
-    ],
-    [Especificaciones.SELECCION]: [
-      Especificaciones.SELECCION,
-    ],
-  };
+    return resultado;
+  }
 
   const newEsp = esp.map(e => {
-    return {nombre:e.nombre, texto:transformarEspecificacinParticularATexto(e)}
-    })
+    return { nombre: e.nombre, texto: transformarEspecificacinParticularATexto(e) }
+  })
 
   return (
-    <InputCheckFueraForm<Especificaciones> 
+    <InputCheckFueraForm<Especificaciones>
       elementosSelect={especificaciones}
       setelementosSelect={setEspecificaciones}
-      incopatibilidades={incompatibilidades}
+      normalizar={normalizarEspecificaciones}
       lista={newEsp}
     />
-    
+
   )
 }
 
