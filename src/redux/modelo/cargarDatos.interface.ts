@@ -9,6 +9,7 @@ import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro
 import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
 import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
 import { ComponenteProp } from "../../modelo/Entidades/libro/componente.interface";
+import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
 
 
 export interface crearContextProp {
@@ -21,6 +22,7 @@ export interface crearContextProp {
   precios?: PrecioProp[];
   sedes?: SedeProp[];
   componentes?: ComponenteProp[];
+  propuestas?:PropuestaProp[];
 
   libro?: LibroProp,
   cliente?: ClienteProp;

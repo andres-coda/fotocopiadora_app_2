@@ -13,3 +13,4 @@ export const PEDIDO:string = `${BASE}/pedido`;
 export const PEDIDO_LIBRO:string = `${BASE}/pedido-libro`;
 export const PRECIO:string = `${BASE}/precio`;
 export const SEDE:string = `${BASE}/sede`;
+export const PROPUESTA:string = `${BASE}/propuesta-pedido`;

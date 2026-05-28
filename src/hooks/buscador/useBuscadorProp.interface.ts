@@ -4,6 +4,7 @@ import { filtroLlamada } from "../../redux/modelo/reduxContext.interface";
 import { ordenProp } from "../../modelo/orden/esqOrden.esquema";
 import { FiltroIndividual } from "../../filtro/filtro.interface";
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
+import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
 
 export interface useBuscadorCompletoProp<T extends BaseProp>{
   estadoFiltros:filtroLlamada[]
@@ -13,6 +14,7 @@ export interface useBuscadorCompletoProp<T extends BaseProp>{
   setModalLocal?: Dispatch<SetStateAction<boolean>>
   elementos?: T[];
   elementoSelect?: T | null,
+  propuestas?: PropuestaProp[],
   resetSelectElemento?:()=> UnknownAction;
 }
 

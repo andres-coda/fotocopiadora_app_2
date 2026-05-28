@@ -12,13 +12,14 @@ const useBuscadorCompleto = <T extends BaseProp>({
   elementos= undefined,
   elementoSelect= undefined,
   resetSelectElemento= undefined,
+  propuestas = undefined,
 }:useBuscadorCompletoProp<T>) => {  
   const { filtroCompuesto } = useFiltrosDinamicos<T>({
     estadoFiltros,
     filtros
   })
 
-  const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento } = useBuscador<T>({
+  const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento, retornoPropuestas } = useBuscador<T>({
     elementos,
     filtros: filtroCompuesto,
     sortBy:sortBy,
@@ -26,9 +27,10 @@ const useBuscadorCompleto = <T extends BaseProp>({
     setModalLocal,
     elementoSelect,
     resetSelectElemento,
+    propuestas
   });
 
-  return { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento }
+  return { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento, retornoPropuestas }
 }
 
 export default useBuscadorCompleto;

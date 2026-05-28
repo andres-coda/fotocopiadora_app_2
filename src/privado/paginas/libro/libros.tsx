@@ -10,53 +10,22 @@ import { filtrosLibroFuntion } from '../../../filtro/libro.filtro';
 import BuscadorFiltros from '../../../componente/buscador/buscadorCompleto';
 import { cambiarOrdenLibro } from '../../../redux/state/libro.state';
 import LibroCard from './componente/libroCard';
-import { PropuestaProp } from '../../../modelo/Entidades/propuesta/propuesta.interface';
-import { useMemo } from 'react';
 import PropuestaCard from '../propuesta/componente/propuestaCard';
 import './libros.css'
+import { PropuestaProp } from '../../../modelo/Entidades/propuesta/propuesta.interface';
 
 const Libros = () => {
   const dispatch = useDispatch();
   const libroContext: filterContext<LibroProp> = useSelector((store: appStore) => store.libro);
-  const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento } = useBuscadorCompleto<LibroProp>({
+  const propuestas: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.items);
+  const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento, retornoPropuestas } = useBuscadorCompleto<LibroProp>({
     estadoFiltros: libroContext.filter.filtros,
     filtros: [...filtrosLibroFuntion],
     elementos: libroContext.items,
     sortBy: libroContext.filter.sortBy,
     sortOrder: libroContext.filter.sortOrder,
+    propuestas
   });
-
-  const propuestasAgregadas = useMemo((): PropuestaProp[] => {
-    const map = new Map<string, PropuestaProp>();
-
-    for (const libro of elementosFiltrados) {
-      if (!libro.propuesta) continue;
-
-      for (const propuesta of libro.propuesta) {
-        if (map.has(propuesta.id)) {
-          const existing = map.get(propuesta.id)!;
-          // ✅ Nuevo array en lugar de mutar el existente
-          map.set(propuesta.id, {
-            ...existing,
-            libro: [...(existing.libro ?? []), libro],
-            cantidadLibros: existing.cantidadLibros + 1,
-          });
-        } else {
-          map.set(propuesta.id, {
-            id: propuesta.id,
-            nombre: propuesta.nombre,
-            libro: [libro],
-            cantidadLibros: 1,
-            campoBusqueda: [{ valor: propuesta.nombre }],
-            deleted: false,
-            ultAct: ''
-          });
-        }
-      }
-    }
-
-    return Array.from(map.values());
-  }, [elementosFiltrados]);
 
   return (
     <>
@@ -72,7 +41,7 @@ const Libros = () => {
         titulo='Lista de libros'
       />
       <Centro ref={contenedorRef} nuevoEstilo='centro-libro'>
-        {propuestasAgregadas.map(p => <PropuestaCard propuesta={p} />)}
+        {retornoPropuestas.map(p => <PropuestaCard propuesta={p} />)}
         {elementosFiltrados.length > 0
           ? elementosFiltrados
             .map(dato => (

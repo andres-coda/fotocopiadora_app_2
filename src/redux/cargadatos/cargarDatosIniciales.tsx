@@ -22,6 +22,8 @@ import useSedesApi from "../../servicio/sede/useSedesApi";
 import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
 import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
 import useSockets from "../../hooks/sockets/useSockets";
+import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
+import usePropuestasApi from "../../servicio/propuesta/usePropuestasApi";
 
 const CargarDatosIniciales = ({ children }: AppProp) => {
 
@@ -34,6 +36,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const { obtenerPrecios, responsePrecios } = usePreciosApi();
   const { obtenerSedes, responseSedes } = useSedesApi();
   const { obtenerComponentes, responseComponentes } = useComponentesApi();
+  const { obtenerPropuestas, responsePropuestas } = usePropuestasApi();
 
   const dispatch = useDispatch();
 
@@ -46,6 +49,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const precioItems: PrecioProp[] = useSelector((store: appStore) => store.precio.items);
   const sedeItems: SedeProp[] = useSelector((store: appStore) => store.sede.items);
   const componenteItems: ComponenteProp[] = useSelector((store: appStore) => store.componente.items);
+  const propuestasItems: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.items);
 
   const {
   } = useSockets({
@@ -63,6 +67,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
       precios: responsePrecios || undefined,
       sedes: responseSedes || undefined,
       componentes: responseComponentes || undefined,
+      propuestas: responsePropuestas || undefined,
 
       dispatch,
     })
@@ -76,6 +81,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     responsePrecios,
     responseSedes,
     responseComponentes,
+    responsePropuestas,
   ]);
 
   useEffect(() => {
@@ -88,6 +94,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     if (precioItems.length === 0) obtenerPrecios();
     if (sedeItems.length === 0) obtenerSedes();
     if (componenteItems.length === 0) obtenerComponentes();
+    if (propuestasItems.length === 0) obtenerPropuestas();
   }, [])
 
   return (<>{children}</>)

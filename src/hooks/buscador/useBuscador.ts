@@ -4,6 +4,7 @@ import { useModalContext } from "../../contexto/contextoModal";
 import { useDispatch } from "react-redux";
 import { BuscadorProp } from "./useBuscadorProp.interface";
 import { BaseProp, TipoBusqueda } from "../../modelo/Entidades/base/base.interface";
+import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
 
 const useBuscador = <T extends BaseProp>({
   setModalLocal,
@@ -12,7 +13,8 @@ const useBuscador = <T extends BaseProp>({
   sortBy,
   sortOrder,
   elementoSelect,
-  resetSelectElemento
+  resetSelectElemento,
+  propuestas = undefined
 }: BuscadorProp<T>) => {
 
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
@@ -98,6 +100,43 @@ const useBuscador = <T extends BaseProp>({
     return resultado;
   }, [elementosOrdenados, deferredValor, filtros]);
 
+    const retornoPropuestas: PropuestaProp[] = useMemo(() => {
+    if (!propuestas) return [];
+
+    let resultado = [...propuestas];
+
+    // ✅ Mínimo 2 caracteres para activar la búsqueda por texto
+    if (deferredValor.trim().length >= 2) {
+
+      const palabrasBusqueda = deferredValor
+        .trim()
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(Boolean);
+
+      resultado = resultado.filter(dato => {
+        return palabrasBusqueda.every(palabra => {
+          return dato.campoBusqueda.some(campo => {
+            const texto = campo.valor.toLowerCase();
+
+            switch (campo.tipo) {
+              case TipoBusqueda.INVERSO:
+                return texto.endsWith(palabra);
+
+              case TipoBusqueda.ESTRICTO:
+                return texto === palabra;
+
+              default:
+                return texto.includes(palabra);
+            }
+          });
+        });
+      });
+    }
+
+    return resultado;
+  }, [elementosOrdenados, deferredValor, filtros]);
+
   const nuevoElemento = (ruta?: string) => {
     if (ruta) {
       navigate(ruta);
@@ -108,7 +147,7 @@ const useBuscador = <T extends BaseProp>({
     }
   }
 
-  return { contenedorRef, valor, setValor, nuevoElemento, elementosFiltrados }
+  return { contenedorRef, valor, setValor, nuevoElemento, elementosFiltrados, retornoPropuestas }
 }
 
 export default useBuscador

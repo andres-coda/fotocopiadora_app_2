@@ -1,17 +1,17 @@
-import { libroAdapterArray } from "../../adaptadores/entrada/libro.adapter";
-import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
+import { propuestaAdapterArray } from "../../adaptadores/entrada/propuesta.adapter";
+import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
-import { LIBRO } from "../../utils/endpoint";
+import { PROPUESTA } from "../../utils/endpoint";
 import useApi from "../hooks/useApi";
 
-const useLibrosApi = () => {
-  const { fetchData, response, loading, errorFetch } = useApi<LibroProp[]>({});
+const usePropuestasApi = () => {
+  const { fetchData, response, loading, errorFetch } = useApi<PropuestaProp[]>({});
 
-  const obtenerLibros = () =>
-    fetchData({ url: LIBRO, methodo: httpMethod.GET, adapter: libroAdapterArray });
+  const obtenerPropuestas = () =>
+    fetchData({ url: PROPUESTA, methodo: httpMethod.GET, adapter: propuestaAdapterArray });
 
-  return { obtenerLibros, responseLibros: response, loadingLibros: loading, errorFetchLibros: errorFetch };
+  return { obtenerPropuestas, responsePropuestas: response, loadingPropuestas: loading, errorFetchPropuestas: errorFetch };
 
 }
 
-export default useLibrosApi
+export default usePropuestasApi
