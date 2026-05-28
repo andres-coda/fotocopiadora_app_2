@@ -13,6 +13,7 @@ import LibroCard from './componente/libroCard';
 import { PropuestaProp } from '../../../modelo/Entidades/propuesta/propuesta.interface';
 import { useMemo } from 'react';
 import PropuestaCard from '../propuesta/componente/propuestaCard';
+import './libros.css'
 
 const Libros = () => {
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ const Libros = () => {
         etiquetaMas='Nueva libro'
         titulo='Lista de libros'
       />
-      <Centro ref={contenedorRef}>
+      <Centro ref={contenedorRef} nuevoEstilo='centro-libro'>
         {propuestasAgregadas.map(p => <PropuestaCard propuesta={p} />)}
         {elementosFiltrados.length > 0
           ? elementosFiltrados

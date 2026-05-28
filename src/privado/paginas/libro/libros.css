@@ -1,0 +1,5 @@
+.centro-libro {
+  grid-auto-rows: 85px;
+  align-content: start;
+  height: 100%;
+}

@@ -4,18 +4,16 @@
       minmax(280px, 1fr));
 
   gap: 1rem;
-
   padding: .5rem;
   margin: 0;
-
+  
   background-color: var(--colorFondo);
-
+  
   border-radius: 5px;
   box-sizing: border-box;
-
+  
   overflow-y: auto;
   overflow-x: hidden;
-
   scrollbar-color: var(--colorSubmenu) var(--colorSombra);
   scrollbar-width: thin;
   scrollbar-gutter: stable;
