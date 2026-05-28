@@ -13,6 +13,7 @@ export const propuestaAdapter = (propuesta?: PropuestaAdapterProp): PropuestaPro
   if (!base) return undefined;
 
   const libros: LibroProp[] = libroAdapterArray(propuesta.libro);
+  console.log('<<< --- estoy en el adaptador de propuesta libros ---->>>', libros)
 
   const newPropuesta: PropuestaProp = {
     ...base,

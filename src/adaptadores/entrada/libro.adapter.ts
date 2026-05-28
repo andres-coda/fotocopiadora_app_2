@@ -3,7 +3,7 @@ import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { ComponenteProp } from "../../modelo/Entidades/libro/componente.interface";
 import { LibroAdapterProp, LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { materiaInicial, MateriaProp } from "../../modelo/Entidades/libro/materia.interface";
-import { StockProp } from "../../modelo/Entidades/libro/stock.interface";
+import { stockInicial, StockProp } from "../../modelo/Entidades/libro/stock.interface";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
 import { baseAdapter } from "./base.adapter";
 import { componenteAdapterArray } from "./componente.adapter";
@@ -18,10 +18,12 @@ export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined =>
 
   if (!base) return undefined;
 
+  console.log('<<<---Estoy en el adaptador de libro--->>>')
+
   const componentes: ComponenteProp[] = componenteAdapterArray(libro.componentes);
 
-  const materia: MateriaProp | undefined = materiaAdapter(libro.materia);
-  const stock: StockProp = stockAdapter(libro.stock);
+  const materia: MateriaProp | undefined = libro.materia ? materiaAdapter(libro.materia) : undefined;
+  const stock: StockProp | undefined = libro.stock ? stockAdapter(libro.stock) : undefined;
   const propuesta: PropuestaProp[] = propuestaAdapterArray(libro.propuesta);
 
   const newLibro: LibroProp = {
@@ -39,7 +41,7 @@ export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined =>
     especificacionesDefecto: libro.especificacionesDefecto,
     componentes,
     materia: materia ?? materiaInicial,
-    stock,
+    stock: stock ?? stockInicial,
     propuesta: propuesta.length > 0 ? propuesta : undefined
   }
   return newLibro;

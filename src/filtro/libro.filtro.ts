@@ -18,7 +18,7 @@ export const camposBusquedaLibro: CampoBusqueda<LibroAdapterProp>[] = [
   c => ({ valor: c.nivel ?? '' }),
   c => ({ valor: c.anio ?? '', tipo: TipoBusqueda.ESTRICTO }),
   c => ({ valor: c.autor ?? '' }),
-  c => ({ valor: c.materia.nombre ?? '' }),
+  c => ({ valor: c.materia?.nombre ?? '' }),
   l => ({
     valor: l.componentes?.map(c => c.nombre ?? '').join(' ') ?? ''
   })

@@ -36,8 +36,8 @@ export interface LibroProp extends BaseProp {
   img?: string;
   especificacionesDefecto?: Especificaciones[];
   componentes?: ComponenteProp[];
-  materia: MateriaProp;
-  stock: StockProp;
+  materia?: MateriaProp;
+  stock?: StockProp;
   propuesta?:PropuestaProp[]
 }
 
