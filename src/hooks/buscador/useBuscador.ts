@@ -1,4 +1,4 @@
-import { RefObject, useMemo, useRef, useState } from "react";
+import { RefObject, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useModalContext } from "../../contexto/contextoModal";
 import { useDispatch } from "react-redux";
@@ -21,6 +21,15 @@ const useBuscador = <T extends BaseProp>({
   const { setModal } = useModalContext();
   const [valor, setValor] = useState<string>('');
 
+  // ✅ Se mueve el side effect fuera del useMemo
+  useEffect(() => {
+    if (filtros && elementoSelect && resetSelectElemento) {
+      if (!filtros(elementoSelect)) {
+        dispatch(resetSelectElemento());
+      }
+    }
+  }, [filtros, elementoSelect, resetSelectElemento]);
+
   const elementosOrdenados: T[] = useMemo(() => {
     if (!elementos) return [];
     let resultado: T[] = [...elementos];
@@ -36,7 +45,6 @@ const useBuscador = <T extends BaseProp>({
           return sortOrder === 'asc' ? valA - valB : valB - valA;
         }
 
-        // Comparar strings de forma segura
         return sortOrder === 'asc'
           ? String(valA).localeCompare(String(valB))
           : String(valB).localeCompare(String(valA));
@@ -44,43 +52,35 @@ const useBuscador = <T extends BaseProp>({
     }
 
     return resultado;
-  }, [elementos, sortBy, sortOrder])
+  }, [elementos, sortBy, sortOrder]);
+
+  // ✅ El filtrado de texto reacciona al valor diferido, no al valor directo
+  const deferredValor = useDeferredValue(valor);
 
   const elementosFiltrados: T[] = useMemo(() => {
     if (!elementosOrdenados) return [];
 
     let resultado = [...elementosOrdenados];
 
-    // 1. Aplicar filtro personalizado
     if (filtros) {
       resultado = resultado.filter(e => filtros(e));
     }
 
-    if (filtros && elementoSelect && resetSelectElemento) {
-      if (!filtros(elementoSelect)) {
-        dispatch(resetSelectElemento())
-      }
-    }
+    // ✅ Mínimo 2 caracteres para activar la búsqueda por texto
+    if (deferredValor.trim().length >= 2) {
 
-    // 2. Aplicar filtro de búsqueda por texto
-    if (valor.trim()) {
-
-      const palabrasBusqueda = valor
+      const palabrasBusqueda = deferredValor
         .trim()
         .toLowerCase()
         .split(/\s+/)
         .filter(Boolean);
 
       resultado = resultado.filter(dato => {
-
         return palabrasBusqueda.every(palabra => {
-
           return dato.campoBusqueda.some(campo => {
-
             const texto = campo.valor.toLowerCase();
 
             switch (campo.tipo) {
-
               case TipoBusqueda.INVERSO:
                 return texto.endsWith(palabra);
 
@@ -96,7 +96,7 @@ const useBuscador = <T extends BaseProp>({
     }
 
     return resultado;
-  }, [elementosOrdenados, valor, filtros]);
+  }, [elementosOrdenados, deferredValor, filtros]);
 
   const nuevoElemento = (ruta?: string) => {
     if (ruta) {

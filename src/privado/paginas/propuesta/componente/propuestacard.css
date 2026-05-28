@@ -1,0 +1,41 @@
+.propuesta-card{
+  position: relative;
+  height: 85px;
+  overflow: hidden;
+  padding-bottom: .5rem;
+  box-sizing: border-box;
+}
+
+.propuesta-card-desactivado{
+  overflow:visible;
+  z-index: 1;
+}
+
+.propuesta-desplegable{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 40px;
+  right: .5rem;
+  left: .5rem;
+  z-index: 20;
+  background-color: var(--colorCardGris);
+  padding: 1rem;
+  gap: .5rem;
+  border: 1px solid var(--colorNegro);
+  border-radius: 4px;
+}
+
+.card-propuesta-horizontal{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.botonera-card-propuesta{
+  width: fit-content;
+}
+
+.propuesta-vertical{
+  gap:.2rem
+}

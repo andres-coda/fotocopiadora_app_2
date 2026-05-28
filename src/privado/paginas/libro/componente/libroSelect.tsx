@@ -29,8 +29,10 @@ const LibroSelect = () => {
             <Texto textoResaltado={'Autor:  '} texto={`${libro.autor ?? ''}`} chica />
             <Texto textoResaltado={'Materia:  '} texto={`${libro.materia.nombre}`} chica />
             <Texto textoResaltado={'Descripción:  '} texto={`${libro.descripcion ?? ''}`} chica />
-            <Texto textoResaltado={'Cantidad de páginas:  '} texto={`${libro.cantidadPg}`} />
-            <Texto textoResaltado={'Cantidad de adhesivos:  '} texto={`${libro.adhesivos ?? 0}`} />
+            <Texto textoResaltado={'Cantidad de páginas:  '} texto={`${libro.cantidadPg}`} chica/>
+            <Texto textoResaltado={'Cantidad de adhesivos:  '} texto={`${libro.adhesivos ?? 0}`} chica/>
+            <Texto textoResaltado={'Propuestas:  '} texto={``} mediana/>
+            {libro.propuesta?.map(p=> <Texto texto={p.nombre}/>)}
           </div>
         </div>
       </div>

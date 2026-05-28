@@ -10,15 +10,18 @@ import Editar from '../../../../assets/edit.svg?react'
 import Arrow from '../../../../assets/arrow-small.svg?react'
 import usePresupuesto from '../../../../hooks/presupuesto/usePresupuesto'
 import { useState } from 'react'
+import LibroCard from '../../libro/componente/libroCard'
+import Botonera from '../../../../componente-estilo/botonera/botonera'
+import { nombreLibroXstring } from '../../../../utils/formatoDatos'
 
 interface Prop {
   propuesta: PropuestaProp
 }
 
 const PropuestaCard = ({ propuesta }: Prop) => {
-  const { copiarPresupuestoLibros } = usePresupuesto({libros:propuesta.libro})
+  const { copiarPresupuestoLibros } = usePresupuesto({ libros: propuesta.libro })
   const { handleSelect, handleEdit } = useEditar({
-    ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
+    ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`,
     propuesta
   });
 
@@ -26,20 +29,31 @@ const PropuestaCard = ({ propuesta }: Prop) => {
   return (
     <Card
       onClick={() => handleSelect({})}
+      nuevoEstilo={`propuesta-card ${verMas && 'propuesta-card-desactivado'}`}
     >
       <div className='card-horizontal'>
-        <Texto texto={`${propuesta.cantidadLibros}`} etiqueta='Cantidad de libros dentro de la propuesta' mediana />
-        <div className='card-vertical'>
-          <Boton icono={<Copiar />} edit nuevoEstilo="btn-icono-chico" titulo={`Copiar presupuesto`} onClick={copiarPresupuestoLibros} />
-
-          <Texto texto={`Prop: ${propuesta.nombre}`} centrado negrita />
-          <div className='card-horizontal'>
-            <Boton icono={<Editar />} terciario nuevoEstilo="btn-icono-chico" titulo={`Editar propuesta`} />
-            <Boton icono={<Arrow />} terciario nuevoEstilo={`btn-icono-chico ${verMas ? 'btn-icono-abajo' : 'btn-icono-arriba'}`} titulo={`Mostrar todos los libros`} onClick={()=>setVerMas(prev=> !prev)}/>
-          </div>
-        </div>
+        <Texto texto={`${propuesta.libro?.length}`} etiqueta='Cantidad de libros dentro de la propuesta' mediana ajustado />
+        <Texto texto={`${propuesta.nombre}`} centrado negrita />
+        <Boton icono={<Copiar />} edit nuevoEstilo="btn-icono-chico" titulo={`Copiar presupuesto`} onClick={copiarPresupuestoLibros} />
       </div>
-
+      <div className='card-propuesta-horizontal'>
+        <div className='card-vertical propuesta-vertical'>
+          {propuesta.libro?.map(l => <Texto texto={`- ${nombreLibroXstring(l)}`} chica inline/>)}
+        </div>
+        <Botonera nuevoEstilo='botonera-card-propuesta'>
+          <Boton icono={<Editar />} terciario nuevoEstilo="btn-icono-chico" titulo={`Editar propuesta`} />
+          <Boton icono={<Arrow />} terciario nuevoEstilo={`btn-icono-chico ${verMas ? 'btn-icono-arriba' : 'btn-icono-abajo'}`} titulo={`Mostrar todos los libros`} onClick={() => setVerMas(prev => !prev)} />
+        </Botonera>
+      </div>
+      {verMas &&
+        <div className='propuesta-desplegable'>
+          {propuesta.libro?.map(l => <LibroCard libro={l} />)}
+          <Botonera>
+            <Boton icono={<Editar />} terciario nuevoEstilo="btn-icono-chico" titulo={`Editar propuesta`} onClick={()=>handleEdit({propuesta})} />
+            <Boton icono={<Arrow />} terciario nuevoEstilo={`btn-icono-chico ${verMas ? 'btn-icono-arriba' : 'btn-icono-abajo'}`} titulo={`Mostrar todos los libros`} onClick={() => setVerMas(prev => !prev)} />
+          </Botonera>
+        </div>
+      }
     </Card>
   )
 }

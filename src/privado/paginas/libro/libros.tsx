@@ -4,20 +4,19 @@ import { appStore } from '../../../redux/store';
 import { rutaPrivadaBase, RutasPrivadas } from '../../rutas/rutasPrivadas';
 import Centro from '../../../componente-estilo/centro/centro';
 import TextoVacio from '../../../componente/Textos/textoVacio';
-import { LibroProp, libroPrueba } from '../../../modelo/Entidades/libro/libro.interface';
+import { LibroProp } from '../../../modelo/Entidades/libro/libro.interface';
 import useBuscadorCompleto from '../../../hooks/buscador/useBuscadorCompleto';
 import { filtrosLibroFuntion } from '../../../filtro/libro.filtro';
 import BuscadorFiltros from '../../../componente/buscador/buscadorCompleto';
 import { cambiarOrdenLibro } from '../../../redux/state/libro.state';
 import LibroCard from './componente/libroCard';
 import { PropuestaProp } from '../../../modelo/Entidades/propuesta/propuesta.interface';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import PropuestaCard from '../propuesta/componente/propuestaCard';
 
 const Libros = () => {
   const dispatch = useDispatch();
   const libroContext: filterContext<LibroProp> = useSelector((store: appStore) => store.libro);
-  const [propuestas, setPropuestas] = useState<PropuestaProp[]>([])
   const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento } = useBuscadorCompleto<LibroProp>({
     estadoFiltros: libroContext.filter.filtros,
     filtros: [...filtrosLibroFuntion],
@@ -26,32 +25,36 @@ const Libros = () => {
     sortOrder: libroContext.filter.sortOrder,
   });
 
-  useEffect(() => {
-    const propuestasAux: PropuestaProp[] = [];
-    elementosFiltrados.map((e) => {
-      if (e.propuesta) {
-        e.propuesta.map(prop => {
-          const index: number = propuestasAux.findIndex(p => p.id === prop.id)
-          let propuesta: PropuestaProp | undefined = undefined;
-          if (index === -1) {
-            propuesta = {
-              ...prop,
-              libro: [e]
-            }
-          } else {
-            const libro: LibroProp[] = prop.libro ?? [];
-            libro.push(e);
-            propuesta = {
-              ...propuestasAux[index],
-              libro
-            }
-          }
+  const propuestasAgregadas = useMemo((): PropuestaProp[] => {
+    const map = new Map<string, PropuestaProp>();
 
-          propuestasAux.push(propuesta);
-        })
+    for (const libro of elementosFiltrados) {
+      if (!libro.propuesta) continue;
+
+      for (const propuesta of libro.propuesta) {
+        if (map.has(propuesta.id)) {
+          const existing = map.get(propuesta.id)!;
+          // ✅ Nuevo array en lugar de mutar el existente
+          map.set(propuesta.id, {
+            ...existing,
+            libro: [...(existing.libro ?? []), libro],
+            cantidadLibros: existing.cantidadLibros + 1,
+          });
+        } else {
+          map.set(propuesta.id, {
+            id: propuesta.id,
+            nombre: propuesta.nombre,
+            libro: [libro],
+            cantidadLibros: 1,
+            campoBusqueda: [{ valor: propuesta.nombre }],
+            deleted: false,
+            ultAct: ''
+          });
+        }
       }
-    });
-    setPropuestas(propuestasAux)
+    }
+
+    return Array.from(map.values());
   }, [elementosFiltrados]);
 
   return (
@@ -68,7 +71,7 @@ const Libros = () => {
         titulo='Lista de libros'
       />
       <Centro ref={contenedorRef}>
-        {propuestas.map(p=> <PropuestaCard propuesta={p}/>)}
+        {propuestasAgregadas.map(p => <PropuestaCard propuesta={p} />)}
         {elementosFiltrados.length > 0
           ? elementosFiltrados
             .map(dato => (
