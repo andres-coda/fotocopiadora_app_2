@@ -30,13 +30,14 @@ const PropuestaCard = ({ propuesta }: Prop) => {
     <Card
       onClick={() => handleSelect({})}
       nuevoEstilo={`propuesta-card ${verMas && 'propuesta-card-desactivado'}`}
+      tituloCard={propuesta.nombre}
     >
-      <div className='card-horizontal'>
+      <div className='card-horizontal propuesta-titulo'>
         <Texto texto={`${propuesta.libro?.length}`} etiqueta='Cantidad de libros dentro de la propuesta' mediana ajustado />
-        <Texto texto={`${propuesta.nombre}`} centrado negrita />
+        <Texto texto={`${propuesta.nombre}`} centrado negrita inline />
         <Boton icono={<Copiar />} edit nuevoEstilo="btn-icono-chico" titulo={`Copiar presupuesto`} onClick={copiarPresupuestoLibros} />
       </div>
-      <div className='card-propuesta-horizontal'>
+      <div className='card-horizontal card-propuesta-horizontal'>
         <div className='card-vertical propuesta-vertical'>
           {propuesta.libro?.map(l => <Texto texto={`- ${nombreLibroXstring(l)}`} chica inline/>)}
         </div>
@@ -48,7 +49,7 @@ const PropuestaCard = ({ propuesta }: Prop) => {
       {verMas &&
         <div className='propuesta-desplegable'>
           {propuesta.libro?.map(l => <LibroCard libro={l} />)}
-          <Botonera>
+          <Botonera nuevoEstilo='botonera-card-propuesta'>
             <Boton icono={<Editar />} terciario nuevoEstilo="btn-icono-chico" titulo={`Editar propuesta`} onClick={()=>handleEdit({propuesta})} />
             <Boton icono={<Arrow />} terciario nuevoEstilo={`btn-icono-chico ${verMas ? 'btn-icono-arriba' : 'btn-icono-abajo'}`} titulo={`Mostrar todos los libros`} onClick={() => setVerMas(prev => !prev)} />
           </Botonera>

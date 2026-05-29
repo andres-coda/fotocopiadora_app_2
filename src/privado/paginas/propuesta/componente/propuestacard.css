@@ -1,41 +1,49 @@
-.propuesta-card{
+.propuesta-card {
   position: relative;
   height: 85px;
   overflow: hidden;
-  padding-bottom: .5rem;
+  padding: .5rem;
   box-sizing: border-box;
 }
 
-.propuesta-card-desactivado{
-  overflow:visible;
+.propuesta-card-desactivado {
+  overflow: visible;
   z-index: 1;
 }
 
-.propuesta-desplegable{
+.propuesta-desplegable {
   display: flex;
   flex-direction: column;
   position: absolute;
+  align-items: flex-end;
   top: 40px;
   right: .5rem;
   left: .5rem;
   z-index: 20;
-  background-color: var(--colorCardGris);
+  background-color: var(--colorSombra);
   padding: 1rem;
   gap: .5rem;
   border: 1px solid var(--colorNegro);
   border-radius: 4px;
 }
 
-.card-propuesta-horizontal{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
 
-.botonera-card-propuesta{
+.botonera-card-propuesta {
   width: fit-content;
+  flex-shrink: 0;
+  background-color: var(--colorCardGris);
+  padding: .1rem;
+  box-sizing: border-box;
+  border-radius: 4px;
 }
 
-.propuesta-vertical{
-  gap:.2rem
+.propuesta-vertical {
+  min-width: 0;
+  gap: .2rem;
+  justify-content: flex-start;
+}
+
+.card-propuesta-horizontal{
+  justify-content: flex-start;
+  align-items: flex-start;
 }

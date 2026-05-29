@@ -25,9 +25,7 @@ const usePresupuesto = ({ libro, nuevasEsp, libros }: PresupuestoProp) => {
 
     const precio: number = calcularPrecio({ libro: libLocal, precios, especificaciones: esp });
 
-    const pres: string = `El libro ${libLocal.nombre} ${libLocal.nivel}
-        ${transformarComponente(libLocal.componentes)},
-        ${transformarEspecificacinesATexto(esp, libLocal)},
+    const pres: string = `El libro ${libLocal.nombre} ${libLocal.nivel} ${transformarComponente(libLocal.componentes)}, ${transformarEspecificacinesATexto(esp, libLocal)}
         te sale """$${precio}"""`;
     return { texto: pres, valor: precio };
   }
@@ -39,7 +37,7 @@ const usePresupuesto = ({ libro, nuevasEsp, libros }: PresupuestoProp) => {
     let presupuestoParcial: string = '';
     let total: number = 0;
     for (const lc of libroLocales) {
-      presupuestoParcial += `${calcularPresupuesto({ libro: lc, nuevasEsp: lc.especificacionesDefecto })}/n`;
+      presupuestoParcial += `${calcularPresupuesto({ libro: lc, nuevasEsp: lc.especificacionesDefecto })}\n`;
       total += calcularPrecio({ libro: lc, precios, especificaciones: lc.especificacionesDefecto });
     }
     presupuestoParcial += `Total: $${total}`
@@ -51,8 +49,12 @@ const usePresupuesto = ({ libro, nuevasEsp, libros }: PresupuestoProp) => {
   const [presupuestoCompleto, setPresupuestoCompleto] = useState<string>(presupuestoTotal(libros ?? []))
 
   useEffect(() => {
-      setPresupuesto(calcularPresupuesto({ libro }))
-  }, [nuevasEsp])
+      setPresupuesto(calcularPresupuesto({ libro }));
+  }, [nuevasEsp]);
+
+  useEffect(()=>{
+    setPresupuestoCompleto(presupuestoTotal(libros ?? []))
+  },[]);
 
   const copiarPresupuesto = () => {
     navigator.clipboard.writeText(presupuesto.texto);
