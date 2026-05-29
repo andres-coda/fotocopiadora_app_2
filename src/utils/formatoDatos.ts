@@ -2,6 +2,15 @@ import { LibroProp } from "../modelo/Entidades/libro/libro.interface";
 import { Estado } from "../modelo/Entidades/pedido_libro/estado.enum";
 import { transformarComponente } from "./componente";
 
+export const normalizarTexto = (texto: string | undefined): string => {
+  if (!texto) return '';
+  return texto
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim();
+};
+
 export const formatoTelefonoMostrar = (telefono: string): string => {
   const t = telefono.replace(/\D/g, '');
 

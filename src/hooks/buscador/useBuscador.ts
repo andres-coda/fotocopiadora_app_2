@@ -6,6 +6,45 @@ import { BuscadorProp } from "./useBuscadorProp.interface";
 import { BaseProp, TipoBusqueda } from "../../modelo/Entidades/base/base.interface";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
 
+interface RetornoBusquedaProp<T extends BaseProp> {
+  elementos: T[];
+  propuestas: PropuestaProp[];
+}
+
+const filtrarPorBusqueda = <T extends BaseProp>(
+  datos: T[] | undefined,
+  busqueda: string
+): T[] => {
+  if(!datos) return [];
+
+  if (busqueda.trim().length < 2) return datos;
+
+  const palabrasBusqueda = busqueda
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  return datos.filter(dato => {
+    return palabrasBusqueda.every(palabra => {
+      return dato.campoBusqueda.some(campo => {
+        const texto = campo.valor.toLowerCase();
+
+        switch (campo.tipo) {
+          case TipoBusqueda.INVERSO:
+            return texto.endsWith(palabra);
+
+          case TipoBusqueda.ESTRICTO:
+            return texto === palabra;
+
+          default:
+            return texto.includes(palabra);
+        }
+      });
+    });
+  });
+};
+
 const useBuscador = <T extends BaseProp>({
   setModalLocal,
   elementos,
@@ -59,83 +98,18 @@ const useBuscador = <T extends BaseProp>({
   // ✅ El filtrado de texto reacciona al valor diferido, no al valor directo
   const deferredValor = useDeferredValue(valor);
 
-  const elementosFiltrados: T[] = useMemo(() => {
-    if (!elementosOrdenados) return [];
-
-    let resultado = [...elementosOrdenados];
+  const elementosFiltrados: RetornoBusquedaProp<T> = useMemo(() => {
+    let elementosResultado: T[] = elementosOrdenados;
 
     if (filtros) {
-      resultado = resultado.filter(e => filtros(e));
+      elementosResultado = elementosResultado.filter(e => filtros(e));
     }
 
-    // ✅ Mínimo 2 caracteres para activar la búsqueda por texto
-    if (deferredValor.trim().length >= 2) {
-
-      const palabrasBusqueda = deferredValor
-        .trim()
-        .toLowerCase()
-        .split(/\s+/)
-        .filter(Boolean);
-
-      resultado = resultado.filter(dato => {
-        return palabrasBusqueda.every(palabra => {
-          return dato.campoBusqueda.some(campo => {
-            const texto = campo.valor.toLowerCase();
-
-            switch (campo.tipo) {
-              case TipoBusqueda.INVERSO:
-                return texto.endsWith(palabra);
-
-              case TipoBusqueda.ESTRICTO:
-                return texto === palabra;
-
-              default:
-                return texto.includes(palabra);
-            }
-          });
-        });
-      });
-    }
-
-    return resultado;
-  }, [elementosOrdenados, deferredValor, filtros]);
-
-    const retornoPropuestas: PropuestaProp[] = useMemo(() => {
-    if (!propuestas) return [];
-
-    let resultado = [...propuestas];
-
-    // ✅ Mínimo 2 caracteres para activar la búsqueda por texto
-    if (deferredValor.trim().length >= 2) {
-
-      const palabrasBusqueda = deferredValor
-        .trim()
-        .toLowerCase()
-        .split(/\s+/)
-        .filter(Boolean);
-
-      resultado = resultado.filter(dato => {
-        return palabrasBusqueda.every(palabra => {
-          return dato.campoBusqueda.some(campo => {
-            const texto = campo.valor.toLowerCase();
-
-            switch (campo.tipo) {
-              case TipoBusqueda.INVERSO:
-                return texto.endsWith(palabra);
-
-              case TipoBusqueda.ESTRICTO:
-                return texto === palabra;
-
-              default:
-                return texto.includes(palabra);
-            }
-          });
-        });
-      });
-    }
-
-    return resultado;
-  }, [elementosOrdenados, deferredValor, filtros]);
+    return {
+      elementos: filtrarPorBusqueda(elementosResultado, deferredValor),
+      propuestas: filtrarPorBusqueda(propuestas, deferredValor)
+    };
+  }, [elementosOrdenados, deferredValor, filtros, propuestas]);
 
   const nuevoElemento = (ruta?: string) => {
     if (ruta) {
@@ -147,7 +121,7 @@ const useBuscador = <T extends BaseProp>({
     }
   }
 
-  return { contenedorRef, valor, setValor, nuevoElemento, elementosFiltrados, retornoPropuestas }
+  return { contenedorRef, valor, setValor, nuevoElemento, elementosFiltrados: elementosFiltrados.elementos, retornoPropuestas: elementosFiltrados.propuestas }
 }
 
 export default useBuscador
