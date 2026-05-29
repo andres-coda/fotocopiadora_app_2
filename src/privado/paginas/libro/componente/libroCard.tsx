@@ -4,7 +4,7 @@ import useEditar from "../../../../hooks/editar/useEditar"
 import './libroCard.css'
 import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface"
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas"
-import {useEffect } from "react"
+import { useEffect } from "react"
 import useLibroApi from "../../../../servicio/libro/useLibroApi"
 import Boton from "../../../../componente-estilo/boton/boton"
 import Copiar from "../../../../assets/copiar.svg?react"
@@ -32,7 +32,7 @@ const LibroCard = ({ libro, selecLibro }: Props) => {
   }, [responseLibro]);
 
   const handleClick = () => {
-    if(selecLibro) {
+    if (selecLibro) {
       selecLibro(libro);
     } else {
       obtenerLibroById(libro.id)
@@ -46,8 +46,8 @@ const LibroCard = ({ libro, selecLibro }: Props) => {
       tituloCard={nombreLibroXstring(libro)}
     >
       <img src={libro.img} alt={nombreLibroXstring(libro)} />
-      {!loadingLibro && !errorFetchLibro
-        ? <div className="card-vertical vertical-libro-card">
+      {!loadingLibro && !errorFetchLibro ?
+        <div className="card-vertical vertical-libro-card">
           <div className="card-horizontal">
             <Texto texto={nombreLibroXstring(libro)} chica negrita centrado />
             <Boton icono={<Copiar />} edit nuevoEstilo="btn-icono-chico" titulo={`Copiar presupuesto`} onClick={copiarPresupuesto} />
@@ -56,10 +56,10 @@ const LibroCard = ({ libro, selecLibro }: Props) => {
           <div className="card-horizontal">
             <div className='card-vertical'>
               <div className='card-horizontal'>
-                {libro.anio && <Texto texto={`Año de edición: ${libro.anio}`} chica></Texto>}
-                {libro.edicion && <Texto texto={`Edición: ${libro.anio}`} chica></Texto>}
+                {libro.anio && <Texto texto={`Año de edición: ${libro.anio}`} chica inline etiqueta={libro.anio}></Texto>}
+                {libro.edicion && <Texto texto={`Edición: ${libro.edicion}`} chica inline etiqueta={`${libro.edicion}`}></Texto>}
               </div>
-              <Texto texto={`Editorial: ${libro.editorial}`} chica inline/>
+              <Texto texto={`Editorial: ${libro.editorial}`} chica inline />
             </div>
           </div>
 
@@ -69,12 +69,14 @@ const LibroCard = ({ libro, selecLibro }: Props) => {
           ? <Cargando />
           : <Texto texto={errorFetchLibro} centrado chica />
       }
-      <ul>
-        <li className='enStock' title='libros en stock'>{libro.stock.stock}</li>
-        <li className='pendiente' title='libros pendientes'>{libro.stock.pendiente}</li>
-        <li className='terminado' title='libros para entregar'>{libro.stock.listo}</li>
-        <li className='retirado' title='libros retirados'>{libro.stock.retirado}</li>
-      </ul>
+      {libro.stock &&
+        <ul>
+          <li className='enStock' title='libros en stock'>{libro.stock.stock}</li>
+          <li className='pendiente' title='libros pendientes'>{libro.stock.pendiente}</li>
+          <li className='terminado' title='libros para entregar'>{libro.stock.listo}</li>
+          <li className='retirado' title='libros retirados'>{libro.stock.retirado}</li>
+        </ul>
+      }
     </Card>
   )
 }
