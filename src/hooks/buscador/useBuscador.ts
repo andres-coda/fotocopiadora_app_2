@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { BuscadorProp } from "./useBuscadorProp.interface";
 import { BaseProp, TipoBusqueda } from "../../modelo/Entidades/base/base.interface";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
+import { normalizarTexto } from "../../utils/formatoDatos";
 
 interface RetornoBusquedaProp<T extends BaseProp> {
   elementos: T[];
@@ -15,30 +16,30 @@ const filtrarPorBusqueda = <T extends BaseProp>(
   datos: T[] | undefined,
   busqueda: string
 ): T[] => {
-  if(!datos) return [];
+  if (!datos) return [];
 
-  if (busqueda.trim().length < 2) return datos;
+  const busquedaNormalizada = normalizarTexto(busqueda);
 
-  const palabrasBusqueda = busqueda
-    .trim()
-    .toLowerCase()
+  if (busquedaNormalizada.length < 2) {
+    return datos;
+  }
+
+  const palabrasBusqueda = busquedaNormalizada
     .split(/\s+/)
     .filter(Boolean);
 
   return datos.filter(dato => {
     return palabrasBusqueda.every(palabra => {
       return dato.campoBusqueda.some(campo => {
-        const texto = campo.valor.toLowerCase();
-
         switch (campo.tipo) {
           case TipoBusqueda.INVERSO:
-            return texto.endsWith(palabra);
+            return campo.valor.endsWith(palabra);
 
           case TipoBusqueda.ESTRICTO:
-            return texto === palabra;
+            return campo.valor === palabra;
 
           default:
-            return texto.includes(palabra);
+            return campo.valor.includes(palabra);
         }
       });
     });
