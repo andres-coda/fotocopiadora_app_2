@@ -20,12 +20,12 @@ const PedidoLibroCargar = ({ pL }: Prop) => {
     defaultValues: pedidoLibroFormEdit({ pedidoLibro: pL || undefined, libro: pL?.libro })
   });
   const pedidoParcial = watch();
-  const [libro, setLibro] = useState<LibroProp[]>([]);
+  const [libros, setLibros] = useState<LibroProp[]>([]);
   const [libroActual, setLibroActual] = useState<LibroProp | undefined>(undefined);
   return (
     <div className='pedidoLibroCargar'>
       <Input<formValuesPedidoLibro> name='cantidad' control={control} label='Cantidad de libros' tipo='number' error={errors.cantidad} esquema={pedidoLibro} />
-      <BuscadorLibro setLibro={setLibroActual} />
+      <BuscadorLibro setLibros={setLibros} />
       {libroActual && <LibroCardPedido libro={libroActual} cantidad={pedidoParcial.cantidad ?? 0} detalles={pedidoParcial.detalles ?? ''} />}
       <Presupuesto libro={libroActual ?? libroInicial} simple />
       <Input<formValuesPedidoLibro> name='detalles' control={control} label='Detalle del pedido' tipo='text' error={errors.detalles} esquema={pedidoLibro} />

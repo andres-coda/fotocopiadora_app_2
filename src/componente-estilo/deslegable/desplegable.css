@@ -1,0 +1,21 @@
+.desplegable {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  align-items: flex-end;
+  top: 40px;
+  right: .5rem;
+  left: .5rem;
+  z-index: 20;
+  background-color: var(--colorSombra);
+  padding: 1rem;
+  gap: .5rem;
+  border: 1px solid var(--colorNegro);
+  border-radius: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-color: var(--colorSubmenu) var(--colorSombra);
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}

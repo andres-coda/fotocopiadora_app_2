@@ -40,3 +40,11 @@
   scrollbar-width: thin;
   scrollbar-gutter: stable;
 }
+
+.buscador-libro{
+  position: relative;
+}
+
+.buscador-libro .desplegable{
+  top: 100px;
+}

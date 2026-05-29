@@ -14,33 +14,41 @@ interface CalcularPresupuestoRetorno {
   valor: number;
 }
 
+interface CalcularPresupuestoProp extends PresupuestoProp {
+  precios: PrecioProp[]
+}
+
+const presupuestoFallido:CalcularPresupuestoRetorno = { texto: 'No hay libro para presupuestar', valor: 0 };
+
+const calcularPresupuesto = ({ libro, nuevasEsp, precios }: CalcularPresupuestoProp): CalcularPresupuestoRetorno => {
+    if(!libro) return presupuestoFallido;
+    
+    const esp: Especificaciones[] = nuevasEsp ?? libro?.especificacionesDefecto ?? [];
+
+    const precio: number = calcularPrecio({ libro, precios, especificaciones: esp });
+
+    const pres: string = `El libro ${libro.nombre} ${libro.nivel} ${transformarComponente(libro.componentes)}, ${transformarEspecificacinesATexto(esp, libro)}
+        te sale *$${precio}*`;
+    return { texto: pres, valor: precio };
+  }
+
+
 const usePresupuesto = ({ libro, nuevasEsp, libros }: PresupuestoProp) => {
 
   const precios: PrecioProp[] = useSelector((store: appStore) => store.precio.items);
 
-  const calcularPresupuesto = ({ libro: libroLocal, nuevasEsp: espLocales }: PresupuestoProp): CalcularPresupuestoRetorno => {
-    const libLocal: LibroProp | undefined = libro ?? libroLocal ?? undefined;
-    const esp: Especificaciones[] = espLocales ?? nuevasEsp ?? libro?.especificacionesDefecto ?? [];
-    if (!libLocal) return { texto: 'No hay libro para presupuestar', valor: 0 }
-
-    const precio: number = calcularPrecio({ libro: libLocal, precios, especificaciones: esp });
-
-    const pres: string = `El libro ${libLocal.nombre} ${libLocal.nivel} ${transformarComponente(libLocal.componentes)}, ${transformarEspecificacinesATexto(esp, libLocal)}
-        te sale """$${precio}"""`;
-    return { texto: pres, valor: precio };
-  }
-
-  const [presupuesto, setPresupuesto] = useState<CalcularPresupuestoRetorno>(calcularPresupuesto({ libro }))
+  const [presupuesto, setPresupuesto] = useState<CalcularPresupuestoRetorno>(presupuestoFallido)
 
   const presupuestoTotal = (libroLocales: LibroProp[]): string => {
     if (libroLocales.length === 0) return 'No hay libros para calcular precio';
     let presupuestoParcial: string = '';
     let total: number = 0;
     for (const lc of libroLocales) {
-      presupuestoParcial += `${calcularPresupuesto({ libro: lc, nuevasEsp: lc.especificacionesDefecto })}\n`;
-      total += calcularPrecio({ libro: lc, precios, especificaciones: lc.especificacionesDefecto });
+      const presupuestoLocal: CalcularPresupuestoRetorno = calcularPresupuesto({ libro: lc, nuevasEsp: lc.especificacionesDefecto, precios });
+      presupuestoParcial = `${presupuestoParcial}\n${presupuestoLocal.texto}`;
+      total += presupuestoLocal.valor;
     }
-    presupuestoParcial += `Total: $${total}`
+    presupuestoParcial = `${presupuestoParcial}\n *Total: $${total}*`
 
     return presupuestoParcial;
   }
@@ -49,12 +57,12 @@ const usePresupuesto = ({ libro, nuevasEsp, libros }: PresupuestoProp) => {
   const [presupuestoCompleto, setPresupuestoCompleto] = useState<string>(presupuestoTotal(libros ?? []))
 
   useEffect(() => {
-      setPresupuesto(calcularPresupuesto({ libro }));
-  }, [nuevasEsp]);
+      setPresupuesto(calcularPresupuesto({ libro, precios, nuevasEsp }));
+  }, [nuevasEsp, precios]);
 
   useEffect(()=>{
     setPresupuestoCompleto(presupuestoTotal(libros ?? []))
-  },[]);
+  },[libros]);
 
   const copiarPresupuesto = () => {
     navigator.clipboard.writeText(presupuesto.texto);

@@ -13,6 +13,7 @@ import { useState } from 'react'
 import LibroCard from '../../libro/componente/libroCard'
 import Botonera from '../../../../componente-estilo/botonera/botonera'
 import { nombreLibroXstring } from '../../../../utils/formatoDatos'
+import DesplegableConteiner from '../../../../componente-estilo/deslegable/desplegableConteiner'
 
 interface Prop {
   propuesta: PropuestaProp
@@ -47,13 +48,13 @@ const PropuestaCard = ({ propuesta }: Prop) => {
         </Botonera>
       </div>
       {verMas &&
-        <div className='propuesta-desplegable'>
+        <DesplegableConteiner>
           {propuesta.libro?.map(l => <LibroCard libro={l} />)}
           <Botonera nuevoEstilo='botonera-card-propuesta'>
             <Boton icono={<Editar />} terciario nuevoEstilo="btn-icono-chico" titulo={`Editar propuesta`} onClick={()=>handleEdit({propuesta})} />
             <Boton icono={<Arrow />} terciario nuevoEstilo={`btn-icono-chico ${verMas ? 'btn-icono-arriba' : 'btn-icono-abajo'}`} titulo={`Mostrar todos los libros`} onClick={() => setVerMas(prev => !prev)} />
           </Botonera>
-        </div>
+        </DesplegableConteiner>
       }
     </Card>
   )

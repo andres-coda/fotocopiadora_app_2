@@ -1,7 +1,18 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
-import InputCheckFueraForm from "../formulario/inputCheckFueraForm";
-import Buscador from "./buscador";
+import { filterContext } from "../../redux/modelo/reduxContext.interface";
+import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
+import { useDispatch, useSelector } from "react-redux";
+import { appStore } from "../../redux/store";
+import { filtrosLibroFuntion } from "../../filtro/libro.filtro";
+import useBuscadorCompleto from "../../hooks/buscador/useBuscadorCompleto";
+import BuscadorFiltros from "./buscadorCompleto";
+import { rutaPrivadaBase, RutasPrivadas } from "../../privado/rutas/rutasPrivadas";
+import DesplegableConteiner from "../../componente-estilo/deslegable/desplegableConteiner";
+import PropuestaCard from "../../privado/paginas/propuesta/componente/propuestaCard";
+import LibroCard from "../../privado/paginas/libro/componente/libroCard";
+import TextoVacio from "../Textos/textoVacio";
+import './buscador.css'
 
 const listaSeleccionable = [{ nombre: 'Todo' }, { nombre: 'Propuestas' }, { nombre: 'Libros' }];
 
@@ -13,35 +24,64 @@ interface PropuestaAgregada {
 }
 
 interface Prop {
-  valor: string;
-  setValor: Dispatch<SetStateAction<string>>;
-  opcionesActivas?: string[];
-  setOpcionesActivas?: Dispatch<SetStateAction<string[]>>;
-  normalizar?: (elementos: string[]) => string[];
+  setLibros: Dispatch<SetStateAction<LibroProp[]>>;
 
 }
 
-const BuscadorLibro = ({ valor, setValor, opcionesActivas, setOpcionesActivas }: Prop) => {
+const BuscadorLibro = ({ setLibros }: Prop) => {
+  const dispatch = useDispatch();
+  const libroContext: filterContext<LibroProp> = useSelector((store: appStore) => store.libro);
+  const propuestas: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.items);
 
+  const [opcionesActivas, setOpcionesActivas] = useState<string[]>([listaSeleccionable[0].nombre]);
+  const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento, retornoPropuestas } = useBuscadorCompleto<LibroProp>({
+    estadoFiltros: libroContext.filter.filtros,
+    filtros: [...filtrosLibroFuntion],
+    elementos: libroContext.items,
+    sortBy: libroContext.filter.sortBy,
+    sortOrder: libroContext.filter.sortOrder,
+    propuestas,
+  });
   const normalizar = (elementos: string[]): string[] => {
     return [elementos[elementos.length - 1]];
   }
   return (
-    <div>
-      { opcionesActivas && setOpcionesActivas &&
-        <InputCheckFueraForm
-          lista={listaSeleccionable}
-          setelementosSelect={setOpcionesActivas}
-          elementosSelect={opcionesActivas}
-          normalizar={normalizar}
-        />
-      }
-      <Buscador
+    <div className="buscador-libro">
+      <BuscadorFiltros
+        ref={contenedorRef}
+        texto='Buscar libro'
+        handleMas={() => nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`)}
         valor={valor}
         setValor={setValor}
-        texto="Buscar libro"
-        etiquetaMas="Nuevo libro"
+        etiquetaMas='Nueva libro'
+        opcionesActivas={opcionesActivas}
+        setOpcionesActivas={setOpcionesActivas}
+        normalizar={normalizar}
+        listaSeleccionable={listaSeleccionable}
       />
+      <DesplegableConteiner>
+        {valor.length < 2 ? null
+          : (
+            <>
+              {
+                !opcionesActivas.includes(listaSeleccionable[2].nombre) &&
+                retornoPropuestas.map(p => <PropuestaCard propuesta={p} />)
+              }
+              {
+                !opcionesActivas.includes(listaSeleccionable[1].nombre) && elementosFiltrados.length > 0 &&
+                elementosFiltrados
+                  .map(dato => (
+                    <LibroCard libro={dato} key={dato.id} />
+                  ))
+              }
+              {
+                elementosFiltrados.length === 0 || (retornoPropuestas.length === 0 && !opcionesActivas.includes(listaSeleccionable[2].nombre)) &&
+                <TextoVacio entidad='libros, ni propuestas de pedidos' />
+              }
+            </>
+          )}
+      </DesplegableConteiner>
+
     </div>
   )
 };
