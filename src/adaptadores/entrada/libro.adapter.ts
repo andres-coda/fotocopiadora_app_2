@@ -17,9 +17,7 @@ export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined =>
   const base: BaseProp | undefined = baseAdapter<LibroAdapterProp>({ base: libro, busqueda: camposBusquedaLibro });
 
   if (!base) return undefined;
-
-  console.log('<<<---Estoy en el adaptador de libro--->>>')
-
+  
   const componentes: ComponenteProp[] = componenteAdapterArray(libro.componentes);
 
   const materia: MateriaProp | undefined = libro.materia ? materiaAdapter(libro.materia) : undefined;

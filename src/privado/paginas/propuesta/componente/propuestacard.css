@@ -4,6 +4,7 @@
   overflow: hidden;
   padding: .5rem;
   box-sizing: border-box;
+  background-color: var(--colorPropuesta);
 }
 
 .propuesta-card-desactivado {
@@ -31,7 +32,7 @@
 .botonera-card-propuesta {
   width: fit-content;
   flex-shrink: 0;
-  background-color: var(--colorCardGris);
+  background-color: var(--colorPropuesta);
   padding: .1rem;
   box-sizing: border-box;
   border-radius: 4px;

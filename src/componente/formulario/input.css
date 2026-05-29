@@ -176,6 +176,7 @@
   cursor: pointer;
   width: 100%;
   box-sizing: border-box;
+  font-size: 0.9em;
 }
 
 .input-checkbox:hover {
@@ -184,7 +185,7 @@
 }
 
 .input-checkbox input[type="checkbox"] {
-  width: 26px !important;
+  width: 20px !important;
   height: 20px !important;
   margin-right: 1rem;
   border-radius: 200%;

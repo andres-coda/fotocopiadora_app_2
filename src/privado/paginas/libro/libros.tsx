@@ -13,18 +13,28 @@ import LibroCard from './componente/libroCard';
 import PropuestaCard from '../propuesta/componente/propuestaCard';
 import './libros.css'
 import { PropuestaProp } from '../../../modelo/Entidades/propuesta/propuesta.interface';
+import { useState } from 'react';
+
+const listaSeleccionable = [{ nombre: 'Todo' }, { nombre: 'Propuestas' }, { nombre: 'Libros' }];
+
+const normalizar = (elementos: string[]): string[] => {
+  return [elementos[elementos.length - 1]];
+}
+
 
 const Libros = () => {
   const dispatch = useDispatch();
   const libroContext: filterContext<LibroProp> = useSelector((store: appStore) => store.libro);
   const propuestas: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.items);
+
+  const [opcionesActivas, setOpcionesActivas] = useState<string[]>([listaSeleccionable[0].nombre]);
   const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento, retornoPropuestas } = useBuscadorCompleto<LibroProp>({
     estadoFiltros: libroContext.filter.filtros,
     filtros: [...filtrosLibroFuntion],
     elementos: libroContext.items,
     sortBy: libroContext.filter.sortBy,
     sortOrder: libroContext.filter.sortOrder,
-    propuestas
+    propuestas,
   });
 
   return (
@@ -39,15 +49,26 @@ const Libros = () => {
         etiquetaArriba='Al comienzo de la lista'
         etiquetaMas='Nueva libro'
         titulo='Lista de libros'
+        opcionesActivas={opcionesActivas}
+        setOpcionesActivas={setOpcionesActivas}
+        normalizar={normalizar}
+        listaSeleccionable={listaSeleccionable}
       />
       <Centro ref={contenedorRef} nuevoEstilo='centro-libro'>
-        {retornoPropuestas.map(p => <PropuestaCard propuesta={p} />)}
-        {elementosFiltrados.length > 0
-          ? elementosFiltrados
+        {
+          !opcionesActivas.includes(listaSeleccionable[2].nombre) &&
+          retornoPropuestas.map(p => <PropuestaCard propuesta={p} />)
+        }
+        {
+          !opcionesActivas.includes(listaSeleccionable[1].nombre) && elementosFiltrados.length > 0 &&
+          elementosFiltrados
             .map(dato => (
               <LibroCard libro={dato} key={dato.id} />
             ))
-          : <TextoVacio entidad='libros' />
+        }
+        {
+          elementosFiltrados.length=== 0 || (retornoPropuestas.length === 0 &&  !opcionesActivas.includes(listaSeleccionable[2].nombre) )&&
+          <TextoVacio entidad='libros, ni propuestas de pedidos'/>
         }
       </Centro>
     </>
