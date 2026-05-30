@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { filterContext } from "../../redux/modelo/reduxContext.interface";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { appStore } from "../../redux/store";
 import { filtrosLibroFuntion } from "../../filtro/libro.filtro";
 import useBuscadorCompleto from "../../hooks/buscador/useBuscadorCompleto";
@@ -16,20 +16,15 @@ import './buscador.css'
 
 const listaSeleccionable = [{ nombre: 'Todo' }, { nombre: 'Propuestas' }, { nombre: 'Libros' }];
 
-interface PropuestaAgregada {
-  id: string;               // id de la propuesta
-  nombre: string;           // nombre de la propuesta
-  cantidadLibros: number;   // del campo cantidadLibros de PropuestaProp
-  libros: LibroProp[];      // libros filtrados que tienen esta propuesta
+const normalizar = (elementos: string[]): string[] => {
+  return [elementos[elementos.length - 1]];
 }
 
 interface Prop {
-  setLibros: Dispatch<SetStateAction<LibroProp[]>>;
-
+  setLibros: (Dispatch<SetStateAction<LibroProp[]>>);
 }
 
 const BuscadorLibro = ({ setLibros }: Prop) => {
-  const dispatch = useDispatch();
   const libroContext: filterContext<LibroProp> = useSelector((store: appStore) => store.libro);
   const propuestas: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.items);
 
@@ -42,9 +37,16 @@ const BuscadorLibro = ({ setLibros }: Prop) => {
     sortOrder: libroContext.filter.sortOrder,
     propuestas,
   });
-  const normalizar = (elementos: string[]): string[] => {
-    return [elementos[elementos.length - 1]];
+
+  const handlePropuesta = (propuesta: PropuestaProp): void => {
+    const libros: LibroProp[] = propuesta.libro ?? [];
+    setLibros(prev => [...prev, ...libros]);
   }
+
+  const handleLibro = (libro: LibroProp): void => {
+    setLibros(prev => [...prev, libro]);
+  }
+
   return (
     <div className="buscador-libro">
       <BuscadorFiltros
@@ -59,28 +61,26 @@ const BuscadorLibro = ({ setLibros }: Prop) => {
         normalizar={normalizar}
         listaSeleccionable={listaSeleccionable}
       />
-      <DesplegableConteiner>
-        {valor.length < 2 ? null
-          : (
-            <>
-              {
-                !opcionesActivas.includes(listaSeleccionable[2].nombre) &&
-                retornoPropuestas.map(p => <PropuestaCard propuesta={p} />)
-              }
-              {
-                !opcionesActivas.includes(listaSeleccionable[1].nombre) && elementosFiltrados.length > 0 &&
-                elementosFiltrados
-                  .map(dato => (
-                    <LibroCard libro={dato} key={dato.id} />
-                  ))
-              }
-              {
-                elementosFiltrados.length === 0 || (retornoPropuestas.length === 0 && !opcionesActivas.includes(listaSeleccionable[2].nombre)) &&
-                <TextoVacio entidad='libros, ni propuestas de pedidos' />
-              }
-            </>
-          )}
-      </DesplegableConteiner>
+      {valor.length < 3
+        ? null
+        : <DesplegableConteiner>
+          {
+            !opcionesActivas.includes(listaSeleccionable[2].nombre) &&
+            retornoPropuestas.map(p => <PropuestaCard propuesta={p} key={p.id} selecPropuesta={handlePropuesta} />)
+          }
+          {
+            !opcionesActivas.includes(listaSeleccionable[1].nombre) && elementosFiltrados.length > 0 &&
+            elementosFiltrados
+              .map(dato => (
+                <LibroCard libro={dato} key={dato.id} selecLibro={handleLibro} />
+              ))
+          }
+          {
+            elementosFiltrados.length === 0 || (retornoPropuestas.length === 0 && !opcionesActivas.includes(listaSeleccionable[2].nombre)) &&
+            <TextoVacio entidad='libros, ni propuestas de pedidos' />
+          }
+        </DesplegableConteiner>
+      }
 
     </div>
   )

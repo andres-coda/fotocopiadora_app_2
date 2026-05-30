@@ -110,7 +110,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
             nuevoEstilo={
               `btn-icono-chico btn-buscador-completo ${!visible ? 'btn-oculto-buscador' : ''}`
             }
-            onClick={() => setVisible(false)}
+            onClick={() => {setVisible(false), setValor('')}}
           />
           <div className={`inputs-span-buscador ${/*!visible ? 'btn-oculto' : */''}`}>
             <div className="inputs-entero-buscador">

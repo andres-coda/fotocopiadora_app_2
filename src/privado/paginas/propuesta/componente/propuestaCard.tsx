@@ -16,10 +16,11 @@ import { nombreLibroXstring } from '../../../../utils/formatoDatos'
 import DesplegableConteiner from '../../../../componente-estilo/deslegable/desplegableConteiner'
 
 interface Prop {
-  propuesta: PropuestaProp
+  propuesta: PropuestaProp,
+  selecPropuesta?: (propuesta:PropuestaProp) => void;
 }
 
-const PropuestaCard = ({ propuesta }: Prop) => {
+const PropuestaCard = ({ propuesta, selecPropuesta }: Prop) => {
   const { copiarPresupuestoLibros } = usePresupuesto({ libros: propuesta.libro })
   const { handleSelect, handleEdit } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`,
@@ -29,7 +30,7 @@ const PropuestaCard = ({ propuesta }: Prop) => {
   const [verMas, setVerMas] = useState<boolean>(false)
   return (
     <Card
-      onClick={() => handleSelect({})}
+      onClick={()=>{selecPropuesta || handleSelect}}
       nuevoEstilo={`propuesta-card ${verMas && 'propuesta-card-desactivado'}`}
       tituloCard={propuesta.nombre}
     >

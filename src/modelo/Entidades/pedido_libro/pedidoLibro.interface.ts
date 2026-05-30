@@ -4,7 +4,7 @@ import { LibroAdapterProp, libroInicial, LibroProp } from "../libro/libro.interf
 import { SedeAdapterProp, sedeInicial, SedeProp } from "../sede/sede.interface";
 import { Estado } from "./estado.enum";
 
-export interface PedidoLibroAdapterProp extends BaseAdapterProp{
+export interface PedidoLibroAdapterProp extends BaseAdapterProp {
   cantidad: number;
   detalles?: string;
   estado: Estado;
@@ -13,7 +13,7 @@ export interface PedidoLibroAdapterProp extends BaseAdapterProp{
   especificaciones: EspecificacionAdapterProp[];
 }
 
-export interface PedidoLibroProp extends BaseProp{
+export interface PedidoLibroProp extends BaseProp {
   cantidad: number;
   detalles?: string;
   estado: Estado;
@@ -22,7 +22,13 @@ export interface PedidoLibroProp extends BaseProp{
   especificaciones: EspecificacionProp[];
 }
 
-export const pedidoLibroInicial :PedidoLibroProp= {
+export interface PedidoLibroConstruccionProp {
+  libro: LibroProp;
+  detalles?: string;
+  cantidad: number;
+}
+
+export const pedidoLibroInicial: PedidoLibroProp = {
   ...baseInicial,
   cantidad: 0,
   detalles: '',
