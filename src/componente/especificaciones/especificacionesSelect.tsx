@@ -59,11 +59,6 @@ const incompatibilidades: Record<
   ],
 };
 
-const EspecificacionesSelect = ({ setEspecificaciones, especificaciones }: EspSelectProp) => {
-  const esp: EspecificacionProp[] = useSelector((store: appStore) => store.especificacion.items);
-
-
-
   const normalizarEspecificaciones = (elementos: Especificaciones[]): Especificaciones[] => {
     let resultado = [...new Set(elementos)];
 
@@ -84,6 +79,9 @@ const EspecificacionesSelect = ({ setEspecificaciones, especificaciones }: EspSe
 
     return resultado;
   }
+
+const EspecificacionesSelect = ({ setEspecificaciones, especificaciones }: EspSelectProp) => {
+  const esp: EspecificacionProp[] = useSelector((store: appStore) => store.especificacion.items);
 
   const newEsp = esp.map(e => {
     return { nombre: e.nombre, texto: transformarEspecificacinParticularATexto(e) }
