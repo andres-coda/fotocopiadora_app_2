@@ -11,7 +11,7 @@ export const pedidoLibro = z.object({
 export type formValuesPedidoLibro = z.infer<typeof pedidoLibro>;
 
 export const pedidoFormDefault: formValuesPedidoLibro = {
-  cantidad: undefined,
+  cantidad: 1,
   detalles: '',
 }
 

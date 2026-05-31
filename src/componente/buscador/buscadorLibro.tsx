@@ -13,6 +13,7 @@ import PropuestaCard from "../../privado/paginas/propuesta/componente/propuestaC
 import LibroCard from "../../privado/paginas/libro/componente/libroCard";
 import TextoVacio from "../Textos/textoVacio";
 import './buscador.css'
+import { libro } from "../../modelo/Entidades/libro/esqLibro.esquema";
 
 const listaSeleccionable = [{ nombre: 'Todo' }, { nombre: 'Propuestas' }, { nombre: 'Libros' }];
 
@@ -21,10 +22,11 @@ const normalizar = (elementos: string[]): string[] => {
 }
 
 interface Prop {
-  setLibros: (Dispatch<SetStateAction<LibroProp[]>>);
+  selectLibro: (libro: LibroProp) => void;
+  selectPropuesta: (propuestas: PropuestaProp) => void;
 }
 
-const BuscadorLibro = ({ setLibros }: Prop) => {
+const BuscadorLibro = ({ selectLibro, selectPropuesta }: Prop) => {
   const libroContext: filterContext<LibroProp> = useSelector((store: appStore) => store.libro);
   const propuestas: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.items);
 
@@ -39,12 +41,13 @@ const BuscadorLibro = ({ setLibros }: Prop) => {
   });
 
   const handlePropuesta = (propuesta: PropuestaProp): void => {
-    const libros: LibroProp[] = propuesta.libro ?? [];
-    setLibros(prev => [...prev, ...libros]);
+    setValor('');
+    selectPropuesta(propuesta);
   }
 
   const handleLibro = (libro: LibroProp): void => {
-    setLibros(prev => [...prev, libro]);
+    setValor('');
+    selectLibro(libro);
   }
 
   return (

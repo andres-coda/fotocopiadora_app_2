@@ -18,6 +18,10 @@
     background-color: var(--colorCardRosa);
 }
 
+.construccion{
+    background-color: var(--colorCardEdit);
+}
+
 .cliente-pedidos{
     display: flex;
     flex-direction: column;
@@ -47,7 +51,7 @@
   }
 
   .pedido-cantidad{
-    justify-content: start !important;
+    justify-content: start;
   }
 
   .pedido-cantidad h6{
@@ -119,4 +123,11 @@
 
 .position-relative{
   position: relative;
+}
+
+.pedido-libro-card{
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
 }

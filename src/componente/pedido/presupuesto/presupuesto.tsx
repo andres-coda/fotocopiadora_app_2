@@ -6,21 +6,36 @@ import usePresupuesto from "../../../hooks/presupuesto/usePresupuesto";
 import Copiar from '../../../assets/copiar.svg?react'
 import useEspecificacionesSelect from "../../../hooks/presupuesto/useEspecificacionesSelect";
 import InputCheckFueraForm from "../../formulario/inputCheckFueraForm";
+import { usePedidoContext } from "../../../contexto/contextoPedido";
+import { useEffect } from "react";
 
 interface Prop {
   libro: LibroProp;
   nuevasEsp?: Especificaciones[];
-  simple?:boolean;
+  simple?: boolean;
 }
 
 const Presupuesto = ({ libro, nuevasEsp, simple }: Prop) => {
-  const {especificaciones, setEspecificaciones, listaEspecificaciones, normalizarEspecificaciones} = useEspecificacionesSelect(nuevasEsp ?? libro.especificacionesDefecto ?? [], libro.id);
-  const { presupuesto, copiarPresupuesto } = usePresupuesto({ libro, nuevasEsp:especificaciones });
+  const { especificaciones, setEspecificaciones, listaEspecificaciones, normalizarEspecificaciones } = useEspecificacionesSelect(nuevasEsp ?? libro.especificacionesDefecto ?? [], libro.id);
+  const { presupuesto, copiarPresupuesto } = usePresupuesto({ libro, nuevasEsp: especificaciones });
+  const {datos, setDatos} = usePedidoContext();
 
-  if(simple) return (
+  /* useEffect(()=>{
+    setDatos(prev=>{
+      if(!prev?.pedidoActual) return prev;
+      return {
+        ...prev,
+        pedidoActual: {
+          ...prev.pedidoActual,
+          esp:especificaciones
+        }
+      }
+    })
+  },[especificaciones] ) */ 
+  if (simple) return (
     <div className="copiado-presupuesto libro-select">
-      <InputCheckFueraForm lista={listaEspecificaciones} elementosSelect={especificaciones} setelementosSelect={setEspecificaciones} normalizar={normalizarEspecificaciones}/>
-      <Boton icono={<Copiar />} secundario onClick={copiarPresupuesto} nuevoEstilo='btn-icono-mediano' titulo={presupuesto}/>
+      <InputCheckFueraForm lista={listaEspecificaciones} elementosSelect={especificaciones} setelementosSelect={setEspecificaciones} normalizar={normalizarEspecificaciones} />
+      <Boton icono={<Copiar />} secundario onClick={copiarPresupuesto} nuevoEstilo='btn-icono-mediano' titulo={presupuesto} />
     </div>
   )
 
@@ -28,8 +43,8 @@ const Presupuesto = ({ libro, nuevasEsp, simple }: Prop) => {
     <div className="copiado-presupuesto libro-select">
       <Texto texto={'Presupuesto'} centrado mediana negrita></Texto>
       <Texto texto={presupuesto} />
-      <InputCheckFueraForm lista={listaEspecificaciones} elementosSelect={especificaciones} setelementosSelect={setEspecificaciones} normalizar={normalizarEspecificaciones}/>
-      <Boton icono={<Copiar />} secundario onClick={copiarPresupuesto} nuevoEstilo='btn-icono-mediano' titulo="Copiar presupuesto"/>
+      <InputCheckFueraForm lista={listaEspecificaciones} elementosSelect={especificaciones} setelementosSelect={setEspecificaciones} normalizar={normalizarEspecificaciones} />
+      <Boton icono={<Copiar />} secundario onClick={copiarPresupuesto} nuevoEstilo='btn-icono-mediano' titulo="Copiar presupuesto" />
     </div>
 
   )

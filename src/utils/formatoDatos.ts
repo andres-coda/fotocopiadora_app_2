@@ -32,6 +32,8 @@ export const claseXestado = (estado: Estado): string => {
   if (estado === Estado.LISTO) return 'listo';
   if (estado === Estado.RETIRADO) return 'retirado';
   if (estado === Estado.CANCELADO) return 'cancelado';
+  if (estado === Estado.CONSTRUCCION) return 'construccion';
+  if (estado === Estado.POR_CONFIRMAR) return 'por-confirmar';
   return 'pendiente'
 }
 

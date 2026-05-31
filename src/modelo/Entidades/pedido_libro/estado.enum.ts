@@ -6,6 +6,6 @@ export enum Estado {
   RETIRADO = "r",
   CANCELADO = "c",
   STOCK = "st",
-  CONSTRICCION = 'construccion',
+  CONSTRUCCION = 'construccion',
   POR_CONFIRMAR = 'xconfirmar'
 }

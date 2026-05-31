@@ -96,6 +96,13 @@ const normalizarEspecificaciones = (
   return resultado;
 };
 
+const sonEspecificacionesIguales = (
+  a: string[],
+  b: string[]
+) =>
+  a.length === b.length &&
+  a.every(x => b.includes(x));
+
 const useEspecificacionesSelect = (
   espDefault: Especificaciones[] = espDefaultInicial,
   cambioLibro?: string
@@ -136,7 +143,13 @@ const useEspecificacionesSelect = (
   }));
 
   useEffect(() => {
-    setEspecificaciones(() => normalizarEspecificaciones(espDefault))
+    setEspecificaciones(prev => {
+      const nuevas = normalizarEspecificaciones(espDefault);
+
+      return sonEspecificacionesIguales(prev, nuevas)
+        ? prev
+        : nuevas;
+    });
   }, [cambioLibro])
 
   return {

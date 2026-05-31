@@ -17,30 +17,33 @@ import Pedidos from "./paginas/pedido/pedidos";
 import Propuestas from "./paginas/propuesta/propuesta";
 import PedidoCargar from "./paginas/pedido/cargar/pedidoCargar";
 import PropuestaCargar from "./paginas/propuesta/cargar/propuestaCargar";
+import { ProveiderPedidoContext } from "../contexto/contextoPedido";
 
 const PrivadoRuta = () => {
   return (
 
     <CargarDatosIniciales>
-        <PrivadoContenedor>
+      <PrivadoContenedor>
+        <ProveiderPedidoContext>
           <RutaInvalida>
             <Route path="/" element={<Navigate to={RutasPrivadas.LIBRO_LISTA} />}></Route>
-            <Route path={RutasPrivadas.LIBRO_LISTA} element={<Libros/>}></Route>
-            <Route path={RutasPrivadas.LIBRO_CARGAR} element={<LibroCargar/>}></Route>
-            <Route path={RutasPrivadas.LIBRO} element={<LibroSelect/>}></Route>
-            <Route path={RutasPrivadas.CLIENTE_LISTA} element={<Clientes/>}></Route>
-            <Route path={RutasPrivadas.CLIENTE_CARGAR} element={<ClienteCargar/>}></Route>
-            <Route path={RutasPrivadas.CLIENTE} element={<ClienteSelect/>}></Route>
-            <Route path={RutasPrivadas.PRECIO_LISTO} element={<Precios/>}></Route>
-            <Route path={RutasPrivadas.PRECIO_CARGAR} element={<PrecioCargar/>}></Route>
-            <Route path={RutasPrivadas.SEDE_LISTA} element={<Sedes/>}></Route>
-            <Route path={RutasPrivadas.SEDE_CARGAR} element={<SedeCargar/>}></Route>
-            <Route path={RutasPrivadas.PEDIDO_LISTA} element={<Pedidos/>}></Route>
-            <Route path={RutasPrivadas.PEDIDO_CARGAR} element={<PedidoCargar/>}></Route>
-            <Route path={RutasPrivadas.PROPUESTA_LISTA} element={<Propuestas/>}></Route>
-            <Route path={RutasPrivadas.PROPUESTA_CARGAR} element={<PropuestaCargar/>}></Route>
+            <Route path={RutasPrivadas.LIBRO_LISTA} element={<Libros />}></Route>
+            <Route path={RutasPrivadas.LIBRO_CARGAR} element={<LibroCargar />}></Route>
+            <Route path={RutasPrivadas.LIBRO} element={<LibroSelect />}></Route>
+            <Route path={RutasPrivadas.CLIENTE_LISTA} element={<Clientes />}></Route>
+            <Route path={RutasPrivadas.CLIENTE_CARGAR} element={<ClienteCargar />}></Route>
+            <Route path={RutasPrivadas.CLIENTE} element={<ClienteSelect />}></Route>
+            <Route path={RutasPrivadas.PRECIO_LISTO} element={<Precios />}></Route>
+            <Route path={RutasPrivadas.PRECIO_CARGAR} element={<PrecioCargar />}></Route>
+            <Route path={RutasPrivadas.SEDE_LISTA} element={<Sedes />}></Route>
+            <Route path={RutasPrivadas.SEDE_CARGAR} element={<SedeCargar />}></Route>
+            <Route path={RutasPrivadas.PEDIDO_LISTA} element={<Pedidos />}></Route>
+            <Route path={RutasPrivadas.PEDIDO_CARGAR} element={<PedidoCargar />}></Route>
+            <Route path={RutasPrivadas.PROPUESTA_LISTA} element={<Propuestas />}></Route>
+            <Route path={RutasPrivadas.PROPUESTA_CARGAR} element={<PropuestaCargar />}></Route>
           </RutaInvalida>
-        </PrivadoContenedor>
+        </ProveiderPedidoContext>
+      </PrivadoContenedor>
     </CargarDatosIniciales>
   )
 }

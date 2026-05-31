@@ -72,7 +72,7 @@ const usePresupuesto = ({ libro, nuevasEsp, libros }: PresupuestoProp) => {
     navigator.clipboard.writeText(presupuestoCompleto);
   }
 
-  return { presupuesto:presupuesto.texto, copiarPresupuesto, presupuestoCompleto, copiarPresupuestoLibros, precioSolo:presupuesto.valor }
+  return { presupuesto:presupuesto.texto, copiarPresupuesto, presupuestoCompleto, copiarPresupuestoLibros, precioSolo:presupuesto.valor, especificaciones:nuevasEsp }
 }
 
 export default usePresupuesto;

@@ -1,29 +1,31 @@
+import Card from "../../../../componente-estilo/card/card";
 import Texto from "../../../../componente-estilo/texto/texto";
 import EspecificacionCard from "../../../../componente/especificaciones/especificacionCard";
 import usePresupuesto from "../../../../hooks/presupuesto/usePresupuesto";
-import { Especificaciones } from "../../../../modelo/Entidades/especificacion/especificacion.enum";
 import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
 import { PedidoLibroConstruccionProp } from "../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import { nombreLibroXstring } from "../../../../utils/formatoDatos";
+import { claseXestado, nombreLibroXstring } from "../../../../utils/formatoDatos";
+import './pedidoCard.css'
 
-interface Prop{
+interface Prop {
   pL: PedidoLibroConstruccionProp;
   estadoClas: Estado;
-  especificaciones?:Especificaciones[]
 }
 
-const PedidoLibroCard = ({pL, estadoClas, especificaciones}:Prop) => {
-  const {precioSolo} = usePresupuesto({libro:pL.libro, nuevasEsp:especificaciones})
+const PedidoLibroCard = ({ pL, estadoClas }: Prop) => {
+  const { precioSolo } = usePresupuesto({ libro: pL.libro, nuevasEsp: pL.esp })
   return (
-    <div className={`libro-pedido-card  ${estadoClas}`} >
-      <Texto texto={`${pL.cantidad}`} mediana/>
-      <div className={`libro-pedido-card-centro`}>
-        <Texto texto={`${nombreLibroXstring(pL.libro)}`} mediana/>
-        {pL.detalles && <Texto texto={`${pL.detalles}`} mediana/>}
-        {(estadoClas === Estado.CONSTRICCION || estadoClas === Estado.POR_CONFIRMAR) && <Texto texto={`$${precioSolo}`}/> }
+    <Card
+      nuevoEstilo={`pedido-libro-card ${claseXestado(estadoClas)}`}
+    >
+      <Texto texto={`${pL.cantidad}`} mediana ajustado/>
+      <div className={`card-vertical`}>
+        <Texto texto={`${nombreLibroXstring(pL.libro)}`} centrado inline/>
+        {pL.detalles && <Texto texto={`Detalles: ${pL.detalles}`} inline chica/>}
+        {(estadoClas === Estado.CONSTRUCCION || estadoClas === Estado.POR_CONFIRMAR) && <Texto texto={`$${precioSolo}`} derecha/>}
       </div>
-      <EspecificacionCard listaEspecificaciones={especificaciones || pL.libro.especificacionesDefecto} />
-    </div>
+      <EspecificacionCard listaEspecificaciones={pL.esp || pL.libro.especificacionesDefecto} />
+    </Card>
   )
 }
 
