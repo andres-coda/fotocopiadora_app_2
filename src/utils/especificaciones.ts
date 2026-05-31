@@ -160,3 +160,9 @@ export const sonEspecificacionesIguales = (
 ) =>
   a.length === b.length &&
   a.every(x => b.includes(x));
+
+
+  export const transformarEspeAEnum = (esp?:EspecificacionProp[]):Especificaciones[] => {
+    if(!esp || esp.length ===0) return [];
+    return esp.map(e=> e.nombre);
+  }

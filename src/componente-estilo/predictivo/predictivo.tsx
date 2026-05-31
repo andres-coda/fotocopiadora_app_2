@@ -1,14 +1,14 @@
-import { HasId } from "../../modelo/general/hasId.interface";
+import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import Texto from "../texto/texto";
 import './predictivo.css'
 
-interface Prop<T extends HasId> {
+interface Prop<T extends BaseProp> {
   elementos: T[];
   nombre?: string;
   keys: (keyof T)[];
 }
 
-const Predictivo = <T extends HasId>({ nombre, elementos, keys }: Prop<T>) => {
+const Predictivo = <T extends BaseProp>({ nombre, elementos, keys }: Prop<T>) => {
   if (!nombre || nombre.length < 2 || elementos.length === 0) return null;
 
   const filtrados = elementos.filter(elemento =>

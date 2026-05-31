@@ -2,6 +2,9 @@ import { Especificaciones } from "../modelo/Entidades/especificacion/especificac
 import { LibroProp } from "../modelo/Entidades/libro/libro.interface";
 import { PrecioAbareviatura } from "../modelo/Entidades/precio/precio.enum";
 import { PrecioProp } from "../modelo/Entidades/precio/precio.interface";
+import { CalcularPresupuestoProp, CalcularPresupuestoRetorno } from "../modelo/presupuesto/presupuesto.interface";
+import { transformarComponente } from "./componente";
+import { transformarEspecificacinesATexto } from "./especificaciones";
 
 interface EstimarPrecioProp {
   libro: LibroProp,
@@ -141,3 +144,16 @@ export const calcularPrecio = ({
   ) * 100;
 };
 
+export const presupuestoFallido: CalcularPresupuestoRetorno = { texto: 'No hay libro para presupuestar', valor: 0 };
+
+export const calcularPresupuesto = ({ libro, nuevasEsp, precios }: CalcularPresupuestoProp): CalcularPresupuestoRetorno => {
+  if (!libro) return presupuestoFallido;
+
+  const esp: Especificaciones[] = nuevasEsp ?? libro?.especificacionesDefecto ?? [];
+
+  const precio: number = calcularPrecio({ libro, precios, especificaciones: esp });
+
+  const pres: string = `El libro ${libro.nombre} ${libro.nivel} ${transformarComponente(libro.componentes)}, ${transformarEspecificacinesATexto(esp, libro)}
+        te sale *$${precio}*`;
+  return { texto: pres, valor: precio };
+}

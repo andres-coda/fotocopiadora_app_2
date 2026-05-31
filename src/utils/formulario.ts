@@ -1,4 +1,6 @@
 import { ZodObject, ZodRawShape, ZodOptional, ZodNullable } from "zod";
+import { BaseProp } from "../modelo/Entidades/base/base.interface";
+import { Opcion } from "../componente/formulario/modelo/input.interface";
 
 export function esCampoRequerido<T extends ZodRawShape>(
   esquema: ZodObject<T>,
@@ -75,3 +77,16 @@ export const formatTelefono = (value: string = ''): string => {
     .filter(Boolean)
     .join('-');
 };
+
+interface Prop<T, K extends keyof T = keyof T>{
+  items: T[]
+  clave?: K; 
+}
+
+export const pasarDesplegable = <T extends BaseProp, K extends keyof T = keyof T>({ items, clave }: Prop<T, K>): Opcion[] => {
+  const newClave: K = (clave || 'nombre') as K
+  const opciones: Opcion[] = items.map(d => {
+    return { value: d.id, label: String(d[newClave]) }
+  });
+  return opciones
+}

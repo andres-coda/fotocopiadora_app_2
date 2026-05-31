@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { filterContext } from "../../redux/modelo/reduxContext.interface";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
@@ -13,7 +13,6 @@ import PropuestaCard from "../../privado/paginas/propuesta/componente/propuestaC
 import LibroCard from "../../privado/paginas/libro/componente/libroCard";
 import TextoVacio from "../Textos/textoVacio";
 import './buscador.css'
-import { libro } from "../../modelo/Entidades/libro/esqLibro.esquema";
 
 const listaSeleccionable = [{ nombre: 'Todo' }, { nombre: 'Propuestas' }, { nombre: 'Libros' }];
 

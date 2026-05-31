@@ -57,7 +57,7 @@ const Libros = () => {
       <Centro ref={contenedorRef} nuevoEstilo='centro-libro'>
         {
           !opcionesActivas.includes(listaSeleccionable[2].nombre) &&
-          retornoPropuestas.map(p => <PropuestaCard propuesta={p} />)
+          retornoPropuestas.map(p => <PropuestaCard propuesta={p} key={p.id}/>)
         }
         {
           !opcionesActivas.includes(listaSeleccionable[1].nombre) && elementosFiltrados.length > 0 &&

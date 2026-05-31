@@ -76,7 +76,7 @@ body {
   align-items: flex-start;
   width: 100vw;
   height: 100vh;
-  min-width: 300px;
+  min-width: 400px;
   min-height: 500px;
   background-color: var(--colorFondo);
   color: var(--colorNegro);

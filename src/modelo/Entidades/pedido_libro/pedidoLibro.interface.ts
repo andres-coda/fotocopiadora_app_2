@@ -24,10 +24,13 @@ export interface PedidoLibroProp extends BaseProp {
 }
 
 export interface PedidoLibroConstruccionProp {
+  id: string;
   libro: LibroProp;
   detalles?: string;
   cantidad: number;
-  esp?: Especificaciones[]
+  especificaciones: Especificaciones[];
+  sede?: SedeProp;
+  estado: Estado;
 }
 
 export const pedidoLibroInicial: PedidoLibroProp = {

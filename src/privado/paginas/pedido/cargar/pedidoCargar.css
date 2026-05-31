@@ -1,7 +1,63 @@
+.pedido-cargar{
+  display: flex;
+  flex-direction: column;
+  flex:1;
+  box-sizing: border-box;
+}
+
 .pedidoLibroCargar{
   display: flex;
   flex-direction: column;
   gap: .5rem;
   padding: .5rem;
   box-sizing: border-box;
+}
+
+.pedido-cliente{
+  width: 100%;
+  position: relative;
+  gap:.2rem;
+}
+
+.pedido-cliente .desplegable{
+  top:3rem;
+}
+
+.pedido-total{
+  align-items: center;
+}
+.saldo{
+  width: 30%;
+  border: 1px solid var(--colorSombra);
+  border-radius: 5px;
+  margin-top: .5rem;
+  margin-bottom: 0;
+  padding: .5rem;
+}
+@media(width <600px){
+  .pedidoLibroCargar .form-horizontal, .pedido-cliente, .pedido-total{
+    flex-direction: column;
+    gap: .1rem;
+  }
+
+  .pedidoLibroCargar .form-horizontal .inputs-span, 
+  .pedido-cliente .inputs-span, 
+  .pedido-total .inputs-span{
+    width: 100%;
+    margin: 0;
+  }
+
+  .pedidoLibroCargar .form-horizontal .inputs-span span{
+    min-height: .4rem;
+  }
+  .saldo{
+  width: 100%;
+  margin: .5rem;
+  padding: .5rem;
+  box-sizing: border-box;
+  }
+
+  .pedido-cliente .desplegable{
+    top:10rem;
+  }
 }

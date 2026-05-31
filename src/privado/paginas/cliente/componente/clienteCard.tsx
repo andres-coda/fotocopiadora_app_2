@@ -10,31 +10,36 @@ import { useEffect } from "react";
 
 interface Props {
   cliente: ClienteProp
+  onClick?: (cliente: ClienteProp) => void;
 }
 
-const ClienteCard = ({ cliente }: Props) => {
-  const {obtenerClienteById, responseCliente, loadingCliente, errorFetchCliente} = useClienteApi();
+const ClienteCard = ({ cliente, onClick }: Props) => {
+  const { obtenerClienteById, responseCliente, loadingCliente, errorFetchCliente } = useClienteApi();
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`,
     cliente
   });
 
-  const handleCliente = () =>{
-    obtenerClienteById(cliente.id);
+  const handleCliente = () => {
+    if(onClick) {
+      onClick(cliente)
+    } else {
+      obtenerClienteById(cliente.id);
+    }
   }
 
-  useEffect(()=>{
-    if(responseCliente){
-      handleSelect({rutaLocal:`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`, cliente:responseCliente});
+  useEffect(() => {
+    if (responseCliente) {
+      handleSelect({ rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`, cliente: responseCliente });
     }
-  },[responseCliente])
+  }, [responseCliente])
 
-  if(loadingCliente) return (
-    <Card> <Texto texto={'Cargando ....'}/></Card>
+  if (loadingCliente) return (
+    <Card> <Texto texto={'Cargando ....'} /></Card>
   )
 
-  if(errorFetchCliente) return (
-    <Card> <Texto texto={`Error en la selección del cliente: ${errorFetchCliente}`}/></Card>
+  if (errorFetchCliente) return (
+    <Card> <Texto texto={`Error en la selección del cliente: ${errorFetchCliente}`} /></Card>
   )
 
   return (
@@ -42,7 +47,7 @@ const ClienteCard = ({ cliente }: Props) => {
       onClick={() => handleCliente()}
       nuevoEstilo={'card-cliente'}
     >
-      <ClienteDatos cliente={cliente}/>
+      <ClienteDatos cliente={cliente} />
       <ul>
         <li className='pendiente' title='Pedidos pendientes'>{cliente.pendiente}</li>
         <li className='terminado' title='Pedidos listos para entregar'>{cliente.listo}</li>
