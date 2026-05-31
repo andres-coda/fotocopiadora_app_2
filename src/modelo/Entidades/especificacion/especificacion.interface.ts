@@ -13,3 +13,9 @@ export const especificacionInicial :EspecificacionProp= {
   ...baseInicial,
   nombre: Especificaciones.COLOR,
 }
+
+export interface GruposExlusivosProp {
+  opciones: Especificaciones[];
+  defecto?: Especificaciones;
+  obligatorio: boolean,
+}
