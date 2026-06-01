@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { clienteAdapter } from "../../adaptadores/entrada/cliente.adapter";
 import { clienteDtoAdapter } from "../../adaptadores/salida/clienteDto.adapter";
 import { ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
@@ -7,7 +8,7 @@ import { CLIENTE } from "../../utils/endpoint";
 import useApi from "../hooks/useApi";
 
 
-const useClienteApi = () => {
+const useClienteApi = (clienteId?: string) => {
   const { fetchData, response, loading, errorFetch } = useApi<ClienteProp | undefined>({});
 
   const obtenerClienteById = (id: string) =>
@@ -19,6 +20,11 @@ const useClienteApi = () => {
   const editarCliente = (data: formValuesCliente, id: string) =>
     fetchData({ url: `${CLIENTE}/${id}`, methodo: httpMethod.PUT, bodyData: JSON.stringify(clienteDtoAdapter(data)), adapter: clienteAdapter });
 
+  useEffect(() => {
+    if (clienteId) {
+      obtenerClienteById(clienteId);
+    }
+  }, []);
 
   return { obtenerClienteById, crearCliente, editarCliente, responseCliente: response, loadingCliente: loading, errorFetchCliente: errorFetch };
 

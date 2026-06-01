@@ -6,6 +6,8 @@ import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas"
 import CardFechas from "../../../../componente/pedido/cardFechas"
 import CardArchivos from "../../../../componente/pedido/cardArchivos"
 import CardImporte from "../../../../componente/pedido/cardImporte"
+import { useState } from "react"
+import PedidoLibroXPedidoCard from "./pedidoLibroXPedidoCard"
 
 interface Props {
   pedido: PedidoProp;
@@ -16,14 +18,21 @@ const PedidoCard =({ pedido }: Props) => {
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     pedido
   });
+
+  const [activo, setActivo] = useState<boolean>(false);
  
   return (
     <Card
-      onClick={() => handleSelect({rutaLocal:`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`, pedido})}
+      onClick={() => setActivo(prev => !prev)}
       nuevoEstilo={'card-pedido'}
     >
       <CardFechas pedido={pedido} />
       <CardArchivos pedido={pedido}/>
+      { activo &&
+      <div>
+        {pedido.libroPedidos.map(lp=><PedidoLibroXPedidoCard pL={lp}/>)}
+      </div>
+      }
       <CardImporte pedido={pedido} />
     </Card>
   )

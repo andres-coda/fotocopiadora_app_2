@@ -4,9 +4,6 @@ import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
 import Card from "../../../../componente-estilo/card/card";
 import './clienteCard.css'
 import ClienteDatos from "./clienteDatos";
-import useClienteApi from "../../../../servicio/cliente/useClienteApi";
-import Texto from "../../../../componente-estilo/texto/texto";
-import { useEffect } from "react";
 
 interface Props {
   cliente: ClienteProp
@@ -14,33 +11,19 @@ interface Props {
 }
 
 const ClienteCard = ({ cliente, onClick }: Props) => {
-  const { obtenerClienteById, responseCliente, loadingCliente, errorFetchCliente } = useClienteApi();
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`,
     cliente
   });
 
   const handleCliente = () => {
-    if(onClick) {
+    if (onClick) {
       onClick(cliente)
     } else {
-      obtenerClienteById(cliente.id);
+      console.log('hace click')
+      handleSelect({rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`})
     }
   }
-
-  useEffect(() => {
-    if (responseCliente) {
-      handleSelect({ rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`, cliente: responseCliente });
-    }
-  }, [responseCliente])
-
-  if (loadingCliente) return (
-    <Card> <Texto texto={'Cargando ....'} /></Card>
-  )
-
-  if (errorFetchCliente) return (
-    <Card> <Texto texto={`Error en la selección del cliente: ${errorFetchCliente}`} /></Card>
-  )
 
   return (
     <Card

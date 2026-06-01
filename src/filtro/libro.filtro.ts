@@ -19,8 +19,8 @@ export const camposBusquedaLibro: CampoBusqueda<LibroAdapterProp>[] = [
   c => ({ valor: normalizarTexto(c.nivel) }),
   c => ({ valor: normalizarTexto(c.anio), tipo: TipoBusqueda.ESTRICTO }),
   c => ({ valor: normalizarTexto(c.autor) }),
-  c => ({ valor: normalizarTexto(c.materia?.nombre) }),
+  c => ({ valor: normalizarTexto(c.materia?.nombre)}),
   l => ({
-    valor: l.componentes?.map(c => normalizarTexto(c.nombre)).join(' ') ?? ''
+    valor: l.componentes?.map(comp => normalizarTexto(comp?.nombre)).join(' ') ?? ''
   })
 ]
