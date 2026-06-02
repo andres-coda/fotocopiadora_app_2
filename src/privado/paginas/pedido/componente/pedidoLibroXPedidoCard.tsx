@@ -4,6 +4,7 @@ import EspecificacionCard from "../../../../componente/especificaciones/especifi
 import { PedidoLibroProp } from "../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { transformarEspeAEnum } from "../../../../utils/especificaciones";
 import { claseXestado, nombreLibroXstring } from "../../../../utils/formatoDatos";
+import './pedidoCard.css'
 
 interface Prop {
   pL: PedidoLibroProp;
@@ -11,7 +12,7 @@ interface Prop {
 
 const PedidoLibroXPedidoCard = ({ pL }: Prop) => {
   const handleClick = () => {
-   
+
   }
 
   return (
@@ -22,12 +23,12 @@ const PedidoLibroXPedidoCard = ({ pL }: Prop) => {
       <Texto texto={`${pL.cantidad}`} mediana ajustado />
       <div className={`card-vertical`}>
         <Texto texto={`${nombreLibroXstring(pL.libro)}`} centrado inline />
-        {pL.detalles && <Texto texto={`Detalles: ${pL.detalles}`} inline chica />}
         <div className="card-horizontal">
-          <Texto texto={`Sede: ${pL.sede?.nombre ?? ''}`} chica />
+          {pL.detalles && <Texto texto={`Detalles: ${pL.detalles}`} inline chica />}
+          <Texto texto={`Sede: ${pL.sede?.nombre ?? ''}`} chica ajustado/>
         </div>
+        <EspecificacionCard listaEspecificaciones={transformarEspeAEnum(pL.especificaciones)} horizontal />
       </div>
-      <EspecificacionCard listaEspecificaciones={transformarEspeAEnum(pL.especificaciones)}/>
     </Card>
   )
 }

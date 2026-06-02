@@ -6,6 +6,10 @@
   overflow: hidden;
 }
 
+.card-pedido-activa{
+  border: 1px solid var(--colorNegro);
+}
+
 .retirado{
     background-color: var(--colorCardGris);
 }
@@ -130,4 +134,20 @@
   align-items: center;
   gap: 1rem;
   justify-content: space-between;
+}
+
+.pedidos-internos{
+  display: grid;
+  grid-template-columns: repeat(auto-fit,
+      minmax(280px, 1fr));
+
+  gap: .5rem;
+  padding: .5rem 1rem;
+  margin: 0 .5rem;
+  border-radius: 5px;
+
+  
+  background-color: var(--colorSombra);
+  
+  box-sizing: border-box;
 }

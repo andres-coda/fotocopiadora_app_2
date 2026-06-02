@@ -41,13 +41,13 @@ const ClienteSelect = () => {
           <li className='terminado' title='Pedidos listos para entregar'>Para retirar: {cliente.listo}</li>
           <li className='retirado' title='Pedidos retirados'>Retirados: {cliente.retirado}</li>
         </ul>
-        <Texto texto={'Lista de pedidos'} mediana negrita centrado />
+
+      </div>
+      <Texto texto={'Lista de pedidos'} mediana negrita centrado />
+      <div className="cliente-pedido">
         {cliente.pedidos.map(pedido => (
           <PedidoCard pedido={pedido} key={pedido.id} />
         ))}
-        <div>
-
-        </div>
       </div>
     </Centro>
   )

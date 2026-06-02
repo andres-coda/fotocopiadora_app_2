@@ -24,12 +24,12 @@ const PedidoCard =({ pedido }: Props) => {
   return (
     <Card
       onClick={() => setActivo(prev => !prev)}
-      nuevoEstilo={'card-pedido'}
+      nuevoEstilo={`card-pedido ${activo && "card-pedido-activa"}`}
     >
       <CardFechas pedido={pedido} />
       <CardArchivos pedido={pedido}/>
       { activo &&
-      <div>
+      <div className="pedidos-internos">
         {pedido.libroPedidos.map(lp=><PedidoLibroXPedidoCard pL={lp}/>)}
       </div>
       }

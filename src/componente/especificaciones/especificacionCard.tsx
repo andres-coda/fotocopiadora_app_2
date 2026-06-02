@@ -4,12 +4,13 @@ import './especificacionCard.css';
 
 interface Prop{
   listaEspecificaciones?:Especificaciones[];
+  horizontal?: boolean;
 }
 
-const EspecificacionCard = ({ listaEspecificaciones }:Prop) => {
+const EspecificacionCard = ({ listaEspecificaciones, horizontal }:Prop) => {
   if(!listaEspecificaciones) return null;
   return (
-    <div className={`especificaciones-container`}>
+    <div className={`especificaciones-container ${horizontal ? 'especificaciones-horizontal' : ''}`}>
       <ul>
         {listaEspecificaciones?.map((esp, index) => (
           <li key={`esp-${index}`}><Texto texto={esp} chica/></li>
