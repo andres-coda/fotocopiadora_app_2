@@ -37,6 +37,7 @@
   overflow-x: hidden;  
   scrollbar-color: var(--colorPrimario) var(--colorSecundario);
   scrollbar-width:thin;
+  gap:.5rem;
 }
 
 .modal-frente h6 {

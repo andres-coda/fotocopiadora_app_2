@@ -1,22 +1,20 @@
-import { ReactNode, useEffect, useRef, MouseEvent, Dispatch, SetStateAction } from "react";
+import { ReactNode, useEffect, useRef, MouseEvent } from "react";
 import { createPortal } from "react-dom";
 import './modal.css'
 import Boton from "../../componente-estilo/boton/boton";
 import useRetardo from "../../hooks/tiempo/useRetardo";
-import Cerrar from '../../assets/icons/cerrar.svg?react'
+import Cerrar from '../../assets/cancel.svg?react'
 import { useModalContext } from "../../contexto/contextoModal";
 
 const eventListener = 'keydown'
 
 interface PropsModal {
   children: ReactNode;
-  modalLocal?: boolean;
-  setModalLocal?: Dispatch<SetStateAction<boolean>>;
-  chica?:boolean;
-  nuevoEstilo?:string;
+  chica?: boolean;
+  nuevoEstilo?: string;
 }
 
-function Modal({ children, modalLocal, setModalLocal, chica=undefined, nuevoEstilo='' }: PropsModal) {
+function Modal({ children, chica = undefined, nuevoEstilo = '' }: PropsModal) {
   const modalRef = useRef<HTMLDivElement>(null)
   const { modal, setModal } = useModalContext();
   const retardoModal = useRetardo(setModal, 100)
@@ -34,12 +32,6 @@ function Modal({ children, modalLocal, setModalLocal, chica=undefined, nuevoEsti
   }
 
   const modalRoot = document.getElementById('modal');
-
-  useEffect(() => {
-    if (!modal && modalLocal && setModalLocal) {
-      setModalLocal(false);
-    }
-  }, [modal, setModal])
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -64,15 +56,15 @@ function Modal({ children, modalLocal, setModalLocal, chica=undefined, nuevoEsti
     }
   }, [modal, setModal])
 
-  if (!modal || !modalRoot || modalLocal === false) {
+  if (!modal || !modalRoot) {
     return null;
   }
 
   return createPortal(
     <div className={`modal-fondo ${modal ? 'modal-abierto' : ''}`} onClick={cerrarModal}>
-      <div className={`modal-frente ${chica ? 'modal-chico':''} ${nuevoEstilo}`} ref={modalRef} onClick={handleClickDentroModal}>
+      <div className={`modal-frente ${chica ? 'modal-chico' : ''} ${nuevoEstilo}`} ref={modalRef} onClick={handleClickDentroModal}>
         {children}
-        <Boton onClick={cerrarModal} icono={<Cerrar />} cerrar nuevoEstilo="btn-icono-chico"/>
+        <Boton onClick={cerrarModal} icono={<Cerrar />} cerrar nuevoEstilo="btn-icono-chico" />
       </div>
     </div>, modalRoot
   )

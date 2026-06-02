@@ -4,18 +4,21 @@ import App from "./App";
 import AppRouter from "./AppRouter";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { ProveiderModalContext } from "./contexto/contextoModal";
 
 const AppHookConteiner = () => {
   return (
-    <ErrorBoundary>
-      <BrowserRouter>
+    <ProveiderModalContext>
+      <ErrorBoundary>
+        <BrowserRouter>
           <Provider store={store}>
-              <App>
-                <AppRouter />
-              </App>
+            <App>
+              <AppRouter />
+            </App>
           </Provider>
-      </BrowserRouter>
-    </ErrorBoundary>
+        </BrowserRouter>
+      </ErrorBoundary>
+    </ProveiderModalContext>
   )
 }
 

@@ -6,32 +6,32 @@ import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas"
 import CardFechas from "../../../../componente/pedido/cardFechas"
 import CardArchivos from "../../../../componente/pedido/cardArchivos"
 import CardImporte from "../../../../componente/pedido/cardImporte"
-import { useState } from "react"
 import PedidoLibroXPedidoCard from "./pedidoLibroXPedidoCard"
 
 interface Props {
   pedido: PedidoProp;
+  onClick?: (pedido: PedidoProp) => void;
+  activo?: boolean;
 }
 
-const PedidoCard =({ pedido }: Props) => {
+const PedidoCard = ({ pedido, onClick, activo }: Props) => {
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     pedido
   });
 
-  const [activo, setActivo] = useState<boolean>(false);
- 
   return (
     <Card
-      onClick={() => setActivo(prev => !prev)}
-      nuevoEstilo={`card-pedido ${activo && "card-pedido-activa"}`}
+      onClick={onClick ? () => onClick(pedido) : undefined}
+      nuevoEstilo={`card-pedido`}
     >
       <CardFechas pedido={pedido} />
-      <CardArchivos pedido={pedido}/>
-      { activo &&
-      <div className="pedidos-internos">
-        {pedido.libroPedidos.map(lp=><PedidoLibroXPedidoCard pL={lp}/>)}
-      </div>
+      <CardArchivos pedido={pedido} />
+      {
+        activo &&
+        <div className="pedidos-internos">
+          {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} />)}
+        </div>
       }
       <CardImporte pedido={pedido} />
     </Card>
