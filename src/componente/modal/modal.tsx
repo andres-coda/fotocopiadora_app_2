@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import './modal.css'
 import Boton from "../../componente-estilo/boton/boton";
 import useRetardo from "../../hooks/tiempo/useRetardo";
-import Cerrar from '../../assets/cancel.svg?react'
+import Cerrar from '../../assets/cerrar.svg?react'
 import { useModalContext } from "../../contexto/contextoModal";
 
 const eventListener = 'keydown'

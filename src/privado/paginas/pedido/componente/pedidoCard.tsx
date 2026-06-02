@@ -9,6 +9,7 @@ import CardImporte from "../../../../componente/pedido/cardImporte"
 import PedidoLibroXPedidoCard from "./pedidoLibroXPedidoCard"
 import Botonera from "../../../../componente-estilo/botonera/botonera"
 import Boton from "../../../../componente-estilo/boton/boton"
+import Edit from '../../../../assets/edit.svg?react'
 
 interface Props {
   pedido: PedidoProp;
@@ -34,8 +35,8 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
         <div className="pedidos-internos">
           {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} />)}
           <Botonera>
-            <Boton texto="cambiar estado" secundario />
-            <Boton texto="editar" secundario />
+            <Boton texto="cambiar estado" secundario titulo="Cambiar estado del pedido"/>
+            <Boton icono={<Edit/>} titulo="Editar pedido" secundario nuevoEstilo="btn-icono-mediano"/>
           </Botonera>
         </div>
       }

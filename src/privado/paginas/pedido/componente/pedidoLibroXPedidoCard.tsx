@@ -1,6 +1,7 @@
 import Card from "../../../../componente-estilo/card/card";
 import Texto from "../../../../componente-estilo/texto/texto";
 import EspecificacionCard from "../../../../componente/especificaciones/especificacionCard";
+import Desplegable from "../../../../componente/formulario/desplegable";
 import { PedidoLibroProp } from "../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { transformarEspeAEnum } from "../../../../utils/especificaciones";
 import { claseXestado, nombreLibroXstring } from "../../../../utils/formatoDatos";
@@ -29,6 +30,8 @@ const PedidoLibroXPedidoCard = ({ pL }: Prop) => {
           <Texto texto={`Sede: ${pL.sede?.nombre ?? ''}`} chica ajustado/>
         </div>
         <EspecificacionCard listaEspecificaciones={transformarEspeAEnum(pL.especificaciones)} horizontal />
+        {//<Desplegable/>
+        }
       </div>
     </Card>
   )
