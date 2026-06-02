@@ -19,6 +19,7 @@ const PedidoLibroXPedidoCard = ({ pL }: Prop) => {
     <Card
       nuevoEstilo={`pedido-libro-card ${claseXestado(pL.estado)}`}
       onClick={handleClick}
+      tituloCard={`${nombreLibroXstring(pL.libro)}`}
     >
       <Texto texto={`${pL.cantidad}`} mediana ajustado />
       <div className={`card-vertical`}>

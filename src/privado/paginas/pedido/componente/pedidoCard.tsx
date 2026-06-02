@@ -7,6 +7,8 @@ import CardFechas from "../../../../componente/pedido/cardFechas"
 import CardArchivos from "../../../../componente/pedido/cardArchivos"
 import CardImporte from "../../../../componente/pedido/cardImporte"
 import PedidoLibroXPedidoCard from "./pedidoLibroXPedidoCard"
+import Botonera from "../../../../componente-estilo/botonera/botonera"
+import Boton from "../../../../componente-estilo/boton/boton"
 
 interface Props {
   pedido: PedidoProp;
@@ -31,6 +33,10 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
         activo &&
         <div className="pedidos-internos">
           {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} />)}
+          <Botonera>
+            <Boton texto="cambiar estado" secundario />
+            <Boton texto="editar" secundario />
+          </Botonera>
         </div>
       }
       <CardImporte pedido={pedido} />
