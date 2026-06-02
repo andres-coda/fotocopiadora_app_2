@@ -5,6 +5,7 @@ import Boton from "../../componente-estilo/boton/boton";
 import useRetardo from "../../hooks/tiempo/useRetardo";
 import Cerrar from '../../assets/cerrar.svg?react'
 import { useModalContext } from "../../contexto/contextoModal";
+import Texto from "../../componente-estilo/texto/texto";
 
 const eventListener = 'keydown'
 
@@ -12,9 +13,10 @@ interface PropsModal {
   children: ReactNode;
   chica?: boolean;
   nuevoEstilo?: string;
+  texto?:string;
 }
 
-function Modal({ children, chica = undefined, nuevoEstilo = '' }: PropsModal) {
+function Modal({ children, chica = undefined, nuevoEstilo = '', texto=undefined}: PropsModal) {
   const modalRef = useRef<HTMLDivElement>(null)
   const { modal, setModal } = useModalContext();
   const retardoModal = useRetardo(setModal, 100)
@@ -63,7 +65,12 @@ function Modal({ children, chica = undefined, nuevoEstilo = '' }: PropsModal) {
   return createPortal(
     <div className={`modal-fondo ${modal ? 'modal-abierto' : ''}`} onClick={cerrarModal}>
       <div className={`modal-frente ${chica ? 'modal-chico' : ''} ${nuevoEstilo}`} ref={modalRef} onClick={handleClickDentroModal}>
-        {children}
+        {texto ? <Texto texto={texto} centrado inline etiqueta={texto} nuevoEstilo="titulo-modal"/> : <Texto texto='modal'/>}
+        <div className="modal-interno">
+          <div className={`modal ${nuevoEstilo ?? ''}`}>
+          {children}
+          </div>
+        </div>
         <Boton onClick={cerrarModal} icono={<Cerrar />} cerrar nuevoEstilo="btn-icono-chico" />
       </div>
     </div>, modalRoot

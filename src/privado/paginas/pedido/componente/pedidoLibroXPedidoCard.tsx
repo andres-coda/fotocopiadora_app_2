@@ -31,6 +31,14 @@ const PedidoLibroXPedidoCard = ({ pL }: Prop) => {
         </div>
         <EspecificacionCard listaEspecificaciones={transformarEspeAEnum(pL.especificaciones)} horizontal />
         {//<Desplegable/>
+        <ul className="lista-estados">
+          <li>Pendiente</li>
+          <li>Mitad</li>
+          <li>Impreso</li>
+          <li>Listo</li>
+          <li>Retirado</li>
+          <li>Cancelado</li>
+        </ul>
         }
       </div>
     </Card>

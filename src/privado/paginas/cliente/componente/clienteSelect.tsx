@@ -15,6 +15,7 @@ import Modal from "../../../../componente/modal/modal";
 import { PedidoProp } from "../../../../modelo/Entidades/pedido/pedido.interface";
 import PedidoLibroXPedidoCard from "../../pedido/componente/pedidoLibroXPedidoCard";
 import TextoVacio from "../../../../componente/Textos/textoVacio";
+import { formatoTelefonoMostrar } from "../../../../utils/formatoDatos";
 
 const ClienteSelect = () => {
   const cliente: ClienteProp | null = useSelector((store: appStore) => store.cliente.selected);
@@ -58,7 +59,7 @@ const ClienteSelect = () => {
           <PedidoCard pedido={pedido} key={pedido.id} onClick={(pedido) => { setPedido(pedido), setModal(true) }} />
         ))}
       </div>
-      <Modal>
+      <Modal texto={`Pedido de ${cliente.telefono ? formatoTelefonoMostrar(cliente.telefono): cliente.email ?? ''}`}>
         {pedido ?
           <PedidoCard pedido={pedido} activo />
           : <TextoVacio entidad="pedido" />

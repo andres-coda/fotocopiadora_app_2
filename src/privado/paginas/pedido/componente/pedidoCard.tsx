@@ -10,6 +10,7 @@ import PedidoLibroXPedidoCard from "./pedidoLibroXPedidoCard"
 import Botonera from "../../../../componente-estilo/botonera/botonera"
 import Boton from "../../../../componente-estilo/boton/boton"
 import Edit from '../../../../assets/edit.svg?react'
+import { claseXestado } from "../../../../utils/formatoDatos"
 
 interface Props {
   pedido: PedidoProp;
@@ -26,7 +27,7 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
   return (
     <Card
       onClick={onClick ? () => onClick(pedido) : undefined}
-      nuevoEstilo={`card-pedido`}
+      nuevoEstilo={`card-pedido ${activo && 'card-pedido-activo'}`}
     >
       <CardFechas pedido={pedido} />
       <CardArchivos pedido={pedido} />
@@ -34,13 +35,16 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
         activo &&
         <div className="pedidos-internos">
           {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} />)}
-          <Botonera>
-            <Boton texto="cambiar estado" secundario titulo="Cambiar estado del pedido"/>
-            <Boton icono={<Edit/>} titulo="Editar pedido" secundario nuevoEstilo="btn-icono-mediano"/>
-          </Botonera>
         </div>
       }
       <CardImporte pedido={pedido} />
+      {
+        activo &&
+        <Botonera nuevoEstilo={`pedido-card-botonera ${claseXestado(pedido.estado)}`}>
+          <Boton texto="cambiar estado" secundario titulo="Cambiar estado del pedido" />
+          <Boton icono={<Edit />} titulo="Editar pedido" secundario nuevoEstilo="btn-icono-mediano" onClick={() => handleSelect({ pedido, rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}` })} />
+        </Botonera>
+      }
     </Card>
   )
 }
