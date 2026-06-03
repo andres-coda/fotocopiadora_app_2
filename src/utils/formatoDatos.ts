@@ -43,8 +43,8 @@ export const estadoXstring = (estado: Estado): string => {
     case Estado.LISTO: return 'Listo';
     case Estado.RETIRADO: return 'Retirado';
     case Estado.CANCELADO: return 'Cancelado';
-    case Estado.IMPRESO_COMPLETO: return 'Impreso completo';
-    case Estado.IMPRESO_MITAD: return 'Impreso el simple faz';
+    case Estado.IMPRESO_COMPLETO: return 'Impreso';
+    case Estado.IMPRESO_MITAD: return 'Imprimiendo...';
     case Estado.STOCK: return 'En stock';
     default: return 'todavía no se resolvió este estado';
   }

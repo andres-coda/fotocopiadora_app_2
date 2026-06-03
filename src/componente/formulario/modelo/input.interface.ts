@@ -13,6 +13,7 @@ export interface InputProps<T extends FieldValues> {
   esquema: ZodObject<ZodRawShape>;
   formatValue?: (value: string) => string;  
   parseValue?: (value: string) => string; 
+  nuevoEstilo?:string;
 }
 
 export type CheckInputProps<T extends FieldValues> = Pick<InputProps<T>, 'name' | 'control' | 'label' | "tipo" | 'alingDerecha'>;

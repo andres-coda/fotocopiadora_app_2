@@ -35,6 +35,7 @@
   background-size: 1rem;
   padding-right: 2rem;
   max-height: 500px;
+  cursor: pointer;
 }
 
 .inputs-entero input,
@@ -78,8 +79,8 @@
 .inputs-entero textarea:not(:placeholder-shown)+label {
   top: 0;
   left: 0;
-  font-size: 0.8em !important;
-  font-weight: 400 !important;
+  font-size: 0.8em;
+  font-weight: 400;
   color: var(--colorSombra);
   background-color: var(--colorFondo);
   padding: 0.1rem 1rem;
@@ -89,7 +90,7 @@
 
 
 .alin-derecha input {
-  text-align: right !important;
+  text-align: right;
 }
 
 .is-invalida input:focus,
@@ -185,8 +186,8 @@
 }
 
 .input-checkbox input[type="checkbox"] {
-  width: 20px !important;
-  height: 20px !important;
+  width: 20px;
+  height: 20px;
   margin-right: 1rem;
   border-radius: 200%;
   border: 1px solid var(--colorSombra);

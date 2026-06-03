@@ -13,12 +13,13 @@ const Desplegable = <T extends FieldValues>({
   alingDerecha = undefined,
   onFocus,
   onBlur,
-  esquema
+  esquema,
+  nuevoEstilo = undefined,
 }: DesplegableProps<T>) => {
   return (
-    <div className='inputs-span'>
+    <div className={`inputs-span ${nuevoEstilo ? nuevoEstilo : ''}`}>
       <span>{esCampoRequerido(esquema, name) && <Texto texto='*' derecha chica negrita error />}</span>
-      <div className={`inputs-entero ${error && 'is-invalida'} ${alingDerecha && 'alin-derecha'}`}>
+      <div className={`inputs-entero ${error ? 'is-invalida': ''} ${alingDerecha ? 'alin-derecha' : ''}`}>
         <Controller
           name={name}
           control={control}
