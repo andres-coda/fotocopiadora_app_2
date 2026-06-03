@@ -11,6 +11,11 @@ import Botonera from "../../../../componente-estilo/botonera/botonera"
 import Boton from "../../../../componente-estilo/boton/boton"
 import Edit from '../../../../assets/edit.svg?react'
 import { claseXestado } from "../../../../utils/formatoDatos"
+import { pasarEstadoDesplegable } from "../../../../utils/estado"
+import { useForm } from "react-hook-form"
+import { estado, estadoFormEdit, formValuesEstado } from "../../../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface"
+import { zodResolver } from "@hookform/resolvers/zod"
+import Desplegable from "../../../../componente/formulario/desplegable"
 
 interface Props {
   pedido: PedidoProp;
@@ -19,6 +24,10 @@ interface Props {
 }
 
 const PedidoCard = ({ pedido, onClick, activo }: Props) => {
+   const { control, handleSubmit, formState: { errors }, watch } = useForm<formValuesEstado>({
+      resolver: zodResolver(estado),
+      defaultValues: estadoFormEdit({ pedido })
+    });
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     pedido
@@ -41,8 +50,8 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
       {
         activo &&
         <Botonera nuevoEstilo={`pedido-card-botonera ${claseXestado(pedido.estado)}`}>
-          <Boton texto="cambiar estado" secundario titulo="Cambiar estado del pedido" />
           <Boton icono={<Edit />} titulo="Editar pedido" secundario nuevoEstilo="btn-icono-mediano" onClick={() => handleSelect({ pedido, rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}` })} />
+          <Desplegable<formValuesEstado> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable()} nuevoEstilo="desplegable-estado desplegable-estado-pedido" />
         </Botonera>
       }
     </Card>

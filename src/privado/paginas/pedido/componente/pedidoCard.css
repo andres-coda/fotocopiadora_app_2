@@ -136,6 +136,7 @@
   width: fit-content;
   box-sizing: border-box;
   cursor: pointer;
+  font-size: 0.7em;
 }
 
 .desplegable-estado div option {
@@ -149,6 +150,18 @@
 
 .desplegable-estado span{
   display:none;
+}
+
+.desplegable-estado-pedido div select{
+  font-size: 1em;
+  width: fit-content;
+}
+
+.desplegable-estado-pedido{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: fit-content;
 }
 
 .estado-contenedor{

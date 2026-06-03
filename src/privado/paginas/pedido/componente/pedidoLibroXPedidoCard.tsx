@@ -12,6 +12,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { pasarEstadoDesplegable } from "../../../../utils/estado";
 import { useEffect } from "react";
 import usePedidoLibroApi from "../../../../servicio/pedido_libro/usePedidoLibroApi";
+import { useDispatch } from "react-redux";
+import { cambiarEstadoLibroPedidoCliente } from "../../../../redux/state/cliente.state";
 
 interface Prop {
   pL: PedidoLibroProp;
@@ -21,20 +23,21 @@ const PedidoLibroXPedidoCard = ({ pL }: Prop) => {
   const { cambiarEstadoPedidoLibro, responsePedidoLibro } = usePedidoLibroApi();
   const { control, handleSubmit, formState: { errors }, watch } = useForm<formValuesEstado>({
     resolver: zodResolver(estado),
-    defaultValues: estadoFormEdit({pedidoLibro:pL})
+    defaultValues: estadoFormEdit({ pedidoLibro: pL })
   });
+  const dispatch = useDispatch();
 
   const estadoActual = watch().estado;
 
-  useEffect(()=>{
-    if(estadoActual != pL.estado){
+  useEffect(() => {
+    if (estadoActual != pL.estado) {
       cambiarEstadoPedidoLibro(pL.id, estadoActual);
     }
   }, [estadoActual])
 
-  useEffect(()=>{
-    if(responsePedidoLibro){
-      console.log('estado cambiado')
+  useEffect(() => {
+    if (responsePedidoLibro) {
+      dispatch(cambiarEstadoLibroPedidoCliente(pL))
     }
   }, [responsePedidoLibro])
 
@@ -52,7 +55,7 @@ const PedidoLibroXPedidoCard = ({ pL }: Prop) => {
         </div>
         <EspecificacionCard listaEspecificaciones={transformarEspeAEnum(pL.especificaciones)} horizontal />
         <div className="estado-contenedor">
-        <Desplegable<formValuesEstado> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable()} nuevoEstilo="desplegable-estado"/>
+          <Desplegable<formValuesEstado> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable()} nuevoEstilo="desplegable-estado" />
         </div>
       </div>
     </Card>

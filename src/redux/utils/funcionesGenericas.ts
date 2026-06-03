@@ -3,7 +3,8 @@ import { editContext, filterContext, filtroLlamada, orden } from "../modelo/redu
 import { arregloOrdenado } from "./ordenarArreglo";
 import { eliminarElementoArreglo } from "./eliminarElementoArreglo";
 import { HasId } from "../../modelo/general/hasId.interface";
-interface actionProp<T> {
+
+export interface actionProp<T> {
   payload: T;
   type: string;
 }
