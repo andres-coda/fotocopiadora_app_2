@@ -1,3 +1,4 @@
+import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { Estado } from "../../modelo/Entidades/pedido_libro/estado.enum";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { PEDIDO } from "../../utils/endpoint";
@@ -9,10 +10,7 @@ const usePedidoDeleteApi = () => {
   const eliminarPedido = (id: string) =>
     fetchData({ url: `${PEDIDO}/${id}`, methodo: httpMethod.DELETE });
 
-  const cambiarEstadoPedido = (id: string, estado: Estado) =>
-    fetchData({ url: `${PEDIDO}/${id}`, methodo: httpMethod.PATCH, bodyData: JSON.stringify({ estado }) });
-
-  return { cambiarEstadoPedido, eliminarPedido, responsePedido: response, loadingPedido: loading, errorFetchPedido: errorFetch };
+  return { eliminarPedido, responsePedido: response, loadingPedido: loading, errorFetchPedido: errorFetch };
 
 }
 

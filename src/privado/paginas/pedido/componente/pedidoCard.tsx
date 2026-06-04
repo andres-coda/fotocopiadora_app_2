@@ -29,7 +29,6 @@ interface Props {
 }
 
 const PedidoCard = ({ pedido, onClick, activo }: Props) => {
-  const {cambiarEstadoPedido, responsePedido, errorFetchPedido, loadingPedido} = usePedidoDeleteApi();
   const dispatch = useDispatch()
    const { control, handleSubmit, formState: { errors }, watch } = useForm<formValuesEstado>({
       resolver: zodResolver(estado),
@@ -44,15 +43,15 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
 
   useEffect(()=>{
     if(estadoActual != pedido.estado){
-      cambiarEstadoPedido(pedido.id, estadoActual);
+      //cambiarEstadoPedido(pedido.id, estadoActual);
     }
   },[estadoActual])
 
-  useEffect(()=>{
+  /* useEffect(()=>{
     if(responsePedido){
       dispatch(cambiarEstadoPedidoCliente(pedido))
     }
-  },[responsePedido])
+  },[responsePedido]) */
 
   return (
     <Card
