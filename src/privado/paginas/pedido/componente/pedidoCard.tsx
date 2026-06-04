@@ -16,6 +16,11 @@ import { useForm } from "react-hook-form"
 import { estado, estadoFormEdit, formValuesEstado } from "../../../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Desplegable from "../../../../componente/formulario/desplegable"
+import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum"
+import { useEffect } from "react"
+import usePedidoDeleteApi from "../../../../servicio/pedido/usePedidoDeleteApi"
+import { useDispatch } from "react-redux"
+import { cambiarEstadoPedidoCliente } from "../../../../redux/state/cliente.state"
 
 interface Props {
   pedido: PedidoProp;
@@ -24,6 +29,8 @@ interface Props {
 }
 
 const PedidoCard = ({ pedido, onClick, activo }: Props) => {
+  const {cambiarEstadoPedido, responsePedido, errorFetchPedido, loadingPedido} = usePedidoDeleteApi();
+  const dispatch = useDispatch()
    const { control, handleSubmit, formState: { errors }, watch } = useForm<formValuesEstado>({
       resolver: zodResolver(estado),
       defaultValues: estadoFormEdit({ pedido })
@@ -32,6 +39,20 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     pedido
   });
+
+  const estadoActual:Estado = watch().estado;
+
+  useEffect(()=>{
+    if(estadoActual != pedido.estado){
+      cambiarEstadoPedido(pedido.id, estadoActual);
+    }
+  },[estadoActual])
+
+  useEffect(()=>{
+    if(responsePedido){
+      dispatch(cambiarEstadoPedidoCliente(pedido))
+    }
+  },[responsePedido])
 
   return (
     <Card

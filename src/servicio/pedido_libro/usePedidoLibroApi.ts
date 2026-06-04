@@ -1,5 +1,4 @@
 import { pedidoLibroAdapter } from "../../adaptadores/entrada/pedidoLibro.adapter";
-import { Estado } from "../../modelo/Entidades/pedido_libro/estado.enum";
 import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { PEDIDO_LIBRO } from "../../utils/endpoint";
@@ -13,8 +12,6 @@ const usePedidoLibroApi = () => {
     fetchData({ url: `${PEDIDO_LIBRO}/${id}`, methodo: httpMethod.GET, adapter: pedidoLibroAdapter });
 
   
-  const cambiarEstadoPedidoLibro = (id:string, estado:Estado) =>
-    fetchData({ url: `${PEDIDO_LIBRO}/${id}`, methodo: httpMethod.PATCH, bodyData:JSON.stringify({estado}), adapter: pedidoLibroAdapter });
   /*
     const crearPedidoLibro = (data: formValuesPedidoLibro) =>
       fetchData({ url: BANCO, methodo: httpMethod.POST, bodyData: JSON.stringify(pedidoLibroDto(data)) });
@@ -24,7 +21,7 @@ const usePedidoLibroApi = () => {
   
   */
 
-  return { obtenerPedidoLibroById, cambiarEstadoPedidoLibro, responsePedidoLibro: response, loadingPedidoLibro: loading, errorFetchPedidoLibro: errorFetch };
+  return { obtenerPedidoLibroById, responsePedidoLibro: response, loadingPedidoLibro: loading, errorFetchPedidoLibro: errorFetch };
 
 }
 

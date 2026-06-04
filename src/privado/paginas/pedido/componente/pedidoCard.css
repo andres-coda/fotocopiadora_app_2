@@ -115,6 +115,9 @@
 }
 
 .desplegable-estado{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   width: fit-content;
   margin: 0;
   padding: 0;
@@ -126,7 +129,8 @@
   padding: 0;
 }
 
-.desplegable-estado div select {
+.desplegable-estado div select
+ {
   padding: .1rem .5rem;
   padding-right: 1.5rem;
   margin: 0;
@@ -137,6 +141,22 @@
   box-sizing: border-box;
   cursor: pointer;
   font-size: 0.7em;
+}
+
+.estado-contenedor p
+ {
+  padding: .1rem .5rem;
+  padding-right: 1.5rem;
+  margin: 0;
+  min-height:none ;
+  height: fit-content;
+  background-color: var(--colorFondo);
+  width: fit-content;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 0.7em;
+  border: 1px solid var(--colorNegro);
+  border-radius: 5px;
 }
 
 .desplegable-estado div option {

@@ -10,40 +10,44 @@ import './pedidoCard.css'
 import { estado, estadoFormEdit, formValuesEstado } from "../../../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { pasarEstadoDesplegable } from "../../../../utils/estado";
-import { useEffect } from "react";
-import usePedidoLibroApi from "../../../../servicio/pedido_libro/usePedidoLibroApi";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { cambiarEstadoLibroPedidoCliente } from "../../../../redux/state/cliente.state";
+import usePedidoLibroDeleteApi from "../../../../servicio/pedido_libro/usePedidoLibroDeleteApi";
+import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
 
 interface Prop {
   pL: PedidoLibroProp;
 }
 
-const PedidoLibroXPedidoCard = ({ pL }: Prop) => {
-  const { cambiarEstadoPedidoLibro, responsePedidoLibro } = usePedidoLibroApi();
+const PedidoLibroXPedidoCard = ({ pL}: Prop) => {
+  const { cambiarEstadoPedidoLibro, responsePedidoLibro, loadingPedidoLibro, errorFetchPedidoLibro } = usePedidoLibroDeleteApi();
   const { control, handleSubmit, formState: { errors }, watch } = useForm<formValuesEstado>({
     resolver: zodResolver(estado),
     defaultValues: estadoFormEdit({ pedidoLibro: pL })
   });
   const dispatch = useDispatch();
 
+  const [clasEstado, setClasEstado] = useState<Estado>(pL.estado);
+
   const estadoActual = watch().estado;
 
   useEffect(() => {
-    if (estadoActual != pL.estado) {
+    if (estadoActual != clasEstado) {
       cambiarEstadoPedidoLibro(pL.id, estadoActual);
     }
   }, [estadoActual])
 
   useEffect(() => {
     if (responsePedidoLibro) {
-      dispatch(cambiarEstadoLibroPedidoCliente(pL))
+      dispatch(cambiarEstadoLibroPedidoCliente({ ...pL, estado: estadoActual }));
+      setClasEstado(estadoActual);
     }
-  }, [responsePedidoLibro])
+  }, [responsePedidoLibro]);
 
   return (
     <Card
-      nuevoEstilo={`pedido-libro-card ${claseXestado(pL.estado)} pedido-cliente-card`}
+      nuevoEstilo={`pedido-libro-card ${claseXestado(clasEstado)} pedido-cliente-card`}
       tituloCard={`${nombreLibroXstring(pL.libro)}`}
     >
       <Texto texto={`${pL.cantidad}`} mediana ajustado />
@@ -55,7 +59,11 @@ const PedidoLibroXPedidoCard = ({ pL }: Prop) => {
         </div>
         <EspecificacionCard listaEspecificaciones={transformarEspeAEnum(pL.especificaciones)} horizontal />
         <div className="estado-contenedor">
-          <Desplegable<formValuesEstado> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable()} nuevoEstilo="desplegable-estado" />
+          {
+            !loadingPedidoLibro ?
+              <Desplegable<formValuesEstado> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable()} nuevoEstilo="desplegable-estado" />
+              : <Texto texto={'Cambiando...'} chica ajustado/>
+          }
         </div>
       </div>
     </Card>
