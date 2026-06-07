@@ -34,6 +34,7 @@ const Pedidos = () => {
         valor={valor}
         setValor={setValor}
         handleOrden={() => dispatch(cambiarOrdenPedido())}
+        handleFiltro={() => dispatch(cambiarOrdenPedido())}
         etiquetaArriba='Al comienzo de la lista'
         etiquetaMas='Nueva pedido'
         titulo='Lista de pedidos'

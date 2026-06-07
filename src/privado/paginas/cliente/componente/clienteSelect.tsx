@@ -19,6 +19,7 @@ import { EstadoPedido } from "../../../../modelo/Entidades/pedido/estadoPedido.e
 import useBuscadorCompleto from "../../../../hooks/buscador/useBuscadorCompleto";
 import { filterContext, filtroLlamada } from "../../../../redux/modelo/reduxContext.interface";
 import { filtrosInicialesPedido, filtrosPedidoFuntion } from "../../../../filtro/pedido.filtro";
+import PedidoCardCliente from "../../pedido/componente/pedidoCardCliente";
 
 const ClienteSelect = () => {
   const clienteContexto: filterContext<ClienteProp> = useSelector((store: appStore) => store.cliente);
@@ -80,7 +81,7 @@ const ClienteSelect = () => {
         {
           elementosFiltrados.length === 0 ? <TextoVacio entidad="pedidos" />
             : elementosFiltrados.map(pedido => (
-              <PedidoCard pedido={pedido} key={pedido.id} onClick={(pedido) => { setPedido(pedido), setModal(true) }} />
+              <PedidoCardCliente pedido={pedido} key={pedido.id} onClick={(pedido) => { setPedido(pedido), setModal(true) }} />
             ))}
       </div>
       <Modal texto={`Pedido de ${clienteContexto.selected.telefono ? formatoTelefonoMostrar(clienteContexto.selected.telefono) : clienteContexto.selected.email ?? ''}`}>
