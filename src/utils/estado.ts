@@ -1,5 +1,5 @@
 import { Opcion } from "../componente/formulario/modelo/input.interface";
-import { BaseProp } from "../modelo/Entidades/base/base.interface";
+import { EstadoPedido } from "../modelo/Entidades/pedido/estadoPedido.enum";
 import { PedidoProp } from "../modelo/Entidades/pedido/pedido.interface";
 import { Estado } from "../modelo/Entidades/pedido_libro/estado.enum";
 
@@ -30,7 +30,7 @@ interface estadoXdesplegable {
   nombre: string;
 }
 
-const estadosParaDesplegable: estadoXdesplegable[] = [
+export const estadosParaDesplegable: estadoXdesplegable[] = [
   { clave: Estado.PENDIENTE, nombre: 'Pendiente' },
   { clave: Estado.IMPRESO_MITAD, nombre: 'Imprimiendo...' },
   { clave: Estado.IMPRESO_COMPLETO, nombre: 'Impreso' },
@@ -39,9 +39,22 @@ const estadosParaDesplegable: estadoXdesplegable[] = [
   { clave: Estado.CANCELADO, nombre: 'Cancelado' },
 ];
 
-export const pasarEstadoDesplegable = (): Opcion[] => {
-  const opciones: Opcion[] = estadosParaDesplegable.map(d => {
-    return { value: d.clave, label: String(d.nombre) }
+interface estadoPedidoXdesplegable {
+  clave: EstadoPedido;
+  nombre: string;
+}
+
+export const estadosPedidoParaDesplegable: estadoPedidoXdesplegable[] = [
+  { clave: EstadoPedido.PENDIENTE, nombre: 'Pendiente' },
+  { clave: EstadoPedido.LISTO, nombre: 'Listo' },
+  { clave: EstadoPedido.RETIRADO, nombre: 'Retirado' },
+  { clave: EstadoPedido.CANCELADO, nombre: 'Cancelado' },
+];
+
+export const pasarEstadoDesplegable = (estadosP?: estadoPedidoXdesplegable[], estadosPl?: estadoXdesplegable[]): Opcion[] => {
+  const array: estadoPedidoXdesplegable[] | estadoXdesplegable[] = estadosP ?? estadosPl ?? [];
+  const opciones: Opcion[] = array.map(d => {
+    return { value: d.clave.toString(), label: String(d.nombre) }
   });
   return opciones
 }

@@ -1,6 +1,6 @@
 import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
 import { PedidoAdapterProp, PedidoProp } from "../pedido/pedido.interface";
-import { ResumenAdapterProp } from "./resumen.interface";
+import { ResumenAdapterProp, resumenInicial, ResumenProp } from "./resumen.interface";
 
 export interface ClienteAdapterProp extends BaseAdapterProp {
   nombre?: string;
@@ -14,9 +14,7 @@ export interface ClienteProp extends BaseProp {
   nombre?: string;
   telefono?: string;
   email?: string;
-  pendiente?: number;
-  listo?: number;
-  retirado?: number;
+  resumen: ResumenProp;
   pedidos: PedidoProp[];
 }
 
@@ -25,8 +23,6 @@ export const clienteInicial: ClienteProp = {
   nombre: '',
   telefono: '',
   email: '',
-  pendiente: 0,
-  listo: 0,
-  retirado: 0,
+  resumen: resumenInicial,
   pedidos: []
 }

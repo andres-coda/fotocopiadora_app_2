@@ -4,6 +4,7 @@ import { ClienteAdapterProp, ClienteProp } from "../../modelo/Entidades/cliente/
 import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { baseAdapter } from "./base.adapter";
 import { pedidoAdapterArray } from "./pedido.adapter";
+import { resumenAdapter } from "./resumen.adapter";
 
 export const clienteAdapter = (cliente?: ClienteAdapterProp): ClienteProp | undefined => {
   if (!cliente) return undefined;
@@ -19,9 +20,7 @@ export const clienteAdapter = (cliente?: ClienteAdapterProp): ClienteProp | unde
     nombre: cliente.nombre ?? undefined,
     telefono: cliente.telefono ?? undefined,
     email: cliente.email ?? undefined,
-    pendiente: cliente.resumen?.pendiente ?? undefined,
-    listo: cliente.resumen?.listo ?? undefined,
-    retirado: cliente.resumen?.retirado ?? undefined,
+    resumen: resumenAdapter(cliente.resumen),
     pedidos: pedidos
   }
 

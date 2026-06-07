@@ -1,4 +1,5 @@
 import { LibroProp } from "../modelo/Entidades/libro/libro.interface";
+import { EstadoPedido } from "../modelo/Entidades/pedido/estadoPedido.enum";
 import { Estado } from "../modelo/Entidades/pedido_libro/estado.enum";
 import { transformarComponente } from "./componente";
 
@@ -37,6 +38,13 @@ export const claseXestado = (estado: Estado): string => {
   return 'pendiente'
 }
 
+export const claseXestadoPedido = (estado: EstadoPedido): string => {
+  if (estado === EstadoPedido.LISTO) return 'listo';
+  if (estado === EstadoPedido.RETIRADO) return 'retirado';
+  if (estado === EstadoPedido.CANCELADO) return 'cancelado';
+  return 'pendiente'
+}
+
 export const estadoXstring = (estado: Estado): string => {
   switch (estado) {
     case Estado.PENDIENTE: return 'Pendiente';
@@ -46,6 +54,16 @@ export const estadoXstring = (estado: Estado): string => {
     case Estado.IMPRESO_COMPLETO: return 'Impreso';
     case Estado.IMPRESO_MITAD: return 'Imprimiendo...';
     case Estado.STOCK: return 'En stock';
+    default: return 'todavía no se resolvió este estado';
+  }
+}
+
+export const estadoPedidoXstring = (estado: EstadoPedido): string => {
+  switch (estado) {
+    case EstadoPedido.PENDIENTE: return 'Pendiente';
+    case EstadoPedido.LISTO: return 'Listo';
+    case EstadoPedido.RETIRADO: return 'Retirado';
+    case EstadoPedido.CANCELADO: return 'Cancelado';
     default: return 'todavía no se resolvió este estado';
   }
 }

@@ -1,41 +1,45 @@
-import { WritableDraft } from '@reduxjs/toolkit'
+import { current, WritableDraft } from '@reduxjs/toolkit'
 import { ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface'
 import { filterContext } from '../modelo/reduxContext.interface'
 import { actionProp } from './funcionesGenericas'
-import { PedidoLibroProp } from '../../modelo/Entidades/pedido_libro/pedidoLibro.interface'
 import { PedidoProp } from '../../modelo/Entidades/pedido/pedido.interface'
+import { CambiarEstadoLibroPedidoProp } from '../../modelo/Entidades/pedido_libro/cambioEstado.interface'
 
 export const cambiarEstadoLibroPedidoClienteFuncion = (
   state: WritableDraft<filterContext<ClienteProp>>,
-  action: actionProp<PedidoLibroProp>
+  action: actionProp<CambiarEstadoLibroPedidoProp>
 ) => ({
-  ...state,
+  ...current(state),
   selected: modificarEstadoLibroPedidoCliente(
     action.payload,
     state.selected
   )
 });
 
-const modificarEstadoLibroPedidoCliente = (libroPedido: PedidoLibroProp, cliente: ClienteProp | null): ClienteProp | null => {
+const modificarEstadoLibroPedidoCliente = (prop: CambiarEstadoLibroPedidoProp, cliente: ClienteProp | null): ClienteProp | null => {
   if (!cliente) return null;
   if (!cliente.pedidos) return cliente;
   const newPedidos: PedidoProp[] = cliente.pedidos.map(p => {
+    let estadoPedido = p.estado;
     if (p.libroPedidos.length === 0) return p
     const lPaux = p.libroPedidos.map(lp => {
-      if (lp.id != libroPedido.id) return lp;
-      return libroPedido;
+      if (lp.id != prop.id) return lp;
+      estadoPedido = prop.pedido.estado;
+      return {...lp, estado:prop.estado};
     });
     return {
       ...p,
+      estado:estadoPedido,
       libroPedidos: lPaux
     };
   })
   return {
     ...cliente,
-    pedidos: newPedidos
+    pedidos: newPedidos,
+    resumen: prop.resumen
   };
 }
-
+/* 
 export const cambiarEstadoPedidoClienteFuncion = (
   state: WritableDraft<filterContext<ClienteProp>>,
   action: actionProp<PedidoProp>
@@ -68,3 +72,4 @@ const modificarEstadoPedidoCliente = (pedido: PedidoProp, cliente: ClienteProp |
     pedidos: newPedidos
   };
 }
+ */

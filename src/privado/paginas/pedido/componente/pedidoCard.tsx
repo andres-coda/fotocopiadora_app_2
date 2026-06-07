@@ -10,17 +10,14 @@ import PedidoLibroXPedidoCard from "./pedidoLibroXPedidoCard"
 import Botonera from "../../../../componente-estilo/botonera/botonera"
 import Boton from "../../../../componente-estilo/boton/boton"
 import Edit from '../../../../assets/edit.svg?react'
-import { claseXestado } from "../../../../utils/formatoDatos"
-import { pasarEstadoDesplegable } from "../../../../utils/estado"
+import { claseXestadoPedido } from "../../../../utils/formatoDatos"
+import { estadosPedidoParaDesplegable, pasarEstadoDesplegable } from "../../../../utils/estado"
 import { useForm } from "react-hook-form"
-import { estado, estadoFormEdit, formValuesEstado } from "../../../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface"
+import { estado, estadoFormEdit, estadoPedido, estadoPedidoFormEdit, formValuesEstado, formValuesEstadoPedido } from "../../../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Desplegable from "../../../../componente/formulario/desplegable"
-import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum"
 import { useEffect } from "react"
-import usePedidoDeleteApi from "../../../../servicio/pedido/usePedidoDeleteApi"
-import { useDispatch } from "react-redux"
-import { cambiarEstadoPedidoCliente } from "../../../../redux/state/cliente.state"
+import { EstadoPedido } from "../../../../modelo/Entidades/pedido/estadoPedido.enum"
 
 interface Props {
   pedido: PedidoProp;
@@ -29,17 +26,16 @@ interface Props {
 }
 
 const PedidoCard = ({ pedido, onClick, activo }: Props) => {
-  const dispatch = useDispatch()
-   const { control, handleSubmit, formState: { errors }, watch } = useForm<formValuesEstado>({
-      resolver: zodResolver(estado),
-      defaultValues: estadoFormEdit({ pedido })
+   const { control, handleSubmit, formState: { errors }, watch } = useForm<formValuesEstadoPedido>({
+      resolver: zodResolver(estadoPedido),
+      defaultValues: estadoPedidoFormEdit(pedido )
     });
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     pedido
   });
 
-  const estadoActual:Estado = watch().estado;
+  const estadoActual:EstadoPedido = watch().estado;
 
   useEffect(()=>{
     if(estadoActual != pedido.estado){
@@ -69,9 +65,9 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
       <CardImporte pedido={pedido} />
       {
         activo &&
-        <Botonera nuevoEstilo={`pedido-card-botonera ${claseXestado(pedido.estado)}`}>
+        <Botonera nuevoEstilo={`pedido-card-botonera ${claseXestadoPedido(pedido.estado)}`}>
           <Boton icono={<Edit />} titulo="Editar pedido" secundario nuevoEstilo="btn-icono-mediano" onClick={() => handleSelect({ pedido, rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}` })} />
-          <Desplegable<formValuesEstado> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable()} nuevoEstilo="desplegable-estado desplegable-estado-pedido" />
+          <Desplegable<formValuesEstadoPedido> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable(estadosPedidoParaDesplegable)} nuevoEstilo="desplegable-estado desplegable-estado-pedido" />
         </Botonera>
       }
     </Card>

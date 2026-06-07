@@ -114,9 +114,13 @@ export const desactivarFiltros = <T extends HasId>(
 export const setFiltroGenerico = <T extends HasId>(
   state: WritableDraft<filterContext<T>>,
   action: actionProp<filtroLlamada[]>
-) => {
-  state.filter.filtros = action.payload;
-}
+) => ({
+   ...state,
+  filter:{
+    ...state.filter,
+    filtros:action.payload
+  }
+});
 
 export const setOrdenGenerico = <T extends HasId>(
   state: WritableDraft<filterContext<T>>,
@@ -124,10 +128,14 @@ export const setOrdenGenerico = <T extends HasId>(
     sortBy: Draft<keyof T>;
     sortOrder?: orden
   }>
-) => {
-  state.filter.sortBy = action.payload.sortBy
-  state.filter.sortOrder = action.payload.sortOrder || 'asc';
-}
+) => ({
+  ...state,
+  filter:{
+    ...state.filter,
+    sortBy:action.payload.sortBy,
+    sortOrder:action.payload.sortOrder || 'asc'
+  }
+})
 
 export const setOrdenEditGenerico = <T extends HasId>(
   state: WritableDraft<editContext<T>>,
@@ -135,10 +143,14 @@ export const setOrdenEditGenerico = <T extends HasId>(
     sortBy: Draft<keyof T>;
     sortOrder?: orden
   }>
-) => {
-  state.filter.sortBy = action.payload.sortBy
-  state.filter.sortOrder = action.payload.sortOrder || 'asc';
-}
+) => ({
+  ...state,
+  filter:{
+    ...state.filter,
+    sortBy:action.payload.sortBy,
+    sortOrder:action.payload.sortOrder || 'asc'
+  }
+})
 
 const cambiarOrden = (tipo?: orden): orden => {
   if (!tipo) return 'asc';
@@ -147,15 +159,23 @@ const cambiarOrden = (tipo?: orden): orden => {
 
 export const cambiarOrdenGenerico = <T extends HasId>(
   state: WritableDraft<filterContext<T>>,
-) => {
-  state.filter.sortOrder = cambiarOrden(state.filter.sortOrder);
-};
+) => ({
+   ...state,
+  filter:{
+    ...state.filter,
+    sortOrder:cambiarOrden(state.filter.sortOrder)
+  }
+});
 
 export const cambiarOrdenGeneticoEdit = <T extends HasId>(
   state: WritableDraft<editContext<T>>,
-) => {
-  state.filter.sortOrder = cambiarOrden(state.filter.sortOrder);
-};
+) => ({
+   ...state,
+  filter:{
+    ...state.filter,
+    sortOrder:cambiarOrden(state.filter.sortOrder)
+  }
+});
 
 export const editElemento = <T extends HasId>(
   state: WritableDraft<editContext<T>>,

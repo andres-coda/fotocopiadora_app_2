@@ -3,6 +3,7 @@ import { addFiltroGenerico, agregarElementoItems, cambiarOrdenGenerico, createEl
 import { filterContext, FiltersState } from "../modelo/reduxContext.interface";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { filtrosInicialesLibro } from "../../filtro/libro.filtro";
+import { modificarStockFuncion } from "../utils/funcionesLibro";
 
 const filterDefault: FiltersState<LibroProp> = {
   filtros: filtrosInicialesLibro,
@@ -31,7 +32,8 @@ export const libroSlice = createSlice({
     substractFiltroLibro: substractFiltroGenerico<LibroProp>,
     resetFiltrosLibro: resetFiltroGenerico<LibroProp>,
     setOrdenamientoLibros: setOrdenGenerico<LibroProp>,
-    cambiarOrdenLibro: cambiarOrdenGenerico<LibroProp>
+    cambiarOrdenLibro: cambiarOrdenGenerico<LibroProp>,
+    actualizarStock: modificarStockFuncion
   }
 });
 
@@ -39,7 +41,7 @@ export const {
   createLibros, addLibros, substractLibros, resetLibros,
   selectLibro, resetSelectLibro, verificarLibro, 
   addFiltroLibro, substractFiltroLibro, resetFiltrosLibro, setOrdenamientoLibros,
-  cambiarOrdenLibro,
+  cambiarOrdenLibro,actualizarStock
 } = libroSlice.actions;
 
 export default libroSlice.reducer;
