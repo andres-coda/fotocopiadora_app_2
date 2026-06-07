@@ -4,6 +4,6 @@ export interface PedidoLibroDtoProp{
   cantidad:number,
   detalles?: string,
   especificaciones:Especificaciones[],
-  libro: string,
-  sede: string,
+  libro_id: string,
+  sede_id: string,
 }

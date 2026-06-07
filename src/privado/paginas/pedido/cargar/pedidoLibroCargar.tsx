@@ -59,7 +59,6 @@ const PedidoLibroCargar = () => {
   const handlePropuesta = (propuesta: PropuestaProp) => {
     console.log('handlePropuesta: ',propuesta)
     if (propuesta.libro && propuesta.libro.length > 0) { 
-      console.log('aqui estoy')
       setDatos(prev => {
         const pedidos:PedidoLibroConstruccionProp[] = propuesta.libro?.map(l=> crearLibropedido(l, pedidoParcial, sedes)) ?? [];
         console.log('Pedidos: ', pedidos)
