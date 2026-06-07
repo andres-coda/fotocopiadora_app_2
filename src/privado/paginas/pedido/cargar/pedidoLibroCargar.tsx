@@ -17,6 +17,7 @@ import { pasarDesplegable } from '../../../../utils/formulario';
 import { Estado } from '../../../../modelo/Entidades/pedido_libro/estado.enum';
 import PedidoLibroCard from '../componente/pedidoLibroCard';
 import Boton from '../../../../componente-estilo/boton/boton';
+import { useEffect } from 'react';
 
 const crearLibropedido = (libro: LibroProp, pedidoParcial: formValuesPedidoLibro, sedes: SedeProp[], estado?: Estado): PedidoLibroConstruccionProp => {
   return {
@@ -35,7 +36,7 @@ const PedidoLibroCargar = () => {
   const { datos, setDatos } = usePedidoContext();
   const { control, formState: { errors }, watch } = useForm<formValuesPedidoLibro>({
     resolver: zodResolver(pedidoLibro),
-    defaultValues: pedidoLibroFormEdit({ pedidoLibro: datos?.pedidoActual || undefined, libro: datos?.pedidoActual?.libro, sede:sedes[0] })
+    defaultValues: pedidoLibroFormEdit({ pedidoLibro: datos?.pedidoActual || undefined, libro: datos?.pedidoActual?.libro, sede: sedes[0] })
   });
   const pedidoParcial = watch();
 
@@ -57,10 +58,9 @@ const PedidoLibroCargar = () => {
 
 
   const handlePropuesta = (propuesta: PropuestaProp) => {
-    console.log('handlePropuesta: ',propuesta)
-    if (propuesta.libro && propuesta.libro.length > 0) { 
+    if (propuesta.libro && propuesta.libro.length > 0) {
       setDatos(prev => {
-        const pedidos:PedidoLibroConstruccionProp[] = propuesta.libro?.map(l=> crearLibropedido(l, pedidoParcial, sedes)) ?? [];
+        const pedidos: PedidoLibroConstruccionProp[] = propuesta.libro?.map(l => crearLibropedido(l, pedidoParcial, sedes)) ?? [];
         console.log('Pedidos: ', pedidos)
         const newDatos = {
           ...prev,
@@ -82,6 +82,24 @@ const PedidoLibroCargar = () => {
     })
   }
 
+  useEffect(() => {
+    if(pedidoParcial && datos?.pedidoActual){
+      console.log('Ingreseee')
+      setDatos(prev => {
+        if(!prev || !prev.pedidoActual) return prev;
+        return {
+          ...prev,
+          pedidoActual: {
+            ...prev?.pedidoActual,
+            cantidad: Number(pedidoParcial.cantidad) === 0 ? 1 : Number(pedidoParcial.cantidad),
+            detalles: pedidoParcial.detalles ?? '',
+            sede: sedes.find(s => s.id === pedidoParcial.sede)
+          }
+        }
+      })
+    }
+  }, [pedidoParcial.cantidad, pedidoParcial.detalles])
+
   return (
     <div className='pedidoLibroCargar'>
       <div className='form-horizontal'>
@@ -98,7 +116,7 @@ const PedidoLibroCargar = () => {
         </>
       )
       }
-      {datos?.pedidos?.map(p => <PedidoLibroCard pL={p} estadoClas={Estado.POR_CONFIRMAR} key={p.id}/>)
+      {datos?.pedidos?.map(p => <PedidoLibroCard pL={p} estadoClas={Estado.POR_CONFIRMAR} key={p.id} />)
       }
     </div>
   )

@@ -23,7 +23,7 @@ interface Prop {
 
 const PedidoLibroXPedidoCard = ({ pL}: Prop) => {
   const { cambiarEstadoPedidoLibro, responsePedidoLibro, loadingPedidoLibro, errorFetchPedidoLibro } = useCambiarEstadoPedidoLibroApi();
-  const { control, handleSubmit, formState: { errors }, watch } = useForm<formValuesEstado>({
+  const { control, formState: { errors }, watch } = useForm<formValuesEstado>({
     resolver: zodResolver(estado),
     defaultValues: estadoFormEdit(pL)
   });
@@ -43,9 +43,16 @@ const PedidoLibroXPedidoCard = ({ pL}: Prop) => {
     if (responsePedidoLibro) {
       dispatch(cambiarEstadoLibroPedidoCliente(responsePedidoLibro));
       dispatch(actualizarStock(responsePedidoLibro));
-      setClasEstado(estadoActual);
+      setClasEstado(responsePedidoLibro.estado);
     }
   }, [responsePedidoLibro]);
+
+  if(errorFetchPedidoLibro) return(
+ <>
+    <Texto texto={'Error al intentar cambiar el estado del libro'} error chica/> 
+  <Texto texto={errorFetchPedidoLibro} error chica/>
+</>
+)
 
   return (
     <Card

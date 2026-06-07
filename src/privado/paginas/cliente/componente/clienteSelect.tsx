@@ -47,9 +47,10 @@ const ClienteSelect = () => {
       <div className="cliente-vertical">
         <ClienteDatos cliente={cliente} />
         <ul>
-          <li className='pendiente' title='Pedidos pendientes'>Pendiente: {cliente.pendiente}</li>
-          <li className='terminado' title='Pedidos listos para entregar'>Para retirar: {cliente.listo}</li>
-          <li className='retirado' title='Pedidos retirados'>Retirados: {cliente.retirado}</li>
+          <li className='pendiente' title='Pedidos pendientes'>Pendiente: {cliente.resumen.pendiente}</li>
+          <li className='terminado' title='Pedidos listos para entregar'>Para retirar: {cliente.resumen.listo}</li>
+          <li className='retirado' title='Pedidos retirados'>Retirados: {cliente.resumen.retirado}</li>
+          <li className='cancelado' title='Pedidos cancelados'>Retirados: {cliente.resumen.cancelado}</li>
         </ul>
 
       </div>
