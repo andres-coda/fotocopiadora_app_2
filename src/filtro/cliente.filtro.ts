@@ -7,10 +7,11 @@ import { FiltroIndividual } from "./filtro.interface";
 export const clienteKeyBuscador: (keyof ClienteProp)[] = ['nombre', 'telefono', 'email'];
 
 export const filtrosInicialesCliente: filtroLlamada[] = [
-  { id: '', estado: false },
+  { id: 'tiene_pedidos', estado: false },
 ]
 
 export const filtrosClienteFuntion: FiltroIndividual<ClienteProp>[] = [
+
 ]
 
 export const camposBusquedaCliente: CampoBusqueda<ClienteAdapterProp>[] = [

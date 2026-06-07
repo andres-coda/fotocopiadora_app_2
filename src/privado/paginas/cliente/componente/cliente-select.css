@@ -19,11 +19,15 @@
 }
 
 .cliente-vertical li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   margin: .5rem 0;
-  padding: .2rem 1rem;
+  padding: 0.1rem 1rem;
   border: 1px solid var(--colorSombra);
   border-radius: 4px;
   text-align: start;
+  cursor: pointer;
 }
 
 .cliente-pedido{

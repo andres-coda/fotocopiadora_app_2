@@ -1,6 +1,7 @@
 .card-cliente {
   padding: 0;
   flex-direction: row;
+  min-height: 100px;
 }
 
 .card-cliente ul {

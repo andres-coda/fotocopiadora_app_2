@@ -4,6 +4,7 @@
   box-shadow: none;
   padding: 0;
   overflow: hidden;
+  min-height: 160px;
 }
 
 .card-pedido-activo {

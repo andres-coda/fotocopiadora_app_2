@@ -1,6 +1,6 @@
 
 .texto {
-  font-size: 1em;
+  font-size: .9em;
   font-weight: 400;
   text-align: left;
   width: 100%;
@@ -9,11 +9,11 @@
 }
 
 .chica {
-  font-size: 0.8em;
+  font-size: 0.7em;
 }
 
 .mediana{
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: 500;
 } 
 
