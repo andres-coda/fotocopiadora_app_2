@@ -5,7 +5,6 @@ import { PedidoProp } from "../../../../modelo/Entidades/pedido/pedido.interface
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas"
 import CardFechas from "../../../../componente/pedido/cardFechas"
 import CardArchivos from "../../../../componente/pedido/cardArchivos"
-import CardImporte from "../../../../componente/pedido/cardImporte"
 import PedidoLibroXPedidoCard from "./pedidoLibroXPedidoCard"
 import Botonera from "../../../../componente-estilo/botonera/botonera"
 import Boton from "../../../../componente-estilo/boton/boton"
@@ -13,7 +12,7 @@ import Edit from '../../../../assets/edit.svg?react'
 import { claseXestadoPedido } from "../../../../utils/formatoDatos"
 import { estadosPedidoParaDesplegable, pasarEstadoDesplegable } from "../../../../utils/estado"
 import { useForm } from "react-hook-form"
-import { estado, estadoFormEdit, estadoPedido, estadoPedidoFormEdit, formValuesEstado, formValuesEstadoPedido } from "../../../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface"
+import { estado, estadoPedido, estadoPedidoFormEdit, formValuesEstadoPedido } from "../../../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Desplegable from "../../../../componente/formulario/desplegable"
 import { useEffect } from "react"
@@ -53,7 +52,7 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
   return (
     <Card
       onClick={onClick ? () => onClick(pedido) : undefined}
-      nuevoEstilo={`card-pedido ${activo && 'card-pedido-activo'}`}
+      nuevoEstilo={`card-pedido ${activo ? 'card-pedido-activo' : ''}`}
     >
       <CardFechas pedido={pedido} />
       <CardArchivos pedido={pedido} />
@@ -64,7 +63,6 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
         </div>
       }
       <CardDatosCliente pedido={pedido} />
-      <CardImporte pedido={pedido} />
       {
         activo &&
         <Botonera nuevoEstilo={`pedido-card-botonera ${claseXestadoPedido(pedido.estado)}`}>

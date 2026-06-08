@@ -86,7 +86,7 @@ const ClienteSelect = () => {
       </div>
       <Modal texto={`Pedido de ${clienteContexto.selected.telefono ? formatoTelefonoMostrar(clienteContexto.selected.telefono) : clienteContexto.selected.email ?? ''}`}>
         {pedido ?
-          <PedidoCard pedido={pedido} activo />
+          <PedidoCardCliente pedido={pedido} activo />
           : <TextoVacio entidad="pedido" />
         }
       </Modal>
