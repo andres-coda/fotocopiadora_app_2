@@ -6,24 +6,29 @@ import { MateriaAdapterProp, materiaInicial, MateriaProp } from "./materia.inter
 import { StockAdapterProp, stockInicial, StockProp } from "./stock.interface";
 
 export interface LibroAdapterProp extends BaseAdapterProp {
+  especificacionesDefecto?: Especificaciones[];
+  cantidadPg: number;
+  adhesivos?: number;
+  detalleImpresion?:string;
+
   nombre: string;
-  descripcion?: string;
   editorial?: string;
   edicion?: number;
   nivel?: string;
-  cantidadPg: number;
   anio?: string;
-  adhesivos?: number;
   autor?: string;
   img?: string;
-  especificacionesDefecto?: Especificaciones[];
+  descripcion?: string;  
+  componentes_texto?: string;
   componentes: ComponenteAdapterProp[];
   materia: MateriaAdapterProp;
-  stock: StockAdapterProp;
+  resumen?: StockAdapterProp;
   propuesta:PropuestaAdapterProp[]
 }
 
 export interface LibroProp extends BaseProp {
+  detalleImpresion?:string;
+  componentes_texto?: string;
   nombre: string;
   descripcion?: string;
   editorial?: string;

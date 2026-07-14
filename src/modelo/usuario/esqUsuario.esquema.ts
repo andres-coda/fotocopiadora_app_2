@@ -21,13 +21,13 @@ export const registroFormDefault:formValuesRegistro = {
 
 
 export const login = z.object({
-  email: z.email('Email invalido').min(1, 'El email es obligatorio'),
+  nombre: z.string('Debe ser un texto').min(1, 'El nombre de usuario es obligatorio'),
   password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
 });
 
 export type formValuesLogin = z.infer<typeof login>;
 
 export const loginFormDefault:formValuesLogin = {
-  email: '',
+  nombre: '',
   password: '',
 }

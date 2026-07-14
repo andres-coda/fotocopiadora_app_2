@@ -14,7 +14,7 @@ export const normalizarTexto = (texto: string | undefined): string => {
 export const formatoTelefonoMostrar = (telefono: string): string => {
   const t = telefono.replace(/\D/g, '');
 
-  if (t.length < 11) {
+  if (t.length < 10) {
     throw new Error('Telefono no valido');
   }
 

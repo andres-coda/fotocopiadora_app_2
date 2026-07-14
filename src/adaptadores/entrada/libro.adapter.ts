@@ -17,15 +17,17 @@ export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined =>
   const base: BaseProp | undefined = baseAdapter<LibroAdapterProp>({ base: libro, busqueda: camposBusquedaLibro });
 
   if (!base) return undefined;
-  
+
   const componentes: ComponenteProp[] = componenteAdapterArray(libro.componentes);
 
   const materia: MateriaProp | undefined = libro.materia ? materiaAdapter(libro.materia) : undefined;
-  const stock: StockProp | undefined = libro.stock ? stockAdapter(libro.stock) : undefined;
+  const stock: StockProp | undefined = libro.resumen ? stockAdapter(libro.resumen) : undefined;
   const propuesta: PropuestaProp[] = propuestaAdapterArray(libro.propuesta);
 
   const newLibro: LibroProp = {
     ...base,
+    detalleImpresion: libro.detalleImpresion,
+    componentes_texto: libro.componentes_texto,
     nombre: libro.nombre,
     descripcion: libro.descripcion,
     editorial: libro.editorial,

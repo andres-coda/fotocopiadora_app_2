@@ -18,10 +18,10 @@ export const sedeAdapter = (sede?: SedeAdapterProp): SedeProp | undefined => {
   return newSede;
 }
 
-export const sedeAdapterArray = (sedes?: SedeAdapterProp[]): SedeProp[] => {
+export const sedeAdapterArray = (datos?: SedeAdapterProp[]): SedeProp[] => {
   const newSedes: SedeProp[] =
-    sedes?.flatMap(s => {
-      const sede = sedeAdapter(s);
+    datos?.flatMap(d => {
+      const sede = sedeAdapter(d);
       return sede ? [sede] : [];
     }) ?? [];
 

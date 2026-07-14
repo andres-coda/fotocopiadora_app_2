@@ -58,7 +58,7 @@ const Login = () => {
           errorFetch={errorFetch}
           >
           <>
-            <Input<formValuesLogin> name='email' control={control} label='Email' tipo='email' error={errors.email} esquema={login} />
+            <Input<formValuesLogin> name='nombre' control={control} label='Usuario' tipo='text' error={errors.nombre} esquema={login} />
             <Input<formValuesLogin> name='password' control={control} label='Contraseña' tipo='password' error={errors.password} esquema={login} />
           </>
         </Formulario>
