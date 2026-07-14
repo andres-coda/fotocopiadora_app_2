@@ -12,8 +12,8 @@ export const pedidoLibroDtoAdapter = ({pl, sede}:Prop): PedidoLibroDtoProp => {
     cantidad: pl.cantidad ?? 1,
     detalles: pl.detalles ?? undefined,
     especificaciones: pl.especificaciones,
-    libro: pl.libro.id,
-    sede: pl.sede?.id ?? sede.id,
+    libro_id: pl.libro.id,
+    sede_id: pl.sede?.id ?? sede.id,
   }
 } 
 

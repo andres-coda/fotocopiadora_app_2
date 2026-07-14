@@ -1,5 +1,5 @@
 import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
-import { claseXestado, estadoXstring } from "../../utils/formatoDatos";
+import { claseXestadoPedido, estadoPedidoXstring } from "../../utils/formatoDatos";
 import Precio from "../../assets/pesos.svg?react"
 import Texto from "../../componente-estilo/texto/texto";
 
@@ -8,7 +8,7 @@ interface Prop {
 }
 const CardImporte = ({ pedido }: Prop) => {
   return (
-    <div className={`card-pedido-fechas ${claseXestado(pedido.estado)}`} title={estadoXstring(pedido.estado)}>
+    <div className={`card-pedido-fechas ${claseXestadoPedido(pedido.estado)}`} title={estadoPedidoXstring(pedido.estado)}>
       <Precio className="icono-pedido" />
       <div className="pedido-fecha-interno">
         <Texto texto={'Total'} centrado chica />

@@ -18,7 +18,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import Desplegable from "../../../../componente/formulario/desplegable"
 import { useEffect } from "react"
 import { EstadoPedido } from "../../../../modelo/Entidades/pedido/estadoPedido.enum"
-import CardDatosCliente from "../../../../componente/pedido/cardDatosCliente"
 
 interface Props {
   pedido: PedidoProp;
@@ -63,7 +62,6 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
           {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} />)}
         </div>
       }
-      <CardDatosCliente pedido={pedido} />
       <CardImporte pedido={pedido} />
       {
         activo &&

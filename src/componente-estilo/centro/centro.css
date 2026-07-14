@@ -8,6 +8,7 @@
   margin: 0;
   
   background-color: var(--colorFondo);
+  align-items: start;
   
   border-radius: 5px;
   box-sizing: border-box;

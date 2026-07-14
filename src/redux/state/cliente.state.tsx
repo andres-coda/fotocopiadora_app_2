@@ -3,7 +3,7 @@ import { addFiltroGenerico, agregarElementoItems, cambiarOrdenGenerico, createEl
 import { filterContext, FiltersState } from "../modelo/reduxContext.interface";
 import { ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
 import { filtrosInicialesCliente } from "../../filtro/cliente.filtro";
-import { cambiarEstadoLibroPedidoClienteFuncion, cambiarEstadoPedidoClienteFuncion } from "../utils/funcionesCliente";
+import { cambiarEstadoLibroPedidoClienteFuncion } from "../utils/funcionesCliente";
 
 const filterDefault: FiltersState<ClienteProp> = {
   filtros: filtrosInicialesCliente,
@@ -34,7 +34,7 @@ export const clienteSlice = createSlice({
     setOrdenamientoClientes: setOrdenGenerico<ClienteProp>,
     cambiarOrdenCliente: cambiarOrdenGenerico<ClienteProp>,
     cambiarEstadoLibroPedidoCliente:cambiarEstadoLibroPedidoClienteFuncion,
-    cambiarEstadoPedidoCliente:cambiarEstadoPedidoClienteFuncion
+    //cambiarEstadoPedidoCliente:cambiarEstadoPedidoClienteFuncion
   }
 });
 
@@ -42,7 +42,8 @@ export const {
   createClientes, addClientes, substractClientes, resetClientes,
   selectCliente, resetSelectCliente, verificarCliente, 
   addFiltroCliente, substractFiltroCliente, resetFiltrosCliente, setOrdenamientoClientes,
-  cambiarOrdenCliente, cambiarEstadoLibroPedidoCliente, cambiarEstadoPedidoCliente
+  cambiarOrdenCliente, cambiarEstadoLibroPedidoCliente,
+  // cambiarEstadoPedidoCliente
 } = clienteSlice.actions;
 
 export default clienteSlice.reducer;

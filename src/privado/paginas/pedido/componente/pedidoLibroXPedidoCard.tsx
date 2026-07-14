@@ -9,22 +9,23 @@ import { claseXestado, nombreLibroXstring } from "../../../../utils/formatoDatos
 import './pedidoCard.css'
 import { estado, estadoFormEdit, formValuesEstado } from "../../../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { pasarEstadoDesplegable } from "../../../../utils/estado";
+import { estadosParaDesplegable, pasarEstadoDesplegable } from "../../../../utils/estado";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { cambiarEstadoLibroPedidoCliente } from "../../../../redux/state/cliente.state";
-import usePedidoLibroDeleteApi from "../../../../servicio/pedido_libro/usePedidoLibroDeleteApi";
 import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
+import useCambiarEstadoPedidoLibroApi from "../../../../servicio/pedido_libro/useCambiarEstadoPedidolibroApi";
+import { actualizarStock } from "../../../../redux/state/libro.state";
 
 interface Prop {
   pL: PedidoLibroProp;
 }
 
 const PedidoLibroXPedidoCard = ({ pL}: Prop) => {
-  const { cambiarEstadoPedidoLibro, responsePedidoLibro, loadingPedidoLibro, errorFetchPedidoLibro } = usePedidoLibroDeleteApi();
-  const { control, handleSubmit, formState: { errors }, watch } = useForm<formValuesEstado>({
+  const { cambiarEstadoPedidoLibro, responsePedidoLibro, loadingPedidoLibro, errorFetchPedidoLibro } = useCambiarEstadoPedidoLibroApi();
+  const { control, formState: { errors }, watch } = useForm<formValuesEstado>({
     resolver: zodResolver(estado),
-    defaultValues: estadoFormEdit({ pedidoLibro: pL })
+    defaultValues: estadoFormEdit(pL)
   });
   const dispatch = useDispatch();
 
@@ -40,10 +41,18 @@ const PedidoLibroXPedidoCard = ({ pL}: Prop) => {
 
   useEffect(() => {
     if (responsePedidoLibro) {
-      dispatch(cambiarEstadoLibroPedidoCliente({ ...pL, estado: estadoActual }));
-      setClasEstado(estadoActual);
+      dispatch(cambiarEstadoLibroPedidoCliente(responsePedidoLibro));
+      dispatch(actualizarStock(responsePedidoLibro));
+      setClasEstado(responsePedidoLibro.estado);
     }
   }, [responsePedidoLibro]);
+
+  if(errorFetchPedidoLibro) return(
+ <>
+    <Texto texto={'Error al intentar cambiar el estado del libro'} error chica/> 
+  <Texto texto={errorFetchPedidoLibro} error chica/>
+</>
+)
 
   return (
     <Card
@@ -61,7 +70,7 @@ const PedidoLibroXPedidoCard = ({ pL}: Prop) => {
         <div className="estado-contenedor">
           {
             !loadingPedidoLibro ?
-              <Desplegable<formValuesEstado> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable()} nuevoEstilo="desplegable-estado" />
+              <Desplegable<formValuesEstado> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable(undefined, estadosParaDesplegable)} nuevoEstilo="desplegable-estado" />
               : <Texto texto={'Cambiando...'} chica ajustado/>
           }
         </div>

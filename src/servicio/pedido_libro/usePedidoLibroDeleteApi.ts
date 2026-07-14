@@ -1,4 +1,3 @@
-import { Estado } from "../../modelo/Entidades/pedido_libro/estado.enum";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { PEDIDO_LIBRO } from "../../utils/endpoint";
 import useApi from "../hooks/useApi";
@@ -9,11 +8,8 @@ const usePedidoLibroDeleteApi = () => {
   const eliminarPedidoLibro = (id: string) =>
     fetchData({ url: `${PEDIDO_LIBRO}/${id}`, methodo: httpMethod.DELETE });
 
-  const cambiarEstadoPedidoLibro = (id: string, estado: Estado) =>
-    fetchData({ url: `${PEDIDO_LIBRO}/${id}`, methodo: httpMethod.PATCH, bodyData: JSON.stringify({ estado }) });
 
-
-  return { cambiarEstadoPedidoLibro, eliminarPedidoLibro, responsePedidoLibro: response, loadingPedidoLibro: loading, errorFetchPedidoLibro: errorFetch };
+  return { eliminarPedidoLibro, responsePedidoLibro: response, loadingPedidoLibro: loading, errorFetchPedidoLibro: errorFetch };
 
 }
 

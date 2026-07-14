@@ -32,9 +32,10 @@ const ClienteCard = ({ cliente, onClick }: Props) => {
     >
       <ClienteDatos cliente={cliente} />
       <ul>
-        <li className='pendiente' title='Pedidos pendientes'>{cliente.pendiente}</li>
-        <li className='terminado' title='Pedidos listos para entregar'>{cliente.listo}</li>
-        <li className='retirado' title='Pedidos retirados'>{cliente.retirado}</li>
+        <li className='pendiente' title='Pedidos pendientes'>{cliente.resumen.pendiente}</li>
+        <li className='terminado' title='Pedidos listos para entregar'>{cliente.resumen.listo}</li>
+        <li className='retirado' title='Pedidos retirados'>{cliente.resumen.retirado}</li>
+        <li className='cancelado' title='Pedidos cancelados'>{cliente.resumen.cancelado}</li>
       </ul>
 
     </Card>

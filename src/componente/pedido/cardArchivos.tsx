@@ -1,7 +1,7 @@
 import { PedidoProp } from '../../modelo/Entidades/pedido/pedido.interface';
 import './cardPedido.css'
 import Check from "../../assets/check.svg?react"
-import { claseXestado, estadoXstring } from '../../utils/formatoDatos';
+import { claseXestadoPedido, estadoPedidoXstring } from '../../utils/formatoDatos';
 import Texto from '../../componente-estilo/texto/texto';
 
 interface Prop {
@@ -9,7 +9,7 @@ interface Prop {
 }
 const CardArchivos = ({ pedido }: Prop) => {
   return (
-    <div className={`card-pedido-fechas ${claseXestado(pedido.estado)}`} title={estadoXstring(pedido.estado)}>
+    <div className={`card-pedido-fechas ${claseXestadoPedido(pedido.estado)}`} title={estadoPedidoXstring(pedido.estado)}>
       <Check className='icono-pedido' />
       <div className="pedido-archivos">
         <Texto texto={`${pedido.archivos} - Archivos`} centrado chica />
