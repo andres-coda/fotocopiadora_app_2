@@ -1,4 +1,4 @@
-import { current, Draft, PayloadAction, WritableDraft } from "@reduxjs/toolkit";
+import { Draft, PayloadAction, WritableDraft } from "@reduxjs/toolkit";
 import { editContext, filterContext, filtroLlamada, orden } from "../modelo/reduxContext.interface";
 import { arregloOrdenado } from "./ordenarArreglo";
 import { eliminarElementoArreglo } from "./eliminarElementoArreglo";
