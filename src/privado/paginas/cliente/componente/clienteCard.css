@@ -1,6 +1,6 @@
 .card-cliente {
   padding: 0;
-  flex-direction: row;
+  flex-direction: row !important;
   min-height: 100px;
 }
 
@@ -39,8 +39,8 @@
 }
 
 .cliente-renglon svg{
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
   fill: var(--colorNegro);
 }
 

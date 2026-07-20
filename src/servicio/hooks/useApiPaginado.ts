@@ -24,7 +24,7 @@ const delay = (ms: number) =>
 
 function useApiPaginado<T, R>({ urlGet = undefined, adapterGet, blob = undefined }: UseApiPaginadoProp<T, R>) {
   const { token } = useAutenticacion()
-  const [response, setResponse] = useState<R[] | null>(null);
+  const [response, setResponse] = useState<PaginadoProp<R> | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorFetch, setErrorFetch] = useState<string | null>(null);
   const [controlador, setControlador] = useState<boolean>(false);
@@ -76,7 +76,7 @@ function useApiPaginado<T, R>({ urlGet = undefined, adapterGet, blob = undefined
         : await res.json();
       const adapterData: PaginadoProp<R> = paginadoAdapter<T, R>(result, adapterLocal);
 
-      setResponse(adapterData.datos ?? null);
+      setResponse(adapterData ?? null);
       setControlador(true);
       setErrorFetch(null);
     } catch (err) {

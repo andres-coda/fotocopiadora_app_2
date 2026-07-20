@@ -26,7 +26,7 @@ import { libroEmpresaSlice } from "./state/libro_empresa.state";
 
 export interface appStore {
   libro: filterContext<LibroProp>,
-  cliente: filterContext<ClienteProp>,
+  cliente:  ReduxProp<ClienteProp>,
   especificacion: filterContext<EspecificacionProp>
   materia: filterContext<MateriaProp>,
   pedido: filterContext<PedidoProp>,

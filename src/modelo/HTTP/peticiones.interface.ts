@@ -14,3 +14,9 @@ export interface UseApiProps<T> {
   adapterGet?:  Adapter<T> | null;
   blob?: boolean | undefined;
 }
+
+export interface BusquedaApiProp{
+  query:string;
+  limite?: number;
+  pagina?: number;
+}

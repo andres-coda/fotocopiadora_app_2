@@ -12,7 +12,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { estadosParaDesplegable, pasarEstadoDesplegable } from "../../../../utils/estado";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { cambiarEstadoLibroPedidoCliente } from "../../../../redux/state/cliente.state";
 import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
 import useCambiarEstadoPedidoLibroApi from "../../../../servicio/pedido_libro/useCambiarEstadoPedidolibroApi";
 import { actualizarStock } from "../../../../redux/state/libro.state";
@@ -41,7 +40,6 @@ const PedidoLibroXPedidoCard = ({ pL}: Prop) => {
 
   useEffect(() => {
     if (responsePedidoLibro) {
-      dispatch(cambiarEstadoLibroPedidoCliente(responsePedidoLibro));
       dispatch(actualizarStock(responsePedidoLibro));
       setClasEstado(responsePedidoLibro.estado);
     }

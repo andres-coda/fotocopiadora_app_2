@@ -1,6 +1,7 @@
-import { createSlice, WritableDraft } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
-import { ActionProp, ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
+import { ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato} from "../utils/funcionesGenericasEmpresa";
 
 const cantidadBusquedas: number = 15;
 
@@ -20,54 +21,13 @@ const estadoLibroInicial: ReduxProp<LibroProp> = {
   datoSeleccionado: undefined
 }
 
-const createDatoInicial = (state: WritableDraft<ReduxProp<LibroProp>>, action: ActionProp<UltimaBusquedaProp<LibroProp>>) => {
-  state.datosIniciales = { ...action.payload };
-  state.busquedaActual = { ...action.payload };
-};
-
-const evaluarUltimasBusquedas = (state: WritableDraft<ReduxProp<LibroProp>>, nueva: UltimaBusquedaProp<LibroProp>): void => {
-
-  const indice = state.ultimasBusqueda.findIndex(
-    b => b.query === nueva.query
-  );
-
-  if (indice !== -1) {
-    const [busqueda] = state.ultimasBusqueda.splice(indice, 1);
-    state.ultimasBusqueda.push(busqueda);
-  } else {
-    if (state.ultimasBusqueda.length === cantidadBusquedas) {
-      state.ultimasBusqueda.shift();
-    }
-    state.ultimasBusqueda.push(nueva);
-  }
-}
-
-const createBusqueda = (state: WritableDraft<ReduxProp<LibroProp>>, action: ActionProp<UltimaBusquedaProp<LibroProp>>) => {
-  evaluarUltimasBusquedas(state, { ...action.payload });
-  state.busquedaActual = { ...action.payload };
-};
-
-const resetBusqueda = (state: WritableDraft<ReduxProp<LibroProp>>) => {
-  if (!state.busquedaActual) return;
-  evaluarUltimasBusquedas(state, { ...state.busquedaActual });
-  state.busquedaActual = { ...state.datosIniciales };
-}
-
-const seleccionarDato = (state: WritableDraft<ReduxProp<LibroProp>>, action: ActionProp<LibroProp>) => {
-  state.datoSeleccionado = { ...action.payload };
-}
-
-const resetSeleccionDato = (state: WritableDraft<ReduxProp<LibroProp>>) => {
-  state.datoSeleccionado = undefined;
-}
-
 export const libroEmpresaSlice = createSlice({
   name: 'libro_empresa',
   initialState: estadoLibroInicial,
   reducers: {
-    crearLibros: createDatoInicial,
-    crearBusquedaLibro: createBusqueda,
-    resetBusquedaLibro: resetBusqueda,
+    crearLibros: crearDatoInicial,
+    crearBusquedaLibro: crearBusqueda<LibroProp>(cantidadBusquedas),
+    resetBusquedaLibro: resetBusqueda<LibroProp>(cantidadBusquedas),
     seleccionarLibro: seleccionarDato,
     resetSeleccionarLibro: resetSeleccionDato
   }

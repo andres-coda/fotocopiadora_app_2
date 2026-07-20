@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useModalContext } from "../../contexto/contextoModal";
 import { HandleSelectProp, PropEditar, PropEditarCompleto } from "./useEditar.interface";
 import { useDispatch } from "react-redux";
-import { selectCliente } from "../../redux/state/cliente.state";
 import { selectLibro } from "../../redux/state/libro.state";
 import { selectPedido } from "../../redux/state/pedido.state";
 import { selectSede } from "../../redux/state/sede.state";
 import { selectPrecio } from "../../redux/state/precio.state";
 import { selectPropuesta } from "../../redux/state/propuesta.state";
+import { seleccionarCliente } from "../../redux/state/cliente.state";
 
 const useEditar = ({
   ruta,
@@ -30,7 +30,7 @@ const useEditar = ({
     const newSede = s || sede;
     const newPrecio = pr || precio;
     const newPropuesta = prta || propuesta;
-    if (newCliente) dispatch(selectCliente(newCliente));
+    if (newCliente) dispatch(seleccionarCliente(newCliente));
     if (newLibro) dispatch(selectLibro(newLibro));
     if (newPedido) dispatch(selectPedido(newPedido));
     if (newSede) dispatch(selectSede(newSede));

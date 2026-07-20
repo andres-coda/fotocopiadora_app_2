@@ -13,8 +13,8 @@ import { ComponenteProp } from "../../modelo/Entidades/libro/componente.interfac
 export const libroItems: LibroProp[]= useSelector((store:appStore)=>store.libro.items);
 export const libroSelect: LibroProp | null= useSelector((store:appStore)=>store.libro.selected);
 
-export const ClienteItems: ClienteProp[]= useSelector((store:appStore)=>store.cliente.items);
-export const ClienteSelect: ClienteProp | null= useSelector((store:appStore)=>store.cliente.selected);
+export const ClienteItems: ClienteProp[]= useSelector((store:appStore)=>store.cliente.busquedaActual.datosQuery);
+export const ClienteSelect: ClienteProp | undefined= useSelector((store:appStore)=>store.cliente.datoSeleccionado);
 
 export const EspecificacionItems: EspecificacionProp[]= useSelector((store:appStore)=>store.especificacion.items);
 export const EspecificacionSelect: EspecificacionProp | null= useSelector((store:appStore)=>store.especificacion.selected);

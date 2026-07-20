@@ -1,14 +1,9 @@
 import { libroAdapter } from "../../adaptadores/entrada/libro.adapter";
 import { LibroAdapterProp, LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
+import { BusquedaApiProp } from "../../modelo/HTTP/peticiones.interface";
 import { LIBRO } from "../../utils/endpoint";
 import useApiPaginado from "../hooks/useApiPaginado";
-
-interface BusquedaApiProp{
-  query:string;
-  limite?: number;
-  pagina?: number;
-}
 
 const useLibrosApi = () => {
   const { fetchData, response, loading, errorFetch } = useApiPaginado<LibroAdapterProp, LibroProp>({adapterGet: libroAdapter});

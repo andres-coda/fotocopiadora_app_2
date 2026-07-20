@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import socket from "../../socket";
 import { Entidad, Mensaje } from "../../modelo/socket/Socket.interface";
 import { verificarLibro } from "../../redux/state/libro.state";
-import { verificarCliente } from "../../redux/state/cliente.state";
 import { verificarEspecificacion } from "../../redux/state/especificacion.state";
 import { verificarMateria } from "../../redux/state/materia.state";
 import { verificarPedido } from "../../redux/state/pedido.state";
@@ -65,9 +64,6 @@ const useSockets = ({
 
       if (data.entidad === Entidad.LIBRO) {
         dispatch(verificarLibro(data.id))
-      }
-      if (data.entidad === Entidad.CLIENTE) {
-        dispatch(verificarCliente(data.id));
       }
 
       if (data.entidad === Entidad.ESPECIFICACION) {

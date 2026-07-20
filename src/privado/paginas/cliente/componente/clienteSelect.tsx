@@ -8,7 +8,6 @@ import './cliente-select.css'
 import Texto from "../../../../componente-estilo/texto/texto";
 import PedidoCard from "../../pedido/componente/pedidoCard";
 import useClienteApi from "../../../../servicio/cliente/useClienteApi";
-import { selectCliente } from "../../../../redux/state/cliente.state";
 import Cargando from "../../../../componente/cargando/cargando";
 import { useModalContext } from "../../../../contexto/contextoModal";
 import Modal from "../../../../componente/modal/modal";
@@ -17,13 +16,14 @@ import TextoVacio from "../../../../componente/Textos/textoVacio";
 import { estadoPedidoXstring, formatoTelefonoMostrar } from "../../../../utils/formatoDatos";
 import { EstadoPedido } from "../../../../modelo/Entidades/pedido/estadoPedido.enum";
 import useBuscadorCompleto from "../../../../hooks/buscador/useBuscadorCompleto";
-import { filterContext, filtroLlamada } from "../../../../redux/modelo/reduxContext.interface";
+import { filtroLlamada, ReduxProp } from "../../../../redux/modelo/reduxContext.interface";
 import { filtrosInicialesPedido, filtrosPedidoFuntion } from "../../../../filtro/pedido.filtro";
 import PedidoCardCliente from "../../pedido/componente/pedidoCardCliente";
+import { seleccionarCliente } from "../../../../redux/state/cliente.state";
 
 const ClienteSelect = () => {
-  const clienteContexto: filterContext<ClienteProp> = useSelector((store: appStore) => store.cliente);
-  const { responseCliente, loadingCliente, errorFetchCliente } = useClienteApi(clienteContexto.selected?.id ?? undefined);
+  const clienteContexto: ReduxProp<ClienteProp> = useSelector((store: appStore) => store.cliente);
+  const { responseCliente, loadingCliente, errorFetchCliente } = useClienteApi(clienteContexto.datoSeleccionado?.id ?? undefined);
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const [newFiltros, setNewFiltros] = useState<filtroLlamada[]>(filtrosInicialesPedido)
   const [estadoSelec, setEstadoSelect] = useState('');
@@ -31,9 +31,8 @@ const ClienteSelect = () => {
   const { elementosFiltrados } = useBuscadorCompleto({
     estadoFiltros: newFiltros,
     filtros: [...filtrosPedidoFuntion],
-    elementos: clienteContexto.selected?.pedidos,
+    elementos: clienteContexto.datoSeleccionado?.pedidos,
     sortBy: 'estado',
-    sortOrder: clienteContexto.filter.sortOrder,
   })
 
 
@@ -45,7 +44,7 @@ const ClienteSelect = () => {
 
   useEffect(() => {
     if (responseCliente) {
-      dispatch(selectCliente(responseCliente))
+      dispatch(seleccionarCliente(responseCliente))
     }
   }, [responseCliente]);
 
@@ -56,7 +55,7 @@ const ClienteSelect = () => {
     })
   }
 
-  if (!clienteContexto.selected) return <Texto texto={'No se encontro el cliente seleccionado'} />
+  if (!clienteContexto.datoSeleccionado) return <Texto texto={'No se encontro el cliente seleccionado'} />
 
   if (loadingCliente) return <Cargando />
 
@@ -67,12 +66,12 @@ const ClienteSelect = () => {
       ref={contenedorRef} texto="Datos del cliente"
       nuevoEstilo={'cliente-select'}>
       <div className="cliente-vertical">
-        <ClienteDatos cliente={clienteContexto.selected} />
+        <ClienteDatos cliente={clienteContexto.datoSeleccionado} />
         <ul>
-          <li className='pendiente' title='Pedidos pendientes' onClick={() => handleFiltro(EstadoPedido.PENDIENTE)}><Texto texto='Pendiente: ' chica /> <Texto texto={`${clienteContexto.selected.resumen.pendiente}`} derecha chica/></li>
-          <li className='terminado' title='Pedidos listos para entregar' onClick={() => handleFiltro(EstadoPedido.LISTO)}><Texto texto='Para retirar: ' chica /> <Texto texto={`${clienteContexto.selected.resumen.listo}`} derecha chica/></li>
-          <li className='retirado' title='Pedidos retirados' onClick={() => handleFiltro(EstadoPedido.RETIRADO)}><Texto texto='Retirados: ' chica /> <Texto texto={`${clienteContexto.selected.resumen.retirado}`} derecha chica/></li>
-          <li className='cancelado' title='Pedidos cancelados' onClick={() => handleFiltro(EstadoPedido.CANCELADO)}><Texto texto='Cancelado: ' chica /> <Texto texto={`${clienteContexto.selected.resumen.cancelado}`} derecha chica/></li>
+          <li className='pendiente' title='Pedidos pendientes' onClick={() => handleFiltro(EstadoPedido.PENDIENTE)}><Texto texto='Pendiente: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.pendiente}`} derecha chica/></li>
+          <li className='terminado' title='Pedidos listos para entregar' onClick={() => handleFiltro(EstadoPedido.LISTO)}><Texto texto='Para retirar: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.listo}`} derecha chica/></li>
+          <li className='retirado' title='Pedidos retirados' onClick={() => handleFiltro(EstadoPedido.RETIRADO)}><Texto texto='Retirados: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.retirado}`} derecha chica/></li>
+          <li className='cancelado' title='Pedidos cancelados' onClick={() => handleFiltro(EstadoPedido.CANCELADO)}><Texto texto='Cancelado: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.cancelado}`} derecha chica/></li>
         </ul>
 
       </div>
@@ -84,7 +83,7 @@ const ClienteSelect = () => {
               <PedidoCardCliente pedido={pedido} key={pedido.id} onClick={(pedido) => { setPedido(pedido), setModal(true) }} />
             ))}
       </div>
-      <Modal texto={`Pedido de ${clienteContexto.selected.telefono ? formatoTelefonoMostrar(clienteContexto.selected.telefono) : clienteContexto.selected.email ?? ''}`}>
+      <Modal texto={`Pedido de ${clienteContexto.datoSeleccionado.telefono ? formatoTelefonoMostrar(clienteContexto.datoSeleccionado.telefono) : clienteContexto.datoSeleccionado.email ?? ''}`}>
         {pedido ?
           <PedidoCard pedido={pedido} activo />
           : <TextoVacio entidad="pedido" />

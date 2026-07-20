@@ -3,3 +3,8 @@
   align-content: start;
   height: 100%;
 }
+
+.buscador-libro{
+  width: 100%;
+  box-sizing: border-box;
+}

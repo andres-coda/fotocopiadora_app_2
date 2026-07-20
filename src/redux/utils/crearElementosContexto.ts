@@ -1,7 +1,7 @@
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { crearContextProp } from "../modelo/cargarDatos.interface";
 import { UltimaBusquedaProp } from "../modelo/reduxContext.interface";
-import { createClientes } from "../state/cliente.state";
+import { busquedaClienteInicial, crearClientes } from "../state/cliente.state";
 import { createComponentes } from "../state/componente.state";
 import { createEspecificaciones } from "../state/especificacion.state";
 import { createLibros } from "../state/libro.state";
@@ -34,7 +34,7 @@ export const crearElementosContexto = ({
       ...busquedaLibroInicial, datosQuery: libros
     } 
     dispatch(crearLibros(playdon))};
-  if (clientes) dispatch(createClientes(clientes));
+  if (clientes) dispatch(crearClientes({...busquedaClienteInicial, datosQuery:clientes}));
   if (especificaciones) dispatch(createEspecificaciones(especificaciones));
   if (materias) dispatch(createMaterias(materias));
   if (pedidos) dispatch(createPedidos(pedidos));

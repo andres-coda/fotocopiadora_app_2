@@ -6,15 +6,15 @@ import { useForm } from "react-hook-form";
 import { cliente, clienteFormEdit, formValuesCliente } from "../../../../modelo/Entidades/cliente/esqCliente.esquema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useFormulario from "../../../../hooks/formulario/useFormulario";
-import { addClientes, resetSelectCliente, selectCliente } from "../../../../redux/state/cliente.state";
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
 import Centro from "../../../../componente-estilo/centro/centro";
 import Formulario from "../../../../componente/formulario/formulario";
 import Input from "../../../../componente/formulario/input";
 import { formatTelefono, parseDecimal } from "../../../../utils/formulario";
+import { resetSeleccionarCliente, seleccionarCliente } from "../../../../redux/state/cliente.state";
 
 const ClienteCargar = () => {
-  const clienteSelect: ClienteProp | null = useSelector((store: appStore) => store.cliente.selected);
+  const clienteSelect: ClienteProp | undefined = useSelector((store: appStore) => store.cliente.datoSeleccionado);
   const { editarCliente, crearCliente, responseCliente, errorFetchCliente, loadingCliente } = useClienteApi()
 
   const { control, handleSubmit, formState: { errors }, reset } = useForm<formValuesCliente>({
@@ -24,9 +24,8 @@ const ClienteCargar = () => {
 
   const { retroceder } = useFormulario<ClienteProp, formValuesCliente, ClienteProp>({
     response: responseCliente,
-    selectElemento: selectCliente,
-    agregarElemento: addClientes,
-    resetSelect: resetSelectCliente,
+    selectElemento: seleccionarCliente,
+    resetSelect: resetSeleccionarCliente,
     reset,
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`,
   })
