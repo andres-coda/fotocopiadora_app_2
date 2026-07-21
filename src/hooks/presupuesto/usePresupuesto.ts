@@ -8,7 +8,7 @@ import { calcularPresupuesto, presupuestoFallido } from "../../utils/precio";
 
 const usePresupuesto = ({ libro, nuevasEsp, libros }: PresupuestoProp) => {
 
-  const precios: PrecioProp[] = useSelector((store: appStore) => store.precio.items);
+  const precios: PrecioProp[] = useSelector((store: appStore) => store.precio.datosIniciales.datosQuery);
 
   const [presupuesto, setPresupuesto] = useState<CalcularPresupuestoRetorno>(presupuestoFallido)
 
