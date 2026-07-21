@@ -31,7 +31,7 @@ export interface appStore {
   materia: filterContext<MateriaProp>,
   pedido: filterContext<PedidoProp>,
   pedidoLibro: filterContext<PedidoLibroProp>,
-  precio: filterContext<PrecioProp>,
+  precio: ReduxProp<PrecioProp>,
   componente: filterContext<ComponenteProp>,
   sede: filterContext<SedeProp>,
   propuesta: ReduxProp<PropuestaProp>,

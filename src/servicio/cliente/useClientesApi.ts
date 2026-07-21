@@ -9,7 +9,7 @@ const useClientesApi = () => {
   const { fetchData, response, loading, errorFetch } = useApiPaginado<ClienteAdapterProp, ClienteProp>({ adapterGet: clienteAdapter });
 
   const obtenerClientesBusqueda = ({ query, limite, pagina }: BusquedaApiProp) => {
-    fetchData({ url: `${CLIENTE}?q=${query}&limite=${limite ?? 20}&pagina=${pagina ?? 1}`, methodo: httpMethod.GET, adapter: clienteAdapter });
+    fetchData({ url: `${CLIENTE}?q=${query.trimEnd()}&limite=${limite ?? 20}&pagina=${pagina ?? 1}`, methodo: httpMethod.GET, adapter: clienteAdapter });
   }
 
   const obtenerClientes = () =>

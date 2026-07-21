@@ -1,54 +1,53 @@
-import { useDispatch, useSelector } from "react-redux";
-import { filterContext } from "../../../redux/modelo/reduxContext.interface";
+import { useSelector } from "react-redux";
+import { ReduxProp } from "../../../redux/modelo/reduxContext.interface";
 import { PrecioProp } from "../../../modelo/Entidades/precio/precio.interface";
 import { appStore } from "../../../redux/store";
-import useBuscadorCompleto from "../../../hooks/buscador/useBuscadorCompleto";
-import { filtrosPrecioFuntion } from "../../../filtro/precio.filtro";
-import BuscadorFiltros from "../../../componente/buscador/buscadorCompleto";
 import { rutaPrivadaBase, RutasPrivadas } from "../../rutas/rutasPrivadas";
-import { cambiarOrdenPrecio } from "../../../redux/state/precio.state";
 import Centro from "../../../componente-estilo/centro/centro";
 import TextoVacio from "../../../componente/Textos/textoVacio";
 import PrecioCard from "./componente/precioCard";
+import { useState } from "react";
+import usePreciosApi from "../../../servicio/precio/usePreciosApi";
+import useBusquedaPaginada from "../../../hooks/buscador/useBusquedaPaginada";
+import { crearBusquedaPrecio, resetBusquedaPrecio } from "../../../redux/state/precio.state";
+import BuscadorPaginadoCompleto from "../../../componente/buscador/buscadorPaginadoCompleto";
 
 const Precios = () => {
-  const dispatch = useDispatch();
-  const precioContext: filterContext<PrecioProp> = useSelector((store: appStore) => store.precio);
+  const precioDatos: ReduxProp<PrecioProp> = useSelector((store: appStore) => store.precio);
+  const { obtenerPreciosBusqueda, responsePrecios } = usePreciosApi()
+  const [valor, setValor] = useState<string>('');
 
-  const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento } = useBuscadorCompleto<PrecioProp>({
-    estadoFiltros: precioContext.filter.filtros,
-    filtros: [...filtrosPrecioFuntion],
-    elementos: precioContext.items,
-    sortBy: precioContext.filter.sortBy,
-    sortOrder: precioContext.filter.sortOrder,
-
-
+  const { contenedorRef, nuevoElemento } = useBusquedaPaginada<PrecioProp>({
+    valor,
+    datosRedux: precioDatos,
+    resetBusqueda: resetBusquedaPrecio,
+    crearBusqueda: crearBusquedaPrecio,
+    obtenerBusqueda: obtenerPreciosBusqueda,
+    response: responsePrecios,
+    limiteLetrasBusqueda: 4,
   });
-  
-return (
-  <>
-    <BuscadorFiltros
-      ref={contenedorRef}
-      texto='Buscar precio'
-      handleMas={() => nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PRECIO_CARGAR}`)}
-      valor={valor}
-      setValor={setValor}
-      handleOrden={() => dispatch(cambiarOrdenPrecio())}
-      etiquetaArriba='Al comienzo de la lista'
-      etiquetaMas='Nueva precio'
-      titulo='Lista de precios'
-    />
-    <Centro ref={contenedorRef}>
-      {elementosFiltrados.length > 0
-        ? elementosFiltrados
-          .map(dato => (
-            <PrecioCard precio={dato} key={dato.id} />
-          ))
-        : <TextoVacio entidad='precios' />
-      }
-    </Centro>
-  </>
-)
+
+  return (
+    <>
+      <BuscadorPaginadoCompleto
+        ref={contenedorRef}
+        texto='Buscar precio'
+        handleMas={()=>nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PRECIO_CARGAR}`)}
+        valor={valor}
+        setValor={setValor}
+        titulo='Lista de precios'
+        etiquetaArriba='Al comienzo de la lista'
+        etiquetaMas='Nuevo precio'
+      />
+      <Centro>
+        {
+          !precioDatos.busquedaActual || precioDatos.busquedaActual.datosQuery.length === 0
+            ? (<TextoVacio entidad='precios' />)
+            : precioDatos.busquedaActual.datosQuery.map(d => <PrecioCard precio={d} key={d.id} />)
+        }
+      </Centro>
+    </>
+  )
 }
 
 export default Precios

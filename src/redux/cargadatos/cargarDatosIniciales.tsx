@@ -46,7 +46,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const materiaItems: MateriaProp[] = useSelector((store: appStore) => store.materia.items);
   const pedidoItems: PedidoProp[] = useSelector((store: appStore) => store.pedido.items);
   const pedidoLibroItems: PedidoLibroProp[] = useSelector((store: appStore) => store.pedidoLibro.items);
-  const precioItems: PrecioProp[] = useSelector((store: appStore) => store.precio.items);
+  const precioItems: PrecioProp[] = useSelector((store: appStore) => store.precio.datosIniciales.datosQuery);
   const sedeItems: SedeProp[] = useSelector((store: appStore) => store.sede.items);
   const componenteItems: ComponenteProp[] = useSelector((store: appStore) => store.componente.items);
   const propuestasItems: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.datosIniciales.datosQuery);
@@ -64,7 +64,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
       materias: responseMaterias?.datos || undefined,
       pedidos: responsePedidos || undefined,
       pedidoLibros: responsePedidoLibross || undefined,
-      precios: responsePrecios || undefined,
+      precios: responsePrecios?.datos || undefined,
       sedes: responseSedes?.datos || undefined,
       componentes: responseComponentes || undefined,
       propuestas: responsePropuestas?.datos || undefined,

@@ -9,7 +9,7 @@ const usePropuestasApi = () => {
   const { fetchData, response, loading, errorFetch } = useApiPaginado<PropuestaAdapterProp, PropuestaProp>({adapterGet:propuestaAdapter});
 
   const obtenerPropuestaBusqueda = ({ query, limite, pagina }: BusquedaApiProp) => {
-    fetchData({ url: `${PROPUESTA}?limite=${limite ?? 20}&pagina=${pagina ?? 1}&q=${query}`, methodo: httpMethod.GET, adapter: propuestaAdapter });
+    fetchData({ url: `${PROPUESTA}?limite=${limite ?? 20}&pagina=${pagina ?? 1}&q=${query.trimEnd()}`, methodo: httpMethod.GET, adapter: propuestaAdapter });
   }
 
   const obtenerPropuestas = () =>

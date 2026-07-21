@@ -9,7 +9,7 @@ const useLibrosApi = () => {
   const { fetchData, response, loading, errorFetch } = useApiPaginado<LibroAdapterProp, LibroProp>({adapterGet: libroAdapter});
 
   const obtenerLibrosBusqueda = ({query, limite, pagina}:BusquedaApiProp) => {
-    fetchData({ url: `${LIBRO}?q=${query}&limite=${limite ?? 20}&pagina=${pagina ?? 1}`, methodo: httpMethod.GET, adapter: libroAdapter });
+    fetchData({ url: `${LIBRO}?q=${query.trimEnd()}&limite=${limite ?? 20}&pagina=${pagina ?? 1}`, methodo: httpMethod.GET, adapter: libroAdapter });
   }
 
   const obtenerLibros = () =>

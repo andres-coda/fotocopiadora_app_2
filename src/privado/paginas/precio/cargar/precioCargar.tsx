@@ -6,14 +6,14 @@ import { useForm } from "react-hook-form";
 import { formValuesPrecio, precio, precioFormEdit } from "../../../../modelo/Entidades/precio/esqPrecio.esquema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useFormulario from "../../../../hooks/formulario/useFormulario";
-import { addPrecios, resetSelectPrecio } from "../../../../redux/state/precio.state";
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
 import Centro from "../../../../componente-estilo/centro/centro";
 import Formulario from "../../../../componente/formulario/formulario";
 import Input from "../../../../componente/formulario/input";
+import { resetSeleccionarPrecio } from "../../../../redux/state/precio.state";
 
 const PrecioCargar = () => {
-  const precioSelect: PrecioProp | null = useSelector((store: appStore) => store.precio.selected);
+  const precioSelect: PrecioProp | undefined = useSelector((store: appStore) => store.precio.datoSeleccionado);
   const { editarPrecio, crearPrecio, responsePrecio, errorFetchPrecio, loadingPrecio } = usePrecioApi()
 
   const { control, handleSubmit, formState: { errors }, reset } = useForm<formValuesPrecio>({
@@ -23,8 +23,7 @@ const PrecioCargar = () => {
 
   const { retroceder } = useFormulario<PrecioProp, formValuesPrecio, PrecioProp>({
     response: responsePrecio,
-    resetSelect: resetSelectPrecio,
-    agregarElemento: addPrecios,
+    resetSelect: resetSeleccionarPrecio,
     reset,
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PRECIO_LISTO}`,
   })

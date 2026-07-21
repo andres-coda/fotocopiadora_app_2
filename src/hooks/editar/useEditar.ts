@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { selectLibro } from "../../redux/state/libro.state";
 import { selectPedido } from "../../redux/state/pedido.state";
 import { selectSede } from "../../redux/state/sede.state";
-import { selectPrecio } from "../../redux/state/precio.state";
+import { seleccionarPrecio } from "../../redux/state/precio.state";
 import { seleccionarCliente } from "../../redux/state/cliente.state";
 import { seleccionarPropuesta } from "../../redux/state/propuesta.state";
 
@@ -34,7 +34,7 @@ const useEditar = ({
     if (newLibro) dispatch(selectLibro(newLibro));
     if (newPedido) dispatch(selectPedido(newPedido));
     if (newSede) dispatch(selectSede(newSede));
-    if (newPrecio) dispatch(selectPrecio(newPrecio));
+    if (newPrecio) dispatch(seleccionarPrecio(newPrecio));
     if (newPropuesta) dispatch(seleccionarPropuesta(newPropuesta));
   }
 

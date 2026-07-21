@@ -3,51 +3,6 @@ import { ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface"
 import { ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
 import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato} from "../utils/funcionesGenericasEmpresa";
 
-/* const filterDefault: FiltersState<ClienteProp> = {
-  filtros: filtrosInicialesCliente,
-  sortBy: 'ultAct',
-  sortOrder: 'asc'
-}
-
-const initialState: filterContext<ClienteProp> = {
-  items: [],
-  selected: null,
-  filter: filterDefault
-};
-
-export const clienteSlice = createSlice({
-  name: 'cliente',
-  initialState: initialState,
-  reducers: {
-    createClientes: createElmentoItems<ClienteProp>,
-    addClientes: agregarElementoItems<ClienteProp>,
-    substractClientes: substractElementoItems<ClienteProp>,
-    resetClientes: resetElementosItems<ClienteProp>,
-    selectCliente: selectElemento<ClienteProp>,
-    resetSelectCliente: resetSelectElemento<ClienteProp>,
-    verificarCliente: verificarElemento<ClienteProp>,
-    addFiltroCliente: addFiltroGenerico<ClienteProp>,
-    substractFiltroCliente: substractFiltroGenerico<ClienteProp>,
-    resetFiltrosCliente: resetFiltroGenerico<ClienteProp>,
-    setOrdenamientoClientes: setOrdenGenerico<ClienteProp>,
-    cambiarOrdenCliente: cambiarOrdenGenerico<ClienteProp>,
-    cambiarEstadoLibroPedidoCliente:cambiarEstadoLibroPedidoClienteFuncion,
-    //cambiarEstadoPedidoCliente:cambiarEstadoPedidoClienteFuncion
-  }
-});
-
-export const { 
-  createClientes, addClientes, substractClientes, resetClientes,
-  selectCliente, resetSelectCliente, verificarCliente, 
-  addFiltroCliente, substractFiltroCliente, resetFiltrosCliente, setOrdenamientoClientes,
-  cambiarOrdenCliente, cambiarEstadoLibroPedidoCliente,
-  // cambiarEstadoPedidoCliente
-} = clienteSlice.actions;
-
-export default clienteSlice.reducer;
- */
-
-
 const cantidadBusquedas: number = 1;
 
 export const busquedaClienteInicial: UltimaBusquedaProp<ClienteProp> = {

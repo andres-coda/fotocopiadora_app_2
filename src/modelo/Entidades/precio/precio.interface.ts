@@ -1,16 +1,27 @@
 import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
 import { PrecioAbareviatura } from "./precio.enum";
 
-export interface PrecioAdapterProp extends BaseAdapterProp{
-  nombre: string;
+export interface PrecioAdapterProp{
+  idPrecio: string;
+  descripcion?: string;
+  fecha_actualizacion: Date;
+  fecha_creacion: Date;
+  delete: boolean;
   importe: number;
-  abreviatura?: PrecioAbareviatura[];
+  detalles?: string;
+  nombre: string;
+  abreviatura?: PrecioAbareviatura;
 }
 
-export interface PrecioProp extends BaseProp{
+export interface PrecioProp{
+  id:string;
+  descripcion?: string;
+  detalles?: string;
   nombre: string;
   importe:number;
-  abreviatura?:PrecioAbareviatura[];
+  ultAct: string;
+  deleted: boolean;
+  abreviatura?:PrecioAbareviatura;
 }
 
 export const precioInicial :PrecioProp= {

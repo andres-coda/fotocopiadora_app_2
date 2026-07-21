@@ -1,45 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addFiltroGenerico, agregarElementoItems, cambiarOrdenGenerico, createElmentoItems, resetElementosItems, resetFiltroGenerico, resetSelectElemento, selectElemento, setOrdenGenerico, substractElementoItems, substractFiltroGenerico, verificarElemento } from "../utils/funcionesGenericas";
-import { filterContext, FiltersState } from "../modelo/reduxContext.interface";
 import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
-import { filtrosInicialesPrecio } from "../../filtro/precio.filtro";
+import { ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato} from "../utils/funcionesGenericasEmpresa";
 
-const filterDefault: FiltersState<PrecioProp> = {
-  filtros: filtrosInicialesPrecio,
-  sortBy: 'ultAct',
-  sortOrder: 'asc'
+const cantidadBusquedas: number = 1;
+
+export const busquedaPrecioInicial: UltimaBusquedaProp<PrecioProp> = {
+  query: undefined,
+  datosQuery: [],
+  pagina: 1,
+  limite: 20,
+  total: 0,
+  orden: 'asc'
 }
 
-const initialState: filterContext<PrecioProp> = {
-  items: [],
-  selected: null,
-  filter: filterDefault
-};
+const estadoPrecioInicial: ReduxProp<PrecioProp> = {
+  datosIniciales: busquedaPrecioInicial,
+  busquedaActual: busquedaPrecioInicial,
+  ultimasBusqueda: [],
+  datoSeleccionado: undefined
+}
 
 export const precioSlice = createSlice({
-  name: 'precio',
-  initialState: initialState,
+  name: 'precio_empresa',
+  initialState: estadoPrecioInicial,
   reducers: {
-    createPrecios: createElmentoItems<PrecioProp>,
-    addPrecios: agregarElementoItems<PrecioProp>,
-    substractPrecios: substractElementoItems<PrecioProp>,
-    resetPrecios: resetElementosItems<PrecioProp>,
-    selectPrecio: selectElemento<PrecioProp>,
-    resetSelectPrecio: resetSelectElemento<PrecioProp>,
-    verificarPrecio: verificarElemento<PrecioProp>,
-    addFiltroPrecio: addFiltroGenerico<PrecioProp>,
-    substractFiltroPrecio: substractFiltroGenerico<PrecioProp>,
-    resetFiltrosPrecio: resetFiltroGenerico<PrecioProp>,
-    setOrdenamientoPrecios: setOrdenGenerico<PrecioProp>,
-    cambiarOrdenPrecio: cambiarOrdenGenerico<PrecioProp>
+    crearPrecios: crearDatoInicial,
+    crearBusquedaPrecio: crearBusqueda<PrecioProp>(cantidadBusquedas),
+    resetBusquedaPrecio: resetBusqueda<PrecioProp>(cantidadBusquedas),
+    seleccionarPrecio: seleccionarDato,
+    resetSeleccionarPrecio: resetSeleccionDato
   }
 });
 
-export const { 
-  createPrecios, addPrecios, substractPrecios, resetPrecios,
-  selectPrecio, resetSelectPrecio, verificarPrecio, 
-  addFiltroPrecio, substractFiltroPrecio, resetFiltrosPrecio, setOrdenamientoPrecios,
-  cambiarOrdenPrecio,
-} = precioSlice.actions;
+export const { crearPrecios, crearBusquedaPrecio, resetBusquedaPrecio, resetSeleccionarPrecio, seleccionarPrecio } = precioSlice.actions;
 
 export default precioSlice.reducer;
+
