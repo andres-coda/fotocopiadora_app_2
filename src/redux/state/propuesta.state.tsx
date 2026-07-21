@@ -1,45 +1,38 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addFiltroGenerico, agregarElementoItems, cambiarOrdenGenerico, createElmentoItems, resetElementosItems, resetFiltroGenerico, resetSelectElemento, selectElemento, setOrdenGenerico, substractElementoItems, substractFiltroGenerico, verificarElemento } from "../utils/funcionesGenericas";
-import { filterContext, FiltersState } from "../modelo/reduxContext.interface";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
-import { filtrosInicialesPropuesta } from "../../filtro/propuesta.filtro";
+import { ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
+import { crearBusqueda, crearDatoInicial, resetBusqueda, resetSeleccionDato, seleccionarDato } from "../utils/funcionesGenericasEmpresa";
 
-const filterDefault: FiltersState<PropuestaProp> = {
-  filtros: filtrosInicialesPropuesta,
-  sortBy: 'ultAct',
-  sortOrder: 'asc'
+
+const cantidadBusquedas: number = 15;
+
+export const busquedaPropuestaInicial: UltimaBusquedaProp<PropuestaProp> = {
+  query: undefined,
+  datosQuery: [],
+  pagina: 1,
+  limite: 20,
+  total: 0,
+  orden: 'asc'
 }
 
-const initialState: filterContext<PropuestaProp> = {
-  items: [],
-  selected: null,
-  filter: filterDefault
-};
-
+const estadoPropuestaInicial: ReduxProp<PropuestaProp> = {
+  datosIniciales: busquedaPropuestaInicial,
+  busquedaActual: busquedaPropuestaInicial,
+  ultimasBusqueda: [],
+  datoSeleccionado: undefined
+}
 export const propuestaSlice = createSlice({
-  name: 'propuesta',
-  initialState: initialState,
+  name: 'propuesta_empresa',
+  initialState: estadoPropuestaInicial,
   reducers: {
-    createPropuestas: createElmentoItems<PropuestaProp>,
-    addPropuestas: agregarElementoItems<PropuestaProp>,
-    substractPropuestas: substractElementoItems<PropuestaProp>,
-    resetPropuestas: resetElementosItems<PropuestaProp>,
-    selectPropuesta: selectElemento<PropuestaProp>,
-    resetSelectPropuesta: resetSelectElemento<PropuestaProp>,
-    verificarPropuesta: verificarElemento<PropuestaProp>,
-    addFiltroPropuesta: addFiltroGenerico<PropuestaProp>,
-    substractFiltroPropuesta: substractFiltroGenerico<PropuestaProp>,
-    resetFiltrosPropuesta: resetFiltroGenerico<PropuestaProp>,
-    setOrdenamientoPropuestas: setOrdenGenerico<PropuestaProp>,
-    cambiarOrdenPropuesta: cambiarOrdenGenerico<PropuestaProp>
+    crearPropuestas: crearDatoInicial,
+    crearBusquedaPropuesta: crearBusqueda<PropuestaProp>(cantidadBusquedas),
+    resetBusquedaPropuesta: resetBusqueda<PropuestaProp>(cantidadBusquedas),
+    seleccionarPropuesta: seleccionarDato,
+    resetSeleccionarPropuesta: resetSeleccionDato
   }
 });
 
-export const { 
-  createPropuestas, addPropuestas, substractPropuestas, resetPropuestas,
-  selectPropuesta, resetSelectPropuesta, verificarPropuesta, 
-  addFiltroPropuesta, substractFiltroPropuesta, resetFiltrosPropuesta, setOrdenamientoPropuestas,
-  cambiarOrdenPropuesta,
-} = propuestaSlice.actions;
+export const { crearPropuestas, crearBusquedaPropuesta, resetBusquedaPropuesta, resetSeleccionarPropuesta, seleccionarPropuesta } = propuestaSlice.actions;
 
 export default propuestaSlice.reducer;

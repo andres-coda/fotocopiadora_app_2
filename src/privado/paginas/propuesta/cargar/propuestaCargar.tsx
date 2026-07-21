@@ -8,16 +8,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formValuesPropuesta, propuesta, propuestaFormEdit } from "../../../../modelo/Entidades/propuesta/esqPropuesta.esquema";
 import useFormulario from "../../../../hooks/formulario/useFormulario";
 import usePropuestaApi from "../../../../servicio/propuesta/usePropuestaApi";
-import { addPropuestas, resetSelectPropuesta } from "../../../../redux/state/propuesta.state";
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Input from "../../../../componente/formulario/input";
 import BuscadorLibro from "../../../../componente/buscador/buscadorLibro";
 import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface";
 import LibroCard from "../../libro/componente/libroCard";
+import { resetSeleccionarPropuesta } from "../../../../redux/state/propuesta.state";
 
 const PropuestaCargar = () => {
-  const propuestaSelect: PropuestaProp | null = useSelector((store: appStore) => store.propuesta.selected);
+  const propuestaSelect: PropuestaProp | undefined = useSelector((store: appStore) => store.propuesta.datoSeleccionado);
   const [libros, setLibros] = useState<LibroProp[]>([]);
  
   const { editarPropuesta, crearPropuesta, responsePropuesta, errorFetchPropuesta, loadingPropuesta } = usePropuestaApi()
@@ -29,8 +29,7 @@ const PropuestaCargar = () => {
 
   const { retroceder } = useFormulario<PropuestaProp, formValuesPropuesta, PropuestaProp>({
     response: responsePropuesta,
-    resetSelect: resetSelectPropuesta,
-    agregarElemento: addPropuestas,
+    resetSelect: resetSeleccionarPropuesta,
     reset,
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
   })
@@ -69,7 +68,7 @@ const PropuestaCargar = () => {
         errorFetch={errorFetchPropuesta}
       >
           <Input<formValuesPropuesta> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={propuesta} />
-          <BuscadorLibro setLibro={handleLibroBuscador}/>
+          <BuscadorLibro selectLibro={handleLibroBuscador} selectPropuesta={()=>true}/>
           {
             libros?.map(l=> <LibroCard libro={l} selecLibro={handleSelectLibro}/>)
           }

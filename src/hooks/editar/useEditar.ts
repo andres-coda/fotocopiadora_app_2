@@ -6,8 +6,8 @@ import { selectLibro } from "../../redux/state/libro.state";
 import { selectPedido } from "../../redux/state/pedido.state";
 import { selectSede } from "../../redux/state/sede.state";
 import { selectPrecio } from "../../redux/state/precio.state";
-import { selectPropuesta } from "../../redux/state/propuesta.state";
 import { seleccionarCliente } from "../../redux/state/cliente.state";
+import { seleccionarPropuesta } from "../../redux/state/propuesta.state";
 
 const useEditar = ({
   ruta,
@@ -35,7 +35,7 @@ const useEditar = ({
     if (newPedido) dispatch(selectPedido(newPedido));
     if (newSede) dispatch(selectSede(newSede));
     if (newPrecio) dispatch(selectPrecio(newPrecio));
-    if (newPropuesta) dispatch(selectPropuesta(newPropuesta));
+    if (newPropuesta) dispatch(seleccionarPropuesta(newPropuesta));
   }
 
 

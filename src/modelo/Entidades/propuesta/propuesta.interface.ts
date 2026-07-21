@@ -3,7 +3,7 @@ import { LibroAdapterProp, LibroProp } from "../libro/libro.interface";
 
 export interface PropuestaAdapterProp extends BaseAdapterProp {
   nombre:string;
-  libro?: LibroAdapterProp[];
+  libros?: LibroAdapterProp[];
 }
 
 export interface PropuestaProp extends BaseProp{

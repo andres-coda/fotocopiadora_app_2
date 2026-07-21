@@ -11,6 +11,6 @@ export const COMPONENTE:string = `${BASE}/componente`;
 export const MATERIA:string = `${BASE}/materia`;
 export const PEDIDO:string = `${BASE}/pedido`;
 export const PEDIDO_LIBRO:string = `${BASE}/libro-pedido`;
-export const PRECIO:string = `${BASE}/precio`;
+export const PRECIO:string = `${BASE}/precio-empresa`;
 export const SEDE:string = `${BASE}/sede`;
 export const PROPUESTA:string = `${BASE}/propuesta-pedido`;

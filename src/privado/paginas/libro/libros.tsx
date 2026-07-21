@@ -25,7 +25,7 @@ const normalizar = (elementos: string[]): string[] => {
 const Libros = () => {
   const dispatch = useDispatch();
   const libroContext: filterContext<LibroProp> = useSelector((store: appStore) => store.libro);
-  const propuestas: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.items);
+  const propuestas: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.busquedaActual.datosQuery);
 
   const [opcionesActivas, setOpcionesActivas] = useState<string[]>([listaSeleccionable[0].nombre]);
   const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento, retornoPropuestas } = useBuscadorCompleto<LibroProp>({
@@ -47,7 +47,7 @@ const Libros = () => {
         setValor={setValor}
         handleOrden={() => dispatch(cambiarOrdenLibro())}
         etiquetaArriba='Al comienzo de la lista'
-        etiquetaMas='Nueva libro'
+        etiquetaMas='Nuevo libro'
         titulo='Lista de libros'
         opcionesActivas={opcionesActivas}
         setOpcionesActivas={setOpcionesActivas}

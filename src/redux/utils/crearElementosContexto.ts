@@ -10,7 +10,7 @@ import { createMaterias } from "../state/materia.state";
 import { createPedidos } from "../state/pedido.state";
 import { createPedidoLibros } from "../state/pedido_libro.state";
 import { createPrecios } from "../state/precio.state";
-import { createPropuestas } from "../state/propuesta.state";
+import { busquedaPropuestaInicial, crearPropuestas } from "../state/propuesta.state";
 import { createSedes } from "../state/sede.state";
 
 export const crearElementosContexto = ({
@@ -42,7 +42,7 @@ export const crearElementosContexto = ({
   if (precios) dispatch(createPrecios(precios));
   if (sedes) dispatch(createSedes(sedes));
   if (componentes) dispatch(createComponentes(componentes));
-  if (propuestas) dispatch(createPropuestas(propuestas));
+  if (propuestas) dispatch(crearPropuestas({...busquedaPropuestaInicial, datosQuery:propuestas}));
 
 
 }

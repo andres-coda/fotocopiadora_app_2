@@ -12,11 +12,11 @@ export const propuestaAdapter = (propuesta?: PropuestaAdapterProp): PropuestaPro
 
   if (!base) return undefined;
 
-  const libros: LibroProp[] = libroAdapterArray(propuesta.libro);
+  const libros: LibroProp[] = libroAdapterArray(propuesta.libros);
 
   const newPropuesta: PropuestaProp = {
     ...base,
-    cantidadLibros: propuesta.libro?.length ?? 0,
+    cantidadLibros: propuesta.libros?.length ?? 0,
     nombre: propuesta.nombre,
     libro: libros,
   }

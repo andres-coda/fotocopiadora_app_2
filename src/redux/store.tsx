@@ -21,8 +21,8 @@ import { sedeSlice } from "./state/sede.state";
 import { ComponenteProp } from "../modelo/Entidades/libro/componente.interface";
 import { componenteSlice } from "./state/componente.state";
 import { PropuestaProp } from "../modelo/Entidades/propuesta/propuesta.interface";
-import { propuestaSlice } from "./state/propuesta.state";
 import { libroEmpresaSlice } from "./state/libro_empresa.state";
+import { propuestaSlice } from "./state/propuesta.state";
 
 export interface appStore {
   libro: filterContext<LibroProp>,
@@ -34,7 +34,7 @@ export interface appStore {
   precio: filterContext<PrecioProp>,
   componente: filterContext<ComponenteProp>,
   sede: filterContext<SedeProp>,
-  propuesta: filterContext<PropuestaProp>
+  propuesta: ReduxProp<PropuestaProp>,
   usuario: usuarioProps,
   libro_empresa: ReduxProp<LibroProp>,
 }

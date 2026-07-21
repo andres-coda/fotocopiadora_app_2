@@ -26,8 +26,6 @@ interface BuscadorFiltrosProp {
   handleMas?: MouseEventHandler<HTMLButtonElement>;
   handleFiltro?: MouseEventHandler<HTMLButtonElement>;
   handleOrden?: MouseEventHandler<HTMLButtonElement>;
-  handleIzquierda?: MouseEventHandler<HTMLButtonElement>;
-  handleDerecha?: MouseEventHandler<HTMLButtonElement>;
 
 
   // Etiquetas
@@ -54,8 +52,6 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
   handleMas,
   handleFiltro,
   handleOrden,
-  handleIzquierda,
-  handleDerecha,
   etiquetaMas,
   etiquetaArriba = 'Al comienzo',
   nuevoEstilo,
@@ -145,27 +141,7 @@ const BuscadorFiltros = forwardRef<HTMLDivElement, BuscadorFiltrosProp>(({
               onClick={() => setVisible(true)}
               titulo='Anterior'
             />}
-          {/* Botones de navegación/paginación */}
-          {handleIzquierda && (
-            <Boton
-              icono={<Arrow />}
-              terciario
-              nuevoEstilo='btn-icono-chico'
-              onClick={handleIzquierda}
-              titulo='Anterior'
-            />
-          )}
-
-          {handleDerecha && (
-            <Boton
-              icono={<Arrow />}
-              terciario
-              nuevoEstilo='btn-icono-chico btn-icono-derecha'
-              onClick={handleDerecha}
-              titulo='Siguiente'
-            />
-          )}
-
+         
           {/* Botones de filtro y orden */}
           {handleFiltro && (
             <Boton

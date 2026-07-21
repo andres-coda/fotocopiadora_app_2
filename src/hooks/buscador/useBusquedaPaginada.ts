@@ -1,11 +1,14 @@
 import { useDispatch } from "react-redux";
 import { orden, ReduxProp, UltimaBusquedaProp } from "../../redux/modelo/reduxContext.interface";
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { UnknownAction } from "@reduxjs/toolkit";
 import { BusquedaApiProp } from "../../modelo/HTTP/peticiones.interface";
 import { PaginadoProp } from "../../adaptadores/entrada/paginado.adapter";
+import { useNavigate } from "react-router-dom";
+import { useModalContext } from "../../contexto/contextoModal";
 
 interface UseBuscadorPaginadoProp<T> {
+  valor: string;
   datosRedux: ReduxProp<T>;
   resetBusqueda: () => UnknownAction;
   crearBusqueda: (busqueda: UltimaBusquedaProp<T>) => UnknownAction;
@@ -16,6 +19,7 @@ interface UseBuscadorPaginadoProp<T> {
 }
 
 const useBusquedaPaginada = <T>({
+  valor,
   datosRedux,
   resetBusqueda,
   crearBusqueda,
@@ -24,9 +28,12 @@ const useBusquedaPaginada = <T>({
   orden = 'asc',
   limiteLetrasBusqueda = 3,
 }: UseBuscadorPaginadoProp<T>) => {
-  const dispatch = useDispatch();
 
-  const [valor, setValor] = useState<string>('');
+  const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const { setModal } = useModalContext();
+
   const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
@@ -65,7 +72,16 @@ const useBusquedaPaginada = <T>({
     }
   }, [response]);
 
-  return { valor, setValor }
+  const nuevoElemento = (ruta?: string) => {
+    if (ruta) {
+      navigate(ruta);
+    } else {
+      setModal(true);
+    }
+
+  }
+
+  return { contenedorRef, nuevoElemento }
 
 }
 

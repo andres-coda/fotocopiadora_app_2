@@ -70,5 +70,5 @@ export const estadoPedidoXstring = (estado: EstadoPedido): string => {
 
 export const nombreLibroXstring = (libro:LibroProp | undefined) => {
   if(!libro) return '';
-  return `${libro.nombre} - ${libro.nivel} - ${transformarComponente(libro.componentes)}`
+  return `${libro.nombre}${libro.nivel ? ` - ${libro.nivel}`: ''}${libro.componentes_texto ? ` - ${libro.componentes_texto}` : ''}`
 }

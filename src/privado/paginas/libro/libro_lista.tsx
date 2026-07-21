@@ -1,42 +1,54 @@
-import { appStore } from '../../../redux/store'
 import './libros.css'
-import { LibroProp } from '../../../modelo/Entidades/libro/libro.interface'
-import { ReduxProp } from '../../../redux/modelo/reduxContext.interface'
 import Centro from '../../../componente-estilo/centro/centro'
 import LibroCard from './componente/libroCard'
-import InputBuscar from '../../../componente/formulario/inputBuscar'
-import { crearBusquedaLibro, resetBusquedaLibro } from '../../../redux/state/libro_empresa.state'
-import useLibrosApi from '../../../servicio/libro/useLibrosApi'
 import TextoVacio from '../../../componente/Textos/textoVacio'
-import useBusquedaPaginada from '../../../hooks/buscador/useBusquedaPaginada'
-import { useSelector } from 'react-redux'
+import BuscadorPaginadoCompleto from '../../../componente/buscador/buscadorPaginadoCompleto'
+import { useState } from 'react'
+import { listaLibroPropuestaSeleccionable, normalizarLibroPropuesta } from './util/funcionesAdicionales'
+import useBuscadorLibro from './hook/useBuscadorLibro'
+import PropuestaCard from '../propuesta/componente/propuestaCard'
+
 
 const Libros_lista = () => {
-  const librosDatos: ReduxProp<LibroProp> = useSelector((store: appStore) => store.libro_empresa);
-  const { obtenerLibrosBusqueda, responseLibros } = useLibrosApi()
+  const [opcionesActivas, setOpcionesActivas] = useState<string[]>([listaLibroPropuestaSeleccionable[0].nombre]);
 
-  const { valor, setValor } = useBusquedaPaginada<LibroProp>({
-    datosRedux: librosDatos,
-    resetBusqueda: resetBusquedaLibro,
-    crearBusqueda: crearBusquedaLibro,
-    obtenerBusqueda: obtenerLibrosBusqueda,
-    response: responseLibros,
-  });
+  const { valor, setValor, contenedorRef, handleNuevoElemento, libros, propuestas } = useBuscadorLibro({
+    opcionesActivas
+  })
 
   return (
-    <Centro>
-      <InputBuscar
-        name='buscar'
+    <>
+      <BuscadorPaginadoCompleto
+        ref={contenedorRef}
         texto='Buscar libro'
+        handleMas={handleNuevoElemento}
         valor={valor}
         setValor={setValor}
+        titulo='Lista de libros'
+        opcionesActivas={opcionesActivas}
+        setOpcionesActivas={setOpcionesActivas}
+        listaSeleccionable={listaLibroPropuestaSeleccionable}
+        normalizar={normalizarLibroPropuesta}
+        etiquetaArriba='Al comienzo de la lista'
+        etiquetaMas={!opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre) ? `Nuevo libro` : 'Nueva propuesta'}
       />
-      {
-        !librosDatos.busquedaActual || librosDatos.busquedaActual.datosQuery.length === 0
-          ? (<TextoVacio entidad='libros' />)
-          : librosDatos.busquedaActual.datosQuery.map(d => <LibroCard libro={d} key={d.id} />)
-      }
-    </Centro>
+      <Centro ref={contenedorRef} nuevoEstilo='centro-libro'>
+        {propuestas.map(d => <PropuestaCard propuesta={d} key={d.id} />)}
+        {libros.map(d => <LibroCard libro={d} key={d.id} />)}
+        {
+          libros.length === 0 && propuestas.length === 0 && opcionesActivas.includes(listaLibroPropuestaSeleccionable[0].nombre) &&
+          <TextoVacio entidad='libros y propuestas' />
+        }
+        {
+          propuestas.length === 0 && opcionesActivas.includes(listaLibroPropuestaSeleccionable[2].nombre) &&
+          <TextoVacio entidad='libros' />
+        }
+        {
+          propuestas.length === 0 && opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre) &&
+          <TextoVacio entidad='propuestas' />
+        }
+      </Centro>
+    </>
   )
 }
 

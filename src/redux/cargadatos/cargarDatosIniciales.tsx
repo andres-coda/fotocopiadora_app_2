@@ -49,7 +49,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const precioItems: PrecioProp[] = useSelector((store: appStore) => store.precio.items);
   const sedeItems: SedeProp[] = useSelector((store: appStore) => store.sede.items);
   const componenteItems: ComponenteProp[] = useSelector((store: appStore) => store.componente.items);
-  const propuestasItems: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.items);
+  const propuestasItems: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.datosIniciales.datosQuery);
 
   const {
   } = useSockets({
@@ -67,7 +67,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
       precios: responsePrecios || undefined,
       sedes: responseSedes?.datos || undefined,
       componentes: responseComponentes || undefined,
-      propuestas: responsePropuestas || undefined,
+      propuestas: responsePropuestas?.datos || undefined,
 
       dispatch,
     })

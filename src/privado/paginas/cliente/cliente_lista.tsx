@@ -9,12 +9,15 @@ import Centro from "../../../componente-estilo/centro/centro";
 import InputBuscar from "../../../componente/formulario/inputBuscar";
 import TextoVacio from "../../../componente/Textos/textoVacio";
 import ClienteCard from "./componente/clienteCard";
+import { useState } from "react";
 
 const Cliente_lista = () => {
   const clienteDatos: ReduxProp<ClienteProp> = useSelector((store: appStore) => store.cliente);
   const { obtenerClientesBusqueda, responseClientes } = useClientesApi()
+  const [valor, setValor] = useState<string>('');
 
-  const { valor, setValor } = useBusquedaPaginada<ClienteProp>({
+  const { } = useBusquedaPaginada<ClienteProp>({
+    valor,
     datosRedux: clienteDatos,
     resetBusqueda: resetBusquedaCliente,
     crearBusqueda: crearBusquedaCliente,

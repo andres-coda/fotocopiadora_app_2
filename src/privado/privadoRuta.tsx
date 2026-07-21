@@ -14,7 +14,6 @@ import PrecioCargar from "./paginas/precio/cargar/precioCargar";
 import Sedes from "./paginas/sede/sede";
 import SedeCargar from "./paginas/sede/cargar/sedeCargar";
 import Pedidos from "./paginas/pedido/pedidos";
-import Propuestas from "./paginas/propuesta/propuesta";
 import PedidoCargar from "./paginas/pedido/cargar/pedidoCargar";
 import PropuestaCargar from "./paginas/propuesta/cargar/propuestaCargar";
 import { ProveiderPedidoContext } from "../contexto/contextoPedido";
@@ -40,7 +39,6 @@ const PrivadoRuta = () => {
             <Route path={RutasPrivadas.SEDE_LISTA} element={<Sedes />}></Route>
             <Route path={RutasPrivadas.SEDE_CARGAR} element={<SedeCargar />}></Route>
             <Route path={RutasPrivadas.PEDIDO_LISTA} element={<Pedidos />}></Route>
-            <Route path={RutasPrivadas.PROPUESTA_LISTA} element={<Propuestas />}></Route>
             <Route path={RutasPrivadas.PROPUESTA_CARGAR} element={<PropuestaCargar />}></Route>
             <Route path={RutasPrivadas.PEDIDO_CARGAR} element={<PedidoCargar />}></Route>
           </RutaInvalida>
