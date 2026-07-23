@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
 import { ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
-import { crearBusqueda, crearDatoInicial, resetBusqueda, resetSeleccionDato, seleccionarDato } from "../utils/funcionesGenericasEmpresa";
+import { agregarDatosBusquedaActual, crearBusqueda, crearDatoInicial, resetBusqueda, resetSeleccionDato, seleccionarDato } from "../utils/funcionesGenericasEmpresa";
 
 
 const cantidadBusquedas: number = 15;
@@ -29,10 +29,11 @@ export const propuestaSlice = createSlice({
     crearBusquedaPropuesta: crearBusqueda<PropuestaProp>(cantidadBusquedas),
     resetBusquedaPropuesta: resetBusqueda<PropuestaProp>(cantidadBusquedas),
     seleccionarPropuesta: seleccionarDato,
-    resetSeleccionarPropuesta: resetSeleccionDato
+    resetSeleccionarPropuesta: resetSeleccionDato,
+    agregarPropuestasBusquedaActual: agregarDatosBusquedaActual<PropuestaProp>
   }
 });
 
-export const { crearPropuestas, crearBusquedaPropuesta, resetBusquedaPropuesta, resetSeleccionarPropuesta, seleccionarPropuesta } = propuestaSlice.actions;
+export const { crearPropuestas, crearBusquedaPropuesta, resetBusquedaPropuesta, resetSeleccionarPropuesta, seleccionarPropuesta, agregarPropuestasBusquedaActual } = propuestaSlice.actions;
 
 export default propuestaSlice.reducer;

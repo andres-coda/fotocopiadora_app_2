@@ -6,14 +6,14 @@ import { useForm } from "react-hook-form";
 import { formValuesSede, sede, sedeFormEdit } from "../../../../modelo/Entidades/sede/esqSede.esquema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useFormulario from "../../../../hooks/formulario/useFormulario";
-import { addSedes, resetSelectSede } from "../../../../redux/state/sede.state";
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
 import Centro from "../../../../componente-estilo/centro/centro";
 import Formulario from "../../../../componente/formulario/formulario";
 import Input from "../../../../componente/formulario/input";
+import { resetSeleccionarSede } from "../../../../redux/state/sede.state";
 
 const SedeCargar = () => {
-  const sedeSelect: SedeProp | null = useSelector((store: appStore) => store.sede.selected);
+  const sedeSelect: SedeProp | undefined = useSelector((store: appStore) => store.sede.datoSeleccionado);
   const { editarSede, crearSede, responseSede, errorFetchSede, loadingSede } = useSedeApi()
 
   const { control, handleSubmit, formState: { errors }, reset } = useForm<formValuesSede>({
@@ -23,8 +23,7 @@ const SedeCargar = () => {
 
   const { retroceder } = useFormulario<SedeProp, formValuesSede, SedeProp>({
     response: responseSede,
-    resetSelect: resetSelectSede,
-    agregarElemento: addSedes,
+    resetSelect: resetSeleccionarSede,
     reset,
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SEDE_LISTA}`,
   })

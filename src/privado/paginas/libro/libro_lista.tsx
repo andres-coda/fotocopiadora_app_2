@@ -12,7 +12,7 @@ import PropuestaCard from '../propuesta/componente/propuestaCard'
 const Libros_lista = () => {
   const [opcionesActivas, setOpcionesActivas] = useState<string[]>([listaLibroPropuestaSeleccionable[0].nombre]);
 
-  const { valor, setValor, contenedorRef, handleNuevoElemento, libros, propuestas } = useBuscadorLibro({
+  const { valor, setValor, contenedorRef, handleNuevoElemento, libros, propuestas, finListaRef } = useBuscadorLibro({
     opcionesActivas
   })
 
@@ -40,13 +40,16 @@ const Libros_lista = () => {
           <TextoVacio entidad='libros y propuestas' />
         }
         {
-          propuestas.length === 0 && opcionesActivas.includes(listaLibroPropuestaSeleccionable[2].nombre) &&
+          libros.length === 0 && opcionesActivas.includes(listaLibroPropuestaSeleccionable[2].nombre) &&
           <TextoVacio entidad='libros' />
         }
         {
           propuestas.length === 0 && opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre) &&
           <TextoVacio entidad='propuestas' />
         }
+        <div ref={finListaRef}>
+          <p>Fin de lista</p>
+        </div>
       </Centro>
     </>
   )

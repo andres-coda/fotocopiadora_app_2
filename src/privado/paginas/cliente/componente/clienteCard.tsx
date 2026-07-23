@@ -1,9 +1,9 @@
 import useEditar from "../../../../hooks/editar/useEditar";
+import Card from "../../../../componente-estilo/card/card";
 import { ClienteProp } from "../../../../modelo/Entidades/cliente/cliente.interface";
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
-import Card from "../../../../componente-estilo/card/card";
-import './clienteCard.css'
 import ClienteDatos from "./clienteDatos";
+import './clienteCard.css'
 
 interface Props {
   cliente: ClienteProp

@@ -9,12 +9,12 @@ import PrecioCard from "./componente/precioCard";
 import { useState } from "react";
 import usePreciosApi from "../../../servicio/precio/usePreciosApi";
 import useBusquedaPaginada from "../../../hooks/buscador/useBusquedaPaginada";
-import { crearBusquedaPrecio, resetBusquedaPrecio } from "../../../redux/state/precio.state";
+import { agregarPreciosBusquedaActual, crearBusquedaPrecio, resetBusquedaPrecio } from "../../../redux/state/precio.state";
 import BuscadorPaginadoCompleto from "../../../componente/buscador/buscadorPaginadoCompleto";
 
 const Precios = () => {
   const precioDatos: ReduxProp<PrecioProp> = useSelector((store: appStore) => store.precio);
-  const { obtenerPreciosBusqueda, responsePrecios } = usePreciosApi()
+  const { obtenerPreciosBusqueda, responsePrecios, loadingPrecios } = usePreciosApi()
   const [valor, setValor] = useState<string>('');
 
   const { contenedorRef, nuevoElemento } = useBusquedaPaginada<PrecioProp>({
@@ -23,8 +23,9 @@ const Precios = () => {
     resetBusqueda: resetBusquedaPrecio,
     crearBusqueda: crearBusquedaPrecio,
     obtenerBusqueda: obtenerPreciosBusqueda,
+    agregarBusqueda: agregarPreciosBusquedaActual,
     response: responsePrecios,
-    limiteLetrasBusqueda: 4,
+    loading: loadingPrecios,
   });
 
   return (

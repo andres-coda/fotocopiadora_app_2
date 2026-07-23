@@ -81,3 +81,16 @@ export const resetSeleccionDato = <T>(
 
   state.datoSeleccionado = undefined;
 };
+
+export const agregarDatosBusquedaActual = <T>(
+  state: ReduxProp<T>,
+  action: PayloadAction<UltimaBusquedaProp<T>>
+) => {
+  state.busquedaActual = {
+    ...state.busquedaActual,
+    limite: action.payload.limite,
+    total: action.payload.total,
+    pagina:action.payload.pagina,
+    datosQuery: [...state.busquedaActual.datosQuery, ...action.payload.datosQuery]
+  }
+};

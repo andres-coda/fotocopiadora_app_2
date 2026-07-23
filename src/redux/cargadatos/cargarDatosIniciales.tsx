@@ -47,7 +47,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const pedidoItems: PedidoProp[] = useSelector((store: appStore) => store.pedido.items);
   const pedidoLibroItems: PedidoLibroProp[] = useSelector((store: appStore) => store.pedidoLibro.items);
   const precioItems: PrecioProp[] = useSelector((store: appStore) => store.precio.datosIniciales.datosQuery);
-  const sedeItems: SedeProp[] = useSelector((store: appStore) => store.sede.items);
+  const sedeItems: SedeProp[] = useSelector((store: appStore) => store.sede.datosIniciales.datosQuery);
   const componenteItems: ComponenteProp[] = useSelector((store: appStore) => store.componente.items);
   const propuestasItems: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.datosIniciales.datosQuery);
 
@@ -58,16 +58,16 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   useEffect(() => {
     console.log('response pedido: ', responsePedidos)
     crearElementosContexto({
-      libros: responseLibros?.datos || undefined,
-      clientes: responseClientes?.datos || undefined,
+      libros: responseLibros || undefined,
+      clientes: responseClientes || undefined,
       especificaciones: responseEspecificaciones || undefined,
       materias: responseMaterias?.datos || undefined,
       pedidos: responsePedidos || undefined,
       pedidoLibros: responsePedidoLibross || undefined,
-      precios: responsePrecios?.datos || undefined,
-      sedes: responseSedes?.datos || undefined,
+      precios: responsePrecios || undefined,
+      sedes: responseSedes || undefined,
       componentes: responseComponentes || undefined,
-      propuestas: responsePropuestas?.datos || undefined,
+      propuestas: responsePropuestas || undefined,
 
       dispatch,
     })

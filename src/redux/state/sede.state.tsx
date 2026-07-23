@@ -1,45 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addFiltroGenerico, agregarElementoItems, cambiarOrdenGenerico, createElmentoItems, resetElementosItems, resetFiltroGenerico, resetSelectElemento, selectElemento, setOrdenGenerico, substractElementoItems, substractFiltroGenerico, verificarElemento } from "../utils/funcionesGenericas";
-import { filterContext, FiltersState } from "../modelo/reduxContext.interface";
+import { ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
 import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
-import { filtrosInicialesSede } from "../../filtro/sede.filtro";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual} from "../utils/funcionesGenericasEmpresa";
 
-const filterDefault: FiltersState<SedeProp> = {
-  filtros: filtrosInicialesSede,
-  sortBy: 'ultAct',
-  sortOrder: 'asc'
+const cantidadBusquedas: number = 1;
+
+export const busquedaSedeInicial: UltimaBusquedaProp<SedeProp> = {
+  query: undefined,
+  datosQuery: [],
+  pagina: 1,
+  limite: 20,
+  total: 0,
+  orden: 'asc'
 }
 
-const initialState: filterContext<SedeProp> = {
-  items: [],
-  selected: null,
-  filter: filterDefault
-};
+const estadoSedeInicial: ReduxProp<SedeProp> = {
+  datosIniciales: busquedaSedeInicial,
+  busquedaActual: busquedaSedeInicial,
+  ultimasBusqueda: [],
+  datoSeleccionado: undefined
+}
 
 export const sedeSlice = createSlice({
   name: 'sede',
-  initialState: initialState,
+  initialState: estadoSedeInicial,
   reducers: {
-    createSedes: createElmentoItems<SedeProp>,
-    addSedes: agregarElementoItems<SedeProp>,
-    substractSedes: substractElementoItems<SedeProp>,
-    resetSedes: resetElementosItems<SedeProp>,
-    selectSede: selectElemento<SedeProp>,
-    resetSelectSede: resetSelectElemento<SedeProp>,
-    verificarSede: verificarElemento<SedeProp>,
-    addFiltroSede: addFiltroGenerico<SedeProp>,
-    substractFiltroSede: substractFiltroGenerico<SedeProp>,
-    resetFiltrosSede: resetFiltroGenerico<SedeProp>,
-    setOrdenamientoSedes: setOrdenGenerico<SedeProp>,
-    cambiarOrdenSede: cambiarOrdenGenerico<SedeProp>
+    crearSedes: crearDatoInicial,
+    crearBusquedaSede: crearBusqueda<SedeProp>(cantidadBusquedas),
+    resetBusquedaSede: resetBusqueda<SedeProp>(cantidadBusquedas),
+    seleccionarSede: seleccionarDato,
+    resetSeleccionarSede: resetSeleccionDato,
+    agregarSedesBusquedaActual: agregarDatosBusquedaActual<SedeProp>
   }
 });
 
-export const { 
-  createSedes, addSedes, substractSedes, resetSedes,
-  selectSede, resetSelectSede, verificarSede, 
-  addFiltroSede, substractFiltroSede, resetFiltrosSede, setOrdenamientoSedes,
-  cambiarOrdenSede,
-} = sedeSlice.actions;
+export const { crearSedes, crearBusquedaSede, resetBusquedaSede, resetSeleccionarSede, seleccionarSede, agregarSedesBusquedaActual } = sedeSlice.actions;
 
 export default sedeSlice.reducer;
+

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
-import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato} from "../utils/funcionesGenericasEmpresa";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual} from "../utils/funcionesGenericasEmpresa";
 
 const cantidadBusquedas: number = 15;
 
@@ -29,11 +29,12 @@ export const libroEmpresaSlice = createSlice({
     crearBusquedaLibro: crearBusqueda<LibroProp>(cantidadBusquedas),
     resetBusquedaLibro: resetBusqueda<LibroProp>(cantidadBusquedas),
     seleccionarLibro: seleccionarDato,
-    resetSeleccionarLibro: resetSeleccionDato
+    resetSeleccionarLibro: resetSeleccionDato,
+    agregarLibrosBusquedaActual: agregarDatosBusquedaActual<LibroProp>
   }
 });
 
-export const { crearLibros, crearBusquedaLibro, resetBusquedaLibro, resetSeleccionarLibro, seleccionarLibro } = libroEmpresaSlice.actions;
+export const { crearLibros, crearBusquedaLibro, resetBusquedaLibro, resetSeleccionarLibro, seleccionarLibro, agregarLibrosBusquedaActual } = libroEmpresaSlice.actions;
 
 export default libroEmpresaSlice.reducer;
 

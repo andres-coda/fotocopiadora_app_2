@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
 import { ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
-import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato} from "../utils/funcionesGenericasEmpresa";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual} from "../utils/funcionesGenericasEmpresa";
 
 const cantidadBusquedas: number = 1;
 
@@ -29,11 +29,12 @@ export const precioSlice = createSlice({
     crearBusquedaPrecio: crearBusqueda<PrecioProp>(cantidadBusquedas),
     resetBusquedaPrecio: resetBusqueda<PrecioProp>(cantidadBusquedas),
     seleccionarPrecio: seleccionarDato,
-    resetSeleccionarPrecio: resetSeleccionDato
+    resetSeleccionarPrecio: resetSeleccionDato,
+    agregarPreciosBusquedaActual: agregarDatosBusquedaActual<PrecioProp>
   }
 });
 
-export const { crearPrecios, crearBusquedaPrecio, resetBusquedaPrecio, resetSeleccionarPrecio, seleccionarPrecio } = precioSlice.actions;
+export const { crearPrecios, crearBusquedaPrecio, resetBusquedaPrecio, resetSeleccionarPrecio, seleccionarPrecio, agregarPreciosBusquedaActual } = precioSlice.actions;
 
 export default precioSlice.reducer;
 

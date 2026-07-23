@@ -1,17 +1,31 @@
+import { PaginadoProp } from "../../adaptadores/entrada/paginado.adapter";
+import { ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
+import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
+import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
+import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
 import { crearContextProp } from "../modelo/cargarDatos.interface";
 import { UltimaBusquedaProp } from "../modelo/reduxContext.interface";
-import { busquedaClienteInicial, crearClientes } from "../state/cliente.state";
+import { crearClientes } from "../state/cliente.state";
 import { createComponentes } from "../state/componente.state";
 import { createEspecificaciones } from "../state/especificacion.state";
-import { createLibros } from "../state/libro.state";
-import { busquedaLibroInicial, crearLibros } from "../state/libro_empresa.state";
+import { crearLibros } from "../state/libro_empresa.state";
 import { createMaterias } from "../state/materia.state";
 import { createPedidos } from "../state/pedido.state";
 import { createPedidoLibros } from "../state/pedido_libro.state";
-import { busquedaPrecioInicial, crearPrecios } from "../state/precio.state";
-import { busquedaPropuestaInicial, crearPropuestas } from "../state/propuesta.state";
-import { createSedes } from "../state/sede.state";
+import { crearPrecios } from "../state/precio.state";
+import { crearPropuestas } from "../state/propuesta.state";
+import { crearSedes } from "../state/sede.state";
+
+const converitirDatoPlaydon =<T>(dato: PaginadoProp<T>):UltimaBusquedaProp<T> => {
+  return {
+    datosQuery: dato.datos,
+    orden: 'asc',
+    pagina: dato.pagina,
+    limite: dato.limite,
+    total: dato.total
+  }
+}
 
 export const crearElementosContexto = ({
   libros = undefined,
@@ -29,20 +43,16 @@ export const crearElementosContexto = ({
 
 
   if (libros) {
-    dispatch(createLibros(libros));
-    const playdon:UltimaBusquedaProp<LibroProp> = {
-      ...busquedaLibroInicial, datosQuery: libros
-    } 
-    dispatch(crearLibros(playdon))};
-  if (clientes) dispatch(crearClientes({...busquedaClienteInicial, datosQuery:clientes}));
+    dispatch(crearLibros(converitirDatoPlaydon<LibroProp>(libros)))};
+  if (clientes) dispatch(crearClientes(converitirDatoPlaydon<ClienteProp>(clientes)));
   if (especificaciones) dispatch(createEspecificaciones(especificaciones));
   if (materias) dispatch(createMaterias(materias));
   if (pedidos) dispatch(createPedidos(pedidos));
   if (pedidoLibros) dispatch(createPedidoLibros(pedidoLibros));
-  if (precios) dispatch(crearPrecios({...busquedaPrecioInicial, datosQuery:precios}));
-  if (sedes) dispatch(createSedes(sedes));
+  if (precios) dispatch(crearPrecios(converitirDatoPlaydon<PrecioProp>(precios)));
+  if (sedes) dispatch(crearSedes(converitirDatoPlaydon<SedeProp>(sedes)));
   if (componentes) dispatch(createComponentes(componentes));
-  if (propuestas) dispatch(crearPropuestas({...busquedaPropuestaInicial, datosQuery:propuestas}));
+  if (propuestas) dispatch(crearPropuestas(converitirDatoPlaydon<PropuestaProp>(propuestas)));
 
 
 }

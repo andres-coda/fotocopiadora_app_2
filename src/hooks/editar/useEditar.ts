@@ -4,10 +4,10 @@ import { HandleSelectProp, PropEditar, PropEditarCompleto } from "./useEditar.in
 import { useDispatch } from "react-redux";
 import { selectLibro } from "../../redux/state/libro.state";
 import { selectPedido } from "../../redux/state/pedido.state";
-import { selectSede } from "../../redux/state/sede.state";
 import { seleccionarPrecio } from "../../redux/state/precio.state";
 import { seleccionarCliente } from "../../redux/state/cliente.state";
 import { seleccionarPropuesta } from "../../redux/state/propuesta.state";
+import { seleccionarSede } from "../../redux/state/sede.state";
 
 const useEditar = ({
   ruta,
@@ -33,7 +33,7 @@ const useEditar = ({
     if (newCliente) dispatch(seleccionarCliente(newCliente));
     if (newLibro) dispatch(selectLibro(newLibro));
     if (newPedido) dispatch(selectPedido(newPedido));
-    if (newSede) dispatch(selectSede(newSede));
+    if (newSede) dispatch(seleccionarSede(newSede));
     if (newPrecio) dispatch(seleccionarPrecio(newPrecio));
     if (newPropuesta) dispatch(seleccionarPropuesta(newPropuesta));
   }
