@@ -6,7 +6,7 @@ import Botonera from "../../componente-estilo/botonera/botonera";
 import Boton from "../../componente-estilo/boton/boton";
 import BtnFiltro from '../../assets/filtro.svg?react'
 import BtnOrden from '../../assets/orden.svg?react'
-import Arrow from '../../assets/arrow-small.svg?react'
+import Arrow from '../../assets/arrow.svg?react'
 import Mas from '../../assets/mas.svg?react'
 import './filtro.css'
 

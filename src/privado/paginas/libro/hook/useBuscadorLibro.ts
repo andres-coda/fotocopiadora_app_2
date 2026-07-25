@@ -22,7 +22,7 @@ const useBuscadorLibro = ({ opcionesActivas }: BuscadorLibroProp) => {
   const { obtenerLibrosBusqueda, responseLibros, loadingLibros } = useLibrosApi();
 
   const propuestaDatos: ReduxProp<PropuestaProp> = useSelector((store: appStore) => store.propuesta);
-  const { obtenerPropuestas, responsePropuestas, loadingPropuestas } = usePropuestasApi();
+  const { obtenerPropuestaBusqueda, responsePropuestas, loadingPropuestas } = usePropuestasApi();
 
   const handleNuevoElemento = () => {
     if(!opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)){
@@ -47,7 +47,7 @@ const useBuscadorLibro = ({ opcionesActivas }: BuscadorLibroProp) => {
     datosRedux: propuestaDatos,
     resetBusqueda: resetBusquedaPropuesta,
     crearBusqueda: crearBusquedaPropuesta,
-    obtenerBusqueda: obtenerPropuestas,
+    obtenerBusqueda: obtenerPropuestaBusqueda,
     agregarBusqueda: agregarPropuestasBusquedaActual,
     response: responsePropuestas,
     loading: loadingPropuestas,

@@ -35,10 +35,9 @@ const useBusquedaPaginada = <T>({
 
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const finListaRef = useRef<HTMLDivElement>(null);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setModal } = useModalContext();
-  const [finLista, setFinLista] = useState<boolean>(false)
 
   const [query, setQuery] = useState<string>('');
 
@@ -67,8 +66,8 @@ const useBusquedaPaginada = <T>({
 
   useEffect(() => {
     if (response) {
-      console.log('fin lista: ', finLista)
-      if (!finLista) {
+      console.log("ACTUALIZO REDUX", response.pagina);
+      if (query.length >= limiteLetrasBusqueda && query != datosRedux.busquedaActual.query) {
         dispatch(crearBusqueda({
           query: query,
           datosQuery: response.datos,
@@ -104,9 +103,11 @@ const useBusquedaPaginada = <T>({
       ([entry]) => {
         console.log('observer detecta:', entry.isIntersecting);
 
-        if (!entry.isIntersecting) return;
-        if(query.length > limiteLetrasBusqueda && datosRedux.busquedaActual.query != query) {
-          console.log('Corta porque no es la query actual: ',query)
+        if (!entry.isIntersecting) {
+          return
+        };
+        if (query.length > limiteLetrasBusqueda && datosRedux.busquedaActual.query != query) {
+          console.log('Corta porque no es la query actual: ', query)
           return
         }
         if (loading) {
@@ -122,16 +123,14 @@ const useBusquedaPaginada = <T>({
           console.log('limite: ', datosRedux.busquedaActual.limite);
           console.log('pagina: ', datosRedux.busquedaActual.pagina);
           console.log('total: ', datosRedux.busquedaActual.total);
-          
+
           console.log('CORTO PORQUE NO HAY MAS PAGINAS');
           return;
         }
-        console.log(
-          'LLAMO PAGINA:',
-          datosRedux.busquedaActual.pagina + 1
-        );
-
-        setFinLista(true);
+        console.log("PIDO", {
+          paginaRedux: datosRedux.busquedaActual.pagina,
+          loading,
+        });
 
         obtenerBusqueda({
           pagina: datosRedux.busquedaActual.pagina + 1,
@@ -154,7 +153,7 @@ const useBusquedaPaginada = <T>({
 
     return () => observer.disconnect();
 
-  }, [datosRedux.busquedaActual.pagina]);
+  }, [datosRedux.busquedaActual.query, datosRedux.busquedaActual.pagina]);
 
   return { contenedorRef, nuevoElemento, finListaRef }
 

@@ -40,7 +40,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
 
   const dispatch = useDispatch();
 
-  const libroItems: LibroProp[] = useSelector((store: appStore) => store.libro.items);
+  const librosIniciales:LibroProp[] = useSelector((store:appStore) => store.libro_empresa.datosIniciales.datosQuery)
   const clienteItems: ClienteProp[] = useSelector((store: appStore) => store.cliente.datosIniciales.datosQuery);
   const especificacionItems: EspecificacionProp[] = useSelector((store: appStore) => store.especificacion.items);
   const materiaItems: MateriaProp[] = useSelector((store: appStore) => store.materia.items);
@@ -86,7 +86,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
 
   useEffect(() => {
     if (pedidoItems.length === 0) obtenerPedidos();
-    if (libroItems.length === 0) obtenerLibros();
+    if (librosIniciales.length === 0) obtenerLibros();
     if (clienteItems.length === 0) obtenerClientes();
     if (especificacionItems.length === 0) obtenerEspecificaciones();
     if (materiaItems.length === 0) obtenerMaterias();

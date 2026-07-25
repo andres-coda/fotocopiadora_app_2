@@ -3,7 +3,6 @@ import { usuarioProps } from "../modelo/usuario/Usuario.interface";
 import { userSlice } from "./state/user.state";
 import { filterContext, ReduxProp } from "./modelo/reduxContext.interface";
 import { LibroProp } from "../modelo/Entidades/libro/libro.interface";
-import { libroSlice } from "./state/libro.state";
 import { ClienteProp } from "../modelo/Entidades/cliente/cliente.interface";
 import { clienteSlice } from "./state/cliente.state";
 import { EspecificacionProp } from "../modelo/Entidades/especificacion/especificacion.interface";
@@ -25,7 +24,6 @@ import { libroEmpresaSlice } from "./state/libro_empresa.state";
 import { propuestaSlice } from "./state/propuesta.state";
 
 export interface appStore {
-  libro: filterContext<LibroProp>,
   cliente:  ReduxProp<ClienteProp>,
   especificacion: filterContext<EspecificacionProp>
   materia: filterContext<MateriaProp>,
@@ -42,7 +40,6 @@ export interface appStore {
 export default configureStore<appStore>({
   reducer: {
     usuario: userSlice.reducer,
-    libro: libroSlice.reducer,
     cliente: clienteSlice.reducer,
     especificacion: especificacionSlice.reducer,
     materia: materiaSlice.reducer,
