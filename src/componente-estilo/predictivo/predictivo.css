@@ -6,6 +6,8 @@
   background-color: var(--colorSombra);
   margin: 0 0 .5rem 0;
   padding: .5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .predictivo-texto{

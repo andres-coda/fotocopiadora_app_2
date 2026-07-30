@@ -86,9 +86,9 @@ const useBusquedaSimple = <T>({
           return;
         }
         if (
-          datos.pagina *
-          datos.limite >=
-          datos.total
+          Number(datos.pagina) *
+          Number(datos.limite) >=
+          Number(datos.total)
         ) {
 
           console.log('CORTO PORQUE NO HAY MAS PAGINAS');
@@ -96,8 +96,8 @@ const useBusquedaSimple = <T>({
         }
 
         obtenerBusqueda({
-          pagina: datos.pagina + 1,
-          limite: datos.limite,
+          pagina: Number(datos.pagina) + 1,
+          limite: Number(datos.limite),
           query,
         });
 

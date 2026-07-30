@@ -7,6 +7,11 @@ import { useState } from 'react'
 import { listaLibroPropuestaSeleccionable, normalizarLibroPropuesta } from './util/funcionesAdicionales'
 import useBuscadorLibro from './hook/useBuscadorLibro'
 import PropuestaCard from '../propuesta/componente/propuestaCard'
+import { useDispatch } from 'react-redux'
+import { seleccionarLibro } from '../../../redux/state/libro_empresa.state'
+import { LibroProp } from '../../../modelo/Entidades/libro/libro.interface'
+import { useNavigate } from 'react-router-dom'
+import { rutaPrivadaBase, RutasPrivadas } from '../../rutas/rutasPrivadas'
 
 
 const Libros_lista = () => {
@@ -15,6 +20,14 @@ const Libros_lista = () => {
   const { valor, setValor, contenedorRef, handleNuevoElemento, libros, propuestas, finListaRef } = useBuscadorLibro({
     opcionesActivas
   })
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const selectLibro =(libro:LibroProp ) => {
+    dispatch(seleccionarLibro(libro));
+    navigate(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`)
+  }
 
   return (
     <>
@@ -34,7 +47,7 @@ const Libros_lista = () => {
       />
       <Centro ref={contenedorRef} nuevoEstilo='centro-libro'>
         {propuestas.map(d => <PropuestaCard propuesta={d} key={d.id} />)}
-        {libros.map(d => <LibroCard libro={d} key={d.id} />)}
+        {libros.map(d => <LibroCard libro={d} key={d.id} selecLibro={selectLibro}/>)}
         {
           libros.length === 0 && propuestas.length === 0 && opcionesActivas.includes(listaLibroPropuestaSeleccionable[0].nombre) &&
           <TextoVacio entidad='libros y propuestas' />

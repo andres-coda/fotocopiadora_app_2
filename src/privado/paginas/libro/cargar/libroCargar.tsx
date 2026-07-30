@@ -127,7 +127,7 @@ const LibroCargar = () => {
             <Input<formValuesLibro> name='autor' control={control} label='Autor' tipo='text' error={errors.autor} esquema={libro} />
           </div>
           <div className="form-horizontal">
-            <Input<formValuesLibro> name='edicion' control={control} label='Edición, ej: 1ra, 2da...' tipo='text' error={errors.edicion} esquema={libro} />
+            <Input<formValuesLibro> name='edicion' control={control} label='Edición, ej: 1, 2...' tipo='text' error={errors.edicion} esquema={libro}  formatValue={(v) => parseDecimal(v, 2, 0)} parseValue={(v) => parseDecimal(v, 2, 0)} />
             <Input<formValuesLibro> name='anio' control={control} label='Año, ej: 2018' tipo='text' error={errors.anio} esquema={libro} formatValue={(v) => parseDecimal(v, 4, 0)} parseValue={(v) => parseDecimal(v, 4, 0)} />
           </div>
           <div className="form-horizontal">
