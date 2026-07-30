@@ -1,7 +1,6 @@
-import { camposBusquedaLibro } from "../../filtro/libro.filtro";
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { ComponenteProp } from "../../modelo/Entidades/libro/componente.interface";
-import { LibroAdapterProp, LibroProp } from "../../modelo/Entidades/libro/libro.interface";
+import { LibroAdapterProp, LibroNombreAdapterProp, LibroNombreProp, LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { materiaInicial, MateriaProp } from "../../modelo/Entidades/libro/materia.interface";
 import { StockProp } from "../../modelo/Entidades/libro/stock.interface";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
@@ -11,26 +10,40 @@ import { materiaAdapter } from "./materia.adapter";
 import { propuestaAdapterArray } from "./propuesta.adapter";
 import { stockAdapter } from "./stock.adapter";
 
-export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined => {
+export const libroNombreAdapter = (libro?: LibroNombreAdapterProp): LibroNombreProp | undefined => {
   if (!libro) return undefined;
 
-  const base: BaseProp | undefined = baseAdapter<LibroAdapterProp>({ base: libro, busqueda: camposBusquedaLibro });
+  const base: BaseProp | undefined = baseAdapter<LibroNombreAdapterProp>({ base: libro, busqueda:[]});
 
   if (!base) return undefined;
 
+  const materia: MateriaProp | undefined = libro.materia ? materiaAdapter(libro.materia) : undefined;
+
+  const newLibro: LibroNombreProp = {
+    ...base,
+    nombre: libro.nombre,
+    editorial: libro.editorial,
+    materia: materia ?? materiaInicial,
+  }
+  return newLibro;
+}
+
+export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined => {
+  if (!libro) return undefined;
+
+  const libroNombre: LibroNombreProp | undefined = libroNombreAdapter(libro);
+  if (!libroNombre) return undefined;
+
   const componentes: ComponenteProp[] = componenteAdapterArray(libro.componentes);
 
-  const materia: MateriaProp | undefined = libro.materia ? materiaAdapter(libro.materia) : undefined;
   const stock: StockProp | undefined = libro.resumen ? stockAdapter(libro.resumen) : undefined;
   const propuesta: PropuestaProp[] = propuestaAdapterArray(libro.propuesta);
 
   const newLibro: LibroProp = {
-    ...base,
+    ...libroNombre,
     detalleImpresion: libro.detalleImpresion,
     componentes_texto: libro.componentes_texto,
-    nombre: libro.nombre,
     descripcion: libro.descripcion,
-    editorial: libro.editorial,
     edicion: libro.edicion,
     nivel: libro.nivel,
     cantidadPg: libro.cantidadPg,
@@ -40,7 +53,6 @@ export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined =>
     img: libro.img,
     especificacionesDefecto: libro.especificacionesDefecto,
     componentes,
-    materia: materia ?? materiaInicial,
     stock: stock,
     propuesta: propuesta.length > 0 ? propuesta : undefined
   }

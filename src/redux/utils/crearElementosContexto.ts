@@ -7,7 +7,6 @@ import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
 import { crearContextProp } from "../modelo/cargarDatos.interface";
 import { UltimaBusquedaProp } from "../modelo/reduxContext.interface";
 import { crearClientes } from "../state/cliente.state";
-import { createComponentes } from "../state/componente.state";
 import { createEspecificaciones } from "../state/especificacion.state";
 import { crearLibros } from "../state/libro_empresa.state";
 import { createMaterias } from "../state/materia.state";
@@ -36,7 +35,6 @@ export const crearElementosContexto = ({
   pedidoLibros = undefined,
   precios = undefined,
   sedes = undefined,
-  componentes = undefined,
   propuestas = undefined,
   dispatch,
 }: crearContextProp) => {
@@ -51,7 +49,6 @@ export const crearElementosContexto = ({
   if (pedidoLibros) dispatch(createPedidoLibros(pedidoLibros));
   if (precios) dispatch(crearPrecios(converitirDatoPlaydon<PrecioProp>(precios)));
   if (sedes) dispatch(crearSedes(converitirDatoPlaydon<SedeProp>(sedes)));
-  if (componentes) dispatch(createComponentes(componentes));
   if (propuestas) dispatch(crearPropuestas(converitirDatoPlaydon<PropuestaProp>(propuestas)));
 
 

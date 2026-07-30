@@ -9,8 +9,6 @@ import useClientesApi from "../../servicio/cliente/useClientesApi";
 import { ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
 import { EspecificacionProp } from "../../modelo/Entidades/especificacion/especificacion.interface";
 import useEspecificacionesApi from "../../servicio/especificacion/useEspecificacionesApi";
-import useComponentesApi from "../../servicio/componente/useComponentesApi";
-import { ComponenteProp } from "../../modelo/Entidades/libro/componente.interface";
 import { MateriaProp } from "../../modelo/Entidades/libro/materia.interface";
 import useMateriasApi from "../../servicio/materia/useMateriasApi";
 import usePedidosApi from "../../servicio/pedido/usePedidosApi";
@@ -35,7 +33,6 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const { obtenerPedidoLibross, responsePedidoLibross } = usePedidoLibrosApi();
   const { obtenerPrecios, responsePrecios } = usePreciosApi();
   const { obtenerSedes, responseSedes } = useSedesApi();
-  const { obtenerComponentes, responseComponentes } = useComponentesApi();
   const { obtenerPropuestas, responsePropuestas } = usePropuestasApi();
 
   const dispatch = useDispatch();
@@ -48,7 +45,6 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const pedidoLibroItems: PedidoLibroProp[] = useSelector((store: appStore) => store.pedidoLibro.items);
   const precioItems: PrecioProp[] = useSelector((store: appStore) => store.precio.datosIniciales.datosQuery);
   const sedeItems: SedeProp[] = useSelector((store: appStore) => store.sede.datosIniciales.datosQuery);
-  const componenteItems: ComponenteProp[] = useSelector((store: appStore) => store.componente.items);
   const propuestasItems: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.datosIniciales.datosQuery);
 
   const {
@@ -66,7 +62,6 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
       pedidoLibros: responsePedidoLibross || undefined,
       precios: responsePrecios || undefined,
       sedes: responseSedes || undefined,
-      componentes: responseComponentes || undefined,
       propuestas: responsePropuestas || undefined,
 
       dispatch,
@@ -80,7 +75,6 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     responsePedidoLibross,
     responsePrecios,
     responseSedes,
-    responseComponentes,
     responsePropuestas,
   ]);
 
@@ -93,7 +87,6 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     if (pedidoLibroItems.length === 0) obtenerPedidoLibross();
     if (precioItems.length === 0) obtenerPrecios();
     if (sedeItems.length === 0) obtenerSedes();
-    if (componenteItems.length === 0) obtenerComponentes();
     if (propuestasItems.length === 0) obtenerPropuestas();
   }, [])
 

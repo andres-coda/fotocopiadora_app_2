@@ -7,7 +7,6 @@ import { verificarEspecificacion } from "../../redux/state/especificacion.state"
 import { verificarMateria } from "../../redux/state/materia.state";
 import { verificarPedido } from "../../redux/state/pedido.state";
 import { verificarPedidoLibro } from "../../redux/state/pedido_libro.state";
-import { verificarComponente } from "../../redux/state/componente.state";
 import { Mens } from "../../modelo/socket/enum/mens.enum";
 
 interface Prop {
@@ -76,9 +75,7 @@ const useSockets = ({
       if (data.entidad === Entidad.PEDIDO_LIBRO) {
         dispatch(verificarPedidoLibro(data.id));
       }
-      if (data.entidad === Entidad.COMPONENTE) {
-        dispatch(verificarComponente(data.id));
-      }
+    
       /* if (data.entidad === Entidad.PREOPUESTA) {
         dispatch(verificarProp(data.id));
       } */

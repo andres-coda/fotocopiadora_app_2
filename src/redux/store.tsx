@@ -17,8 +17,6 @@ import { PrecioProp } from "../modelo/Entidades/precio/precio.interface";
 import { precioSlice } from "./state/precio.state";
 import { SedeProp } from "../modelo/Entidades/sede/sede.interface";
 import { sedeSlice } from "./state/sede.state";
-import { ComponenteProp } from "../modelo/Entidades/libro/componente.interface";
-import { componenteSlice } from "./state/componente.state";
 import { PropuestaProp } from "../modelo/Entidades/propuesta/propuesta.interface";
 import { libroEmpresaSlice } from "./state/libro_empresa.state";
 import { propuestaSlice } from "./state/propuesta.state";
@@ -30,7 +28,6 @@ export interface appStore {
   pedido: filterContext<PedidoProp>,
   pedidoLibro: filterContext<PedidoLibroProp>,
   precio: ReduxProp<PrecioProp>,
-  componente: filterContext<ComponenteProp>,
   sede: ReduxProp<SedeProp>,
   propuesta: ReduxProp<PropuestaProp>,
   usuario: usuarioProps,
@@ -48,7 +45,6 @@ export default configureStore<appStore>({
     pedidoLibro: pedidoLibroSlice.reducer,
     precio: precioSlice.reducer,
     sede: sedeSlice.reducer,
-    componente: componenteSlice.reducer,
     libro_empresa: libroEmpresaSlice.reducer
   }
 })

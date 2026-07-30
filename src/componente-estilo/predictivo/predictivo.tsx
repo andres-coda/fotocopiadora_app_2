@@ -20,7 +20,7 @@ const Predictivo = <T extends BaseProp>({ nombre, elementos, keys }: Prop<T>) =>
   );
 
   return (
-    <div className="predictivo-contenedor">
+    <div className="predictivo-texto">
       {filtrados.map(e => (
         <div key={e.id}>
           {keys.map(key => (

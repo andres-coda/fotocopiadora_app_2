@@ -8,7 +8,6 @@ import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
 import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
-import { ComponenteProp } from "../../modelo/Entidades/libro/componente.interface";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
 import { PaginadoProp } from "../../adaptadores/entrada/paginado.adapter";
 
@@ -22,7 +21,6 @@ export interface crearContextProp {
   pedidoLibros?: PedidoLibroProp[];
   precios?: PaginadoProp<PrecioProp>;
   sedes?: PaginadoProp<SedeProp>;
-  componentes?: ComponenteProp[];
   propuestas?:PaginadoProp<PropuestaProp>;
 
   libro?: LibroProp,

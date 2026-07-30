@@ -25,10 +25,10 @@ const useBuscadorLibro = ({ opcionesActivas }: BuscadorLibroProp) => {
   const { obtenerPropuestaBusqueda, responsePropuestas, loadingPropuestas } = usePropuestasApi();
 
   const handleNuevoElemento = () => {
-    if(!opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)){
-      nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`)
+    if(opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)){
+      nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`)
     }
-    nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`)
+    nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`)
   }
 
   const { contenedorRef, nuevoElemento, finListaRef } = useBusquedaPaginada<LibroProp>({

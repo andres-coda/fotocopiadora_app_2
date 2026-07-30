@@ -3,7 +3,19 @@
   flex-direction: column;
   justify-content: center;
   max-height: 200px;
-  background-color: var(--colorCardGris);
+  background-color: var(--colorSombra);
   margin: 0 0 .5rem 0;
   padding: .5rem;
 }
+
+.predictivo-texto{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 200px;
+  background-color: var(--colorCardGris);
+  margin: 0 0 .5rem 0;
+  padding: .5rem;
+  cursor: pointer;
+}
+

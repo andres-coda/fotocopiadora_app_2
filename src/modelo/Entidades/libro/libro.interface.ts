@@ -5,14 +5,24 @@ import { ComponenteAdapterProp, ComponenteProp } from "./componente.interface";
 import { MateriaAdapterProp, materiaInicial, MateriaProp } from "./materia.interface";
 import { StockAdapterProp, stockInicial, StockProp } from "./stock.interface";
 
-export interface LibroAdapterProp extends BaseAdapterProp {
+export interface LibroNombreAdapterProp extends BaseAdapterProp{
+  nombre:string;
+  editorial?:string;
+  materia: MateriaAdapterProp;
+}
+
+export interface LibroNombreProp extends BaseProp{
+  nombre:string;
+  editorial?:string;
+  materia: MateriaProp;
+}
+
+export interface LibroAdapterProp extends LibroNombreAdapterProp {
   especificacionesDefecto?: Especificaciones[];
   cantidadPg: number;
   adhesivos?: number;
   detalleImpresion?:string;
 
-  nombre: string;
-  editorial?: string;
   edicion?: number;
   nivel?: string;
   anio?: string;
@@ -21,17 +31,14 @@ export interface LibroAdapterProp extends BaseAdapterProp {
   descripcion?: string;  
   componentes_texto?: string;
   componentes: ComponenteAdapterProp[];
-  materia: MateriaAdapterProp;
   resumen?: StockAdapterProp;
   propuesta:PropuestaAdapterProp[]
 }
 
-export interface LibroProp extends BaseProp {
+export interface LibroProp extends LibroNombreProp {
   detalleImpresion?:string;
   componentes_texto?: string;
-  nombre: string;
   descripcion?: string;
-  editorial?: string;
   edicion?: number;
   nivel?: string;
   cantidadPg: number;
@@ -41,7 +48,6 @@ export interface LibroProp extends BaseProp {
   img?: string;
   especificacionesDefecto?: Especificaciones[];
   componentes?: ComponenteProp[];
-  materia?: MateriaProp;
   stock?: StockProp;
   propuesta?:PropuestaProp[]
 }

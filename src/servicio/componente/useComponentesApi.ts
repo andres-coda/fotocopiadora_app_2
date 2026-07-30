@@ -1,17 +1,20 @@
-import { componenteAdapterArray } from "../../adaptadores/entrada/componente.adapter";
-import { ComponenteProp } from "../../modelo/Entidades/libro/componente.interface";
+import { componenteAdapter } from "../../adaptadores/entrada/componente.adapter";
+import { ComponenteAdapterProp, ComponenteProp } from "../../modelo/Entidades/libro/componente.interface";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
+import { BusquedaApiProp } from "../../modelo/HTTP/peticiones.interface";
+import { limiteDefecto } from "../../utils/constantes";
 import { COMPONENTE } from "../../utils/endpoint";
-import useApi from "../hooks/useApi";
+import useApiPaginado from "../hooks/useApiPaginado";
 
-const useComponentesApi = () => {
-  const { fetchData, response, loading, errorFetch } = useApi<ComponenteProp[]>({});
+const useComponenteApi = () => {
+  const { fetchData, response, loading, errorFetch } = useApiPaginado<ComponenteAdapterProp, ComponenteProp>({adapterGet: componenteAdapter});
 
-  const obtenerComponentes = () =>
-    fetchData({ url: COMPONENTE, methodo: httpMethod.GET, adapter: componenteAdapterArray });
+  const obtenerComponentes = ({query, limite, pagina}:BusquedaApiProp) => {
+    fetchData({ url: `${COMPONENTE}?q=${query.trimEnd()}&limite=${limite ?? limiteDefecto}&pagina=${pagina ?? 1}`, methodo: httpMethod.GET, adapter: componenteAdapter });
+  }
 
   return { obtenerComponentes, responseComponentes: response, loadingComponentes: loading, errorFetchComponentes: errorFetch };
 
 }
 
-export default useComponentesApi
+export default useComponenteApi;

@@ -8,10 +8,9 @@ import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
 import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
-import { ComponenteProp } from "../../modelo/Entidades/libro/componente.interface";
 
-export const libroItems: LibroProp[]= useSelector((store:appStore)=>store.libro.items);
-export const libroSelect: LibroProp | null= useSelector((store:appStore)=>store.libro.selected);
+export const libroItems: LibroProp[]= useSelector((store:appStore)=>store.libro_empresa.busquedaActual.datosQuery);
+export const libroSelect: LibroProp | undefined= useSelector((store:appStore)=>store.libro_empresa.datoSeleccionado);
 
 export const ClienteItems: ClienteProp[]= useSelector((store:appStore)=>store.cliente.busquedaActual.datosQuery);
 export const ClienteSelect: ClienteProp | undefined= useSelector((store:appStore)=>store.cliente.datoSeleccionado);
@@ -28,11 +27,8 @@ export const PedidoSelect: PedidoProp | null= useSelector((store:appStore)=>stor
 export const PedidoLibroItems: PedidoLibroProp[]= useSelector((store:appStore)=>store.pedidoLibro.items);
 export const PedidoLibroSelect: PedidoLibroProp | null= useSelector((store:appStore)=>store.pedidoLibro.selected);
 
-export const PrecioItems: PrecioProp[]= useSelector((store:appStore)=>store.precio.items);
-export const PrecioSelect: PrecioProp | null= useSelector((store:appStore)=>store.precio.selected);
+export const PrecioItems: PrecioProp[]= useSelector((store:appStore)=>store.precio.busquedaActual.datosQuery);
+export const PrecioSelect: PrecioProp | undefined= useSelector((store:appStore)=>store.precio.datoSeleccionado);
 
-export const SedeItems: SedeProp[]= useSelector((store:appStore)=>store.sede.items);
-export const SedeSelect: SedeProp | null= useSelector((store:appStore)=>store.sede.selected);
-
-export const ComponenteItems: ComponenteProp[]= useSelector((store:appStore)=>store.componente.items);
-export const ComponenteSelect: ComponenteProp | null= useSelector((store:appStore)=>store.componente.selected);
+export const SedeItems: SedeProp[]= useSelector((store:appStore)=>store.sede.busquedaActual.datosQuery);
+export const SedeSelect: SedeProp | undefined= useSelector((store:appStore)=>store.sede.datoSeleccionado);

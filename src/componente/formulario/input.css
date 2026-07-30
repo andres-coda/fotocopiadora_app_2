@@ -61,7 +61,6 @@
 
 .inputs-entero label {
   position: absolute;
-  font-weight: 300;
   color: var(--colorSombra);
   top: 50%;
   left: 0.5rem;
@@ -69,6 +68,8 @@
   pointer-events: none;
   transition: all 0.2s ease;
   background-color: transparent;
+  font-size: .8em;
+  font-weight: 200;
 }
 
 .inputs-entero input:focus+label,
