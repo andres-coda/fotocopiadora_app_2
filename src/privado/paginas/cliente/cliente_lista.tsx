@@ -33,7 +33,7 @@ const Cliente_lista = () => {
     <>
       <BuscadorPaginadoCompleto
         ref={contenedorRef}
-        texto='Buscar libro'
+        texto='Buscar cliente'
         handleMas={()=>nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE_CARGAR}`)}
         valor={valor}
         setValor={setValor}

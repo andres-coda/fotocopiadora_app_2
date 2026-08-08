@@ -1,9 +1,48 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { addFiltroGenerico, agregarElementoItems, cambiarOrdenGenerico, createElmentoItems, resetElementosItems, resetFiltroGenerico, resetSelectElemento, selectElemento, setOrdenGenerico, substractElementoItems, substractFiltroGenerico, verificarElemento } from "../utils/funcionesGenericas";
-import { filterContext, FiltersState } from "../modelo/reduxContext.interface";
+import { filterContext, FiltersState, ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
 import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { filtrosInicialesPedido } from "../../filtro/pedido.filtro";
+import { agregarDatosBusquedaActual, crearBusqueda, crearDatoInicial, resetBusqueda, resetSeleccionDato, seleccionarDato } from "../utils/funcionesGenericasEmpresa";
 
+
+const cantidadBusquedas: number = 1;
+
+export const busquedaPedidoInicial: UltimaBusquedaProp<PedidoProp> = {
+  query: undefined,
+  datosQuery: [],
+  pagina: 1,
+  limite: 20,
+  total: 0,
+  orden: 'asc'
+}
+
+const estadoPedidoInicial: ReduxProp<PedidoProp> = {
+  datosIniciales: busquedaPedidoInicial,
+  busquedaActual: busquedaPedidoInicial,
+  ultimasBusqueda: [],
+  datoSeleccionado: undefined
+}
+
+export const pedidoSlice = createSlice({
+  name: 'libro_empresa',
+  initialState: estadoPedidoInicial,
+  reducers: {
+    crearPedidos: crearDatoInicial,
+    crearBusquedaPedido: crearBusqueda<PedidoProp>(cantidadBusquedas),
+    resetBusquedaPedido: resetBusqueda<PedidoProp>(cantidadBusquedas),
+    seleccionarPedido: seleccionarDato,
+    resetSeleccionarPedido: resetSeleccionDato,
+    agregarPedidosBusquedaActual: agregarDatosBusquedaActual<PedidoProp>
+  }
+});
+
+export const { crearPedidos, crearBusquedaPedido, resetBusquedaPedido, resetSeleccionarPedido, seleccionarPedido, agregarPedidosBusquedaActual } = pedidoSlice.actions;
+
+export default pedidoSlice.reducer;
+
+
+/* 
 const filterDefault: FiltersState<PedidoProp> = {
   filtros: filtrosInicialesPedido,
   sortBy: 'ultAct',
@@ -42,4 +81,6 @@ export const {
   cambiarOrdenPedido,
 } = pedidoSlice.actions;
 
-export default pedidoSlice.reducer;
+export default pedidoSlice.reducer; 
+
+*/

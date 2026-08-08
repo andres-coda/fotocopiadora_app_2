@@ -1,7 +1,7 @@
 import { CardProp } from "../modelo/card.interface";
 
 function useCard({
-   chica,
+  chica,
   listo,
   pendiente,
   retirado,
@@ -16,7 +16,7 @@ function useCard({
     !listo && pendiente && 'pendiente',
     listo && 'listo',
     ruta || onClick && 'card-click',
-    nuevoEstilo,
+    nuevoEstilo ?? '',
   ]
     .filter(Boolean)
     .join(' ');

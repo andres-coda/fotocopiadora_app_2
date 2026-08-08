@@ -1,4 +1,3 @@
-import { camposBusquedaPropuesta } from "../../filtro/propuesta.filtro";
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { PropuestaAdapterProp, PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
@@ -8,7 +7,7 @@ import { libroAdapterArray } from "./libro.adapter";
 export const propuestaAdapter = (propuesta?: PropuestaAdapterProp): PropuestaProp | undefined => {
   if (!propuesta) return undefined;
 
-  const base: BaseProp | undefined = baseAdapter<PropuestaAdapterProp>({ base: propuesta, busqueda: camposBusquedaPropuesta });
+  const base: BaseProp | undefined = baseAdapter<PropuestaAdapterProp>({ base: propuesta});
 
   if (!base) return undefined;
 

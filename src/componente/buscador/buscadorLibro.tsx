@@ -1,16 +1,13 @@
 import { useState } from "react";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
-import BuscadorFiltros from "./buscadorCompleto";
-import { rutaPrivadaBase, RutasPrivadas } from "../../privado/rutas/rutasPrivadas";
-import DesplegableConteiner from "../../componente-estilo/deslegable/desplegableConteiner";
 import PropuestaCard from "../../privado/paginas/propuesta/componente/propuestaCard";
 import LibroCard from "../../privado/paginas/libro/componente/libroCard";
-import TextoVacio from "../Textos/textoVacio";
 import './buscador.css'
 import useBuscadorLibro from "../../privado/paginas/libro/hook/useBuscadorLibro";
 import BuscadorPaginadoCompleto from "./buscadorPaginadoCompleto";
 import { listaLibroPropuestaSeleccionable, normalizarLibroPropuesta } from "../../privado/paginas/libro/util/funcionesAdicionales";
+import DesplegablePredictivo from "../../componente-estilo/predictivo/desplegablePredictivo";
 
 interface Prop {
   selectLibro: (libro: LibroProp) => void;
@@ -49,11 +46,29 @@ const BuscadorLibro = ({ selectLibro, selectPropuesta }: Prop) => {
         etiquetaArriba='Al comienzo de la lista'
         etiquetaMas={!opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre) ? `Nuevo libro` : 'Nueva propuesta'}
       />
-      {valor.length < 3
+      {(valor.length>=3 && ((libros && libros.length > 0) || (propuestas && propuestas.length > 0))) &&
+        <DesplegablePredictivo
+          children={
+            <>
+              {propuestas?.map(p => <PropuestaCard propuesta={p} selecPropuesta={handlePropuesta} key={p.id} />)}
+              {libros?.map(d => <LibroCard libro={d} key={d.id} selecLibro={handleLibro} />)}
+            </>
+          }
+          finRegistros={finListaRef}
+        />
+      }      
+    </div>
+  )
+};
+
+export default BuscadorLibro;
+
+{/*  {valor.length < 3
         ? null
         : <DesplegableConteiner>
-          {propuestas.map(d => <PropuestaCard propuesta={d} key={d.id} selecPropuesta={handlePropuesta}/>)}
-          {libros.map(d => <LibroCard libro={d} key={d.id} selecLibro={handleLibro}/>)}
+
+          {propuestas.map(d => <PropuestaCard propuesta={d} key={d.id} selecPropuesta={handlePropuesta} />)}
+          {libros.map(d => <LibroCard libro={d} key={d.id} selecLibro={handleLibro} />)}
           {
             libros.length === 0 && propuestas.length === 0 && opcionesActivas.includes(listaLibroPropuestaSeleccionable[0].nombre) &&
             <TextoVacio entidad='libros y propuestas' />
@@ -70,10 +85,4 @@ const BuscadorLibro = ({ selectLibro, selectPropuesta }: Prop) => {
             <p>Fin de lista</p>
           </div>
         </DesplegableConteiner>
-      }
-
-    </div>
-  )
-};
-
-export default BuscadorLibro;
+      } */}

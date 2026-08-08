@@ -25,7 +25,7 @@ export interface appStore {
   cliente:  ReduxProp<ClienteProp>,
   especificacion: filterContext<EspecificacionProp>
   materia: filterContext<MateriaProp>,
-  pedido: filterContext<PedidoProp>,
+  pedido: ReduxProp<PedidoProp>,
   pedidoLibro: filterContext<PedidoLibroProp>,
   precio: ReduxProp<PrecioProp>,
   sede: ReduxProp<SedeProp>,

@@ -17,7 +17,7 @@ interface Prop {
 }
 
 const PedidoLibroCard = ({ pL, estadoClas }: Prop) => {
-  const precios: PrecioProp[] = useSelector((store: appStore) => store.precio.items);
+  const precios: PrecioProp[] = useSelector((store: appStore) => store.precio.datosIniciales.datosQuery);
   const {setDatos} = usePedidoContext()
 
   const handleClick = () => {

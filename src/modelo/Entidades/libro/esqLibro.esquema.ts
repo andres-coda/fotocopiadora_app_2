@@ -23,6 +23,7 @@ export const libro = z.object({
   d_f: z.boolean().optional(),
   s_f: z.boolean().optional(),
   adhesivo: z.boolean().optional(),
+  trokelado: z.boolean().optional(),
 })
   .superRefine((data, ctx) => {
     const incompatibles = [
@@ -75,6 +76,7 @@ export const libroFormDefault: formValuesLibro = {
   d_f: true,
   s_f: false,
   adhesivo: false,
+  trokelado: false,
 }
 
 export const libroFormEdit = (libro?: LibroProp | null): formValuesLibro => {
@@ -98,6 +100,7 @@ export const libroFormEdit = (libro?: LibroProp | null): formValuesLibro => {
     d_f: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.DOBLE_FAZ),
     s_f: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.SIMPLE_FAZ),
     adhesivo: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.ADHESIVO),
+    trokelado: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.TROKELADO)
   }
 }
 

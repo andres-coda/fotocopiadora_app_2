@@ -32,7 +32,7 @@ const crearLibropedido = (libro: LibroProp, pedidoParcial: formValuesPedidoLibro
 }
 
 const PedidoLibroCargar = () => {
-  const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.items);
+  const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.busquedaActual.datosQuery);
   const { datos, setDatos } = usePedidoContext();
   const { control, formState: { errors }, watch } = useForm<formValuesPedidoLibro>({
     resolver: zodResolver(pedidoLibro),

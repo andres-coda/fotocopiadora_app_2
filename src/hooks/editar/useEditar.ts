@@ -3,11 +3,11 @@ import { useModalContext } from "../../contexto/contextoModal";
 import { HandleSelectProp, PropEditar, PropEditarCompleto } from "./useEditar.interface";
 import { useDispatch } from "react-redux";
 import { selectLibro } from "../../redux/state/libro.state";
-import { selectPedido } from "../../redux/state/pedido.state";
 import { seleccionarPrecio } from "../../redux/state/precio.state";
 import { seleccionarCliente } from "../../redux/state/cliente.state";
 import { seleccionarPropuesta } from "../../redux/state/propuesta.state";
 import { seleccionarSede } from "../../redux/state/sede.state";
+import { seleccionarPedido } from "../../redux/state/pedido.state";
 
 const useEditar = ({
   ruta,
@@ -32,7 +32,7 @@ const useEditar = ({
     const newPropuesta = prta || propuesta;
     if (newCliente) dispatch(seleccionarCliente(newCliente));
     if (newLibro) dispatch(selectLibro(newLibro));
-    if (newPedido) dispatch(selectPedido(newPedido));
+    if (newPedido) dispatch(seleccionarPedido(newPedido));
     if (newSede) dispatch(seleccionarSede(newSede));
     if (newPrecio) dispatch(seleccionarPrecio(newPrecio));
     if (newPropuesta) dispatch(seleccionarPropuesta(newPropuesta));

@@ -19,9 +19,7 @@ const ComponenteCard = ({componente, selectComponente }: Prop) => {
       onClick={selectComponente ? handleComponente : undefined}
       tituloCard={componente.nombre}
     >
-      <div className="card-vertical">
-        <Texto texto={componente.nombre} />
-      </div>
+        <Texto texto={componente.nombre} chica/>
     </Card>
   )
 }

@@ -22,7 +22,7 @@ export default function Card({
     pendiente,
     retirado,
     ruta,
-    nuevoEstilo,
+    nuevoEstilo: nuevoEstilo ?? '',
     onClick
   })
   const navigate = useNavigate();

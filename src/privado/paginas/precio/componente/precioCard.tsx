@@ -17,7 +17,7 @@ const PrecioCard = ({ precio }: Props) => {
 
   return (
     <Card
-      onClick={() => handleSelect(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`)}
+      onClick={() => handleSelect({rutaLocal:`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PRECIO}`})}
       nuevoEstilo={'card-precio'}
     >
       <Texto texto={`${precio.nombre}`} chica/>

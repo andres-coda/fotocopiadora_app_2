@@ -13,5 +13,7 @@ export const MATERIA:string = `${BASE}/materia`;
 export const PEDIDO:string = `${BASE}/pedido`;
 export const PEDIDO_LIBRO:string = `${BASE}/libro-pedido`;
 export const PRECIO:string = `${BASE}/precio-empresa`;
+export const PRECIO_NOMBRE:string =`${BASE}/precio`;
 export const SEDE:string = `${BASE}/sede`;
 export const PROPUESTA:string = `${BASE}/propuesta-pedido`;
+export const NIVEL:string = `${BASE}/nivel`;

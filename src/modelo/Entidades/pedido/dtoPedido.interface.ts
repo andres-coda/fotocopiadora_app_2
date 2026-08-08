@@ -9,5 +9,5 @@ export interface pedidoDtoProp{
     archivos: number;
     cliente?: string;
     clienteDatos?: ClienteDtoProp;
-    librosPedidos?: PedidoLibroDtoProp[]
+    pedidoItems?: PedidoLibroDtoProp[]
 }

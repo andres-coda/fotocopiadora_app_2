@@ -26,6 +26,7 @@ const useBusquedaSimple = <T>({
   const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
+    console.log('valor: ', valor)
     const timer = setTimeout(() => {
       setQuery(valor);
     }, 500);

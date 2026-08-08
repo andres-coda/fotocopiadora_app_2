@@ -7,7 +7,7 @@ import { resumenAdapter } from "./resumen.adapter";
 import { stockAdapter } from "./stock.adapter";
 
 export const cambiarEstadoLibroPedidoAdapter = (prop: CambiarEstadoLibroPedidoAdapterProp) :CambiarEstadoLibroPedidoProp =>{
-  const base: BaseProp | undefined = baseAdapter({base:prop, busqueda: []});
+  const base: BaseProp | undefined = baseAdapter({base:prop});
   if(!base) throw Error('El cambio de estado no trae id')
   const stock:StockProp = stockAdapter(prop.stock);
   const resumen:ResumenProp = resumenAdapter(prop.resumen);

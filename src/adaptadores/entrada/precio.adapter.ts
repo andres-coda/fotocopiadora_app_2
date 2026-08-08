@@ -1,4 +1,4 @@
-import { PrecioAdapterProp, PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
+import { PrecioAdapterProp, PrecioNombreAdapterProp, PrecioNombreProp, PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
 import { ultFechaAdapter } from "../../utils/calendario";
 
 export const precioAdapter = (precio?: PrecioAdapterProp): PrecioProp | undefined => {
@@ -27,4 +27,17 @@ export const precioAdapterArray = (precios?: PrecioAdapterProp[]): PrecioProp[] 
     }) ?? [];
 
   return newPrecios;
+}
+
+
+export const precioNombreAdapter = (precio?: PrecioNombreAdapterProp): PrecioNombreProp | undefined => {
+  if (!precio) return undefined;
+
+  const newPrecio: PrecioNombreProp = {
+    id: precio.id,
+    descripcion: precio.descripcion,
+    nombre: precio.nombre,
+    abreviatura: precio.abreviatura
+  }
+  return newPrecio;
 }

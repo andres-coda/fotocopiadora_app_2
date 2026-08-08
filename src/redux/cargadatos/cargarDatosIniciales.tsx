@@ -41,7 +41,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const clienteItems: ClienteProp[] = useSelector((store: appStore) => store.cliente.datosIniciales.datosQuery);
   const especificacionItems: EspecificacionProp[] = useSelector((store: appStore) => store.especificacion.items);
   const materiaItems: MateriaProp[] = useSelector((store: appStore) => store.materia.items);
-  const pedidoItems: PedidoProp[] = useSelector((store: appStore) => store.pedido.items);
+  const pedidoItems: PedidoProp[] = useSelector((store: appStore) => store.pedido.busquedaActual.datosQuery);
   const pedidoLibroItems: PedidoLibroProp[] = useSelector((store: appStore) => store.pedidoLibro.items);
   const precioItems: PrecioProp[] = useSelector((store: appStore) => store.precio.datosIniciales.datosQuery);
   const sedeItems: SedeProp[] = useSelector((store: appStore) => store.sede.datosIniciales.datosQuery);

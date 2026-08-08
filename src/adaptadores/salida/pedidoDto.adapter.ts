@@ -17,7 +17,7 @@ interface Prop {
 
 export const pedidoDtoAdapter = ({ p, cliente, librosPedidos, sede }: Prop): pedidoDtoProp => {
   const clienteDatos: ClienteDtoProp | undefined = !cliente ? clienteDtoAdapter(p) : undefined;
-  const pedidosLibros:PedidoLibroDtoProp[] = pedidoLibroDtoAdapterArray({pls:librosPedidos, sede})
+  const pedidoItems:PedidoLibroDtoProp[] = pedidoLibroDtoAdapterArray({pls:librosPedidos, sede})
   
     const newPedido: pedidoDtoProp = {
       fechaEntrega: p.fechaEntrega,
@@ -27,7 +27,7 @@ export const pedidoDtoAdapter = ({ p, cliente, librosPedidos, sede }: Prop): ped
       archivos: Number(p.archivos),
       cliente: cliente?.id,
       clienteDatos,
-      librosPedidos:pedidosLibros
+      pedidoItems:pedidoItems
     }
   return newPedido
 }

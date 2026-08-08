@@ -5,7 +5,7 @@ import { baseAdapter } from "./base.adapter";
 export const resumenAdapter = (resumen?: ResumenAdapterProp): ResumenProp => {
   if (!resumen) return resumenInicial
 
-  const base: BaseProp | undefined = baseAdapter<ResumenAdapterProp>({ base: resumen, busqueda: [] });
+  const base: BaseProp | undefined = baseAdapter<ResumenAdapterProp>({ base: resumen });
 
   if (!base) throw new Error('El resumen del cliente no tiene id, o alguna de las caracteristicas bases');
 

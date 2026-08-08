@@ -1,6 +1,7 @@
 import { PaginadoProp } from "../../adaptadores/entrada/paginado.adapter";
 import { ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
+import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
 import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
@@ -10,7 +11,7 @@ import { crearClientes } from "../state/cliente.state";
 import { createEspecificaciones } from "../state/especificacion.state";
 import { crearLibros } from "../state/libro_empresa.state";
 import { createMaterias } from "../state/materia.state";
-import { createPedidos } from "../state/pedido.state";
+import { crearPedidos } from "../state/pedido.state";
 import { createPedidoLibros } from "../state/pedido_libro.state";
 import { crearPrecios } from "../state/precio.state";
 import { crearPropuestas } from "../state/propuesta.state";
@@ -45,7 +46,7 @@ export const crearElementosContexto = ({
   if (clientes) dispatch(crearClientes(converitirDatoPlaydon<ClienteProp>(clientes)));
   if (especificaciones) dispatch(createEspecificaciones(especificaciones));
   if (materias) dispatch(createMaterias(materias));
-  if (pedidos) dispatch(createPedidos(pedidos));
+  if (pedidos) dispatch(crearPedidos(converitirDatoPlaydon<PedidoProp>(pedidos)));
   if (pedidoLibros) dispatch(createPedidoLibros(pedidoLibros));
   if (precios) dispatch(crearPrecios(converitirDatoPlaydon<PrecioProp>(precios)));
   if (sedes) dispatch(crearSedes(converitirDatoPlaydon<SedeProp>(sedes)));

@@ -53,7 +53,7 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
   return (
     <Card
       onClick={onClick ? () => onClick(pedido) : undefined}
-      nuevoEstilo={`card-pedido ${activo && 'card-pedido-activo'}`}
+      nuevoEstilo={`card-pedido ${activo ? 'card-pedido-activo' : ''}`}
     >
       <CardFechas pedido={pedido} />
       <CardArchivos pedido={pedido} />

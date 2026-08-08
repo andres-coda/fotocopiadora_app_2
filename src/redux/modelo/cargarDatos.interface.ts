@@ -17,7 +17,7 @@ export interface crearContextProp {
   clientes?: PaginadoProp<ClienteProp>;
   especificaciones?: EspecificacionProp[];
   materias?: MateriaProp[];
-  pedidos?: PedidoProp[];
+  pedidos?:  PaginadoProp<PedidoProp>;
   pedidoLibros?: PedidoLibroProp[];
   precios?: PaginadoProp<PrecioProp>;
   sedes?: PaginadoProp<SedeProp>;

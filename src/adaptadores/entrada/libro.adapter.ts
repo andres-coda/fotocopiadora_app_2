@@ -13,7 +13,7 @@ import { stockAdapter } from "./stock.adapter";
 export const libroNombreAdapter = (libro?: LibroNombreAdapterProp): LibroNombreProp | undefined => {
   if (!libro) return undefined;
 
-  const base: BaseProp | undefined = baseAdapter<LibroNombreAdapterProp>({ base: libro, busqueda:[]});
+  const base: BaseProp | undefined = baseAdapter<LibroNombreAdapterProp>({ base: libro});
 
   if (!base) return undefined;
 

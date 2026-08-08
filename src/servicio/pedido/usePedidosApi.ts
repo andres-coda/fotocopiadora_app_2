@@ -1,16 +1,22 @@
-import { pedidoAdapterArray } from "../../adaptadores/entrada/pedido.adapter";
-import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
+import { pedidoAdapter } from "../../adaptadores/entrada/pedido.adapter";
+import { PedidoAdapterProp, PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
-import { PEDIDO} from "../../utils/endpoint";
-import useApi from "../hooks/useApi";
+import { BusquedaApiProp } from "../../modelo/HTTP/peticiones.interface";
+import { limiteDefecto } from "../../utils/constantes";
+import { PEDIDO } from "../../utils/endpoint";
+import useApiPaginado from "../hooks/useApiPaginado";
 
 const usePedidosApi = () => {
-  const { fetchData, response, loading, errorFetch } = useApi<PedidoProp[]>({});
+  const { fetchData, response, loading, errorFetch } = useApiPaginado<PedidoAdapterProp, PedidoProp>({adapterGet: pedidoAdapter});
+
+  const obtenerPedidosBusqueda = ({query, limite, pagina}:BusquedaApiProp) => {
+    fetchData({ url: `${PEDIDO}?q=${query.trimEnd()}&limite=${limite ?? limiteDefecto}&pagina=${pagina ?? 1}`, methodo: httpMethod.GET, adapter: pedidoAdapter });
+  }
 
   const obtenerPedidos = () =>
-    fetchData({ url: PEDIDO, methodo: httpMethod.GET, adapter: pedidoAdapterArray });
+    fetchData({ url: `${PEDIDO}?limite=${limiteDefecto}`, methodo: httpMethod.GET, adapter: pedidoAdapter });
 
-  return { obtenerPedidos, responsePedidos: response, loadingPedidos: loading, errorFetchPedidos: errorFetch };
+  return { obtenerPedidos, obtenerPedidosBusqueda, responsePedidos: response, loadingPedidos: loading, errorFetchPedidos: errorFetch };
 
 }
 

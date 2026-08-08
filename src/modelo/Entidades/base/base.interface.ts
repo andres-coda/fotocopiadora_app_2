@@ -9,7 +9,6 @@ export interface BaseProp{
   id: string;
   ultAct: string;
   deleted: boolean;
-  campoBusqueda: CampoBusquedaResultado[]
 }
 
 export enum TipoBusqueda {
@@ -29,5 +28,4 @@ export const baseInicial :BaseProp= {
   id: '',
   deleted:false,
   ultAct: '',
-  campoBusqueda:[]
 }

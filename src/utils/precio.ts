@@ -50,7 +50,7 @@ const calcularPrecioAdhesivos = (esp: Especificaciones[], libro: LibroProp, prec
       ? PrecioAbareviatura.ADHESIVO
       : PrecioAbareviatura.TROKELADO;
 
-    return libro.adhesivos! * buscarPrecio(precios, [abreviatura]);
+    return libro.adhesivos! * buscarPrecio(precios, abreviatura);
   }
   return 0;
 }
@@ -75,14 +75,11 @@ const calcularHojas = (
 
 const buscarPrecio = (
   precios: PrecioProp[],
-  abreviaturas: PrecioAbareviatura[]
+  abreviatura: PrecioAbareviatura
 ): number => {
   const precio: number = Number(
-    precios.find(
-      p =>
-        abreviaturas.every(a =>
-          p.abreviatura?.includes(a)
-        )
+    precios?.find(
+      p => p.abreviatura == abreviatura
     )?.importe ?? 0
   );
   return precio;
@@ -97,10 +94,10 @@ const calcularPrecioAnillado = (
   const base = 100;
   const rango = 150;
 
-  if (pg <= base) return buscarPrecio(precios, [PrecioAbareviatura.ANILLADO_1]);
-  if (pg <= base + rango) return buscarPrecio(precios, [PrecioAbareviatura.ANILLADO_2]);
-  if (pg <= base + rango * 2 - 50) return buscarPrecio(precios, [PrecioAbareviatura.ANILLADO_3]);
-  if (pg <= base + rango * 3 - 50) return buscarPrecio(precios, [PrecioAbareviatura.ANILLADO_4]);
+  if (pg <= base) return buscarPrecio(precios, PrecioAbareviatura.ANILLADO_1);
+  if (pg <= base + rango) return buscarPrecio(precios, PrecioAbareviatura.ANILLADO_2);
+  if (pg <= base + rango * 2 - 50) return buscarPrecio(precios, PrecioAbareviatura.ANILLADO_3);
+  if (pg <= base + rango * 3 - 50) return buscarPrecio(precios, PrecioAbareviatura.ANILLADO_4);
   return 0;
 };
 
@@ -120,19 +117,18 @@ export const calcularPrecio = ({
   const esColor = esp.includes(Especificaciones.COLOR);
   const dobleFaz = hojas.doble;
 
-  const abreviaturas: PrecioAbareviatura[] = [
-    esColor
-      ? PrecioAbareviatura.COLOR
-      : PrecioAbareviatura.BLANCO_Y_NEGRO,
-
-    dobleFaz
-      ? PrecioAbareviatura.DOBLE_FAZ
-      : PrecioAbareviatura.SIMPLE_FAZ,
-  ];
+  const abreviatura: PrecioAbareviatura = 
+    esColor 
+      ? dobleFaz
+        ? PrecioAbareviatura.COLOR_D_F 
+        : PrecioAbareviatura.COLOR_S_F
+      : dobleFaz
+        ? PrecioAbareviatura.BLANCO_Y_NEGRO_D_F
+        : PrecioAbareviatura.BLANCO_Y_NEGRO_S_F;
 
   const precioBase = buscarPrecio(
     precios,
-    abreviaturas
+    abreviatura
   );
 
   const adhesivos = calcularPrecioAdhesivos(esp, libro, precios);

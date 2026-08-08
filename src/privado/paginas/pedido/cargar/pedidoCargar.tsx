@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { formValuesPedido, pedido, pedidoFormEdit } from "../../../../modelo/Entidades/pedido/esqPedido.esquema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useFormulario from "../../../../hooks/formulario/useFormulario";
-import { addPedidos, resetSelectPedido } from "../../../../redux/state/pedido.state";
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
 import Input from "../../../../componente/formulario/input";
 import { formatTelefono, parseDecimal } from "../../../../utils/formulario";
@@ -21,10 +20,11 @@ import { PrecioProp } from "../../../../modelo/Entidades/precio/precio.interface
 import { PedidoLibroConstruccionProp } from "../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import Texto from "../../../../componente-estilo/texto/texto";
 import { ClienteProp } from "../../../../modelo/Entidades/cliente/cliente.interface";
-import DesplegableConteiner from "../../../../componente-estilo/deslegable/desplegableConteiner";
-import useBuscador from "../../../../hooks/buscador/useBuscador";
-import { filterContext } from "../../../../redux/modelo/reduxContext.interface";
-import ClienteCard from "../../cliente/componente/clienteCard";
+import useClientesApi from "../../../../servicio/cliente/useClientesApi";
+import useBusquedaSimple from "../../../../hooks/buscador/useBuscadorSimple";
+import DesplegablePredictivo from "../../../../componente-estilo/predictivo/desplegablePredictivo";
+import ClienteDatos from "../../cliente/componente/clienteDatos";
+import { agregarPedidosBusquedaActual, resetSeleccionarPedido, seleccionarPedido } from "../../../../redux/state/pedido.state";
 
 const calcularTotal = (precios: PrecioProp[], libros?: PedidoLibroConstruccionProp[]): number => {
   return libros?.reduce(
@@ -34,20 +34,53 @@ const calcularTotal = (precios: PrecioProp[], libros?: PedidoLibroConstruccionPr
     0
   ) ?? 0
 }
-
+const limiteBusquedaCliente = 4;
 const PedidoCargar = () => {
-  const pedidoSelect: PedidoProp | null = useSelector((store: appStore) => store.pedido.selected);
-  const precios: PrecioProp[] = useSelector((store: appStore) => store.precio.items);
-  const clienteRedux: filterContext<ClienteProp> = useSelector((store: appStore) => store.cliente);
+  const pedidoSelect: PedidoProp | undefined = useSelector((store: appStore) => store.pedido.datoSeleccionado);
+  const precios: PrecioProp[] = useSelector((store: appStore) => store.precio.datosIniciales.datosQuery);
+  
+  const { control, handleSubmit, formState: { errors }, reset, watch, setValue } = useForm<formValuesPedido>({
+    resolver: zodResolver(pedido),
+    defaultValues: pedidoFormEdit({ pedido: pedidoSelect || undefined, cliente: pedidoSelect?.cliente })
+  });
+
+
   const { editarPedido, crearPedido, responsePedido, errorFetchPedido, loadingPedido } = usePedidoApi()
   const { datos, setDatos } = usePedidoContext();
   const [error, setError] = useState<string>('');
-  const [cliente, setCliente] = useState<ClienteProp | undefined>(undefined);
 
-  const { valor, setValor, elementosFiltrados } = useBuscador<ClienteProp>({
-    elementos: clienteRedux.items,
-    sortBy: clienteRedux.filter.sortBy,
-  })
+  const [clienteSeleccionado, setClienteSeleccionado] = useState<ClienteProp | undefined>(undefined);
+  const { obtenerClientesBusqueda, responseClientes, loadingClientes, errorFetchClientes } = useClientesApi();
+
+  const clienteBuscado = {
+    nombre: watch().nombre ?? '',
+    telefono: watch().telefono ?? '',
+    email: watch().email ?? ''
+  }
+
+  const esElMismoCliente =
+    clienteSeleccionado !== undefined &&
+    formatTelefono(clienteBuscado.nombre) === formatTelefono(clienteSeleccionado.nombre) &&
+    clienteBuscado.email === (clienteSeleccionado.email ?? '');
+
+  const { finListaRef: finClientes, datos: clientes, setDatos: setClientes } = useBusquedaSimple<ClienteProp>({
+    valor: !esElMismoCliente ? clienteBuscado.telefono ?? clienteBuscado.nombre ?? clienteBuscado.email ?? '' : '',
+    response: responseClientes,
+    loading: loadingClientes,
+    limiteLetrasBusqueda: limiteBusquedaCliente,
+    obtenerBusqueda: obtenerClientesBusqueda
+  });
+
+  const handleSelectCliente = (l: ClienteProp) => {
+    setClientes(undefined);
+    reset({
+      ...watch(),
+      nombre: l.nombre,
+      telefono: l.telefono,
+      email: l.email
+    });
+    setClienteSeleccionado(l);
+  };
 
   useEffect(() => {
     if (pedidoSelect?.libroPedidos && pedidoSelect?.libroPedidos.length > 0) {
@@ -55,10 +88,6 @@ const PedidoCargar = () => {
     }
   }, []);
 
-  const { control, handleSubmit, formState: { errors }, reset, watch, setValue } = useForm<formValuesPedido>({
-    resolver: zodResolver(pedido),
-    defaultValues: pedidoFormEdit({ pedido: pedidoSelect || undefined, cliente: pedidoSelect?.cliente })
-  });
 
   const dataForm = watch();
 
@@ -70,41 +99,31 @@ const PedidoCargar = () => {
 
   const { retroceder } = useFormulario<PedidoProp, formValuesPedido, PedidoProp>({
     response: responsePedido,
-    resetSelect: resetSelectPedido,
-    agregarElemento: addPedidos,
+    resetSelect: resetSeleccionarPedido,
+    agregarElemento: seleccionarPedido,
     reset,
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO}`,
   })
 
 
   const onSubmit = (data: formValuesPedido) => {
+    console.log('pedidos: ',datos)
     if (datos?.pedidos && datos?.pedidos?.length > 0) {
       if (pedidoSelect?.id) {
         editarPedido(data, pedidoSelect.id, datos.pedidos);
       } else {
-        crearPedido(data, datos.pedidos, cliente);
+        crearPedido(data, datos.pedidos, clienteSeleccionado);
       }
     } else {
       setError('requiere agregar libros al pedido')
     }
   }
 
-  const handleClickCliente = (cliente: ClienteProp) => {
-    setValue('nombre', cliente.nombre)
-    setValue('telefono', cliente.telefono)
-    setValue('email', cliente.email)
-    setCliente(cliente);
-    setValor('')
-  }
-
-
-  useEffect(() => {
-    if(cliente?.telefono != dataForm.telefono){
-      setCliente(undefined);
-      setValor(`${dataForm.telefono}`)
+  useEffect(()=>{
+    if(errorFetchClientes){
+      setError(errorFetchClientes);
     }
-
-  }, [dataForm.email, dataForm.telefono, dataForm.nombre])
+  },[errorFetchClientes])
 
   return (
     <Centro
@@ -124,11 +143,11 @@ const PedidoCargar = () => {
             <Input<formValuesPedido> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={pedido} />
             <Input<formValuesPedido> name='telefono' control={control} label='Telefono' tipo='text' error={errors.telefono} esquema={pedido} formatValue={(v) => formatTelefono(v)} parseValue={(v) => parseDecimal(v, 12, 2)} />
             <Input<formValuesPedido> name='email' control={control} label='Email' tipo='text' error={errors.email} esquema={pedido} />
-            {(valor.length < 3 || elementosFiltrados.length === 0)
-              ? null
-              : <DesplegableConteiner>
-                {elementosFiltrados.map(e => <ClienteCard key={e.id} cliente={e} onClick={handleClickCliente} />)}
-              </DesplegableConteiner>
+            {clientes && clientes.datosQuery.length > 0 &&
+              <DesplegablePredictivo
+                children={clientes.datosQuery.map(c => <ClienteDatos cliente={c} selectCliente={handleSelectCliente} key={c.id} />)}
+                finRegistros={finClientes}
+              />
             }
           </div>
           <div className="form-horizontal">
@@ -140,7 +159,7 @@ const PedidoCargar = () => {
           <div className="form-horizontal pedido-total">
             <Input<formValuesPedido> name='importeTotal' control={control} label={`Total: $${calcularTotal(precios, datos?.pedidos)}`} tipo='text' error={errors.importeTotal} esquema={pedido} formatValue={(v) => parseDecimal(v, 12, 2)} parseValue={(v) => parseDecimal(v, 12, 2)} />
             <Input<formValuesPedido> name='sena' control={control} label='Seña' tipo='text' error={errors.sena} esquema={pedido} formatValue={(v) => parseDecimal(v, 12, 2)} parseValue={(v) => parseDecimal(v, 12, 2)} />
-            <Texto texto={`Saldo: $${Number(dataForm.importeTotal) - Number(dataForm.sena)}`} mediana ajustado centrado nuevoEstilo="saldo"/>
+            <Texto texto={`Saldo: $${Number(dataForm.importeTotal) - Number(dataForm.sena)}`} mediana ajustado centrado nuevoEstilo="saldo" />
           </div>
         </>
       </Formulario>

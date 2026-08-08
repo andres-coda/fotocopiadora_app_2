@@ -47,3 +47,15 @@
   width: 20px;
   fill: var(--colorNegro);
 }
+
+.card-vertical.datos-cliente.cliente-seleccionar{
+  cursor: pointer;
+  gap: .1rem;
+  background-color: var(--colorCardGris);
+  border-radius: 4px;
+}
+
+.card-vertical.datos-cliente.cliente-seleccionar:hover{
+  box-shadow: 1px 1px var(--colorSombra);
+  scale: 1.01;
+}

@@ -14,7 +14,7 @@ import { ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
 
 const usePedidoApi = () => {
   const { fetchData, response, loading, errorFetch } = useApi<PedidoProp | undefined>({});
-  const sedes:SedeProp[] = useSelector((store: appStore) => store.sede.items);
+  const sedes:SedeProp[] = useSelector((store: appStore) => store.sede.datosIniciales.datosQuery);
 
   const obtenerPedidoById = (id: string) =>
     fetchData({ url: `${PEDIDO}/${id}`, methodo: httpMethod.GET, adapter: pedidoAdapter });

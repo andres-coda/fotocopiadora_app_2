@@ -16,6 +16,8 @@ interface BuscadorLibroProp {
   opcionesActivas: string[];
 }
 
+const limiteLetrasBusquedaLibro = 3;
+
 const useBuscadorLibro = ({ opcionesActivas }: BuscadorLibroProp) => {
   const [valor, setValor] = useState<string>('');
   const librosDatos: ReduxProp<LibroProp> = useSelector((store: appStore) => store.libro_empresa);
@@ -27,8 +29,9 @@ const useBuscadorLibro = ({ opcionesActivas }: BuscadorLibroProp) => {
   const handleNuevoElemento = () => {
     if(opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)){
       nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`)
+    } else {
+      nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`)
     }
-    nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`)
   }
 
   const { contenedorRef, nuevoElemento, finListaRef } = useBusquedaPaginada<LibroProp>({
@@ -40,6 +43,7 @@ const useBuscadorLibro = ({ opcionesActivas }: BuscadorLibroProp) => {
     agregarBusqueda: agregarLibrosBusquedaActual,
     response: responseLibros,
     loading: loadingLibros,
+    limiteLetrasBusqueda: limiteLetrasBusquedaLibro
   });
 
   const { } = useBusquedaPaginada<PropuestaProp>({
@@ -51,6 +55,7 @@ const useBuscadorLibro = ({ opcionesActivas }: BuscadorLibroProp) => {
     agregarBusqueda: agregarPropuestasBusquedaActual,
     response: responsePropuestas,
     loading: loadingPropuestas,
+    limiteLetrasBusqueda: limiteLetrasBusquedaLibro
   });
 
   const libros: LibroProp[] = !opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre) ? librosDatos?.busquedaActual?.datosQuery ?? [] : [];

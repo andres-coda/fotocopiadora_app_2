@@ -5,7 +5,7 @@ import { baseAdapter } from "./base.adapter";
 export const stockAdapter = (stock?: StockAdapterProp): StockProp => {
   if (!stock) throw new Error('No hay stock en el libro');
 
-  const base: BaseProp | undefined = baseAdapter<StockAdapterProp>({ base: stock, busqueda: [] });
+  const base: BaseProp | undefined = baseAdapter<StockAdapterProp>({ base: stock });
 
   if (!base) throw new Error('El stock del libro no tiene id, o alguna de las caracteristicas bases');
 

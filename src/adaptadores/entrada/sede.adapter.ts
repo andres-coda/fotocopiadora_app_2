@@ -1,12 +1,11 @@
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { SedeAdapterProp, SedeProp } from "../../modelo/Entidades/sede/sede.interface";
 import { baseAdapter } from "./base.adapter";
-import { camposBusquedaSede } from "../../filtro/sede.filtro";
 
 export const sedeAdapter = (sede?: SedeAdapterProp): SedeProp | undefined => {
   if (!sede) return undefined;
 
-  const base: BaseProp | undefined = baseAdapter<SedeAdapterProp>({ base: sede, busqueda: camposBusquedaSede });
+  const base: BaseProp | undefined = baseAdapter<SedeAdapterProp>({ base: sede });
 
   if (!base) return undefined;
 

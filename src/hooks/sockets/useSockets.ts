@@ -5,7 +5,6 @@ import { Entidad, Mensaje } from "../../modelo/socket/Socket.interface";
 import { verificarLibro } from "../../redux/state/libro.state";
 import { verificarEspecificacion } from "../../redux/state/especificacion.state";
 import { verificarMateria } from "../../redux/state/materia.state";
-import { verificarPedido } from "../../redux/state/pedido.state";
 import { verificarPedidoLibro } from "../../redux/state/pedido_libro.state";
 import { Mens } from "../../modelo/socket/enum/mens.enum";
 
@@ -69,9 +68,7 @@ const useSockets = ({
       if (data.entidad === Entidad.MATERIA) {
         dispatch(verificarMateria(data.id));
       }
-      if (data.entidad === Entidad.PEDIDO) {
-        dispatch(verificarPedido(data.id));
-      }
+     
       if (data.entidad === Entidad.PEDIDO_LIBRO) {
         dispatch(verificarPedidoLibro(data.id));
       }

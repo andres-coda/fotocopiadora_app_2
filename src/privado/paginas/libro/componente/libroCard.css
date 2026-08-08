@@ -2,6 +2,7 @@
   padding: 0;
   flex-direction: row;
   height: 85px;
+  min-height: 85px;
 }
 
 .card-libro img {
