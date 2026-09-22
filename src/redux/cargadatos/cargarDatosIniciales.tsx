@@ -37,12 +37,12 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
 
   const dispatch = useDispatch();
 
-  const librosIniciales:LibroProp[] = useSelector((store:appStore) => store.libro_empresa.datosIniciales.datosQuery)
+  const librosIniciales:LibroProp[] = useSelector((store:appStore) => store.libro.datosIniciales.datosQuery)
   const clienteItems: ClienteProp[] = useSelector((store: appStore) => store.cliente.datosIniciales.datosQuery);
-  const especificacionItems: EspecificacionProp[] = useSelector((store: appStore) => store.especificacion.items);
-  const materiaItems: MateriaProp[] = useSelector((store: appStore) => store.materia.items);
-  const pedidoItems: PedidoProp[] = useSelector((store: appStore) => store.pedido.busquedaActual.datosQuery);
-  const pedidoLibroItems: PedidoLibroProp[] = useSelector((store: appStore) => store.pedidoLibro.items);
+  const especificacionItems: EspecificacionProp[] = useSelector((store: appStore) => store.especificacion.datosIniciales.datosQuery);
+  const materiaItems: MateriaProp[] = useSelector((store: appStore) => store.materia.datosIniciales.datosQuery);
+  const pedidoItems: PedidoProp[] = useSelector((store: appStore) => store.pedido.datosIniciales.datosQuery);
+  const pedidoLibroItems: PedidoLibroProp[] = useSelector((store: appStore) => store.pedidoLibro.datosIniciales.datosQuery);
   const precioItems: PrecioProp[] = useSelector((store: appStore) => store.precio.datosIniciales.datosQuery);
   const sedeItems: SedeProp[] = useSelector((store: appStore) => store.sede.datosIniciales.datosQuery);
   const propuestasItems: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.datosIniciales.datosQuery);

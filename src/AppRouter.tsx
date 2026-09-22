@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 import RutaInvalida from "./componente/ruta_invalida/rutaInvalida";
-import RutaPrivadaGuard from "./guard/rutaPribadaGuard";
+import RutaPrivadaGuard from "./guard/rutaPrivadaGuard";
 import PublicoRuta from "./publico/publicoRuta";
 import PrivadoRuta from "./privado/privadoRuta";
 

@@ -1,73 +1,50 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addFiltroGenerico, agregarElementoItems, cambiarOrdenGenerico, createElmentoItems, resetElementosItems, resetFiltroGenerico, resetSelectElemento, selectElemento, setOrdenGenerico, substractElementoItems, substractFiltroGenerico, verificarElemento } from "../utils/funcionesGenericas";
-import { filterContext, FiltersState, ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
 import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import { filtrosInicialesPedidoLibro } from "../../filtro/pedido_libro.filtro";
-import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
-import { Estado } from "../../modelo/Entidades/pedido_libro/estado.enum";
-import { EstadoPedido } from "../../modelo/Entidades/pedido/estadoPedido.enum";
+import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
 import { limiteDefecto } from "../../utils/constantes";
-
 
 const cantidadBusquedas: number = 1;
 
-export interface ReduxPedidoProp extends ReduxProp<PedidoLibroProp>{
-  estado: Estado;
-}
-
-export const busquedaPedidoInicial: UltimaBusquedaProp<PedidoLibroProp> = {
+export const busquedaPedidoLibroInicial: UltimaBusquedaProp<PedidoLibroProp> = {
   query: undefined,
   datosQuery: [],
+  sortBy: 'ultAct' as keyof PedidoLibroProp,
+  sortOrder: 'asc' as orden,
   pagina: 1,
   limite: limiteDefecto,
-  total: 0,
-  orden: 'asc'
+  total: 0
 }
 
-const estadoPedidoInicial: ReduxPedidoProp = {
-  datosIniciales: busquedaPedidoInicial,
-  busquedaActual: busquedaPedidoInicial,
+const estadoPedidoLibroInicial: ReduxProp<PedidoLibroProp> = {
+  datosIniciales: busquedaPedidoLibroInicial,
+  busquedaActual: busquedaPedidoLibroInicial,
   ultimasBusqueda: [],
-  datoSeleccionado: undefined,
-  estado: Estado.PENDIENTE
+  datoSeleccionado: undefined
 }
-
-const filterDefault: FiltersState<PedidoLibroProp> = {
-  filtros: filtrosInicialesPedidoLibro,
-  sortBy: 'ultAct',
-  sortOrder: 'asc'
-}
-
-const initialState: filterContext<PedidoLibroProp> = {
-  items: [],
-  selected: null,
-  filter: filterDefault
-};
 
 export const pedidoLibroSlice = createSlice({
   name: 'pedidoLibro',
-  initialState: initialState,
+  initialState: estadoPedidoLibroInicial,
   reducers: {
-    createPedidoLibros: createElmentoItems<PedidoLibroProp>,
-    addPedidoLibros: agregarElementoItems<PedidoLibroProp>,
-    substractPedidoLibros: substractElementoItems<PedidoLibroProp>,
-    resetPedidoLibros: resetElementosItems<PedidoLibroProp>,
-    selectPedidoLibro: selectElemento<PedidoLibroProp>,
-    resetSelectPedidoLibro: resetSelectElemento<PedidoLibroProp>,
-    verificarPedidoLibro: verificarElemento<PedidoLibroProp>,
-    addFiltroPedidoLibro: addFiltroGenerico<PedidoLibroProp>,
-    substractFiltroPedidoLibro: substractFiltroGenerico<PedidoLibroProp>,
-    resetFiltrosPedidoLibro: resetFiltroGenerico<PedidoLibroProp>,
-    setOrdenamientoPedidoLibros: setOrdenGenerico<PedidoLibroProp>,
-    cambiarOrdenPedidoLibro: cambiarOrdenGenerico<PedidoLibroProp>
+    crearPedidoLibros: crearDatoInicial,
+    crearBusquedaPedidoLibro: crearBusqueda<PedidoLibroProp>(cantidadBusquedas),
+    resetBusquedaPedidoLibro: resetBusqueda<PedidoLibroProp>(cantidadBusquedas),
+    seleccionarPedidoLibro: seleccionarDato,
+    resetSeleccionarPedidoLibro: resetSeleccionDato,
+    agregarPedidoLibrosBusquedaActual: agregarDatosBusquedaActual<PedidoLibroProp>,
+    cambiarOrdenPedidoLibro: cambiarOrden<PedidoLibroProp>
   }
 });
 
 export const { 
-  createPedidoLibros, addPedidoLibros, substractPedidoLibros, resetPedidoLibros,
-  selectPedidoLibro, resetSelectPedidoLibro, verificarPedidoLibro, 
-  addFiltroPedidoLibro, substractFiltroPedidoLibro, resetFiltrosPedidoLibro, setOrdenamientoPedidoLibros,
-  cambiarOrdenPedidoLibro,
+  crearPedidoLibros, 
+  crearBusquedaPedidoLibro, 
+  resetBusquedaPedidoLibro, 
+  resetSeleccionarPedidoLibro, 
+  seleccionarPedidoLibro, 
+  agregarPedidoLibrosBusquedaActual,
+  cambiarOrdenPedidoLibro
 } = pedidoLibroSlice.actions;
 
 export default pedidoLibroSlice.reducer;

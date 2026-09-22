@@ -1,5 +1,5 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
+import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
 
 export const evaluarUltimasBusquedas = <T>(
   state: ReduxProp<T>,
@@ -93,4 +93,15 @@ export const agregarDatosBusquedaActual = <T>(
     pagina:action.payload.pagina,
     datosQuery: [...state.busquedaActual.datosQuery, ...action.payload.datosQuery]
   }
+};
+
+export const cambiarOrden = <T>(
+  state: ReduxProp<T>,
+  action: PayloadAction<{ sortBy: keyof T; sortOrder: orden }>
+) => {
+  state.busquedaActual = {
+    ...state.busquedaActual,
+    sortBy: action.payload.sortBy,
+    sortOrder: action.payload.sortOrder,
+  };
 };

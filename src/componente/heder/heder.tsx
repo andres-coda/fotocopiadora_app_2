@@ -3,7 +3,6 @@ import './heder.css'
 import { usuarioProps } from '../../modelo/usuario/Usuario.interface';
 import { useUsuario } from '../../servicio/usuario/useUsuario';
 import { Link } from 'react-router-dom';
-import Texto from '../../componente-estilo/texto/texto';
 import { rutaPrivadaBase, RutasPrivadas } from '../../privado/rutas/rutasPrivadas';
 import Libro from './../../assets/books.svg?react'
 import Cliente from './../../assets/buscar.svg?react'

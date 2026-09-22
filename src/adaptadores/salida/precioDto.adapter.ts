@@ -4,7 +4,7 @@ import { formValuesPrecio } from "../../modelo/Entidades/precio/esqPrecio.esquem
 export const precioDtoAdapter = (p: formValuesPrecio): PrecioDtoProp => {
   const newPrecio: PrecioDtoProp = {
     nombre: p.nombre,
-    importe: p.importe,
+    importe: Number(p.importe),
   }
   return newPrecio;
 }

@@ -24,7 +24,7 @@ import useClientesApi from "../../../../servicio/cliente/useClientesApi";
 import useBusquedaSimple from "../../../../hooks/buscador/useBuscadorSimple";
 import DesplegablePredictivo from "../../../../componente-estilo/predictivo/desplegablePredictivo";
 import ClienteDatos from "../../cliente/componente/clienteDatos";
-import { agregarPedidosBusquedaActual, resetSeleccionarPedido, seleccionarPedido } from "../../../../redux/state/pedido.state";
+import { resetSeleccionarPedido, seleccionarPedido } from "../../../../redux/state/pedido.state";
 
 const calcularTotal = (precios: PrecioProp[], libros?: PedidoLibroConstruccionProp[]): number => {
   return libros?.reduce(

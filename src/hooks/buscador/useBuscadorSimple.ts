@@ -47,22 +47,24 @@ const useBusquedaSimple = <T>({
         setDatos(undefined);
         return
       }
-      if (query === datos?.query) {
-       setDatos(prev => ({
-        total: response.total,
-        datosQuery: [...prev?.datosQuery ?? [], ...response.datos],
-        pagina: response.pagina,
-        limite: response.limite,
-        orden: 'asc',
-        query: query
-       }))
+if (query === datos?.query) {
+        setDatos(prev => ({
+         total: response.total,
+         datosQuery: [...prev?.datosQuery ?? [], ...response.datos],
+         pagina: response.pagina,
+         limite: response.limite,
+         sortBy: 'id' as keyof T,
+         sortOrder: 'asc',
+         query: query
+        }))
       } else {
         setDatos({
         total: response.total,
         datosQuery: [...response.datos],
         pagina: response.pagina,
         limite: response.limite,
-        orden: 'asc',
+        sortBy: 'id' as keyof T,
+        sortOrder: 'asc',
         query: query
        });
       }

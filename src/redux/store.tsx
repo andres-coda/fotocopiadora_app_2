@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { usuarioProps } from "../modelo/usuario/Usuario.interface";
 import { userSlice } from "./state/user.state";
-import { filterContext, ReduxProp } from "./modelo/reduxContext.interface";
+import { ReduxProp } from "./modelo/reduxContext.interface";
 import { LibroProp } from "../modelo/Entidades/libro/libro.interface";
 import { ClienteProp } from "../modelo/Entidades/cliente/cliente.interface";
 import { clienteSlice } from "./state/cliente.state";
@@ -18,20 +18,20 @@ import { precioSlice } from "./state/precio.state";
 import { SedeProp } from "../modelo/Entidades/sede/sede.interface";
 import { sedeSlice } from "./state/sede.state";
 import { PropuestaProp } from "../modelo/Entidades/propuesta/propuesta.interface";
-import { libroEmpresaSlice } from "./state/libro_empresa.state";
+import { libroSlice } from "./state/libro.state";
 import { propuestaSlice } from "./state/propuesta.state";
 
 export interface appStore {
   cliente:  ReduxProp<ClienteProp>,
-  especificacion: filterContext<EspecificacionProp>
-  materia: filterContext<MateriaProp>,
+  especificacion: ReduxProp<EspecificacionProp>,
+  materia: ReduxProp<MateriaProp>,
   pedido: ReduxProp<PedidoProp>,
-  pedidoLibro: filterContext<PedidoLibroProp>,
+  pedidoLibro: ReduxProp<PedidoLibroProp>,
   precio: ReduxProp<PrecioProp>,
   sede: ReduxProp<SedeProp>,
   propuesta: ReduxProp<PropuestaProp>,
   usuario: usuarioProps,
-  libro_empresa: ReduxProp<LibroProp>,
+  libro: ReduxProp<LibroProp>,
 }
 
 export default configureStore<appStore>({
@@ -45,6 +45,6 @@ export default configureStore<appStore>({
     pedidoLibro: pedidoLibroSlice.reducer,
     precio: precioSlice.reducer,
     sede: sedeSlice.reducer,
-    libro_empresa: libroEmpresaSlice.reducer
+    libro: libroSlice.reducer
   }
 })

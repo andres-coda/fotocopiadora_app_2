@@ -37,7 +37,7 @@ const ClienteSelect = () => {
 
 
 
-  const { modal, setModal } = useModalContext();
+  const { setModal } = useModalContext();
   const [pedido, setPedido] = useState<PedidoProp | undefined>(undefined)
 
   const dispatch = useDispatch();

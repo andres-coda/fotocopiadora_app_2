@@ -1,7 +1,6 @@
 import { LibroProp } from "../modelo/Entidades/libro/libro.interface";
 import { EstadoPedido } from "../modelo/Entidades/pedido/estadoPedido.enum";
 import { Estado } from "../modelo/Entidades/pedido_libro/estado.enum";
-import { transformarComponente } from "./componente";
 
 export const normalizarTexto = (texto: string | undefined): string => {
   if (!texto) return '';

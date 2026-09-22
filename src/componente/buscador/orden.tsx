@@ -3,16 +3,16 @@ import Formulario from "../formulario/formulario"
 import InputCheck from "../formulario/inputCheck"
 import { formValuesOrden, ordenForm } from '../../modelo/orden/esqOrden.esquema';
 import useOrden from "../../hooks/buscador/useOrden";
-import { HasId } from "../../modelo/general/hasId.interface";
+import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { useOrdenProp } from "../../hooks/buscador/useBuscadorProp.interface";
 import { Opcion } from "../formulario/modelo/input.interface";
 
-interface componenteOrdenProp<T extends HasId> extends useOrdenProp<T>{
+interface componenteOrdenProp<T extends BaseProp> extends useOrdenProp<T>{
   opciones: Opcion[];
   entidad:string;
 }
 
-const Orden = <T extends HasId>({ sortBy, sortOrder, setOrden, opciones, entidad }:componenteOrdenProp<T>) => {
+const Orden = <T extends BaseProp>({ sortBy, sortOrder, setOrden, opciones, entidad }:componenteOrdenProp<T>) => {
   const { control, handleSubmit, onSubmit, errors} = useOrden<T>({ sortBy, sortOrder, setOrden })
   return (
     <Formulario

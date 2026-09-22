@@ -1,5 +1,3 @@
-import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
-import { Estado } from "../../modelo/Entidades/pedido_libro/estado.enum";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { PEDIDO } from "../../utils/endpoint";
 import useApi from "../hooks/useApi";

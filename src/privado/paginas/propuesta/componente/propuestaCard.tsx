@@ -13,7 +13,7 @@ import { useState } from 'react'
 import LibroCard from '../../libro/componente/libroCard'
 import Botonera from '../../../../componente-estilo/botonera/botonera'
 import { nombreLibroXstring } from '../../../../utils/formatoDatos'
-import DesplegableConteiner from '../../../../componente-estilo/deslegable/desplegableConteiner'
+import DesplegableConteiner from '../../../../componente-estilo/desplegable/desplegableConteiner'
 
 interface Prop {
   propuesta: PropuestaProp,

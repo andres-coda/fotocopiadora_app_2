@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { filterContext } from '../../../redux/modelo/reduxContext.interface';
+import { ReduxProp } from '../../../redux/modelo/reduxContext.interface';
 import { appStore } from '../../../redux/store';
 import { rutaPrivadaBase, RutasPrivadas } from '../../rutas/rutasPrivadas';
 import Centro from '../../../componente-estilo/centro/centro';
@@ -24,16 +24,16 @@ const normalizar = (elementos: string[]): string[] => {
 
 const Libros = () => {
   const dispatch = useDispatch();
-  const libroContext: filterContext<LibroProp> = useSelector((store: appStore) => store.libro);
+  const libroContext: ReduxProp<LibroProp> = useSelector((store: appStore) => store.libro);
   const propuestas: PropuestaProp[] = useSelector((store: appStore) => store.propuesta.busquedaActual.datosQuery);
 
   const [opcionesActivas, setOpcionesActivas] = useState<string[]>([listaSeleccionable[0].nombre]);
   const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento, retornoPropuestas } = useBuscadorCompleto<LibroProp>({
-    estadoFiltros: libroContext.filter.filtros,
+    estadoFiltros: libroContext.busquedaActual.sortBy ? [{ id: libroContext.busquedaActual.sortBy as string, estado: true }] : [],
     filtros: [...filtrosLibroFuntion],
-    elementos: libroContext.items,
-    sortBy: libroContext.filter.sortBy,
-    sortOrder: libroContext.filter.sortOrder,
+    elementos: libroContext.busquedaActual.datosQuery,
+    sortBy: libroContext.busquedaActual.sortBy,
+    sortOrder: libroContext.busquedaActual.sortOrder,
     propuestas,
   });
 
@@ -45,7 +45,7 @@ const Libros = () => {
         handleMas={() => nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`)}
         valor={valor}
         setValor={setValor}
-        handleOrden={() => dispatch(cambiarOrdenLibro())}
+        handleOrden={() => dispatch(cambiarOrdenLibro({ sortBy: 'nombre' as keyof LibroProp, sortOrder: libroContext.busquedaActual.sortOrder === 'asc' ? 'desc' : 'asc' }))}
         etiquetaArriba='Al comienzo de la lista'
         etiquetaMas='Nuevo libro'
         titulo='Lista de libros'

@@ -1,17 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
+import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
 import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
-import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual} from "../utils/funcionesGenericasEmpresa";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
 
 const cantidadBusquedas: number = 1;
 
 export const busquedaSedeInicial: UltimaBusquedaProp<SedeProp> = {
   query: undefined,
   datosQuery: [],
+  sortBy: 'ultAct' as keyof SedeProp,
+  sortOrder: 'asc' as orden,
   pagina: 1,
   limite: 20,
-  total: 0,
-  orden: 'asc'
+  total: 0
 }
 
 const estadoSedeInicial: ReduxProp<SedeProp> = {
@@ -30,11 +31,11 @@ export const sedeSlice = createSlice({
     resetBusquedaSede: resetBusqueda<SedeProp>(cantidadBusquedas),
     seleccionarSede: seleccionarDato,
     resetSeleccionarSede: resetSeleccionDato,
-    agregarSedesBusquedaActual: agregarDatosBusquedaActual<SedeProp>
+    agregarSedesBusquedaActual: agregarDatosBusquedaActual<SedeProp>,
+    cambiarOrdenSede: cambiarOrden<SedeProp>
   }
 });
 
-export const { crearSedes, crearBusquedaSede, resetBusquedaSede, resetSeleccionarSede, seleccionarSede, agregarSedesBusquedaActual } = sedeSlice.actions;
+export const { crearSedes, crearBusquedaSede, resetBusquedaSede, resetSeleccionarSede, seleccionarSede, agregarSedesBusquedaActual, cambiarOrdenSede } = sedeSlice.actions;
 
 export default sedeSlice.reducer;
-

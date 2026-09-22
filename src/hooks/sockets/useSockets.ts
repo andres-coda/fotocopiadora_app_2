@@ -1,12 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import socket from "../../socket";
-import { Entidad, Mensaje } from "../../modelo/socket/Socket.interface";
-import { verificarLibro } from "../../redux/state/libro.state";
-import { verificarEspecificacion } from "../../redux/state/especificacion.state";
-import { verificarMateria } from "../../redux/state/materia.state";
-import { verificarPedidoLibro } from "../../redux/state/pedido_libro.state";
-import { Mens } from "../../modelo/socket/enum/mens.enum";
 
 interface Prop {
   libro?: boolean | undefined;
@@ -21,30 +14,7 @@ interface Prop {
   componente?: boolean | undefined;
 }
 
-const useSockets = ({
-/*   libro = undefined,
-  cliente = undefined,
-  especificacion = undefined,
-  materia = undefined,
-  pedido = undefined,
-  pedidoLibro = undefined,
-  precio = undefined,
-  sede = undefined,
-  componente = undefined,
- // propuesta = undefined */
-}: Prop) => {
-/*   const { obtenerLibroById, responseLibro } = useLibroApi();
-  const { obtenerClienteById, responseCliente } = useClienteApi()
-  const { obtenerEspecificacionById, responseEspecificacion } = useEspecificacionApi()
-  const { obtenerMateriaById, responseMateria } = useMateriaApi();
-  const { obtenerPedidoById, responsePedido } = usePedidoApi();
-  const { obtenerPedidoLibroById, responsePedidoLibro } = usePedidoLibroApi();
-  const { obtenerPrecioById, responsePrecio } = usePrecioApi();
-  const { obtenerSedeById, responseSede } = useSedeApi();
-  const { obtenerComponenteById, responseComponente } = useComponenteApi();
- */
-  const dispatch = useDispatch();
-
+const useSockets = ({}: Prop) => {
   useEffect(() => {
     socket.on('connect', () => console.log('Socket conectado:', socket.id));
     socket.on('disconnect', () => console.log('Socket desconectado'));
@@ -55,39 +25,40 @@ const useSockets = ({
       console.log(`Evento recibido: ${event}`, args);
     });
 
+    /* 
     const handlemensajeEliminar = (data: Mensaje) => {
       if(!data.id) return;
 
       if (data.entidad === Entidad.LIBRO) {
-        dispatch(verificarLibro(data.id))
+        // dispatch(verificarLibro(data.id)) // TODO: implementar con nuevo patrón ReduxProp
       }
 
       if (data.entidad === Entidad.ESPECIFICACION) {
-        dispatch(verificarEspecificacion(data.id));
+        // dispatch(verificarEspecificacion(data.id));
       }
       if (data.entidad === Entidad.MATERIA) {
-        dispatch(verificarMateria(data.id));
+        // dispatch(verificarMateria(data.id));
       }
      
       if (data.entidad === Entidad.PEDIDO_LIBRO) {
-        dispatch(verificarPedidoLibro(data.id));
+        // dispatch(verificarPedidoLibro(data.id));
       }
-    
-      /* if (data.entidad === Entidad.PREOPUESTA) {
-        dispatch(verificarProp(data.id));
-      } */
+     
+      if (data.entidad === Entidad.PREOPUESTA) {
+        // dispatch(verificarProp(data.id));
+      }
     };
 
-
-    /* socket.on(Mens.CREAR, handlemensajeCrear);
-    socket.on(Mens.EDITAR, handlemensajeCrear); */
+    socket.on(Mens.CREAR, handlemensajeCrear);
+    socket.on(Mens.EDITAR, handlemensajeCrear);
     socket.on(Mens.ELIMINAR, handlemensajeEliminar)
 
     return () => {
-      /* socket.off(Mens.CREAR, handlemensajeCrear); // ✅ limpia correctamente
-      socket.off(mens.EDITAR, handlemensajeCrear); */
+      socket.off(Mens.CREAR, handlemensajeCrear);
+      socket.off(Mens.EDITAR, handlemensajeCrear);
       socket.off(Mens.ELIMINAR, handlemensajeEliminar);
     };
+    */
   }, []);
 
   return {

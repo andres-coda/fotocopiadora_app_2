@@ -4,10 +4,6 @@ import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { UseApiProps, FetchDataProps } from "../../modelo/HTTP/peticiones.interface";
 import useRetardo from "../../hooks/tiempo/useRetardo";
 
-//Diley artificial desarrollo
-const delay = (ms: number) =>
-  new Promise(resolve => setTimeout(resolve, ms));
-
 function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseApiProps<T>) {
   const {token} = useAutenticacion()
   const [response, setResponse] = useState<T | null>(null);

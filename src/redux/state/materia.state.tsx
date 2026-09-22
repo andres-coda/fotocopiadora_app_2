@@ -1,45 +1,49 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addFiltroGenerico, agregarElementoItems, cambiarOrdenGenerico, createElmentoItems, resetElementosItems, resetFiltroGenerico, resetSelectElemento, selectElemento, setOrdenGenerico, substractElementoItems, substractFiltroGenerico, verificarElemento } from "../utils/funcionesGenericas";
-import { filterContext, FiltersState } from "../modelo/reduxContext.interface";
 import { MateriaProp } from "../../modelo/Entidades/libro/materia.interface";
-import { filtrosInicialesMateria } from "../../filtro/materia.filtro";
+import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
 
-const filterDefault: FiltersState<MateriaProp> = {
-  filtros: filtrosInicialesMateria,
-  sortBy: 'ultAct',
-  sortOrder: 'asc'
+const cantidadBusquedas: number = 1;
+
+export const busquedaMateriaInicial: UltimaBusquedaProp<MateriaProp> = {
+  query: undefined,
+  datosQuery: [],
+  sortBy: 'ultAct' as keyof MateriaProp,
+  sortOrder: 'asc' as orden,
+  pagina: 1,
+  limite: 20,
+  total: 0
 }
 
-const initialState: filterContext<MateriaProp> = {
-  items: [],
-  selected: null,
-  filter: filterDefault
-};
+const estadoMateriaInicial: ReduxProp<MateriaProp> = {
+  datosIniciales: busquedaMateriaInicial,
+  busquedaActual: busquedaMateriaInicial,
+  ultimasBusqueda: [],
+  datoSeleccionado: undefined
+}
 
 export const materiaSlice = createSlice({
   name: 'materia',
-  initialState: initialState,
+  initialState: estadoMateriaInicial,
   reducers: {
-    createMaterias: createElmentoItems<MateriaProp>,
-    addMaterias: agregarElementoItems<MateriaProp>,
-    substractMaterias: substractElementoItems<MateriaProp>,
-    resetMaterias: resetElementosItems<MateriaProp>,
-    selectMateria: selectElemento<MateriaProp>,
-    resetSelectMateria: resetSelectElemento<MateriaProp>,
-    verificarMateria: verificarElemento<MateriaProp>,
-    addFiltroMateria: addFiltroGenerico<MateriaProp>,
-    substractFiltroMateria: substractFiltroGenerico<MateriaProp>,
-    resetFiltrosMateria: resetFiltroGenerico<MateriaProp>,
-    setOrdenamientoMaterias: setOrdenGenerico<MateriaProp>,
-    cambiarOrdenMateria: cambiarOrdenGenerico<MateriaProp>
+    crearMaterias: crearDatoInicial,
+    crearBusquedaMateria: crearBusqueda<MateriaProp>(cantidadBusquedas),
+    resetBusquedaMateria: resetBusqueda<MateriaProp>(cantidadBusquedas),
+    seleccionarMateria: seleccionarDato,
+    resetSeleccionarMateria: resetSeleccionDato,
+    agregarMateriasBusquedaActual: agregarDatosBusquedaActual<MateriaProp>,
+    cambiarOrdenMateria: cambiarOrden<MateriaProp>
   }
 });
 
 export const { 
-  createMaterias, addMaterias, substractMaterias, resetMaterias,
-  selectMateria, resetSelectMateria, verificarMateria, 
-  addFiltroMateria, substractFiltroMateria, resetFiltrosMateria, setOrdenamientoMaterias,
-  cambiarOrdenMateria,
+  crearMaterias, 
+  crearBusquedaMateria, 
+  resetBusquedaMateria, 
+  resetSeleccionarMateria, 
+  seleccionarMateria, 
+  agregarMateriasBusquedaActual,
+  cambiarOrdenMateria
 } = materiaSlice.actions;
 
 export default materiaSlice.reducer;

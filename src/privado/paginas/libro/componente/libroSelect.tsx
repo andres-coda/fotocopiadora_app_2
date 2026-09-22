@@ -9,7 +9,7 @@ import Presupuesto from "../../../../componente/pedido/presupuesto/presupuesto";
 import { nombreLibroXstring } from "../../../../utils/formatoDatos";
 
 const LibroSelect = () => {
-  const libro: LibroProp | undefined = useSelector((store: appStore) => store.libro_empresa.datoSeleccionado);
+  const libro: LibroProp | undefined = useSelector((store: appStore) => store.libro.datoSeleccionado);
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
   if (!libro) return <p>No se encontro el libro seleccionado</p>

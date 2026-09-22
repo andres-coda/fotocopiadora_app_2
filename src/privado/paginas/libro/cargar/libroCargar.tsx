@@ -11,7 +11,8 @@ import { parseDecimal } from "../../../../utils/formulario";
 import { LibroNombreProp, LibroProp } from "../../../../modelo/Entidades/libro/libro.interface";
 import useLibroApi from "../../../../servicio/libro/useLibroApi";
 import { formValuesLibro, libro, libroFormEdit } from "../../../../modelo/Entidades/libro/esqLibro.esquema";
-import { addLibros, resetSelectLibro } from "../../../../redux/state/libro.state";
+import { crearLibros, resetSeleccionarLibro, seleccionarLibro } from "../../../../redux/state/libro.state";
+import { UltimaBusquedaProp } from "../../../../redux/modelo/reduxContext.interface";
 import InputCheck from "../../../../componente/formulario/inputCheck";
 import { ComponenteProp } from "../../../../modelo/Entidades/libro/componente.interface";
 import useLibroNombreApi from "../../../../servicio/libro/useLibrosNombre";
@@ -24,12 +25,11 @@ import ComponenteCard from "../componente/componenteCard";
 import useNivelApi from "../../../../servicio/nivel/useNivel";
 import { NivelProp } from "../../../../modelo/Entidades/libro/nivel.interface";
 import NivelCard from "../componente/nivelCard";
-import { seleccionarLibro } from "../../../../redux/state/libro_empresa.state";
 
 const limiteBusquedaLibro: number = 3;
 
 const LibroCargar = () => {
-  const libroSelect: LibroProp | undefined = useSelector((store: appStore) => store.libro_empresa.datoSeleccionado);
+  const libroSelect: LibroProp | undefined = useSelector((store: appStore) => store.libro.datoSeleccionado);
 
   const [libroSeleccionado, setLibroSeleccionado] = useState<string | undefined>(undefined);
   const [componenteSeleccionado, setComponenteSeleccionado] = useState<string | undefined>(undefined);
@@ -118,11 +118,24 @@ const LibroCargar = () => {
     setNivelSeleccionado(n.nombre);
   };
 
+  const crearLibroSimple = (libro: LibroProp) => {
+    const payload: UltimaBusquedaProp<LibroProp> = {
+      query: undefined,
+      datosQuery: [libro],
+      sortBy: 'nombre' as keyof LibroProp,
+      sortOrder: 'asc',
+      pagina: 1,
+      limite: 20,
+      total: 1
+    };
+    return crearLibros(payload as any);
+  };
+
   const { retroceder } = useFormulario<LibroProp, formValuesLibro, LibroProp>({
     response: responseLibro,
-    resetSelect: resetSelectLibro,
+    resetSelect: resetSeleccionarLibro,
     selectElemento: seleccionarLibro,
-    agregarElemento: addLibros,
+    agregarElemento: crearLibroSimple,
     reset,
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
   })

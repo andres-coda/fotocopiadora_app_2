@@ -17,7 +17,7 @@ const SedeCard = ({ sede }: Props) => {
 
   return (
     <Card
-      onClick={() => handleSelect(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`)}
+      onClick={() => handleSelect({ rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}` })}
       nuevoEstilo={'card-sede'}
     >
       <Texto texto={`${sede.nombre}`} mediana centrado/>

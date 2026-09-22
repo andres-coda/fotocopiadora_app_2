@@ -29,8 +29,10 @@ const filtrarPorBusqueda = <T extends BaseProp>(
     .filter(Boolean);
 
   return datos.filter(dato => {
+    const campos = dato.campoBusqueda;
+    if (!campos || campos.length === 0) return true; // Sin campoBusqueda -> no filtrar local
     return palabrasBusqueda.every(palabra => {
-      return dato.campoBusqueda.some(campo => {
+      return campos.some(campo => {
         switch (campo.tipo) {
           case TipoBusqueda.INVERSO:
             return campo.valor.endsWith(palabra);

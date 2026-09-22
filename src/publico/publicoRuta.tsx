@@ -4,7 +4,7 @@ import { rutaPublica } from "./rutas/rutasPublicas";
 import Registro from "./paginas/registro/registro";
 import Login from "./paginas/login/login";
 import PrivadoRuta from "../privado/privadoRuta";
-import RutaPrivadaGuard from "../guard/rutaPribadaGuard";
+import RutaPrivadaGuard from "../guard/rutaPrivadaGuard";
 import { rutaPrivadaBase } from "../privado/rutas/rutasPrivadas";
 
 const PublicoRuta = () => {

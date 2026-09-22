@@ -25,7 +25,7 @@ export const clienteDtoAdapter = (c: formValuesCliente): ClienteDtoProp => {
   const newGrupo: ClienteDtoProp = {
     nombre: c.nombre,
     telefono: normalizarTelefono(c.telefono),
-    email: c.email,
+    email: c.email ?? null,
   }
   return newGrupo
 }

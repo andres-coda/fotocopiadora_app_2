@@ -19,9 +19,6 @@ interface FetchDataPaginadoProp<T, R> {
   adapter: Adapter<T, R>;
 }
 
-const delay = (ms: number) =>
-  new Promise(resolve => setTimeout(resolve, ms));
-
 function useApiPaginado<T, R>({ urlGet = undefined, adapterGet, blob = undefined }: UseApiPaginadoProp<T, R>) {
   const { token } = useAutenticacion()
   const [response, setResponse] = useState<PaginadoProp<R> | null>(null);

@@ -1,34 +1,69 @@
-import { useSelector } from "react-redux";
-import { appStore } from "../store";
-import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
-import { ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
-import { EspecificacionProp } from "../../modelo/Entidades/especificacion/especificacion.interface";
-import { MateriaProp } from "../../modelo/Entidades/libro/materia.interface";
-import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
-import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
-import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
+import { clienteSlice } from "../state/cliente.state";
+import { especificacionSlice } from "../state/especificacion.state";
+import { materiaSlice } from "../state/materia.state";
+import { pedidoSlice } from "../state/pedido.state";
+import { pedidoLibroSlice } from "../state/pedido_libro.state";
+import { precioSlice } from "../state/precio.state";
+import { sedeSlice } from "../state/sede.state";
+import { propuestaSlice } from "../state/propuesta.state";
+import { libroSlice } from "../state/libro.state";
 
-export const libroItems: LibroProp[]= useSelector((store:appStore)=>store.libro_empresa.busquedaActual.datosQuery);
-export const libroSelect: LibroProp | undefined= useSelector((store:appStore)=>store.libro_empresa.datoSeleccionado);
+export const reducerRegistro = {
+  cliente: clienteSlice.reducer,
+  especificacion: especificacionSlice.reducer,
+  materia: materiaSlice.reducer,
+  pedido: pedidoSlice.reducer,
+  pedidoLibro: pedidoLibroSlice.reducer,
+  precio: precioSlice.reducer,
+  sede: sedeSlice.reducer,
+  propuesta: propuestaSlice.reducer,
+  libro: libroSlice.reducer,
+};
 
-export const ClienteItems: ClienteProp[]= useSelector((store:appStore)=>store.cliente.busquedaActual.datosQuery);
-export const ClienteSelect: ClienteProp | undefined= useSelector((store:appStore)=>store.cliente.datoSeleccionado);
-
-export const EspecificacionItems: EspecificacionProp[]= useSelector((store:appStore)=>store.especificacion.items);
-export const EspecificacionSelect: EspecificacionProp | null= useSelector((store:appStore)=>store.especificacion.selected);
-
-export const MateriaItems: MateriaProp[]= useSelector((store:appStore)=>store.materia.items);
-export const MateriaSelect: MateriaProp | null= useSelector((store:appStore)=>store.materia.selected);
-
-export const PedidoItems: PedidoProp[]= useSelector((store:appStore)=>store.pedido.items);
-export const PedidoSelect: PedidoProp | null= useSelector((store:appStore)=>store.pedido.selected);
-
-export const PedidoLibroItems: PedidoLibroProp[]= useSelector((store:appStore)=>store.pedidoLibro.items);
-export const PedidoLibroSelect: PedidoLibroProp | null= useSelector((store:appStore)=>store.pedidoLibro.selected);
-
-export const PrecioItems: PrecioProp[]= useSelector((store:appStore)=>store.precio.busquedaActual.datosQuery);
-export const PrecioSelect: PrecioProp | undefined= useSelector((store:appStore)=>store.precio.datoSeleccionado);
-
-export const SedeItems: SedeProp[]= useSelector((store:appStore)=>store.sede.busquedaActual.datosQuery);
-export const SedeSelect: SedeProp | undefined= useSelector((store:appStore)=>store.sede.datoSeleccionado);
+export const selectores = {
+  cliente: {
+    busquedaActual: (state: any) => state.cliente.busquedaActual.datosQuery,
+    datoSeleccionado: (state: any) => state.cliente.datoSeleccionado,
+    busquedas: (state: any) => state.cliente.ultimasBusqueda,
+  },
+  especificacion: {
+    busquedaActual: (state: any) => state.especificacion.busquedaActual.datosQuery,
+    datoSeleccionado: (state: any) => state.especificacion.datoSeleccionado,
+    busquedas: (state: any) => state.especificacion.ultimasBusqueda,
+  },
+  materia: {
+    busquedaActual: (state: any) => state.materia.busquedaActual.datosQuery,
+    datoSeleccionado: (state: any) => state.materia.datoSeleccionado,
+    busquedas: (state: any) => state.materia.ultimasBusqueda,
+  },
+  pedido: {
+    busquedaActual: (state: any) => state.pedido.busquedaActual.datosQuery,
+    datoSeleccionado: (state: any) => state.pedido.datoSeleccionado,
+    busquedas: (state: any) => state.pedido.ultimasBusqueda,
+  },
+  pedidoLibro: {
+    busquedaActual: (state: any) => state.pedidoLibro.busquedaActual.datosQuery,
+    datoSeleccionado: (state: any) => state.pedidoLibro.datoSeleccionado,
+    busquedas: (state: any) => state.pedidoLibro.ultimasBusqueda,
+  },
+  precio: {
+    busquedaActual: (state: any) => state.precio.busquedaActual.datosQuery,
+    datoSeleccionado: (state: any) => state.precio.datoSeleccionado,
+    busquedas: (state: any) => state.precio.ultimasBusqueda,
+  },
+  sede: {
+    busquedaActual: (state: any) => state.sede.busquedaActual.datosQuery,
+    datoSeleccionado: (state: any) => state.sede.datoSeleccionado,
+    busquedas: (state: any) => state.sede.ultimasBusqueda,
+  },
+  propuesta: {
+    busquedaActual: (state: any) => state.propuesta.busquedaActual.datosQuery,
+    datoSeleccionado: (state: any) => state.propuesta.datoSeleccionado,
+    busquedas: (state: any) => state.propuesta.ultimasBusqueda,
+  },
+  libro: {
+    busquedaActual: (state: any) => state.libro.busquedaActual.datosQuery,
+    datoSeleccionado: (state: any) => state.libro.datoSeleccionado,
+    busquedas: (state: any) => state.libro.ultimasBusqueda,
+  },
+};

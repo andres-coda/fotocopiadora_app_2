@@ -8,7 +8,7 @@ import { listaLibroPropuestaSeleccionable, normalizarLibroPropuesta } from './ut
 import useBuscadorLibro from './hook/useBuscadorLibro'
 import PropuestaCard from '../propuesta/componente/propuestaCard'
 import { useDispatch } from 'react-redux'
-import { resetSeleccionarLibro, seleccionarLibro } from '../../../redux/state/libro_empresa.state'
+import { resetSeleccionarLibro, seleccionarLibro } from '../../../redux/state/libro.state'
 import { LibroProp } from '../../../modelo/Entidades/libro/libro.interface'
 import { useNavigate } from 'react-router-dom'
 import { rutaPrivadaBase, RutasPrivadas } from '../../rutas/rutasPrivadas'

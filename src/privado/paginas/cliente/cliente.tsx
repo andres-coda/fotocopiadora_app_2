@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { filterContext } from "../../../redux/modelo/reduxContext.interface";
+import { ReduxProp } from "../../../redux/modelo/reduxContext.interface";
 import { ClienteProp } from "../../../modelo/Entidades/cliente/cliente.interface";
 import { appStore } from "../../../redux/store";
 import useBuscadorCompleto from "../../../hooks/buscador/useBuscadorCompleto";
@@ -13,14 +13,14 @@ import ClienteCard from "./componente/clienteCard";
 
 const Clientes = () => {
   const dispatch = useDispatch();
-  const clienteContext: filterContext<ClienteProp> = useSelector((store: appStore) => store.cliente);
+  const clienteContext: ReduxProp<ClienteProp> = useSelector((store: appStore) => store.cliente);
 
   const { elementosFiltrados, contenedorRef, valor, setValor, nuevoElemento } = useBuscadorCompleto<ClienteProp>({
-    estadoFiltros: clienteContext.filter.filtros,
+    estadoFiltros: clienteContext.busquedaActual.sortBy ? [{ id: clienteContext.busquedaActual.sortBy as string, estado: true }] : [],
     filtros: [...filtrosClienteFuntion],
-    elementos: clienteContext.items,
-    sortBy: clienteContext.filter.sortBy,
-    sortOrder: clienteContext.filter.sortOrder,
+    elementos: clienteContext.busquedaActual.datosQuery,
+    sortBy: clienteContext.busquedaActual.sortBy,
+    sortOrder: clienteContext.busquedaActual.sortOrder,
   });
   
 return (
@@ -31,7 +31,7 @@ return (
       handleMas={() => nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE_CARGAR}`)}
       valor={valor}
       setValor={setValor}
-      handleOrden={() => dispatch(cambiarOrdenCliente())}
+      handleOrden={() => dispatch(cambiarOrdenCliente({ sortBy: 'ultAct' as keyof ClienteProp, sortOrder: clienteContext.busquedaActual.sortOrder === 'asc' ? 'desc' : 'asc' }))}
       etiquetaArriba='Al comienzo de la lista'
       etiquetaMas='Nueva cliente'
       titulo='Lista de clientes'

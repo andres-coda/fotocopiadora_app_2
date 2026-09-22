@@ -11,7 +11,7 @@ const useEspecificacionesSelect = (
 ) => {
 
   const esp: EspecificacionProp[] = useSelector(
-    (store: appStore) => store.especificacion.items
+    (store: appStore) => store.especificacion.busquedaActual.datosQuery
   );
 
   const [especificaciones, setEspecificaciones] =

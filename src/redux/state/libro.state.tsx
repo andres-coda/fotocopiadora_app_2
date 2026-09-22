@@ -1,47 +1,52 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addFiltroGenerico, agregarElementoItems, cambiarOrdenGenerico, createElmentoItems, resetElementosItems, resetFiltroGenerico, resetSelectElemento, selectElemento, setOrdenGenerico, substractElementoItems, substractFiltroGenerico, verificarElemento } from "../utils/funcionesGenericas";
-import { filterContext, FiltersState } from "../modelo/reduxContext.interface";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
-import { filtrosInicialesLibro } from "../../filtro/libro.filtro";
+import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
 import { modificarStockFuncion } from "../utils/funcionesLibro";
 
-const filterDefault: FiltersState<LibroProp> = {
-  filtros: filtrosInicialesLibro,
-  sortBy: 'nombre',
-  sortOrder: 'asc'
+const cantidadBusquedas: number = 15;
+
+export const busquedaLibroInicial: UltimaBusquedaProp<LibroProp> = {
+  query: undefined,
+  datosQuery: [],
+  sortBy: 'nombre' as keyof LibroProp,
+  sortOrder: 'asc' as orden,
+  pagina: 1,
+  limite: 20,
+  total: 0
 }
 
-const initialState: filterContext<LibroProp> = {
-  items: [],
-  selected: null,
-  filter: filterDefault
-};
+const estadoLibroInicial: ReduxProp<LibroProp> = {
+  datosIniciales: busquedaLibroInicial,
+  busquedaActual: busquedaLibroInicial,
+  ultimasBusqueda: [],
+  datoSeleccionado: undefined
+}
 
 export const libroSlice = createSlice({
   name: 'libro',
-  initialState: initialState,
+  initialState: estadoLibroInicial,
   reducers: {
-    createLibros: createElmentoItems<LibroProp>,
-    addLibros: agregarElementoItems<LibroProp>,
-    substractLibros: substractElementoItems<LibroProp>,
-    resetLibros: resetElementosItems<LibroProp>,
-    selectLibro: selectElemento<LibroProp>,
-    resetSelectLibro: resetSelectElemento<LibroProp>,
-    verificarLibro: verificarElemento<LibroProp>,
-    addFiltroLibro: addFiltroGenerico<LibroProp>,
-    substractFiltroLibro: substractFiltroGenerico<LibroProp>,
-    resetFiltrosLibro: resetFiltroGenerico<LibroProp>,
-    setOrdenamientoLibros: setOrdenGenerico<LibroProp>,
-    cambiarOrdenLibro: cambiarOrdenGenerico<LibroProp>,
-    actualizarStock: modificarStockFuncion
+    crearLibros: crearDatoInicial,
+    crearBusquedaLibro: crearBusqueda<LibroProp>(cantidadBusquedas),
+    resetBusquedaLibro: resetBusqueda<LibroProp>(cantidadBusquedas),
+    seleccionarLibro: seleccionarDato,
+    resetSeleccionarLibro: resetSeleccionDato,
+    agregarLibrosBusquedaActual: agregarDatosBusquedaActual<LibroProp>,
+    actualizarStock: modificarStockFuncion,
+    cambiarOrdenLibro: cambiarOrden<LibroProp>
   }
 });
 
 export const { 
-  createLibros, addLibros, substractLibros, resetLibros,
-  selectLibro, resetSelectLibro, verificarLibro, 
-  addFiltroLibro, substractFiltroLibro, resetFiltrosLibro, setOrdenamientoLibros,
-  cambiarOrdenLibro,actualizarStock
+  crearLibros, 
+  crearBusquedaLibro, 
+  resetBusquedaLibro, 
+  resetSeleccionarLibro, 
+  seleccionarLibro, 
+  agregarLibrosBusquedaActual,
+  actualizarStock,
+  cambiarOrdenLibro
 } = libroSlice.actions;
 
 export default libroSlice.reducer;

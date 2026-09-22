@@ -12,7 +12,7 @@ interface EspSelectProp {
 }
 
 const EspecificacionesSelect = ({ setEspecificaciones, especificaciones }: EspSelectProp) => {
-  const esp: EspecificacionProp[] = useSelector((store: appStore) => store.especificacion.items);
+  const esp: EspecificacionProp[] = useSelector((store: appStore) => store.especificacion.busquedaActual.datosQuery);
 
   const newEsp = esp.map(e => {
     return { nombre: e.nombre, texto: transformarEspecificacinParticularATexto(e) }

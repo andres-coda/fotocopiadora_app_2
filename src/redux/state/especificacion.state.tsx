@@ -1,45 +1,49 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addFiltroGenerico, agregarElementoItems, cambiarOrdenGenerico, createElmentoItems, resetElementosItems, resetFiltroGenerico, resetSelectElemento, selectElemento, setOrdenGenerico, substractElementoItems, substractFiltroGenerico, verificarElemento } from "../utils/funcionesGenericas";
-import { filterContext, FiltersState } from "../modelo/reduxContext.interface";
 import { EspecificacionProp } from "../../modelo/Entidades/especificacion/especificacion.interface";
-import { filtrosInicialesEspecificacion } from "../../filtro/especificacion.filtro";
+import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
 
-const filterDefault: FiltersState<EspecificacionProp> = {
-  filtros: filtrosInicialesEspecificacion,
-  sortBy: 'ultAct',
-  sortOrder: 'asc'
+const cantidadBusquedas: number = 1;
+
+export const busquedaEspecificacionInicial: UltimaBusquedaProp<EspecificacionProp> = {
+  query: undefined,
+  datosQuery: [],
+  sortBy: 'ultAct' as keyof EspecificacionProp,
+  sortOrder: 'asc' as orden,
+  pagina: 1,
+  limite: 20,
+  total: 0
 }
 
-const initialState: filterContext<EspecificacionProp> = {
-  items: [],
-  selected: null,
-  filter: filterDefault
-};
+const estadoEspecificacionInicial: ReduxProp<EspecificacionProp> = {
+  datosIniciales: busquedaEspecificacionInicial,
+  busquedaActual: busquedaEspecificacionInicial,
+  ultimasBusqueda: [],
+  datoSeleccionado: undefined
+}
 
 export const especificacionSlice = createSlice({
   name: 'especificacion',
-  initialState: initialState,
+  initialState: estadoEspecificacionInicial,
   reducers: {
-    createEspecificaciones: createElmentoItems<EspecificacionProp>,
-    addEspecificaciones: agregarElementoItems<EspecificacionProp>,
-    substractEspecificaciones: substractElementoItems<EspecificacionProp>,
-    resetEspecificaciones: resetElementosItems<EspecificacionProp>,
-    selectEspecificacion: selectElemento<EspecificacionProp>,
-    resetSelectEspecificacion: resetSelectElemento<EspecificacionProp>,
-    verificarEspecificacion: verificarElemento<EspecificacionProp>,
-    addFiltroEspecificacion: addFiltroGenerico<EspecificacionProp>,
-    substractFiltroEspecificacion: substractFiltroGenerico<EspecificacionProp>,
-    resetFiltrosEspecificacion: resetFiltroGenerico<EspecificacionProp>,
-    setOrdenamientoEspecificaciones: setOrdenGenerico<EspecificacionProp>,
-    cambiarOrdenEspecificacion: cambiarOrdenGenerico<EspecificacionProp>
+    crearEspecificaciones: crearDatoInicial,
+    crearBusquedaEspecificacion: crearBusqueda<EspecificacionProp>(cantidadBusquedas),
+    resetBusquedaEspecificacion: resetBusqueda<EspecificacionProp>(cantidadBusquedas),
+    seleccionarEspecificacion: seleccionarDato,
+    resetSeleccionarEspecificacion: resetSeleccionDato,
+    agregarEspecificacionesBusquedaActual: agregarDatosBusquedaActual<EspecificacionProp>,
+    cambiarOrdenEspecificacion: cambiarOrden<EspecificacionProp>
   }
 });
 
 export const { 
-  createEspecificaciones, addEspecificaciones, substractEspecificaciones, resetEspecificaciones,
-  selectEspecificacion, resetSelectEspecificacion, verificarEspecificacion, 
-  addFiltroEspecificacion, substractFiltroEspecificacion, resetFiltrosEspecificacion, setOrdenamientoEspecificaciones,
-  cambiarOrdenEspecificacion,
+  crearEspecificaciones, 
+  crearBusquedaEspecificacion, 
+  resetBusquedaEspecificacion, 
+  resetSeleccionarEspecificacion, 
+  seleccionarEspecificacion, 
+  agregarEspecificacionesBusquedaActual,
+  cambiarOrdenEspecificacion
 } = especificacionSlice.actions;
 
 export default especificacionSlice.reducer;

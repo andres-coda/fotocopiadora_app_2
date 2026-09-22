@@ -5,7 +5,7 @@ import { appStore } from "../../../../redux/store";
 import useLibrosApi from "../../../../servicio/libro/useLibrosApi";
 import { useState } from "react";
 import useBusquedaPaginada from "../../../../hooks/buscador/useBusquedaPaginada";
-import { agregarLibrosBusquedaActual, crearBusquedaLibro, resetBusquedaLibro } from "../../../../redux/state/libro_empresa.state";
+import { agregarLibrosBusquedaActual, crearBusquedaLibro, resetBusquedaLibro } from "../../../../redux/state/libro.state";
 import { PropuestaProp } from "../../../../modelo/Entidades/propuesta/propuesta.interface";
 import usePropuestasApi from "../../../../servicio/propuesta/usePropuestasApi";
 import { agregarPropuestasBusquedaActual, crearBusquedaPropuesta, resetBusquedaPropuesta } from "../../../../redux/state/propuesta.state";
@@ -20,7 +20,7 @@ const limiteLetrasBusquedaLibro = 3;
 
 const useBuscadorLibro = ({ opcionesActivas }: BuscadorLibroProp) => {
   const [valor, setValor] = useState<string>('');
-  const librosDatos: ReduxProp<LibroProp> = useSelector((store: appStore) => store.libro_empresa);
+  const librosDatos: ReduxProp<LibroProp> = useSelector((store: appStore) => store.libro);
   const { obtenerLibrosBusqueda, responseLibros, loadingLibros } = useLibrosApi();
 
   const propuestaDatos: ReduxProp<PropuestaProp> = useSelector((store: appStore) => store.propuesta);
