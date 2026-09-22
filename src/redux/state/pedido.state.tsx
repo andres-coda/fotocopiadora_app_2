@@ -25,7 +25,7 @@ const estadoPedidoInicial: ReduxProp<PedidoProp> = {
 }
 
 export const pedidoSlice = createSlice({
-  name: 'libro_empresa',
+  name: 'pedido',
   initialState: estadoPedidoInicial,
   reducers: {
     crearPedidos: crearDatoInicial,
