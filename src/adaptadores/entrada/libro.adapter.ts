@@ -1,6 +1,6 @@
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { ComponenteProp } from "../../modelo/Entidades/libro/componente.interface";
-import { LibroAdapterProp, LibroNombreAdapterProp, LibroNombreProp, LibroProp } from "../../modelo/Entidades/libro/libro.interface";
+import { LibroAdapterProp, LibroNombreAdapterProp, LibroNombreProp, LibroProp, EditorialNombreAdapterProp, EditorialNombreProp } from "../../modelo/Entidades/libro/libro.interface";
 import { materiaInicial, MateriaProp } from "../../modelo/Entidades/libro/materia.interface";
 import { StockProp } from "../../modelo/Entidades/libro/stock.interface";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
@@ -9,6 +9,30 @@ import { componenteAdapterArray } from "./componente.adapter";
 import { materiaAdapter } from "./materia.adapter";
 import { propuestaAdapterArray } from "./propuesta.adapter";
 import { stockAdapter } from "./stock.adapter";
+
+export const editorialNombreAdapter = (editorial?: EditorialNombreAdapterProp): EditorialNombreProp | undefined => {
+  if (!editorial) return undefined;
+
+  const base: BaseProp | undefined = baseAdapter<EditorialNombreAdapterProp>({ base: editorial });
+
+  if (!base) return undefined;
+
+  const newEditorial: EditorialNombreProp = {
+    ...base,
+    nombre: editorial.nombre,
+  }
+  return newEditorial;
+}
+
+export const editorialNombreAdapterArray = (editoriales?: EditorialNombreAdapterProp[]): EditorialNombreProp[] => {
+  const newEditoriales: EditorialNombreProp[] =
+    editoriales?.flatMap(e => {
+      const editorial = editorialNombreAdapter(e);
+      return editorial ? [editorial] : [];
+    }) ?? [];
+
+  return newEditoriales;
+}
 
 export const libroNombreAdapter = (libro?: LibroNombreAdapterProp): LibroNombreProp | undefined => {
   if (!libro) return undefined;

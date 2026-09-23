@@ -8,7 +8,7 @@ import Formulario from "../../../../componente/formulario/formulario";
 import Input from "../../../../componente/formulario/input";
 import useFormulario from "../../../../hooks/formulario/useFormulario";
 import { parseDecimal } from "../../../../utils/formulario";
-import { LibroNombreProp, LibroProp } from "../../../../modelo/Entidades/libro/libro.interface";
+import { LibroNombreProp, LibroProp, EditorialNombreProp } from "../../../../modelo/Entidades/libro/libro.interface";
 import useLibroApi from "../../../../servicio/libro/useLibroApi";
 import { formValuesLibro, libro, libroFormEdit } from "../../../../modelo/Entidades/libro/esqLibro.esquema";
 import { crearLibros, resetSeleccionarLibro, seleccionarLibro } from "../../../../redux/state/libro.state";
@@ -16,6 +16,7 @@ import { UltimaBusquedaProp } from "../../../../redux/modelo/reduxContext.interf
 import InputCheck from "../../../../componente/formulario/inputCheck";
 import { ComponenteProp } from "../../../../modelo/Entidades/libro/componente.interface";
 import useLibroNombreApi from "../../../../servicio/libro/useLibrosNombre";
+import useEditorialNombreApi from "../../../../servicio/libro/useEditorialNombreApi";
 import { useState } from "react";
 import useBusquedaSimple from "../../../../hooks/buscador/useBuscadorSimple";
 import DesplegablePredictivo from "../../../../componente-estilo/predictivo/desplegablePredictivo";
@@ -25,13 +26,23 @@ import ComponenteCard from "../componente/componenteCard";
 import useNivelApi from "../../../../servicio/nivel/useNivel";
 import { NivelProp } from "../../../../modelo/Entidades/libro/nivel.interface";
 import NivelCard from "../componente/nivelCard";
+import EditorialCard from "../componente/editorialCard";
+import useMateriasApi from "../../../../servicio/materia/useMateriasApi";
+import { MateriaProp } from "../../../../modelo/Entidades/libro/materia.interface";
+import MateriaCard from "../componente/materiaCard";
 
 const limiteBusquedaLibro: number = 3;
+
+interface libroSelecProp {
+  nombre?: string;
+  editorial?: string;
+  materia?:string;
+}
 
 const LibroCargar = () => {
   const libroSelect: LibroProp | undefined = useSelector((store: appStore) => store.libro.datoSeleccionado);
 
-  const [libroSeleccionado, setLibroSeleccionado] = useState<string | undefined>(undefined);
+  const [libroSeleccionado, setLibroSeleccionado] = useState<libroSelecProp | undefined>(undefined);
   const [componenteSeleccionado, setComponenteSeleccionado] = useState<string | undefined>(undefined);
   const [nivelSeleccionado, setNivelSeleccionado] = useState<string | undefined>(undefined);
 
@@ -44,7 +55,7 @@ const LibroCargar = () => {
 
   const { obtenerLibrosNombre, responseLibros: responseLibroNombre, loadingLibros, errorFetchLibros } = useLibroNombreApi();
   const { finListaRef: finLibros, datos: libros, setDatos: setLibros } = useBusquedaSimple<LibroNombreProp>({
-    valor: libroSeleccionado != watch().nombre ? watch().nombre : '',
+    valor: libroSeleccionado?.nombre != watch().nombre ? watch().nombre : '',
     response: responseLibroNombre,
     loading: loadingLibros,
     limiteLetrasBusqueda: limiteBusquedaLibro,
@@ -59,7 +70,11 @@ const LibroCargar = () => {
       editorial: l.editorial,
       materia: l.materia.nombre
     });
-    setLibroSeleccionado(l.nombre);
+    setLibroSeleccionado({
+      nombre:l.nombre,
+      editorial: l.editorial ?? '',
+      materia: l.materia.nombre ?? ''
+    });
   };
 
   const { obtenerComponentes, responseComponentes, loadingComponentes } = useComponenteApi();
@@ -116,6 +131,48 @@ const LibroCargar = () => {
       nivel: n.nombre,
     });
     setNivelSeleccionado(n.nombre);
+  };
+
+  const { obtenerEditorialesNombre, responseEditoriales, loadingEditoriales } = useEditorialNombreApi();
+  const { finListaRef: finEditoriales, datos: editoriales, setDatos: setEditoriales } = useBusquedaSimple<EditorialNombreProp>({
+    valor: libroSeleccionado?.editorial != watch().editorial ? watch().editorial ?? '' : '',
+    response: responseEditoriales,
+    loading: loadingEditoriales,
+    limiteLetrasBusqueda: limiteBusquedaLibro,
+    obtenerBusqueda: obtenerEditorialesNombre
+  });
+
+  const handleSelectEditorial = (e: EditorialNombreProp) => {
+    setEditoriales(undefined);
+    reset({
+      ...watch(),
+      editorial: e.nombre,
+    });
+    setLibroSeleccionado(prev => ({
+      ...prev, 
+      editorial: e.nombre
+    }));
+  };
+
+  const { obtenerMateriaBusqueda, responseMaterias, loadingMaterias } = useMateriasApi();
+  const { finListaRef: finMaterias, datos: materias, setDatos: setMaterias } = useBusquedaSimple<MateriaProp>({
+    valor: libroSeleccionado?.materia != watch().materia ? watch().materia ?? '' : '',
+    response: responseMaterias,
+    loading: loadingMaterias,
+    limiteLetrasBusqueda: limiteBusquedaLibro,
+    obtenerBusqueda: obtenerMateriaBusqueda
+  });
+
+  const handleSelectMateria = (m: MateriaProp) => {
+    setMaterias(undefined);
+    reset({
+      ...watch(),
+      materia: m.nombre,
+    });
+    setLibroSeleccionado(prev => ({
+      ...prev, 
+      materia: m.nombre
+    }));
   };
 
   const crearLibroSimple = (libro: LibroProp) => {
@@ -181,7 +238,13 @@ const LibroCargar = () => {
           />}
           <Input<formValuesLibro> name='descripcion' control={control} label='Descripción para impresión' tipo='text' error={errors.descripcion} esquema={libro} />
           <div className="form-horizontal">
+            <div>
             <Input<formValuesLibro> name='editorial' control={control} label='Editorial' tipo='text' error={errors.editorial} esquema={libro} />
+            {editoriales && editoriales.datosQuery.length > 0 && <DesplegablePredictivo
+              children={editoriales.datosQuery.map(e => <EditorialCard editorial={e} selectEditorial={handleSelectEditorial} key={e.id} />)}
+              finRegistros={finEditoriales}
+            />}
+          </div>
             <Input<formValuesLibro> name='autor' control={control} label='Autor' tipo='text' error={errors.autor} esquema={libro} />
           </div>
           <div className="form-horizontal">
@@ -203,6 +266,10 @@ const LibroCargar = () => {
             <InputCheck<formValuesLibro> name='trokelado' control={control} label='Trokelado' tipo='checkbox' />
           </div>
           <Input<formValuesLibro> name='materia' control={control} label='Materia' tipo='text' error={errors.materia} esquema={libro} />
+            {materias && materias.datosQuery.length > 0 && <DesplegablePredictivo
+              children={materias.datosQuery.map(e => <MateriaCard materia={e} selectMateria={handleSelectMateria} key={e.id} />)}
+              finRegistros={finMaterias}
+            />}
         </>
       </Formulario>
     </Centro>

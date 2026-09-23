@@ -5,6 +5,14 @@ import { ComponenteAdapterProp, ComponenteProp } from "./componente.interface";
 import { MateriaAdapterProp, materiaInicial, MateriaProp } from "./materia.interface";
 import { StockAdapterProp, stockInicial, StockProp } from "./stock.interface";
 
+export interface EditorialNombreAdapterProp extends BaseAdapterProp {
+  nombre: string;
+}
+
+export interface EditorialNombreProp extends BaseProp {
+  nombre: string;
+}
+
 export interface LibroNombreAdapterProp extends BaseAdapterProp{
   nombre:string;
   editorial?:string;
