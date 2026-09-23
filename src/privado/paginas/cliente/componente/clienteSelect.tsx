@@ -16,26 +16,85 @@ import TextoVacio from "../../../../componente/Textos/textoVacio";
 import { estadoPedidoXstring, formatoTelefonoMostrar } from "../../../../utils/formatoDatos";
 import { EstadoPedido } from "../../../../modelo/Entidades/pedido/estadoPedido.enum";
 import useBuscadorCompleto from "../../../../hooks/buscador/useBuscadorCompleto";
-import { filtroLlamada, ReduxProp } from "../../../../redux/modelo/reduxContext.interface";
+import { filtroLlamada, ReduxProp, UltimaBusquedaProp } from "../../../../redux/modelo/reduxContext.interface";
 import { filtrosInicialesPedido, filtrosPedidoFuntion } from "../../../../filtro/pedido.filtro";
 import PedidoCardCliente from "../../pedido/componente/pedidoCardCliente";
 import { seleccionarCliente } from "../../../../redux/state/cliente.state";
+import usePedidosApi from "../../../../servicio/pedido/usePedidosApi";
+import { agregarPedidosBusquedaActual, crearBusquedaPedido, resetBusquedaPedido } from "../../../../redux/state/pedido.state";
+import { PaginadoProp } from "../../../../adaptadores/entrada/paginado.adapter";
+import useBusquedaPaginada from "../../../../hooks/buscador/useBusquedaPaginada";
+import { BusquedaApiProp } from "../../../../modelo/HTTP/peticiones.interface";
 
 const ClienteSelect = () => {
   const clienteContexto: ReduxProp<ClienteProp> = useSelector((store: appStore) => store.cliente);
-  const { responseCliente, loadingCliente, errorFetchCliente } = useClienteApi(clienteContexto.datoSeleccionado?.id ?? undefined);
+  const pedidosCliente: ReduxProp<PedidoProp> = useSelector((store: appStore) => store.pedido);
+  const { responsePedidos, loadingPedidos, errorFetchPedidos, obtenerPedidosByCienteId } = usePedidosApi();
+  const [estadoSelec, setEstadoSelect] = useState<EstadoPedido | undefined>(undefined);
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-  const [newFiltros, setNewFiltros] = useState<filtroLlamada[]>(filtrosInicialesPedido)
-  const [estadoSelec, setEstadoSelect] = useState('');
-
-  const { elementosFiltrados } = useBuscadorCompleto({
-    estadoFiltros: newFiltros,
-    filtros: [...filtrosPedidoFuntion],
-    elementos: clienteContexto.datoSeleccionado?.pedidos,
-    sortBy: 'estado',
-  })
+  const finListaRef = useRef<HTMLDivElement>(null);
 
 
+  useEffect(() => {
+    if(clienteContexto.datoSeleccionado?.id)
+    obtenerPedidosByCienteId({
+      pagina: 1,
+      limite: pedidosCliente.busquedaActual.limite,
+      idCliente: clienteContexto.datoSeleccionado?.id,
+      orden: pedidosCliente.busquedaActual.sortBy,
+      estado: estadoSelec
+    });
+  }, [clienteContexto.datoSeleccionado?.id, estadoSelec])
+
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!clienteContexto.datoSeleccionado?.id) {
+          return
+        }
+
+        if (!entry.isIntersecting) {
+          return
+        };
+        if (pedidosCliente.busquedaActual.query != `${clienteContexto.datoSeleccionado?.id}+${estadoSelec}`) {
+          return
+        }
+        if (loadingPedidos) {
+          return;
+        }
+        if (
+          pedidosCliente.busquedaActual.pagina *
+          pedidosCliente.busquedaActual.limite >=
+          pedidosCliente.busquedaActual.total
+        ) {
+          return;
+        }
+
+        obtenerPedidosByCienteId({
+          pagina: pedidosCliente.busquedaActual.pagina + 1,
+          limite: pedidosCliente.busquedaActual.limite,
+          idCliente: clienteContexto.datoSeleccionado?.id,
+          orden: pedidosCliente.busquedaActual.sortBy,
+          estado: estadoSelec ?? undefined
+        });
+
+      },
+      {
+        root: contenedorRef.current,
+        threshold: 0.2,
+      }
+    );
+
+    if (finListaRef.current) {
+      observer.observe(finListaRef.current);
+    } else {
+      console.log('NO HAY ELEMENTO PARA OBSERVAR');
+    }
+
+    return () => observer.disconnect();
+
+  }, [pedidosCliente.busquedaActual.query, pedidosCliente.busquedaActual.pagina, estadoSelec]);
 
   const { setModal } = useModalContext();
   const [pedido, setPedido] = useState<PedidoProp | undefined>(undefined)
@@ -43,23 +102,33 @@ const ClienteSelect = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (responseCliente) {
-      dispatch(seleccionarCliente(responseCliente))
+    if (responsePedidos) {
+      const pedidoPaginado: UltimaBusquedaProp<PedidoProp> = {
+        ...responsePedidos,
+        query: `${clienteContexto.datoSeleccionado?.id}+${estadoSelec}`,
+        sortBy: pedidosCliente.busquedaActual.sortBy ?? 'estado',
+        sortOrder: 'asc',
+        datosQuery: responsePedidos.datos
+      }
+      if(
+        responsePedidos.pagina != pedidosCliente.busquedaActual.pagina 
+        && pedidosCliente.busquedaActual.query === pedidoPaginado.query
+      ){
+      dispatch(agregarPedidosBusquedaActual(pedidoPaginado))
+
+      } else {
+        dispatch(crearBusquedaPedido(pedidoPaginado))
+      }
     }
-  }, [responseCliente]);
+  }, [responsePedidos]);
 
   const handleFiltro = (estado: EstadoPedido) => {
-    setEstadoSelect(` - ${estadoPedidoXstring(estado)}`);
-    setNewFiltros(prev => {
-      return prev.map(p => p.id === estado.toString() ? { ...p, estado: true } : { ...p, estado: false })
-    })
+    if(estado != estadoSelec) {
+      setEstadoSelect(estado);
+    }
   }
 
   if (!clienteContexto.datoSeleccionado) return <Texto texto={'No se encontro el cliente seleccionado'} />
-
-  if (loadingCliente) return <Cargando />
-
-  if (errorFetchCliente) return <Texto texto={`Fallo la carga del cliente: ${errorFetchCliente}`} error />
 
   return (
     <Centro
@@ -68,20 +137,25 @@ const ClienteSelect = () => {
       <div className="cliente-vertical">
         <ClienteDatos cliente={clienteContexto.datoSeleccionado} />
         <ul>
-          <li className='pendiente' title='Pedidos pendientes' onClick={() => handleFiltro(EstadoPedido.PENDIENTE)}><Texto texto='Pendiente: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.pendiente}`} derecha chica/></li>
-          <li className='terminado' title='Pedidos listos para entregar' onClick={() => handleFiltro(EstadoPedido.LISTO)}><Texto texto='Para retirar: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.listo}`} derecha chica/></li>
-          <li className='retirado' title='Pedidos retirados' onClick={() => handleFiltro(EstadoPedido.RETIRADO)}><Texto texto='Retirados: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.retirado}`} derecha chica/></li>
-          <li className='cancelado' title='Pedidos cancelados' onClick={() => handleFiltro(EstadoPedido.CANCELADO)}><Texto texto='Cancelado: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.cancelado}`} derecha chica/></li>
+          <li className='pendiente' title='Pedidos pendientes' onClick={() => handleFiltro(EstadoPedido.PENDIENTE)}><Texto texto='Pendiente: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.pendiente}`} derecha chica /></li>
+          <li className='terminado' title='Pedidos listos para entregar' onClick={() => handleFiltro(EstadoPedido.LISTO)}><Texto texto='Para retirar: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.listo}`} derecha chica /></li>
+          <li className='retirado' title='Pedidos retirados' onClick={() => handleFiltro(EstadoPedido.RETIRADO)}><Texto texto='Retirados: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.retirado}`} derecha chica /></li>
+          <li className='cancelado' title='Pedidos cancelados' onClick={() => handleFiltro(EstadoPedido.CANCELADO)}><Texto texto='Cancelado: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.cancelado}`} derecha chica /></li>
         </ul>
 
       </div>
-      <Texto texto={`Lista de pedidos ${estadoSelec}`} mediana negrita centrado />
+      <Texto texto={`Lista de pedidos ${estadoSelec ? `- ${estadoPedidoXstring(estadoSelec)}`: ''}`} mediana negrita centrado />
       <div className="cliente-pedido">
+        {loadingPedidos && <Cargando />}
+        {errorFetchPedidos && <Texto texto={errorFetchPedidos} />}
         {
-          elementosFiltrados.length === 0 ? <TextoVacio entidad="pedidos" />
-            : elementosFiltrados.map(pedido => (
+          pedidosCliente.busquedaActual.datosQuery.length === 0 ? <TextoVacio entidad="pedidos" />
+            : pedidosCliente.busquedaActual.datosQuery.map(pedido => (
               <PedidoCardCliente pedido={pedido} key={pedido.id} onClick={(pedido) => { setPedido(pedido), setModal(true) }} />
             ))}
+        <div ref={finListaRef}>
+          <p>Fin de lista</p>
+        </div>
       </div>
       <Modal texto={`Pedido de ${clienteContexto.datoSeleccionado.telefono ? formatoTelefonoMostrar(clienteContexto.datoSeleccionado.telefono) : clienteContexto.datoSeleccionado.email ?? ''}`}>
         {pedido ?
