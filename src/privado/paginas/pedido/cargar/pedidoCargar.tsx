@@ -143,13 +143,13 @@ const PedidoCargar = () => {
             <Input<formValuesPedido> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={pedido} />
             <Input<formValuesPedido> name='telefono' control={control} label='Telefono' tipo='text' error={errors.telefono} esquema={pedido} formatValue={(v) => formatTelefono(v)} parseValue={(v) => parseDecimal(v, 12, 2)} />
             <Input<formValuesPedido> name='email' control={control} label='Email' tipo='text' error={errors.email} esquema={pedido} />
+          </div>
             {clientes && clientes.datosQuery.length > 0 &&
               <DesplegablePredictivo
                 children={clientes.datosQuery.map(c => <ClienteDatos cliente={c} selectCliente={handleSelectCliente} key={c.id} />)}
                 finRegistros={finClientes}
               />
             }
-          </div>
           <div className="form-horizontal">
             <Input<formValuesPedido> name='archivos' control={control} label='Archivos' tipo='text' error={errors.archivos} esquema={pedido} />
             <Input<formValuesPedido> name='anillados' control={control} label='Anillados' tipo='text' error={errors.anillados} esquema={pedido} />

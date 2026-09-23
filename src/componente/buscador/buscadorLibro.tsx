@@ -38,7 +38,7 @@ const BuscadorLibro = ({ selectLibro, selectPropuesta }: Prop) => {
         handleMas={handleNuevoElemento}
         valor={valor}
         setValor={setValor}
-        titulo='Lista de libros'
+        titulo=''
         opcionesActivas={opcionesActivas}
         setOpcionesActivas={setOpcionesActivas}
         listaSeleccionable={listaLibroPropuestaSeleccionable}

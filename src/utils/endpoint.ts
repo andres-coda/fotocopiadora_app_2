@@ -7,6 +7,7 @@ export const REGISTRO:string = `${BASE}/usuario`;
 export const LIBRO:string = `${BASE}/libro`;
 export const LIBRO_NOMBRE:string = `${LIBRO}/nombre`
 export const CLIENTE:string = `${BASE}/cliente`;
+export const CLIENTE_ID:string = `${CLIENTE}/idCliente`;
 export const ESPECIFICACION:string = `${BASE}/especificacion`;
 export const COMPONENTE:string = `${BASE}/componente`;
 export const MATERIA:string = `${BASE}/materia`;
