@@ -36,7 +36,7 @@ const limiteBusquedaLibro: number = 3;
 interface libroSelecProp {
   nombre?: string;
   editorial?: string;
-  materia?:string;
+  materia?: string;
 }
 
 const LibroCargar = () => {
@@ -71,7 +71,7 @@ const LibroCargar = () => {
       materia: l.materia.nombre
     });
     setLibroSeleccionado({
-      nombre:l.nombre,
+      nombre: l.nombre,
       editorial: l.editorial ?? '',
       materia: l.materia.nombre ?? ''
     });
@@ -149,7 +149,7 @@ const LibroCargar = () => {
       editorial: e.nombre,
     });
     setLibroSeleccionado(prev => ({
-      ...prev, 
+      ...prev,
       editorial: e.nombre
     }));
   };
@@ -170,7 +170,7 @@ const LibroCargar = () => {
       materia: m.nombre,
     });
     setLibroSeleccionado(prev => ({
-      ...prev, 
+      ...prev,
       materia: m.nombre
     }));
   };
@@ -237,16 +237,14 @@ const LibroCargar = () => {
             finRegistros={finNiveles}
           />}
           <Input<formValuesLibro> name='descripcion' control={control} label='Descripción para impresión' tipo='text' error={errors.descripcion} esquema={libro} />
-          <div className="form-horizontal">
-            <div>
-            <Input<formValuesLibro> name='editorial' control={control} label='Editorial' tipo='text' error={errors.editorial} esquema={libro} />
-            {editoriales && editoriales.datosQuery.length > 0 && <DesplegablePredictivo
-              children={editoriales.datosQuery.map(e => <EditorialCard editorial={e} selectEditorial={handleSelectEditorial} key={e.id} />)}
-              finRegistros={finEditoriales}
-            />}
-          </div>
-            <Input<formValuesLibro> name='autor' control={control} label='Autor' tipo='text' error={errors.autor} esquema={libro} />
-          </div>
+          <Input<formValuesLibro> name='editorial' control={control} label='Editorial' tipo='text' error={errors.editorial} esquema={libro} />
+          {editoriales && editoriales.datosQuery.length > 0 && <DesplegablePredictivo
+            children={editoriales.datosQuery.map(e => <EditorialCard editorial={e} selectEditorial={handleSelectEditorial} key={e.id} />)}
+            finRegistros={finEditoriales}
+          />}
+
+          <Input<formValuesLibro> name='autor' control={control} label='Autor' tipo='text' error={errors.autor} esquema={libro} />
+
           <div className="form-horizontal">
             <Input<formValuesLibro> name='edicion' control={control} label='Edición, ej: 1, 2...' tipo='text' error={errors.edicion} esquema={libro} formatValue={(v) => parseDecimal(v, 2, 0)} parseValue={(v) => parseDecimal(v, 2, 0)} />
             <Input<formValuesLibro> name='anio' control={control} label='Año, ej: 2018' tipo='text' error={errors.anio} esquema={libro} formatValue={(v) => parseDecimal(v, 4, 0)} parseValue={(v) => parseDecimal(v, 4, 0)} />
@@ -266,10 +264,10 @@ const LibroCargar = () => {
             <InputCheck<formValuesLibro> name='trokelado' control={control} label='Trokelado' tipo='checkbox' />
           </div>
           <Input<formValuesLibro> name='materia' control={control} label='Materia' tipo='text' error={errors.materia} esquema={libro} />
-            {materias && materias.datosQuery.length > 0 && <DesplegablePredictivo
-              children={materias.datosQuery.map(e => <MateriaCard materia={e} selectMateria={handleSelectMateria} key={e.id} />)}
-              finRegistros={finMaterias}
-            />}
+          {materias && materias.datosQuery.length > 0 && <DesplegablePredictivo
+            children={materias.datosQuery.map(e => <MateriaCard materia={e} selectMateria={handleSelectMateria} key={e.id} />)}
+            finRegistros={finMaterias}
+          />}
         </>
       </Formulario>
     </Centro>
