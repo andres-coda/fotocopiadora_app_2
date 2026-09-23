@@ -85,6 +85,7 @@
 
 
   background-color: var(--colorSombra);
+  min-height: 80px;
 
   box-sizing: border-box;
 }

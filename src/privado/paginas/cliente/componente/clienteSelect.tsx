@@ -7,7 +7,6 @@ import ClienteDatos from "./clienteDatos";
 import './cliente-select.css'
 import Texto from "../../../../componente-estilo/texto/texto";
 import PedidoCard from "../../pedido/componente/pedidoCard";
-import useClienteApi from "../../../../servicio/cliente/useClienteApi";
 import Cargando from "../../../../componente/cargando/cargando";
 import { useModalContext } from "../../../../contexto/contextoModal";
 import Modal from "../../../../componente/modal/modal";
@@ -15,16 +14,11 @@ import { PedidoProp } from "../../../../modelo/Entidades/pedido/pedido.interface
 import TextoVacio from "../../../../componente/Textos/textoVacio";
 import { estadoPedidoXstring, formatoTelefonoMostrar } from "../../../../utils/formatoDatos";
 import { EstadoPedido } from "../../../../modelo/Entidades/pedido/estadoPedido.enum";
-import useBuscadorCompleto from "../../../../hooks/buscador/useBuscadorCompleto";
-import { filtroLlamada, ReduxProp, UltimaBusquedaProp } from "../../../../redux/modelo/reduxContext.interface";
-import { filtrosInicialesPedido, filtrosPedidoFuntion } from "../../../../filtro/pedido.filtro";
+import { ReduxProp, UltimaBusquedaProp } from "../../../../redux/modelo/reduxContext.interface";
 import PedidoCardCliente from "../../pedido/componente/pedidoCardCliente";
-import { seleccionarCliente } from "../../../../redux/state/cliente.state";
 import usePedidosApi from "../../../../servicio/pedido/usePedidosApi";
-import { agregarPedidosBusquedaActual, crearBusquedaPedido, resetBusquedaPedido } from "../../../../redux/state/pedido.state";
-import { PaginadoProp } from "../../../../adaptadores/entrada/paginado.adapter";
-import useBusquedaPaginada from "../../../../hooks/buscador/useBusquedaPaginada";
-import { BusquedaApiProp } from "../../../../modelo/HTTP/peticiones.interface";
+import { agregarPedidosBusquedaActual, crearBusquedaPedido } from "../../../../redux/state/pedido.state";
+import usePedidoLibrosApi from "../../../../servicio/pedido_libro/usePedidoLibrosApi";
 
 const ClienteSelect = () => {
   const clienteContexto: ReduxProp<ClienteProp> = useSelector((store: appStore) => store.cliente);
@@ -97,9 +91,19 @@ const ClienteSelect = () => {
   }, [pedidosCliente.busquedaActual.query, pedidosCliente.busquedaActual.pagina, estadoSelec]);
 
   const { setModal } = useModalContext();
-  const [pedido, setPedido] = useState<PedidoProp | undefined>(undefined)
+  const [pedido, setPedido] = useState<PedidoProp | undefined>(undefined);
+  const { obtenerPedidoLibrosByPedidoId, responsePedidoLibross, loadingPedidoLibross, errorFetchPedidoLibross } = usePedidoLibrosApi();
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (responsePedidoLibross) {
+      setPedido((prev)=> {
+        if(!prev) return;
+        return {...prev, libroPedidos:responsePedidoLibross.datos }
+    })
+    }
+  }, [responsePedidoLibross]);
 
   useEffect(() => {
     if (responsePedidos) {
@@ -128,6 +132,13 @@ const ClienteSelect = () => {
     }
   }
 
+  const handlePedido= (pedido:PedidoProp) =>{
+    console.log('Pedido: ', pedido)
+    obtenerPedidoLibrosByPedidoId(pedido.id);
+    setPedido(pedido);
+    setModal(true);
+  }
+
   if (!clienteContexto.datoSeleccionado) return <Texto texto={'No se encontro el cliente seleccionado'} />
 
   return (
@@ -150,18 +161,22 @@ const ClienteSelect = () => {
         {errorFetchPedidos && <Texto texto={errorFetchPedidos} />}
         {
           pedidosCliente.busquedaActual.datosQuery.length === 0 ? <TextoVacio entidad="pedidos" />
-            : pedidosCliente.busquedaActual.datosQuery.map(pedido => (
-              <PedidoCardCliente pedido={pedido} key={pedido.id} onClick={(pedido) => { setPedido(pedido), setModal(true) }} />
+            : pedidosCliente.busquedaActual.datosQuery.map(pedidoItem => (
+              <PedidoCardCliente pedido={pedidoItem} key={pedidoItem.id} onClick={handlePedido} />
             ))}
         <div ref={finListaRef}>
           <p>Fin de lista</p>
         </div>
       </div>
-      <Modal texto={`Pedido de ${clienteContexto.datoSeleccionado.telefono ? formatoTelefonoMostrar(clienteContexto.datoSeleccionado.telefono) : clienteContexto.datoSeleccionado.email ?? ''}`}>
+<Modal texto={`Pedido de ${clienteContexto.datoSeleccionado.telefono ? formatoTelefonoMostrar(clienteContexto.datoSeleccionado.telefono) : clienteContexto.datoSeleccionado.email ?? ''}`}>
         {pedido ?
-          <PedidoCard pedido={pedido} activo />
-          : <TextoVacio entidad="pedido" />
-        }
+          <PedidoCard 
+            pedido={pedido} 
+            activo 
+          />
+          : <TextoVacio entidad="pedido" />}
+        {loadingPedidoLibross && <Cargando />}
+        {errorFetchPedidoLibross && <Texto texto={errorFetchPedidoLibross} error chica />}
       </Modal>
     </Centro>
   )

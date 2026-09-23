@@ -19,6 +19,7 @@ import Desplegable from "../../../../componente/formulario/desplegable"
 import { useEffect } from "react"
 import { EstadoPedido } from "../../../../modelo/Entidades/pedido/estadoPedido.enum"
 import CardDatosCliente from "../../../../componente/pedido/cardDatosCliente"
+import Cargando from "../../../../componente/cargando/cargando"
 
 interface Props {
   pedido: PedidoProp;
@@ -60,6 +61,7 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
       {
         activo &&
         <div className="pedidos-internos">
+          {pedido.libroPedidos.length === 0 && <Cargando/>}
           {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} />)}
         </div>
       }
