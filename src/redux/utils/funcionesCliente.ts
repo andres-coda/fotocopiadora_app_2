@@ -11,9 +11,14 @@ export const modificarResumenFuncion = (
     ...state.busquedaActual,
     datosQuery: actualizarResumenLista(action.payload, state.busquedaActual.datosQuery)
   };
+  const newDatosIniciales = {
+    ...state.datosIniciales,
+    datosQuery: actualizarResumenLista(action.payload, state.datosIniciales.datosQuery)
+  };
   return {
     ...state,
     busquedaActual: newBusquedaActual,
+    datosIniciales: newDatosIniciales,
     datoSeleccionado: modificarResumenSelected(action.payload, state.datoSeleccionado)
   };
 };

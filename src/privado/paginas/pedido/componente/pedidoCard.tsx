@@ -28,24 +28,24 @@ interface Props {
 }
 
 const PedidoCard = ({ pedido, onClick, activo }: Props) => {
-   const { control, formState: { errors }, watch } = useForm<formValuesEstadoPedido>({
-      resolver: zodResolver(estadoPedido),
-      defaultValues: estadoPedidoFormEdit(pedido )
-    });
+  const { control, formState: { errors }, watch } = useForm<formValuesEstadoPedido>({
+    resolver: zodResolver(estadoPedido),
+    defaultValues: estadoPedidoFormEdit(pedido)
+  });
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     pedido
   });
 
+  /*
   const estadoActual:EstadoPedido = watch().estado;
-
   useEffect(()=>{
     if(estadoActual != pedido.estado){
-      //cambiarEstadoPedido(pedido.id, estadoActual);
+      cambiarEstadoPedido(pedido.id, estadoActual);
     }
   },[estadoActual])
 
-  /* useEffect(()=>{
+   useEffect(()=>{
     if(responsePedido){
       dispatch(cambiarEstadoPedidoCliente(pedido))
     }
@@ -61,7 +61,7 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
       {
         activo &&
         <div className="pedidos-internos">
-          {pedido.libroPedidos.length === 0 && <Cargando/>}
+          {pedido.libroPedidos.length === 0 && <Cargando />}
           {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} idPedido={pedido.id} />)}
         </div>
       }
