@@ -6,6 +6,7 @@ import { SedeAdapterProp, sedeInicial, SedeProp } from "../sede/sede.interface";
 import { Estado } from "./estado.enum";
 
 export interface PedidoLibroAdapterProp extends BaseAdapterProp {
+  idPedido: string;
   cantidad: number;
   detalles?: string;
   estado: Estado;
@@ -15,6 +16,7 @@ export interface PedidoLibroAdapterProp extends BaseAdapterProp {
 }
 
 export interface PedidoLibroProp extends BaseProp {
+  idPedido:string;
   cantidad: number;
   detalles?: string;
   estado: Estado;
@@ -35,6 +37,7 @@ export interface PedidoLibroConstruccionProp {
 
 export const pedidoLibroInicial: PedidoLibroProp = {
   ...baseInicial,
+  idPedido: baseInicial.id,
   cantidad: 0,
   detalles: '',
   estado: Estado.CANCELADO,

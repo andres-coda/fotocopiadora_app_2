@@ -22,6 +22,7 @@ export const pedidoLibroAdapter = (pedidoLibro?: PedidoLibroAdapterProp): Pedido
 
   const newPedidoLibro: PedidoLibroProp = {
     ...base,
+    idPedido: pedidoLibro.idPedido,
     cantidad: pedidoLibro.cantidad,
     detalles: pedidoLibro.detalles,
     estado: pedidoLibro.estado,

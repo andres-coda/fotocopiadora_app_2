@@ -17,6 +17,7 @@ import PropuestaCargar from "./paginas/propuesta/cargar/propuestaCargar";
 import { ProveiderPedidoContext } from "../contexto/contextoPedido";
 import Libros_lista from "./paginas/libro/libro_lista";
 import Cliente_lista from "./paginas/cliente/cliente_lista";
+import ItemsLista from "./paginas/item/item_lista";
 
 const PrivadoRuta = () => {
   return (
@@ -39,6 +40,7 @@ const PrivadoRuta = () => {
             <Route path={RutasPrivadas.PEDIDO_LISTA} element={<Pedidos />}></Route>
             <Route path={RutasPrivadas.PROPUESTA_CARGAR} element={<PropuestaCargar />}></Route>
             <Route path={RutasPrivadas.PEDIDO_CARGAR} element={<PedidoCargar />}></Route>
+            <Route path={RutasPrivadas.PEDIDO_LIBRO_LISTA} element={<ItemsLista />}></Route>
           </RutaInvalida>
         </ProveiderPedidoContext>
       </PrivadoContenedor>
