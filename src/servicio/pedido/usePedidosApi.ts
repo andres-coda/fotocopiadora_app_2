@@ -1,6 +1,6 @@
 import { pedidoAdapter } from "../../adaptadores/entrada/pedido.adapter";
-import { EstadoPedido } from "../../modelo/Entidades/pedido/estadoPedido.enum";
 import { PedidoAdapterProp, PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
+import { Estado } from "../../modelo/Entidades/pedido_libro/estado.enum";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { BusquedaApiProp } from "../../modelo/HTTP/peticiones.interface";
 import { limiteDefecto } from "../../utils/constantes";
@@ -10,7 +10,7 @@ import useApiPaginado from "../hooks/useApiPaginado";
 interface ObtenerPedidosByClienteIdProp extends Omit<BusquedaApiProp, 'query'>{
   idCliente:string;
   orden?:string;
-  estado?: EstadoPedido;
+  estado?: Estado;
 }
 
 const usePedidosApi = () => {

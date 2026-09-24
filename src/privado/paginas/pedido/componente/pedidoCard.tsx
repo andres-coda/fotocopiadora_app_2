@@ -62,7 +62,7 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
         activo &&
         <div className="pedidos-internos">
           {pedido.libroPedidos.length === 0 && <Cargando/>}
-          {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} />)}
+          {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} idPedido={pedido.id} />)}
         </div>
       }
       <CardDatosCliente pedido={pedido} />

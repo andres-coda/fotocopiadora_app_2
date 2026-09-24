@@ -1,22 +1,51 @@
-import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { ResumenProp } from "../../modelo/Entidades/cliente/resumen.interface";
 import { StockProp } from "../../modelo/Entidades/libro/stock.interface";
-import { CambiarEstadoLibroPedidoAdapterProp, CambiarEstadoLibroPedidoProp } from "../../modelo/Entidades/pedido_libro/cambioEstado.interface";
-import { baseAdapter } from "./base.adapter";
-import { resumenAdapter } from "./resumen.adapter";
-import { stockAdapter } from "./stock.adapter";
+import { CambiarEstadoLibroPedidoAdapterProp, CambiarEstadoLibroPedidoProp, ResumenGeneralAdapterProp } from "../../modelo/Entidades/pedido_libro/cambioEstado.interface";
 
-export const cambiarEstadoLibroPedidoAdapter = (prop: CambiarEstadoLibroPedidoAdapterProp) :CambiarEstadoLibroPedidoProp =>{
-  const base: BaseProp | undefined = baseAdapter({base:prop});
-  if(!base) throw Error('El cambio de estado no trae id')
-  const stock:StockProp = stockAdapter(prop.stock);
-  const resumen:ResumenProp = resumenAdapter(prop.resumen);
+interface Prop {
+  id: string;
+  resumen: ResumenGeneralAdapterProp;
+}
+
+const cambiarEstadoResumenClienteAdapter = (prop: Prop): ResumenProp => {
+  return {
+    id: prop.id,
+    ultAct: 'No se conoce',
+    deleted: false,
+    pendiente: prop.resumen.pendiente,
+    listo: prop.resumen.listo,
+    retirado: prop.resumen.retirado,
+    cancelado: prop.resumen.cancelado
+  }
+}
+
+const cambiarEstadoResumenLibroAdapter = (prop: Prop): StockProp => {
+  return {
+    id: prop.id,
+    ultAct: 'No se conoce',
+    deleted: false,
+    pendiente: prop.resumen.pendiente,
+    listo: prop.resumen.listo,
+    retirado: prop.resumen.retirado,
+    cancelado: prop.resumen.cancelado,
+    stock: prop.resumen.stock ?? 0,
+  }
+}
+
+export const cambiarEstadoLibroPedidoAdapter = (prop: CambiarEstadoLibroPedidoAdapterProp): CambiarEstadoLibroPedidoProp => {
+
+  const resumenLibro: StockProp = cambiarEstadoResumenLibroAdapter({ id: prop.libro.id, resumen: prop.libro.stock });
+  const resumenCliente: ResumenProp = cambiarEstadoResumenClienteAdapter({ id: prop.pedido.cliente.id, resumen: prop.pedido.cliente.resumen });
 
   return {
-    ...base,
-    stock,
-    resumen,
-    estado:prop.estado,
-    pedido:{estado:prop.pedido.estado}
+    idPedido: prop.idPedido,
+    nro: prop.id,
+    estado: prop.estado,
+    stock: resumenLibro,
+    resumenCliente,
+    pedido: {
+      id: prop.idPedido,
+      estado: prop.pedido.estado
+    },
   }
 }

@@ -9,7 +9,6 @@ export interface BaseProp{
   id: string;
   ultAct: string;
   deleted: boolean;
-  campoBusqueda?: { valor: string; tipo?: TipoBusqueda }[];
 }
 
 export enum TipoBusqueda {

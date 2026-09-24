@@ -1,5 +1,4 @@
 import { LibroProp } from "../modelo/Entidades/libro/libro.interface";
-import { EstadoPedido } from "../modelo/Entidades/pedido/estadoPedido.enum";
 import { Estado } from "../modelo/Entidades/pedido_libro/estado.enum";
 
 export const normalizarTexto = (texto: string | undefined): string => {
@@ -37,10 +36,10 @@ export const claseXestado = (estado: Estado): string => {
   return 'pendiente'
 }
 
-export const claseXestadoPedido = (estado: EstadoPedido): string => {
-  if (estado === EstadoPedido.LISTO) return 'listo';
-  if (estado === EstadoPedido.RETIRADO) return 'retirado';
-  if (estado === EstadoPedido.CANCELADO) return 'cancelado';
+export const claseXestadoPedido = (estado: Estado): string => {
+  if (estado === Estado.LISTO) return 'listo';
+  if (estado === Estado.RETIRADO) return 'retirado';
+  if (estado === Estado.CANCELADO) return 'cancelado';
   return 'pendiente'
 }
 
@@ -57,12 +56,12 @@ export const estadoXstring = (estado: Estado): string => {
   }
 }
 
-export const estadoPedidoXstring = (estado: EstadoPedido): string => {
+export const estadoPedidoXstring = (estado: Estado): string => {
   switch (estado) {
-    case EstadoPedido.PENDIENTE: return 'Pendiente';
-    case EstadoPedido.LISTO: return 'Listo';
-    case EstadoPedido.RETIRADO: return 'Retirado';
-    case EstadoPedido.CANCELADO: return 'Cancelado';
+    case Estado.PENDIENTE: return 'Pendiente';
+    case Estado.LISTO: return 'Listo';
+    case Estado.RETIRADO: return 'Retirado';
+    case Estado.CANCELADO: return 'Cancelado';
     default: return 'todavía no se resolvió este estado';
   }
 }

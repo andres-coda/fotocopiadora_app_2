@@ -1,19 +1,44 @@
-import { BaseAdapterProp, BaseProp } from "../base/base.interface";
-import { ResumenAdapterProp, ResumenProp } from "../cliente/resumen.interface";
-import { StockAdapterProp, StockProp } from "../libro/stock.interface";
+import { ResumenProp } from "../cliente/resumen.interface";
+import { StockProp } from "../libro/stock.interface";
 import { EstadoPedido } from "../pedido/estadoPedido.enum";
 import { Estado } from "./estado.enum";
 
-export interface CambiarEstadoLibroPedidoAdapterProp extends BaseAdapterProp {
+
+export interface CambiarEstadoLibroPedidoAdapterProp {
+  idPedido: string;
+  id: number;
   estado: Estado;
-  stock: StockAdapterProp;
-  pedido: {estado: EstadoPedido};
-  resumen: ResumenAdapterProp;
+  pedido: {
+    id: string;
+    estado: EstadoPedido;
+    cliente: {
+      id: string,
+      resumen: ResumenGeneralAdapterProp
+    }
+  };
+  libro: {
+    id: string;
+    stock: ResumenGeneralAdapterProp
+  }
 }
 
-export interface CambiarEstadoLibroPedidoProp extends BaseProp {
+export interface ResumenGeneralAdapterProp {
+  pendiente: number;
+  listo: number;
+  retirado: number;
+  cancelado: number;
+  stock?: number;
+
+}
+
+export interface CambiarEstadoLibroPedidoProp {
+  idPedido: string;
+  nro: number;
   estado: Estado;
   stock: StockProp;
-  pedido: {estado: EstadoPedido};
-  resumen: ResumenProp;
+  pedido: {
+    id: string;
+    estado: Estado
+  };
+  resumenCliente: ResumenProp;
 }

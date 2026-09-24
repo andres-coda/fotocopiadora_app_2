@@ -1,5 +1,6 @@
 import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
 import { ClienteAdapterProp, clienteInicial, ClienteProp } from "../cliente/cliente.interface";
+import { Estado } from "../pedido_libro/estado.enum";
 import { PedidoLibroAdapterProp, pedidoLibroInicial, PedidoLibroProp } from "../pedido_libro/pedidoLibro.interface";
 import { EstadoPedido } from "./estadoPedido.enum";
 
@@ -9,7 +10,7 @@ export interface PedidoAdapterProp extends BaseAdapterProp{
   archivos: number;
   anillados: number;
   sena: number;
-  estado:EstadoPedido;
+  estado:Estado;
   cliente: ClienteAdapterProp;
   libroPedidos: PedidoLibroAdapterProp[];
 }
@@ -21,7 +22,7 @@ export interface PedidoProp extends BaseProp{
   archivos: number;
   anillados: number;
   sena: number;
-  estado:EstadoPedido;
+  estado:Estado;
   libroPedidos: PedidoLibroProp[];
   cliente: ClienteProp;
 }
@@ -35,7 +36,7 @@ export const pedidoInicial :PedidoProp= {
   archivos: 0,
   anillados: 0,
   sena: 0,
-  estado: EstadoPedido.PENDIENTE,
+  estado: Estado.PENDIENTE,
   cliente: clienteInicial,
   libroPedidos: [pedidoLibroInicial]
 }

@@ -15,12 +15,15 @@ import { useDispatch } from "react-redux";
 import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
 import useCambiarEstadoPedidoLibroApi from "../../../../servicio/pedido_libro/useCambiarEstadoPedidolibroApi";
 import { actualizarStock } from "../../../../redux/state/libro.state";
+import { actualizarResumenCliente } from "../../../../redux/state/cliente.state";
+import { cambiarEstadoPedido } from "../../../../redux/state/pedido.state";
 
 interface Prop {
   pL: PedidoLibroProp;
+  idPedido: string;
 }
 
-const PedidoLibroXPedidoCard = ({ pL}: Prop) => {
+const PedidoLibroXPedidoCard = ({ pL, idPedido}: Prop) => {
   const { cambiarEstadoPedidoLibro, responsePedidoLibro, loadingPedidoLibro, errorFetchPedidoLibro } = useCambiarEstadoPedidoLibroApi();
   const { control, formState: { errors }, watch } = useForm<formValuesEstado>({
     resolver: zodResolver(estado),
@@ -34,13 +37,15 @@ const PedidoLibroXPedidoCard = ({ pL}: Prop) => {
 
   useEffect(() => {
     if (estadoActual != clasEstado) {
-      cambiarEstadoPedidoLibro(pL.id, estadoActual);
+      cambiarEstadoPedidoLibro({idPedido, nroPedido:pL.id, estado: estadoActual});
     }
   }, [estadoActual])
 
   useEffect(() => {
     if (responsePedidoLibro) {
       dispatch(actualizarStock(responsePedidoLibro));
+      dispatch(actualizarResumenCliente(responsePedidoLibro));
+      dispatch(cambiarEstadoPedido(responsePedidoLibro));
       setClasEstado(responsePedidoLibro.estado);
     }
   }, [responsePedidoLibro]);

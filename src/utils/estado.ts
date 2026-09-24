@@ -58,3 +58,4 @@ export const pasarEstadoDesplegable = (estadosP?: estadoPedidoXdesplegable[], es
   });
   return opciones
 }
+

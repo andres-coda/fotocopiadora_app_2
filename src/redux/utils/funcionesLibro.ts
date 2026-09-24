@@ -13,15 +13,21 @@ export const modificarStockFuncion = (
     datosQuery: actualizarStockLista(action.payload, state.busquedaActual.datosQuery)
   };
 
+  const newDatosIniciales = {
+    ...state.datosIniciales,
+    datosQuery: actualizarStockLista(action.payload, state.busquedaActual.datosQuery)
+  };
+
   return {
     ...state,
+    datosIniciales: newDatosIniciales,
     busquedaActual: newBusquedaActual,
     datoSeleccionado: modificarStockSelected(action.payload, state.datoSeleccionado)
   };
 };
 
 const modificarStockSelected = (prop: CambiarEstadoLibroPedidoProp, libro: LibroProp | undefined): LibroProp | undefined => {
-  if (!prop?.stock || !libro || libro.stock?.id != prop.stock.id) return libro;
+  if (!prop?.stock || !libro || libro.id != prop.stock.id) return libro;
   return {
     ...libro,
     stock: prop.stock
@@ -31,7 +37,7 @@ const modificarStockSelected = (prop: CambiarEstadoLibroPedidoProp, libro: Libro
 const actualizarStockLista = (prop: CambiarEstadoLibroPedidoProp, libros: LibroProp[]): LibroProp[] => {
   if (!prop?.stock || !libros || libros.length === 0) return libros;
   return libros.map(l => {
-    if (l.stock?.id != prop.stock.id) return l;
+    if (l.id != prop.stock.id) return l;
     return {
       ...l,
       stock: prop.stock

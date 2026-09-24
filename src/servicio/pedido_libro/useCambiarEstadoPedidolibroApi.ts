@@ -5,14 +5,18 @@ import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { PEDIDO_LIBRO_CAMBIO_ESTADO } from "../../utils/endpoint";
 import useApi from "../hooks/useApi";
 
-
+interface cambioEstadoProp {
+  idPedido: string,
+  nroPedido:string,
+  estado: Estado
+}
 
 
 const useCambiarEstadoPedidoLibroApi = () => {
   const { fetchData, response, loading, errorFetch } = useApi<CambiarEstadoLibroPedidoProp>({});
 
-  const cambiarEstadoPedidoLibro = (id_pedido:string, estado: Estado) =>
-    fetchData({ url: `${PEDIDO_LIBRO_CAMBIO_ESTADO}/${id_pedido}`, methodo: httpMethod.PATCH, bodyData: JSON.stringify({ estado }), adapter:cambiarEstadoLibroPedidoAdapter });
+  const cambiarEstadoPedidoLibro = ({idPedido, nroPedido, estado}:cambioEstadoProp) =>
+    fetchData({ url: `${PEDIDO_LIBRO_CAMBIO_ESTADO}/${idPedido}/${nroPedido}`, methodo: httpMethod.PATCH, bodyData: JSON.stringify({ estado }), adapter:cambiarEstadoLibroPedidoAdapter });
 
 
   return { cambiarEstadoPedidoLibro, responsePedidoLibro: response, loadingPedidoLibro: loading, errorFetchPedidoLibro: errorFetch };

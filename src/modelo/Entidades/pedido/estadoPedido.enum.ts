@@ -1,6 +1,6 @@
 export enum EstadoPedido {
   PENDIENTE = 1,
-  LISTO = 2,
-  RETIRADO = 3,
-  CANCELADO = 4
+  LISTO = 4,
+  RETIRADO = 5,
+  CANCELADO = 6
 }
