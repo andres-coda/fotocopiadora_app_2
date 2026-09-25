@@ -6,13 +6,13 @@
   gap: 1rem;
   padding: .5rem;
   margin: 0;
-  
+
   background-color: var(--colorFondo);
   align-items: start;
-  
+
   border-radius: 5px;
   box-sizing: border-box;
-  
+
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-color: var(--colorSubmenu) var(--colorSombra);

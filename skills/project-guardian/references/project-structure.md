@@ -148,6 +148,7 @@ src-tauri/
 | **Páginas** | Estructura: `cargar/`, `componente/`, `contexto/` (opcional), `hook/` (opcional), `util/` (opcional) |
 | **Filtros** | `*.filtro.ts` + `filtro.interface.ts` base |
 | **Rutas** | `rutasPrivadas.ts` / `rutasPublicas.ts` exportan arrays de rutas |
+| **Params método** | Interface única (`NombreMetodoParams`) si >1 parámetro; 1 parámetro permitido directo |
 
 ---
 

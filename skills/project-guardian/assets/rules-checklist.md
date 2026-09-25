@@ -25,6 +25,10 @@
   - [ ] Componentes de dominio en `componente/`
   - [ ] Páginas en `privado/paginas/` o `publico/paginas/`
 - [ ] **Regla 4**: ¿Justificación documentada en el plan?
+- [ ] **Regla 5 (Convención)**: ¿Nuevos métodos usan **interface única para parámetros**?
+  - [ ] Si el método tiene **>1 parámetro**: definir `interface NombreMetodoParams { ... }` y tipar `params: NombreMetodoParams`
+  - [ ] Si el método tiene **exactamente 1 parámetro**: permitido pasarlo directo (primitivo u objeto simple)
+  - [ ] Aplica a: servicios, hooks, adaptadores, componentes, utils, helpers
 
 ---
 

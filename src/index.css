@@ -51,6 +51,9 @@
   --colorBlanco: #f2f2f3;
   --colorNegro: #000000;
   --colorPropuesta: #e9b882;
+
+  /* Alto del contenedor grid con scroll (pedidos, clientes, etc.) */
+  --grid-alto: calc(100vh - 220px);
 }
 
 html,

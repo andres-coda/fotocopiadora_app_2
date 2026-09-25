@@ -4,19 +4,21 @@ import Titulo from "../texto/titulo";
 
 interface CentroProp {
   children?: ReactNode | undefined;
-  texto?:string;
+  texto?: string;
   ref?: RefObject<HTMLDivElement>;
-  chico?:boolean;
+  chico?: boolean;
   nuevoEstilo?: string;
 }
 
-const Centro =  forwardRef<HTMLDivElement, CentroProp>(({children, texto, chico=undefined, nuevoEstilo = undefined}, ref)=>{
-  return (
-    <div className={`centro ${chico ? 'centro-chico':''} ${nuevoEstilo ? nuevoEstilo : ''}`} ref={ref}>
-      {texto && <Titulo titulo={texto}/>}
-      {children}
-    </div>
-  )
-});
+const Centro = forwardRef<HTMLDivElement, CentroProp>(
+  ({ children, texto, chico = undefined, nuevoEstilo = undefined }, ref) => {
+    return (
+      <div className={`centro ${chico ? 'centro-chico' : ''} ${nuevoEstilo ? nuevoEstilo : ''}`} ref={ref}>
+        {texto && <Titulo titulo={texto} />}
+        {children}
+      </div>
+    )
+  }
+)
 
-export default Centro;
+export default Centro
