@@ -4,7 +4,7 @@ import Texto from "../../../../componente-estilo/texto/texto";
 import EspecificacionCard from "../../../../componente/especificaciones/especificacionCard";
 import Desplegable from "../../../../componente/formulario/desplegable";
 import { PedidoLibroProp } from "../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import { transformarEspeAEnum } from "../../../../utils/especificaciones";
+
 import { claseXestado, nombreLibroXstring } from "../../../../utils/formatoDatos";
 import './pedidoCard.css'
 import { estado, estadoFormEdit, formValuesEstado } from "../../../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface";
@@ -40,6 +40,7 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido }: Prop) => {
     resolver: zodResolver(estado),
     defaultValues: estadoFormEdit(pL)
   });
+  console.log('<<<--- Sede --->>>', pL.sede)
   const { control: controlSede, formState: { errors: erSede }, watch: watchSede } = useForm<formValuesSede>({
     resolver: zodResolver(sede),
     defaultValues: sedeFormEdit(pL.sede)
@@ -111,7 +112,26 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido }: Prop) => {
         <div className="estado-contenedor">
           {
             !loadingItem ?
-              <Desplegable<formValuesSede> name="nombre" control={controlSede} label="Seleccione nueva sede" error={erSede.nombre} esquema={sede} alingDerecha opciones={pasarDesplegable<SedeProp>({ items: sedes.datosIniciales.datosQuery })} nuevoEstilo="desplegable-estado" texto="Sede: "/>
+              (() => {
+                const todasLasSedes = sedes.datosIniciales?.datosQuery ?? []
+                const sedeActual = pL.sede
+                const sedesOrdenadas = sedeActual
+                  ? [sedeActual, ...todasLasSedes.filter(s => s.id !== sedeActual.id)]
+                  : todasLasSedes
+                return (
+                  <Desplegable<formValuesSede>
+                    name="nombre"
+                    control={controlSede}
+                    label="Seleccione nueva sede"
+                    error={erSede.nombre}
+                    esquema={sede}
+                    alingDerecha
+                    opciones={pasarDesplegable<SedeProp>({ items: sedesOrdenadas })}
+                    nuevoEstilo="desplegable-estado"
+                    texto="Sede: "
+                  />
+                )
+              })()
               : <Texto texto={'Cambiando...'} chica ajustado />
           }
           {
