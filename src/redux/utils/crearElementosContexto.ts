@@ -76,7 +76,7 @@ export const crearElementosContexto = ({
     dispatch(crearPedidos(pd as any));
   }
   if (pedidoLibros) {
-    const pl: UltimaBusquedaProp<PedidoLibroProp> = convertirArrayAUltimaBusqueda<PedidoLibroProp>(pedidoLibros, 'ultAct' as keyof PedidoLibroProp, 'asc');
+    const pl: UltimaBusquedaProp<PedidoLibroProp> = convertirDatoPlaydon<PedidoLibroProp>(pedidoLibros, 'ultAct' as keyof PedidoLibroProp, 'asc');
     dispatch(crearPedidoLibros(pl as any));
   }
   if (precios) {

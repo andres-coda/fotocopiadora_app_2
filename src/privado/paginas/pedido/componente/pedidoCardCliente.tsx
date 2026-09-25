@@ -34,7 +34,7 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     pedido
   });
-
+/* 
   const estadoActual:EstadoPedido = watch().estado;
 
   useEffect(()=>{
@@ -42,7 +42,7 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
       //cambiarEstadoPedido(pedido.id, estadoActual);
     }
   },[estadoActual])
-
+ */
   /* useEffect(()=>{
     if(responsePedido){
       dispatch(cambiarEstadoPedidoCliente(pedido))
@@ -59,7 +59,7 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
       {
         activo &&
         <div className="pedidos-internos">
-          {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} />)}
+          {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} idPedido={pedido.id}/>)}
         </div>
       }
       <CardImporte pedido={pedido} />
