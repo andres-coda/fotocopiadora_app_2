@@ -1,5 +1,4 @@
 import { Opcion } from "../componente/formulario/modelo/input.interface";
-import { EstadoPedido } from "../modelo/Entidades/pedido/estadoPedido.enum";
 import { PedidoProp } from "../modelo/Entidades/pedido/pedido.interface";
 import { Estado } from "../modelo/Entidades/pedido_libro/estado.enum";
 
@@ -40,15 +39,15 @@ export const estadosParaDesplegable: estadoXdesplegable[] = [
 ];
 
 interface estadoPedidoXdesplegable {
-  clave: EstadoPedido;
+  clave: Estado;
   nombre: string;
 }
 
 export const estadosPedidoParaDesplegable: estadoPedidoXdesplegable[] = [
-  { clave: EstadoPedido.PENDIENTE, nombre: 'Pendiente' },
-  { clave: EstadoPedido.LISTO, nombre: 'Listo' },
-  { clave: EstadoPedido.RETIRADO, nombre: 'Retirado' },
-  { clave: EstadoPedido.CANCELADO, nombre: 'Cancelado' },
+  { clave: Estado.PENDIENTE, nombre: 'Pendiente' },
+  { clave: Estado.LISTO, nombre: 'Listo' },
+  { clave: Estado.RETIRADO, nombre: 'Retirado' },
+  { clave: Estado.CANCELADO, nombre: 'Cancelado' },
 ];
 
 export const pasarEstadoDesplegable = (estadosP?: estadoPedidoXdesplegable[], estadosPl?: estadoXdesplegable[]): Opcion[] => {

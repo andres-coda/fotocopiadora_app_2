@@ -2,7 +2,6 @@ import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
 import { ClienteAdapterProp, clienteInicial, ClienteProp } from "../cliente/cliente.interface";
 import { Estado } from "../pedido_libro/estado.enum";
 import { PedidoLibroAdapterProp, pedidoLibroInicial, PedidoLibroProp } from "../pedido_libro/pedidoLibro.interface";
-import { EstadoPedido } from "./estadoPedido.enum";
 
 export interface PedidoAdapterProp extends BaseAdapterProp{
   fechaEntrega: string;

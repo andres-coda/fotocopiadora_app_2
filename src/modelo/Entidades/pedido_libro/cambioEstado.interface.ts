@@ -1,6 +1,5 @@
 import { ResumenProp } from "../cliente/resumen.interface";
 import { StockProp } from "../libro/stock.interface";
-import { EstadoPedido } from "../pedido/estadoPedido.enum";
 import { Estado } from "./estado.enum";
 
 
@@ -10,7 +9,7 @@ export interface CambiarEstadoLibroPedidoAdapterProp {
   estado: Estado;
   pedido: {
     id: string;
-    estado: EstadoPedido;
+    estado: Estado;
     cliente: {
       id: string,
       resumen: ResumenGeneralAdapterProp

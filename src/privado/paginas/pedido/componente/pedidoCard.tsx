@@ -16,8 +16,6 @@ import { useForm } from "react-hook-form"
 import { estado, estadoPedido, estadoPedidoFormEdit, formValuesEstadoPedido } from "../../../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Desplegable from "../../../../componente/formulario/desplegable"
-import { useEffect } from "react"
-import { EstadoPedido } from "../../../../modelo/Entidades/pedido/estadoPedido.enum"
 import CardDatosCliente from "../../../../componente/pedido/cardDatosCliente"
 import Cargando from "../../../../componente/cargando/cargando"
 
@@ -38,7 +36,7 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
   });
 
   /*
-  const estadoActual:EstadoPedido = watch().estado;
+  const estadoActual:Estado = watch().estado;
   useEffect(()=>{
     if(estadoActual != pedido.estado){
       cambiarEstadoPedido(pedido.id, estadoActual);

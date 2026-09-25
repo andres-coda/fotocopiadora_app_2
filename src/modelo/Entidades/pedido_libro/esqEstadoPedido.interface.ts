@@ -2,7 +2,6 @@ import { z } from "zod";
 import { Estado } from "./estado.enum";
 import { PedidoLibroProp } from "./pedidoLibro.interface";
 import { PedidoProp } from "../pedido/pedido.interface";
-import { EstadoPedido } from "../pedido/estadoPedido.enum";
 
 export const estado = z.object({
   estado: z.enum(Estado)
@@ -20,13 +19,13 @@ export const estadoFormEdit = (pl:PedidoLibroProp): formValuesEstado => {
 }
 
 export const estadoPedido = z.object({
-  estado: z.enum(EstadoPedido)
+  estado: z.enum(Estado)
 });
 
 export type formValuesEstadoPedido = z.infer<typeof estadoPedido>;
 
 export const estadoPedidoFormDefault: formValuesEstadoPedido = {
-  estado: EstadoPedido.PENDIENTE
+  estado: Estado.PENDIENTE
 }
 
 export const estadoPedidoFormEdit = (pedido:PedidoProp): formValuesEstadoPedido => {

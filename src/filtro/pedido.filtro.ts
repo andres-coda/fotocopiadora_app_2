@@ -1,5 +1,5 @@
 import { CampoBusqueda } from "../modelo/Entidades/base/base.interface";
-import { EstadoPedido } from "../modelo/Entidades/pedido/estadoPedido.enum";
+import { Estado } from "../modelo/Entidades/pedido_libro/estado.enum";
 import { PedidoAdapterProp, PedidoProp } from "../modelo/Entidades/pedido/pedido.interface";
 import { filtroLlamada } from "../redux/modelo/reduxContext.interface";
 import { normalizarTexto } from "../utils/formatoDatos";
@@ -8,17 +8,17 @@ import { FiltroIndividual } from "./filtro.interface";
 export const pedidoKeyBuscador: (keyof PedidoProp)[] = ['fechaEntrega'];
 
 export const filtrosInicialesPedido: filtroLlamada[] = [
-  { id: `${EstadoPedido.PENDIENTE}`, estado: false },
-  { id: `${EstadoPedido.LISTO}`, estado: false },
-  { id: `${EstadoPedido.RETIRADO}`, estado: false },
-  { id: `${EstadoPedido.CANCELADO}`, estado: false },
+  { id: `${Estado.PENDIENTE}`, estado: false },
+  { id: `${Estado.LISTO}`, estado: false },
+  { id: `${Estado.RETIRADO}`, estado: false },
+  { id: `${Estado.CANCELADO}`, estado: false },
 ]
 
 export const filtrosPedidoFuntion: FiltroIndividual<PedidoProp>[] = [
-  {id: `${EstadoPedido.PENDIENTE}`, filtro:(pedido:PedidoProp) => pedido.estado === EstadoPedido.PENDIENTE ? true : false },
-  {id: `${EstadoPedido.LISTO}`, filtro:(pedido:PedidoProp) => pedido.estado === EstadoPedido.LISTO ? true : false },
-  {id: `${EstadoPedido.RETIRADO}`, filtro:(pedido:PedidoProp) => pedido.estado === EstadoPedido.RETIRADO ? true : false },
-  {id: `${EstadoPedido.CANCELADO}`, filtro:(pedido:PedidoProp) => pedido.estado === EstadoPedido.CANCELADO ? true : false },
+  {id: `${Estado.PENDIENTE}`, filtro:(pedido:PedidoProp) => pedido.estado === Estado.PENDIENTE ? true : false },
+  {id: `${Estado.LISTO}`, filtro:(pedido:PedidoProp) => pedido.estado === Estado.LISTO ? true : false },
+  {id: `${Estado.RETIRADO}`, filtro:(pedido:PedidoProp) => pedido.estado === Estado.RETIRADO ? true : false },
+  {id: `${Estado.CANCELADO}`, filtro:(pedido:PedidoProp) => pedido.estado === Estado.CANCELADO ? true : false },
 ]
 
 export const camposBusquedaPedido: CampoBusqueda<PedidoAdapterProp>[] = [
