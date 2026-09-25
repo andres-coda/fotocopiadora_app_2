@@ -12,6 +12,10 @@
   overflow-y: auto;
 }
 
+.pedido-cliente-card{
+  min-height: 115px;
+}
+
 .retirado {
   background-color: var(--colorCardGris);
 }
@@ -120,7 +124,7 @@
 .desplegable-estado{
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   width: fit-content;
   margin: 0;
   padding: 0;
@@ -190,6 +194,6 @@
 .estado-contenedor{
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  flex: 1;
+  justify-content: space-between;
+  width: 100%;
 }

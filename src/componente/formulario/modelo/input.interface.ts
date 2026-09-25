@@ -25,4 +25,5 @@ export interface Opcion {
 
 export interface DesplegableProps<T extends FieldValues> extends InputProps<T> {
   opciones: Opcion[];
+  texto?: string;
 }

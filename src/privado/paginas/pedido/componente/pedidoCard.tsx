@@ -23,9 +23,11 @@ interface Props {
   pedido: PedidoProp;
   onClick?: (pedido: PedidoProp) => void;
   activo?: boolean;
+  cliente?:boolean;
+  nuevoEstilo?: string;
 }
 
-const PedidoCard = ({ pedido, onClick, activo }: Props) => {
+const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) => {
   const { control, formState: { errors }, watch } = useForm<formValuesEstadoPedido>({
     resolver: zodResolver(estadoPedido),
     defaultValues: estadoPedidoFormEdit(pedido)
@@ -52,7 +54,7 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
   return (
     <Card
       onClick={onClick ? () => onClick(pedido) : undefined}
-      nuevoEstilo={`card-pedido ${activo ? 'card-pedido-activo' : ''}`}
+      nuevoEstilo={`card-pedido ${nuevoEstilo ? nuevoEstilo : ''} ${activo ? 'card-pedido-activo' : ''}`}
     >
       <CardFechas pedido={pedido} />
       <CardArchivos pedido={pedido} />
@@ -63,7 +65,7 @@ const PedidoCard = ({ pedido, onClick, activo }: Props) => {
           {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} idPedido={pedido.id} />)}
         </div>
       }
-      <CardDatosCliente pedido={pedido} />
+      {!cliente && <CardDatosCliente pedido={pedido} />}
       <CardImporte pedido={pedido} />
       {
         activo &&

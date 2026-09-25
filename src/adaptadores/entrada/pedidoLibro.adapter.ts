@@ -17,7 +17,6 @@ export const pedidoLibroAdapter = (pedidoLibro?: PedidoLibroAdapterProp): Pedido
 
   const libro: LibroProp | undefined = libroAdapter(pedidoLibro.libro);
   const sede: SedeProp | undefined = sedeAdapter(pedidoLibro.sede);
-  const especificaciones: EspecificacionProp[] = especificacionAdapterArray(pedidoLibro.especificaciones);
 
 
   const newPedidoLibro: PedidoLibroProp = {
@@ -28,7 +27,7 @@ export const pedidoLibroAdapter = (pedidoLibro?: PedidoLibroAdapterProp): Pedido
     estado: pedidoLibro.estado,
     libro: libro || libroInicial,
     sede: sede || sedeInicial,
-    especificaciones,
+    especificaciones: pedidoLibro.especificaciones,
   }
   return newPedidoLibro;
 }

@@ -15,35 +15,40 @@ const Desplegable = <T extends FieldValues>({
   onBlur,
   esquema,
   nuevoEstilo = undefined,
+  texto = undefined
 }: DesplegableProps<T>) => {
   return (
-    <div className={`inputs-span ${nuevoEstilo ? nuevoEstilo : ''}`}>
-      <span>{esCampoRequerido(esquema, name) && <Texto texto='*' derecha chica negrita error />}</span>
-      <div className={`inputs-entero ${error ? 'is-invalida': ''} ${alingDerecha ? 'alin-derecha' : ''}`}>
-        <Controller
-          name={name}
-          control={control}
-          render={({ field }) =>
-            <select
-              id={String(name)}
-              {...field}
-              value={field.value ?? ""}
-              onFocus={onFocus}
-              onBlur={onBlur}
-            >
-              <option value="" disabled>Seleccionar...</option>
-              {opciones.map((op) => (
-                <option key={op.value} value={op.value}>
-                  {op.label}
-                </option>
-              ))}
-            </select>}
-        />
-        <label htmlFor={String(name)}>
-          {label}
-        </label>
+    <div className='desplegable-horizontal'>
+      { texto ? <Texto texto={texto} chica /> : null}
+      <div className={`inputs-span ${nuevoEstilo ? nuevoEstilo : ''}`}>
+        <span>{esCampoRequerido(esquema, name) && <Texto texto='*' derecha chica negrita error />}</span>
+        <div className={`inputs-entero ${error ? 'is-invalida' : ''} ${alingDerecha ? 'alin-derecha' : ''}`}>
+
+          <Controller
+            name={name}
+            control={control}
+            render={({ field }) =>
+              <select
+                id={String(name)}
+                {...field}
+                value={field.value ?? ""}
+                onFocus={onFocus}
+                onBlur={onBlur}
+              >
+                <option value="" disabled>Seleccionar...</option>
+                {opciones.map((op) => (
+                  <option key={op.value} value={op.value}>
+                    {op.label}
+                  </option>
+                ))}
+              </select>}
+          />
+          <label htmlFor={String(name)}>
+            {label}
+          </label>
+        </div>
+        <span>{error && <Texto texto={String(error.message)} error chica />}</span>
       </div>
-      <span>{error && <Texto texto={String(error.message)} error chica />}</span>
     </div>
   )
 }

@@ -16,6 +16,7 @@ export const PEDIDO:string = `${BASE}/pedido`;
 export const PEDIDO_CLIENTE:string = `${PEDIDO}/cliente`;
 export const PEDIDO_LIBRO:string = `${BASE}/item`;
 export const PEDIDO_LIBRO_CAMBIO_ESTADO = `${PEDIDO_LIBRO}/estado`;
+export const PEDIDO_LIBRO_CAMBIO_SEDE = `${PEDIDO_LIBRO}/sede`;
 export const PRECIO:string = `${BASE}/precio-empresa`;
 export const PRECIO_NOMBRE:string =`${BASE}/precio`;
 export const SEDE:string = `${BASE}/sede`;

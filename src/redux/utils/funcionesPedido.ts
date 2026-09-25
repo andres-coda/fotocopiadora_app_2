@@ -3,6 +3,7 @@ import { ActionProp, ReduxProp } from "../modelo/reduxContext.interface";
 import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { CambiarEstadoLibroPedidoProp } from "../../modelo/Entidades/pedido_libro/cambioEstado.interface";
 import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
+import { sede } from "../../modelo/Entidades/sede/esqSede.esquema";
 
 export const modificarEstadoPedidoFuncion = (
   state: WritableDraft<ReduxProp<PedidoProp>>,
@@ -56,3 +57,20 @@ export const agregarItemsPedidoSeleccionadoFincion = (
   };
 }
 
+export const cambiarSedePedidoLibroFuncion = (
+  state: WritableDraft<ReduxProp<PedidoLibroProp>>,
+  action: ActionProp<PedidoLibroProp>
+) => {
+  return {
+    ...state,
+    datoSeleccionado: cambiarSedeFuncion( action.payload, state.datoSeleccionado)
+  };
+}
+
+const cambiarSedeFuncion = (prop:PedidoLibroProp, pedido:PedidoLibroProp | undefined):PedidoLibroProp | undefined =>{
+  if (!pedido) return pedido;
+  return {
+    ...pedido,
+    sede: prop.sede
+  }
+}

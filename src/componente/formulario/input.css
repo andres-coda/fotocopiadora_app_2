@@ -251,3 +251,17 @@
   margin: 0 .2rem;
   font-size: 0.8em;
 }
+
+.desplegable-horizontal{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.estado-contenedor .desplegable-horizontal p{
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
