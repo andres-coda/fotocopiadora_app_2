@@ -17,7 +17,7 @@ const usePedidoLibroApi = () => {
     fetchData({ url: `${PEDIDO_LIBRO}/${id}`, methodo: httpMethod.GET, adapter: pedidoLibroAdapter });
 
   const cambiarSedePedidoLibro = ({idPedido, nroPedido, sede_id}:cambioSedeProp) =>
-      fetchData({ url: `${PEDIDO_LIBRO_CAMBIO_SEDE}/${idPedido}/${nroPedido}`, methodo: httpMethod.PATCH, bodyData: JSON.stringify({ sede_id }), adapter:pedidoLibroAdapter });
+      fetchData({ url: `${PEDIDO_LIBRO_CAMBIO_SEDE}/${idPedido}/${nroPedido}`, methodo: httpMethod.PATCH, bodyData: JSON.stringify({ sedeId:sede_id }), adapter:pedidoLibroAdapter });
   
 
   
