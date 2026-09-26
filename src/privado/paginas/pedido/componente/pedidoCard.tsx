@@ -48,7 +48,7 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
 
   const dispatch = useDispatch();
 
-  const estadoActual: Estado = watch().estado;
+  const estadoActual = watch().estado;
 
   useEffect(() => {
     if (estadoActual != pedido.estado) {
