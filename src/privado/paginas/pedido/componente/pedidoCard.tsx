@@ -19,12 +19,11 @@ import Desplegable from "../../../../componente/formulario/desplegable"
 import CardDatosCliente from "../../../../componente/pedido/cardDatosCliente"
 import Cargando from "../../../../componente/cargando/cargando"
 import useCambiarEstadoPedidoApi from "../../../../servicio/pedido/useCambiarEstadoPedidoApi"
-import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { actualizarMuchosStock, actualizarStock } from "../../../../redux/state/libro.state"
+import { actualizarMuchosStockRedux } from "../../../../redux/state/libro.state"
 import { StockProp } from "../../../../modelo/Entidades/libro/stock.interface"
-import { actualizarResumenCliente } from "../../../../redux/state/cliente.state"
+import { actualizarResumenClienteRedux } from "../../../../redux/state/cliente.state"
 import { cambiarEstadoPedidoRedux } from "../../../../redux/state/pedido.state"
 
 interface Props {
@@ -40,7 +39,7 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
     resolver: zodResolver(estadoPedido),
     defaultValues: estadoPedidoFormEdit(pedido)
   });
-  const { cambiarEstadoPedido, responseCambioEstadoPedido, loadingCambioEstadoPedido, errorFetchCambioEstadoPedido } = useCambiarEstadoPedidoApi();
+  const { cambiarEstadoPedido, responseCambioEstadoPedido } = useCambiarEstadoPedidoApi();
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     pedido
@@ -59,8 +58,8 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
   useEffect(() => {
     if (responseCambioEstadoPedido) {
       const stocks: StockProp[] = responseCambioEstadoPedido.items.map(i=> i.stock)
-      dispatch(actualizarMuchosStock(stocks));
-      dispatch(actualizarResumenCliente(responseCambioEstadoPedido.resumenCliente));
+      dispatch(actualizarMuchosStockRedux(stocks));
+      dispatch(actualizarResumenClienteRedux(responseCambioEstadoPedido.resumenCliente));
       dispatch(cambiarEstadoPedidoRedux(responseCambioEstadoPedido.pedido));
     }
   }, [responseCambioEstadoPedido])
@@ -93,18 +92,3 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
 }
 
 export default PedidoCard
-
-/*
-<div className={`cliente-pedidos`} onClick={() => handlePedido(pedido)} title={nuevoPedido.estado.estado}>
-        <div className={`cliente-pedidos-interno ${nuevoCaseClaseEstado(nuevoPedido.estado.idEstadoPedido)}`}>
-          <PedidoFecha pedido={pedido} />
-        </div>
-        <div className={`cliente-pedidos-interno ${nuevoCaseClaseEstado(nuevoPedido.estado.idEstadoPedido)}`}>
-          <PedidoArchivos pedido={pedido} />
-        </div>
-        <div className={`cliente-pedidos-interno ${nuevoCaseClaseEstado(nuevoPedido.estado.idEstadoPedido)}`}>
-          <PedidoPesos pedido={pedido} />
-        </div>
-      </div>
-
-*/

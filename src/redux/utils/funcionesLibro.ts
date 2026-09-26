@@ -4,7 +4,7 @@ import { ReduxProp } from "../modelo/reduxContext.interface";
 import { ActionProp } from "../modelo/reduxContext.interface";
 import { StockProp } from "../../modelo/Entidades/libro/stock.interface";
 
-export const modificarMuchosStockFuncion = (
+export const actualizarMuchosStockRedux = (
   state: WritableDraft<ReduxProp<LibroProp>>,
   action: ActionProp<StockProp[]>
 ) => {
@@ -26,7 +26,7 @@ export const modificarMuchosStockFuncion = (
   };
 }
 
-export const modificarStockFuncion = (
+export const actualizarStockRedux = (
   state: WritableDraft<ReduxProp<LibroProp>>,
   action: ActionProp<StockProp>
 ) => {
@@ -84,8 +84,8 @@ const actualizarMuchosStockLista = (prop: StockProp[], libros: LibroProp[]): Lib
 
 const modificarMuchosStockSelected = (prop: StockProp[], libro: LibroProp | undefined): LibroProp | undefined => {
   if (!prop || prop.length === 0 || !libro) return libro;
-  const stock:StockProp | undefined = prop.find(s=> s.id === libro.id);
-  if(!stock) return libro;
+  const stock: StockProp | undefined = prop.find(s => s.id === libro.id);
+  if (!stock) return libro;
   return {
     ...libro,
     stock

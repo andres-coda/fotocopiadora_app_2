@@ -4,9 +4,7 @@ import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { CambiarEstadoLibroItem, CambiarEstadoPedidoProp } from "../../modelo/Entidades/pedido_libro/cambioEstado.interface";
 import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 
-
-
-export const modificarEstadoPedidoFuncion = (
+export const modificarEstadoPedidoRedux = (
   state: WritableDraft<ReduxProp<PedidoProp>>,
   action: ActionProp<CambiarEstadoPedidoProp>
 ) => {
@@ -14,13 +12,13 @@ export const modificarEstadoPedidoFuncion = (
     ...state.busquedaActual,
     datosQuery: actualizarEstadoPedidoLista(action.payload, state.busquedaActual.datosQuery)
   };
-  const datosIniciales = {
-    ...state.busquedaActual,
-    datosQuery: actualizarEstadoPedidoLista(action.payload, state.busquedaActual.datosQuery)
+  const newDatosIniciales = {
+    ...state.datosIniciales,
+    datosQuery: actualizarEstadoPedidoLista(action.payload, state.datosIniciales.datosQuery)
   };
   return {
     ...state,
-    datosIniciales: datosIniciales,
+    datosIniciales: newDatosIniciales,
     busquedaActual: newBusquedaActual,
     datoSeleccionado: modificarEstadoPedidoSelect(action.payload, state.datoSeleccionado)
   };
@@ -55,7 +53,7 @@ const agregarItemsPedido = (items: PedidoLibroProp[], pedido: PedidoProp | undef
   }
 }
 
-export const agregarItemsPedidoSeleccionadoFincion = (
+export const agregarItemsPedidoSeleccionadoRedux = (
   state: WritableDraft<ReduxProp<PedidoProp>>,
   action: ActionProp<PedidoLibroProp[]>
 ) => {
@@ -65,7 +63,7 @@ export const agregarItemsPedidoSeleccionadoFincion = (
   };
 }
 
-export const cambiarSedePedidoLibroFuncion = (
+export const cambiarSedePedidoLibroRedux = (
   state: WritableDraft<ReduxProp<PedidoLibroProp>>,
   action: ActionProp<PedidoLibroProp>
 ) => {
@@ -84,11 +82,10 @@ const cambiarSedeFuncion = (prop: PedidoLibroProp, pedido: PedidoLibroProp | und
 }
 
 /**
- * Actualiza el estado de un item en el slice pedidoLibro
- * Usa el mismo formato CambiarEstadoLibroPedidoProp que los reducers existentes
+ * Actualiza el estado de items en el slice pedidoLibro
  * Actualiza: búsqueda inicial, búsqueda actual y dato seleccionado
  */
-export const modificarEstadoPedidoLibroFuncion = (
+export const modificarEstadoPedidoLibroRedux = (
   state: WritableDraft<ReduxProp<PedidoLibroProp>>,
   action: ActionProp<CambiarEstadoLibroItem[]>
 ) => {

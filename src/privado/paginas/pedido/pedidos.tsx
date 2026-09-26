@@ -8,7 +8,7 @@ import TextoVacio from "../../../componente/Textos/textoVacio";
 import PedidoCard from "./componente/pedidoCard";
 import usePedidosApi from "../../../servicio/pedido/usePedidosApi";
 import { useEffect, useState } from "react";
-import { agregarItemsPedidoSeleccionado, agregarPedidosBusquedaActual, crearBusquedaPedido, resetBusquedaPedido, resetSeleccionarPedido, seleccionarPedido } from "../../../redux/state/pedido.state";
+import { agregarItemsPedidoSeleccionadoRedux, agregarPedidosBusquedaActual, crearBusquedaPedido, resetBusquedaPedido, resetSeleccionarPedido, seleccionarPedido } from "../../../redux/state/pedido.state";
 import useBusquedaPaginada from "../../../hooks/buscador/useBusquedaPaginada";
 import BuscadorPaginadoCompleto from "../../../componente/buscador/buscadorPaginadoCompleto";
 import { formatoTelefonoMostrar } from "../../../utils/formatoDatos";
@@ -42,7 +42,7 @@ const Pedidos = () => {
 
   useEffect(() => {
     if (responsePedidoLibross) {
-      dispatch(agregarItemsPedidoSeleccionado(responsePedidoLibross.datos))
+      dispatch(agregarItemsPedidoSeleccionadoRedux(responsePedidoLibross.datos))
     }
   }, [responsePedidoLibross]);
 

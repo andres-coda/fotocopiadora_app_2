@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
 import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { agregarDatosBusquedaActual, crearBusqueda, crearDatoInicial, resetBusqueda, resetSeleccionDato, seleccionarDato, cambiarOrden } from "../utils/funcionesGenericasEmpresa";
-import { agregarItemsPedidoSeleccionadoFincion, modificarEstadoPedidoFuncion } from "../utils/funcionesPedido";
+import { agregarItemsPedidoSeleccionadoRedux as agregarItemsPedidoSeleccionadoFn, modificarEstadoPedidoRedux as modificarEstadoPedidoFn } from "../utils/funcionesPedido";
 
 const cantidadBusquedas: number = 1;
 
@@ -33,12 +33,12 @@ export const pedidoSlice = createSlice({
     seleccionarPedido: seleccionarDato,
     resetSeleccionarPedido: resetSeleccionDato,
     agregarPedidosBusquedaActual: agregarDatosBusquedaActual<PedidoProp>,
-    agregarItemsPedidoSeleccionado: agregarItemsPedidoSeleccionadoFincion,
-    cambiarEstadoPedidoRedux: modificarEstadoPedidoFuncion,
+    agregarItemsPedidoSeleccionadoRedux: agregarItemsPedidoSeleccionadoFn,
+    cambiarEstadoPedidoRedux: modificarEstadoPedidoFn,
     cambiarOrdenPedido: cambiarOrden<PedidoProp>
   }
 });
 
-export const { crearPedidos, crearBusquedaPedido, resetBusquedaPedido, resetSeleccionarPedido, seleccionarPedido, agregarPedidosBusquedaActual, cambiarOrdenPedido, cambiarEstadoPedidoRedux, agregarItemsPedidoSeleccionado } = pedidoSlice.actions;
+export const { crearPedidos, crearBusquedaPedido, resetBusquedaPedido, resetSeleccionarPedido, seleccionarPedido, agregarPedidosBusquedaActual, cambiarOrdenPedido, cambiarEstadoPedidoRedux, agregarItemsPedidoSeleccionadoRedux } = pedidoSlice.actions;
 
 export default pedidoSlice.reducer;

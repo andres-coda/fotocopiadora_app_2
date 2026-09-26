@@ -13,8 +13,8 @@ import { estadosParaDesplegable, pasarEstadoDesplegable } from "../../../../util
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
-import { actualizarStock } from "../../../../redux/state/libro.state";
-import { actualizarResumenCliente } from "../../../../redux/state/cliente.state";
+import { actualizarStockRedux } from "../../../../redux/state/libro.state";
+import { actualizarResumenClienteRedux } from "../../../../redux/state/cliente.state";
 import { cambiarEstadoPedidoRedux } from "../../../../redux/state/pedido.state";
 import { formValuesSede, sede, sedeFormEdit } from "../../../../modelo/Entidades/sede/esqSede.esquema";
 import { SedeProp } from "../../../../modelo/Entidades/sede/sede.interface";
@@ -23,6 +23,7 @@ import { appStore } from "../../../../redux/store";
 import { pasarDesplegable } from "../../../../utils/formulario";
 import usePedidoLibroApi from "../../../../servicio/pedido_libro/usePedidoLibroApi";
 import { cambiarSedePedidoLibroRedux } from "../../../../redux/state/pedido_libro.state";
+import { cambiarEstadoPedidoLibroRedux } from "../../../../redux/state/pedido_libro.state";
 import useCambiarEstadoPedidoApi from "../../../../servicio/pedido/useCambiarEstadoPedidoApi";
 
 interface Prop {
@@ -35,7 +36,7 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido }: Prop) => {
 
   const { cambiarEstadoPedidoLibro, responseCambioEstadoPedido, loadingCambioEstadoPedido, errorFetchCambioEstadoPedido } = useCambiarEstadoPedidoApi();
   const { cambiarSedePedidoLibro, responsePedidoLibro: responseItem, loadingPedidoLibro: loadingItem, errorFetchPedidoLibro: errorItem } = usePedidoLibroApi();
- 
+  
   const { control, formState: { errors }, watch } = useForm<formValuesEstado>({
     resolver: zodResolver(estado),
     defaultValues: estadoFormEdit(pL)
@@ -71,9 +72,10 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido }: Prop) => {
 
   useEffect(() => {
     if (responseCambioEstadoPedido) {
-      dispatch(actualizarStock(responseCambioEstadoPedido.items[0].stock));
-      dispatch(actualizarResumenCliente(responseCambioEstadoPedido.resumenCliente));
+      dispatch(actualizarStockRedux(responseCambioEstadoPedido.items[0].stock));
+      dispatch(actualizarResumenClienteRedux(responseCambioEstadoPedido.resumenCliente));
       dispatch(cambiarEstadoPedidoRedux(responseCambioEstadoPedido.pedido));
+      dispatch(cambiarEstadoPedidoLibroRedux(responseCambioEstadoPedido.items));
       setClasEstado(responseCambioEstadoPedido.pedido.estado);
     }
   }, [responseCambioEstadoPedido]);

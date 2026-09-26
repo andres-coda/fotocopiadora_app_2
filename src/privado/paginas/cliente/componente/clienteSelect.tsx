@@ -15,7 +15,7 @@ import TextoVacio from "../../../../componente/Textos/textoVacio";
 import { estadoPedidoXstring, formatoTelefonoMostrar } from "../../../../utils/formatoDatos";
 import { ReduxProp, UltimaBusquedaProp } from "../../../../redux/modelo/reduxContext.interface";
 import usePedidosApi from "../../../../servicio/pedido/usePedidosApi";
-import { agregarItemsPedidoSeleccionado, agregarPedidosBusquedaActual, crearBusquedaPedido, resetSeleccionarPedido, seleccionarPedido } from "../../../../redux/state/pedido.state";
+import { agregarItemsPedidoSeleccionadoRedux, agregarPedidosBusquedaActual, crearBusquedaPedido, resetSeleccionarPedido, seleccionarPedido } from "../../../../redux/state/pedido.state";
 import usePedidoLibrosApi from "../../../../servicio/pedido_libro/usePedidoLibrosApi";
 import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
 
@@ -96,7 +96,7 @@ const ClienteSelect = () => {
 
   useEffect(() => {
     if (responsePedidoLibross) {
-      dispatch(agregarItemsPedidoSeleccionado(responsePedidoLibross.datos))
+      dispatch(agregarItemsPedidoSeleccionadoRedux(responsePedidoLibross.datos))
     }
   }, [responsePedidoLibross]);
 
