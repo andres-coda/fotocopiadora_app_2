@@ -3,7 +3,7 @@ import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro
 import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
 import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
 import { limiteDefecto } from "../../utils/constantes";
-import { cambiarSedePedidoLibroFuncion } from "../utils/funcionesPedido";
+import { cambiarSedePedidoLibroFuncion, modificarEstadoPedidoLibroFuncion } from "../utils/funcionesPedido";
 
 const cantidadBusquedas: number = 1;
 
@@ -35,6 +35,7 @@ export const pedidoLibroSlice = createSlice({
     resetSeleccionarPedidoLibro: resetSeleccionDato,
     agregarPedidoLibrosBusquedaActual: agregarDatosBusquedaActual<PedidoLibroProp>,
     cambiarSedePedidoLibroRedux: cambiarSedePedidoLibroFuncion,
+    cambiarEstadoPedidoLibro: modificarEstadoPedidoLibroFuncion,
     cambiarOrdenPedidoLibro: cambiarOrden<PedidoLibroProp>
   }
 });
@@ -47,7 +48,8 @@ export const {
   seleccionarPedidoLibro, 
   agregarPedidoLibrosBusquedaActual,
   cambiarOrdenPedidoLibro,
-  cambiarSedePedidoLibroRedux
+  cambiarSedePedidoLibroRedux,
+  cambiarEstadoPedidoLibro
 } = pedidoLibroSlice.actions;
 
 export default pedidoLibroSlice.reducer;

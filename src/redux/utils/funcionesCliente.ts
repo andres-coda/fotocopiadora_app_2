@@ -2,10 +2,11 @@ import { WritableDraft } from "@reduxjs/toolkit";
 import { ActionProp, ReduxProp } from "../modelo/reduxContext.interface";
 import { ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
 import { CambiarEstadoLibroPedidoProp } from "../../modelo/Entidades/pedido_libro/cambioEstado.interface";
+import { ResumenProp } from "../../modelo/Entidades/cliente/resumen.interface";
 
 export const modificarResumenFuncion = (
   state: WritableDraft<ReduxProp<ClienteProp>>,
-  action: ActionProp<CambiarEstadoLibroPedidoProp>
+  action: ActionProp<ResumenProp>
 ) => {
   const newBusquedaActual = {
     ...state.busquedaActual,
@@ -23,21 +24,21 @@ export const modificarResumenFuncion = (
   };
 };
 
-const modificarResumenSelected = (prop: CambiarEstadoLibroPedidoProp, c: ClienteProp | undefined): ClienteProp | undefined => {
-  if (!prop?.resumenCliente || !c || c.id != prop.resumenCliente.id) return c;
+const modificarResumenSelected = (prop: ResumenProp, c: ClienteProp | undefined): ClienteProp | undefined => {
+  if (!prop || !c || c.id != prop.id) return c;
   return {
     ...c,
-    resumen: prop.resumenCliente
+    resumen: prop
   }
 }
 
-const actualizarResumenLista = (prop: CambiarEstadoLibroPedidoProp, clientes: ClienteProp[]): ClienteProp[] => {
-  if (!prop?.resumenCliente || !clientes || clientes.length === 0) return clientes;
+const actualizarResumenLista = (prop: ResumenProp, clientes: ClienteProp[]): ClienteProp[] => {
+  if (!prop || !clientes || clientes.length === 0) return clientes;
   return clientes.map(c => {
-    if (c.id != prop.resumenCliente.id) return c;
+    if (c.id != prop.id) return c;
     return {
       ...c,
-      resumen: prop.resumenCliente
+      resumen: prop
     }
   });
 }

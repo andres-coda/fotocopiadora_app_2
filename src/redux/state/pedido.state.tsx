@@ -34,11 +34,11 @@ export const pedidoSlice = createSlice({
     resetSeleccionarPedido: resetSeleccionDato,
     agregarPedidosBusquedaActual: agregarDatosBusquedaActual<PedidoProp>,
     agregarItemsPedidoSeleccionado: agregarItemsPedidoSeleccionadoFincion,
-    cambiarEstadoPedido: modificarEstadoPedidoFuncion,
+    cambiarEstadoPedidoRedux: modificarEstadoPedidoFuncion,
     cambiarOrdenPedido: cambiarOrden<PedidoProp>
   }
 });
 
-export const { crearPedidos, crearBusquedaPedido, resetBusquedaPedido, resetSeleccionarPedido, seleccionarPedido, agregarPedidosBusquedaActual, cambiarOrdenPedido, cambiarEstadoPedido, agregarItemsPedidoSeleccionado } = pedidoSlice.actions;
+export const { crearPedidos, crearBusquedaPedido, resetBusquedaPedido, resetSeleccionarPedido, seleccionarPedido, agregarPedidosBusquedaActual, cambiarOrdenPedido, cambiarEstadoPedidoRedux, agregarItemsPedidoSeleccionado } = pedidoSlice.actions;
 
 export default pedidoSlice.reducer;

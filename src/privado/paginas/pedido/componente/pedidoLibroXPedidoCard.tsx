@@ -13,10 +13,9 @@ import { estadosParaDesplegable, pasarEstadoDesplegable } from "../../../../util
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
-import useCambiarEstadoPedidoLibroApi from "../../../../servicio/pedido_libro/useCambiarEstadoPedidolibroApi";
 import { actualizarStock } from "../../../../redux/state/libro.state";
 import { actualizarResumenCliente } from "../../../../redux/state/cliente.state";
-import { cambiarEstadoPedido } from "../../../../redux/state/pedido.state";
+import { cambiarEstadoPedidoRedux } from "../../../../redux/state/pedido.state";
 import { formValuesSede, sede, sedeFormEdit } from "../../../../modelo/Entidades/sede/esqSede.esquema";
 import { SedeProp } from "../../../../modelo/Entidades/sede/sede.interface";
 import { ReduxProp } from "../../../../redux/modelo/reduxContext.interface";
@@ -24,6 +23,7 @@ import { appStore } from "../../../../redux/store";
 import { pasarDesplegable } from "../../../../utils/formulario";
 import usePedidoLibroApi from "../../../../servicio/pedido_libro/usePedidoLibroApi";
 import { cambiarSedePedidoLibroRedux } from "../../../../redux/state/pedido_libro.state";
+import useCambiarEstadoPedidoApi from "../../../../servicio/pedido/useCambiarEstadoPedidoApi";
 
 interface Prop {
   pL: PedidoLibroProp;
@@ -33,7 +33,7 @@ interface Prop {
 const PedidoLibroXPedidoCard = ({ pL, idPedido }: Prop) => {
   const sedes: ReduxProp<SedeProp> = useSelector((store: appStore) => store.sede);
 
-  const { cambiarEstadoPedidoLibro, responsePedidoLibro, loadingPedidoLibro, errorFetchPedidoLibro } = useCambiarEstadoPedidoLibroApi();
+  const { cambiarEstadoPedidoLibro, responseCambioEstadoPedido, loadingCambioEstadoPedido, errorFetchCambioEstadoPedido } = useCambiarEstadoPedidoApi();
   const { cambiarSedePedidoLibro, responsePedidoLibro: responseItem, loadingPedidoLibro: loadingItem, errorFetchPedidoLibro: errorItem } = usePedidoLibroApi();
  
   const { control, formState: { errors }, watch } = useForm<formValuesEstado>({
@@ -70,13 +70,13 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido }: Prop) => {
   }, [sedeActual]);
 
   useEffect(() => {
-    if (responsePedidoLibro) {
-      dispatch(actualizarStock(responsePedidoLibro));
-      dispatch(actualizarResumenCliente(responsePedidoLibro));
-      dispatch(cambiarEstadoPedido(responsePedidoLibro));
-      setClasEstado(responsePedidoLibro.estado);
+    if (responseCambioEstadoPedido) {
+      dispatch(actualizarStock(responseCambioEstadoPedido.items[0].stock));
+      dispatch(actualizarResumenCliente(responseCambioEstadoPedido.resumenCliente));
+      dispatch(cambiarEstadoPedidoRedux(responseCambioEstadoPedido.pedido));
+      setClasEstado(responseCambioEstadoPedido.pedido.estado);
     }
-  }, [responsePedidoLibro]);
+  }, [responseCambioEstadoPedido]);
 
   useEffect(() => {
     if (responseItem) {
@@ -84,10 +84,10 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido }: Prop) => {
     }
   }, [responseItem]);
 
-  if (errorFetchPedidoLibro) return (
+  if (errorFetchCambioEstadoPedido) return (
     <>
       <Texto texto={'Error al intentar cambiar el estado del libro'} error chica />
-      <Texto texto={errorFetchPedidoLibro} error chica />
+      <Texto texto={errorFetchCambioEstadoPedido} error chica />
     </>
   )
 
@@ -135,7 +135,7 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido }: Prop) => {
               : <Texto texto={'Cambiando...'} chica ajustado />
           }
           {
-            !loadingPedidoLibro ?
+            !loadingCambioEstadoPedido ?
               <Desplegable<formValuesEstado> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable(undefined, estadosParaDesplegable)} nuevoEstilo="desplegable-estado" />
               : <Texto texto={'Cambiando...'} chica ajustado />
           }
