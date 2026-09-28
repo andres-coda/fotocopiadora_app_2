@@ -16,7 +16,7 @@ export interface CambioEstadoPedidoItemAdapterProp {
 export interface CambiarEstadoPedidoAdapterInternoProp {
   id: string;
   estado: Estado;
-  fechaActualizacion?: Date;
+  fechaActualizacion?: string;
   cliente?: {
     id: string,
     resumen: ResumenGeneralAdapterProp
