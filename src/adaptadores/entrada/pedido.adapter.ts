@@ -16,7 +16,7 @@ export const pedidoAdapter = (pedido: PedidoAdapterProp | undefined): PedidoProp
   
   const cliente: ClienteProp | undefined = clienteAdapter(pedido.cliente);
 
-  const pedidoLibro: PedidoLibroProp[] = pedidoLibroAdapterArray(pedido.libroPedidos);
+  const pedidoLibro: PedidoLibroProp[] = pedidoLibroAdapterArray(pedido.items);
 
 
   const newPedido: PedidoProp = {

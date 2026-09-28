@@ -45,7 +45,7 @@ const cambiarEstadoItemAdapter = (prop: PedidoAdapterProp['items'][0]): CambiarE
   if (!prop.libro?.resumen) throw new Error('El cambio de estado no devolvió el resumen del libro');
   const stock = cambiarEstadoResumenLibroAdapter({ id: prop.libro.id, resumen: prop.libro.resumen })
   return {
-    ultAct: prop.fechaActualizacion,
+    ultAct: prop.fechaActualizacion?.toDateString(),
     idPedido: prop.idPedido,
     nro: Number(prop.id),
     estado: prop.estado,
@@ -61,7 +61,7 @@ const cambiarEstadoPedidoAdapterInterno = ({ id, estado, fechaActualizacion }: C
   return {
     id: id,
     estado: estado,
-    ultAct: fechaActualizacion
+    ultAct: fechaActualizacion?.toDateString()
   }
 }
 
