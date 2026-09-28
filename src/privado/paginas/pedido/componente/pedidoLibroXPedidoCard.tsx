@@ -29,9 +29,10 @@ import useCambiarEstadoPedidoApi from "../../../../servicio/pedido/useCambiarEst
 interface Prop {
   pL: PedidoLibroProp;
   idPedido: string;
+  onClick?: (pL:PedidoLibroProp)=> void;
 }
 
-const PedidoLibroXPedidoCard = ({ pL, idPedido }: Prop) => {
+const PedidoLibroXPedidoCard = ({ pL, idPedido, onClick }: Prop) => {
   const sedes: ReduxProp<SedeProp> = useSelector((store: appStore) => store.sede);
 
   const { cambiarEstadoPedidoLibro, responseCambioEstadoPedido, loadingCambioEstadoPedido, errorFetchCambioEstadoPedido } = useCambiarEstadoPedidoApi();
@@ -100,10 +101,16 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido }: Prop) => {
     </>
   )
 
+  const handleItem = () => {
+    if(onClick)
+    onClick(pL);
+  }
+
   return (
     <Card
       nuevoEstilo={`pedido-libro-card ${claseXestado(clasEstado)} pedido-cliente-card`}
       tituloCard={`${nombreLibroXstring(pL.libro)}`}
+      onClick={onClick ? handleItem : undefined}
     >
       <Texto texto={`${pL.cantidad}`} mediana ajustado />
       <div className={`card-vertical`}>

@@ -5,7 +5,7 @@ import { Estado } from "./estado.enum";
 export interface CambioEstadoPedidoItemAdapterProp {
   libro: {
     id: string;
-    stock: ResumenGeneralAdapterProp;
+    resumen: ResumenGeneralAdapterProp;
   };
   fechaActualizacion?: string;
   estado: Estado;
@@ -16,8 +16,8 @@ export interface CambioEstadoPedidoItemAdapterProp {
 export interface CambiarEstadoPedidoAdapterInternoProp {
   id: string;
   estado: Estado;
-  fechaActualizacion?: string;
-  cliente: {
+  fechaActualizacion?: Date;
+  cliente?: {
     id: string,
     resumen: ResumenGeneralAdapterProp
   }

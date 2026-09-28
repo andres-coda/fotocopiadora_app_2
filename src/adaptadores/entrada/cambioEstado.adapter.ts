@@ -1,6 +1,8 @@
 import { ResumenProp } from "../../modelo/Entidades/cliente/resumen.interface";
 import { StockProp } from "../../modelo/Entidades/libro/stock.interface";
-import { CambiarEstadoLibroItem, CambiarEstadoLibroPedidoAdapterProp, CambiarEstadoLibroPedidoProp, CambiarEstadoPedidoAdapterInternoProp, CambiarEstadoPedidoProp, CambioEstadoPedidoAdapterProp, CambioEstadoPedidoItemAdapterProp, ResumenGeneralAdapterProp } from "../../modelo/Entidades/pedido_libro/cambioEstado.interface";
+import { PedidoAdapterProp } from "../../modelo/Entidades/pedido/pedido.interface";
+import { CambiarEstadoLibroItem, CambiarEstadoLibroPedidoProp, CambiarEstadoPedidoAdapterInternoProp, CambiarEstadoPedidoProp, CambioEstadoPedidoAdapterProp, CambioEstadoPedidoItemAdapterProp, ResumenGeneralAdapterProp } from "../../modelo/Entidades/pedido_libro/cambioEstado.interface";
+import { PedidoLibroAdapterProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 
 interface Prop {
   id: string;
@@ -32,47 +34,37 @@ const cambiarEstadoResumenLibroAdapter = (prop: Prop): StockProp => {
   }
 }
 
-const cambiarEstadoItemAdapter = (prop: CambioEstadoPedidoItemAdapterProp): CambiarEstadoLibroItem => {
-  const stock = cambiarEstadoResumenLibroAdapter({ id: prop.libro.id, resumen: prop.libro.stock })
+const cambiarEstadoItemAdapter = (prop: PedidoLibroAdapterProp): CambiarEstadoLibroItem => {
+  if (!prop.libro.resumen) throw new Error('El cambio de estado no devolvio el resumen del libro');
+  const stock = cambiarEstadoResumenLibroAdapter({ id: prop.libro.id, resumen: prop.libro.resumen })
   return {
-    ultAct: prop.fechaActualizacion,
+    ultAct: prop.fechaActualizacion?.toDateString(),
     idPedido: prop.idPedido,
-    nro: prop.id,
+    nro: Number(prop.id),
     estado: prop.estado,
     stock
   }
 }
 
-const cambiarEstadoItemArrayAdapter = (prop: CambioEstadoPedidoItemAdapterProp[]): CambiarEstadoLibroItem[] => {
+const cambiarEstadoItemArrayAdapter = (prop: PedidoLibroAdapterProp[]): CambiarEstadoLibroItem[] => {
   return prop.map(p => cambiarEstadoItemAdapter(p));
 }
 
-const cambiarEstadoPedidoAdapterInterno = (prop: CambiarEstadoPedidoAdapterInternoProp): CambiarEstadoPedidoProp => {
+const cambiarEstadoPedidoAdapterInterno = ({ id, estado, fechaActualizacion }: CambiarEstadoPedidoAdapterInternoProp): CambiarEstadoPedidoProp => {
   return {
-    id: prop.id,
-    estado: prop.estado,
-    ultAct: prop.fechaActualizacion
+    id: id,
+    estado: estado,
+    ultAct: fechaActualizacion?.toDateString()
   }
 }
 
-export const cambiarEstadoItemPedidoAdapter = (prop: CambiarEstadoLibroPedidoAdapterProp): CambiarEstadoLibroPedidoProp => {
+export const cambiarEstadoPedidoAdapter = (prop: PedidoAdapterProp): CambiarEstadoLibroPedidoProp => {
 
-  const resumenCliente: ResumenProp = cambiarEstadoResumenClienteAdapter({ id: prop.pedido.cliente.id, resumen: prop.pedido.cliente.resumen });
-  const pedido = cambiarEstadoPedidoAdapterInterno(prop.pedido);
-  const items: CambiarEstadoLibroItem[] = [];
-  const item: CambiarEstadoLibroItem = cambiarEstadoItemAdapter(prop);
-  items.push(item);
-  return {
-    items,
-    resumenCliente,
-    pedido,
-  }
-}
-
-export const cambiarEstadoPedidoAdapter = (prop:CambioEstadoPedidoAdapterProp): CambiarEstadoLibroPedidoProp => {
+  if(!prop.cliente.resumen) throw new Error('El cambio de estado no devolvio el resumen del cliente');
   const resumenCliente: ResumenProp = cambiarEstadoResumenClienteAdapter({ id: prop.cliente.id, resumen: prop.cliente.resumen });
-  const pedido = cambiarEstadoPedidoAdapterInterno(prop);
-  const items: CambiarEstadoLibroItem[] = cambiarEstadoItemArrayAdapter(prop.items);
+
+  const pedido = cambiarEstadoPedidoAdapterInterno({ id: prop.id, fechaActualizacion: prop.fechaActualizacion, estado: prop.estado });
+  const items: CambiarEstadoLibroItem[] = cambiarEstadoItemArrayAdapter(prop.libroPedidos);
 
   return {
     items,
