@@ -11,7 +11,7 @@ export interface PedidoAdapterProp extends BaseAdapterProp{
   sena: number;
   estado:Estado;
   cliente: ClienteAdapterProp;
-  libroPedidos: PedidoLibroAdapterProp[];
+  items: PedidoLibroAdapterProp[];
 }
 
 export interface PedidoProp extends BaseProp{
