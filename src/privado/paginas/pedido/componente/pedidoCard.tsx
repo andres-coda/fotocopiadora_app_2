@@ -19,7 +19,7 @@ import Desplegable from "../../../../componente/formulario/desplegable"
 import CardDatosCliente from "../../../../componente/pedido/cardDatosCliente"
 import Cargando from "../../../../componente/cargando/cargando"
 import useCambiarEstadoPedidoApi from "../../../../servicio/pedido/useCambiarEstadoPedidoApi"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { useDispatch } from "react-redux"
 import { actualizarMuchosStockRedux } from "../../../../redux/state/libro.state"
 import { StockProp } from "../../../../modelo/Entidades/libro/stock.interface"
@@ -48,12 +48,14 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
   const dispatch = useDispatch();
 
   const estadoActual = watch('estado');
+  const ultimoEstadoEnviado = useRef<Estado | null>(null);
 
   useEffect(() => {
-    if (estadoActual !== undefined && estadoActual !== pedido.estado) {
+    if (estadoActual !== undefined && estadoActual !== pedido.estado && estadoActual !== ultimoEstadoEnviado.current) {
+      ultimoEstadoEnviado.current = estadoActual;
       cambiarEstadoPedido({ idPedido: pedido.id, estado: estadoActual });
     }
-  }, [estadoActual, pedido.estado])
+  }, [estadoActual])
 
   useEffect(() => {
     if (responseCambioEstadoPedido) {
@@ -61,6 +63,8 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
       dispatch(actualizarMuchosStockRedux(stocks));
       dispatch(actualizarResumenClienteRedux(responseCambioEstadoPedido.resumenCliente));
       dispatch(cambiarEstadoPedidoRedux(responseCambioEstadoPedido.pedido));
+      // Reset para permitir nuevo cambio al mismo estado
+      ultimoEstadoEnviado.current = null;
     }
   }, [responseCambioEstadoPedido])
 
