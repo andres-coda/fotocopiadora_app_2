@@ -21,6 +21,7 @@ export interface CambiarEstadoPedidoAdapterInternoProp {
     id: string,
     resumen: ResumenGeneralAdapterProp
   }
+  items?: CambiarEstadoLibroItem[];
 }
 
 export interface CambioEstadoPedidoAdapterProp extends CambiarEstadoPedidoAdapterInternoProp{
@@ -44,6 +45,7 @@ export interface CambiarEstadoPedidoProp {
   id:string,
   estado:Estado,
   ultAct?: string,
+  items?: CambiarEstadoLibroItem[];
 }
 
 export interface CambiarEstadoLibroItem {

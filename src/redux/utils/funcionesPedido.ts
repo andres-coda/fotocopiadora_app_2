@@ -26,12 +26,35 @@ export const modificarEstadoPedidoRedux = (
 
 const modificarEstadoPedidoSelect = (prop: CambiarEstadoPedidoProp, pedido: PedidoProp | undefined): PedidoProp | undefined => {
   if (!prop?.id || !pedido || pedido.id != prop.id) return pedido;
-  return {
+  
+  // Actualizar estado del pedido
+  const updatedPedido = {
     ...pedido,
     estado: prop.estado,
     ultAct: prop.ultAct ?? pedido.ultAct
+  };
+  
+  // Actualizar items del pedido si vienen en la respuesta
+  if (prop.items && prop.items.length > 0) {
+    updatedPedido.libroPedidos = actualizarItemsPedidoLista(prop.items, pedido.libroPedidos);
   }
-}
+  
+  return updatedPedido;
+};
+
+const actualizarItemsPedidoLista = (items: CambiarEstadoLibroItem[], libroPedidos: PedidoLibroProp[]): PedidoLibroProp[] => {
+  if (!items?.length || !libroPedidos?.length) return libroPedidos;
+  
+  return libroPedidos.map(lp => {
+    const item = items.find(i => i.idPedido === lp.idPedido && i.nro === Number(lp.id));
+    if (!item) return lp;
+    return {
+      ...lp,
+      estado: item.estado,
+      ultAct: item.ultAct ?? lp.ultAct
+    };
+  });
+};
 
 const actualizarEstadoPedidoLista = (prop: CambiarEstadoPedidoProp, pedidos: PedidoProp[]): PedidoProp[] => {
   if (!prop || !pedidos || pedidos.length === 0) return pedidos;
@@ -43,7 +66,7 @@ const actualizarEstadoPedidoLista = (prop: CambiarEstadoPedidoProp, pedidos: Ped
       ultAct: prop.ultAct ?? pedido.ultAct
     }
   });
-}
+};
 
 const agregarItemsPedido = (items: PedidoLibroProp[], pedido: PedidoProp | undefined): PedidoProp | undefined => {
   if (!pedido) return pedido;
