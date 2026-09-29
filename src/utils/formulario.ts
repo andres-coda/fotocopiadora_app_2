@@ -78,9 +78,14 @@ export const formatTelefono = (value: string = ''): string => {
     .join('-');
 };
 
-interface Prop<T, K extends keyof T = keyof T>{
+interface Prop<T, K extends keyof T = keyof T> {
   items: T[]
-  clave?: K; 
+  clave?: K;
+}
+
+interface desplegableOrdenadoProp<T, K extends keyof T = keyof T> extends Prop<T, K> {
+  selec?: T;
+  comparacion?: K
 }
 
 export const pasarDesplegable = <T extends BaseProp, K extends keyof T = keyof T>({ items, clave }: Prop<T, K>): Opcion[] => {
@@ -89,4 +94,16 @@ export const pasarDesplegable = <T extends BaseProp, K extends keyof T = keyof T
     return { value: d.id, label: String(d[newClave]) }
   });
   return opciones
+}
+
+export const pasarDesplegableOrdenado = <T extends BaseProp, K extends keyof T = keyof T>({ items, clave, comparacion, selec }: desplegableOrdenadoProp<T, K>): Opcion[] => {
+  const newClave:K = (clave ?? 'nombre') as K;
+  
+  const todasLosElementos = items ?? []
+  const elementoActual = selec
+  const elementosOrdenados = elementoActual
+    ? [elementoActual, ...todasLosElementos.filter(s => s[comparacion ?? newClave] !== elementoActual[comparacion ?? newClave])]
+    : todasLosElementos
+  
+  return pasarDesplegable({items: elementosOrdenados, clave:newClave})
 }

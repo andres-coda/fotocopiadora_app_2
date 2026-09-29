@@ -4,7 +4,7 @@ import { Estado } from "../pedido_libro/estado.enum";
 import { PedidoLibroAdapterProp, pedidoLibroInicial, PedidoLibroProp } from "../pedido_libro/pedidoLibro.interface";
 
 export interface PedidoAdapterProp extends BaseAdapterProp{
-  fechaEntrega: string;
+  fechaEntrega: Date;
   importeTotal: number;
   archivos: number;
   anillados: number;

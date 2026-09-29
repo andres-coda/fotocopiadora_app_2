@@ -11,8 +11,7 @@ import BuscadorPaginadoCompleto from "../../../componente/buscador/buscadorPagin
 import { rutaPrivadaBase, RutasPrivadas } from "../../rutas/rutasPrivadas";
 import Centro from "../../../componente-estilo/centro/centro";
 import TextoVacio from "../../../componente/Textos/textoVacio";
-import PedidoLibroXPedidoCard from "../pedido/componente/pedidoLibroXPedidoCard";
-import usePedidoApi from "../../../servicio/pedido/usePedidoApi";
+import ItemCard from "./componente/itemCard";
 
 const ItemsLista = () => {
   const items: ReduxProp<PedidoLibroProp> = useSelector((store: appStore) => store.pedidoLibro);
@@ -32,7 +31,6 @@ const ItemsLista = () => {
     limiteLetrasBusqueda: 3,
   });
 
-  const { setModal, modal } = useModalContext();
 
   /* const { obtenerPedidoLibrosByPedidoId, responsePedidoLibross, loadingPedidoLibross, errorFetchPedidoLibross } = usePedidoLibrosApi();
 
@@ -74,7 +72,7 @@ const ItemsLista = () => {
         {
           !items.busquedaActual || items.busquedaActual.datosQuery.length === 0
             ? (<TextoVacio entidad='clientes' />)
-            : items?.busquedaActual?.datosQuery?.map(d => <PedidoLibroXPedidoCard pL={d} key={d.id} idPedido={d.idPedido} onClick={handleSelectItem}/>)
+            : items?.busquedaActual?.datosQuery?.map(d => <ItemCard item={d} key={d.id} idPedido={d.idPedido} onClick={handleSelectItem}/>)
         }
         <div ref={finListaRef}>
           <p>Fin de lista</p>

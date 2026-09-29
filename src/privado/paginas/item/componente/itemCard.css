@@ -1,0 +1,17 @@
+.item-cantidad{
+  min-width: 35px;
+  text-align: center;
+}
+
+.item-card{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.item-card-interno{
+  padding: 0.3rem 0;
+  width: 100%;
+}

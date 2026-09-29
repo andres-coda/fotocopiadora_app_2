@@ -12,14 +12,15 @@ import Cargando from "../../../../componente/cargando/cargando";
 import { PedidoLibroProp } from "../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { ReduxProp, UltimaBusquedaProp } from "../../../../redux/modelo/reduxContext.interface";
 import TextoVacio from "../../../../componente/Textos/textoVacio";
-import PedidoLibroXPedidoCard from "../../pedido/componente/pedidoLibroXPedidoCard";
 import Modal from "../../../../componente/modal/modal";
 import PedidoCard from "../../pedido/componente/pedidoCard";
 import { PedidoProp } from "../../../../modelo/Entidades/pedido/pedido.interface";
-import { seleccionarPedido } from "../../../../redux/state/pedido.state";
+import { agregarItemsPedidoSeleccionadoRedux, resetSeleccionarPedido, seleccionarPedido } from "../../../../redux/state/pedido.state";
 import { useModalContext } from "../../../../contexto/contextoModal";
 import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
 import { agregarPedidoLibrosBusquedaActual, crearBusquedaPedidoLibro } from "../../../../redux/state/pedido_libro.state";
+import ItemCardCompleto from "../../item/componente/itemCardCompleto";
+import { recrearItemLibro } from "../../../../hooks/itemsCard/useItem";
 
 const LibroSelect = () => {
   const libro: LibroProp | undefined = useSelector((store: appStore) => store.libro.datoSeleccionado);
@@ -97,7 +98,7 @@ const LibroSelect = () => {
   useEffect(() => {
     if (responsePedidoLibross) {
       const pedidoPaginado: UltimaBusquedaProp<PedidoLibroProp> = {
-        query: `${libro?.id}+${estadoSelec}`,
+        query: `${libro?.id}`,
         sortBy: itemsContexto.busquedaActual.sortBy ?? 'estado',
         sortOrder: 'asc',
         pagina: responsePedidoLibross.pagina,
@@ -105,49 +106,64 @@ const LibroSelect = () => {
         total: responsePedidoLibross.total,
         datosQuery: responsePedidoLibross.datos
       }
-      if (
-        responsePedidoLibross.pagina != itemsContexto.busquedaActual.pagina
-        && itemsContexto.busquedaActual.query === pedidoPaginado.query
-      ) {
-        dispatch(agregarPedidoLibrosBusquedaActual(pedidoPaginado))
-
+      if (modal) {
+        dispatch(agregarItemsPedidoSeleccionadoRedux(responsePedidoLibross.datos));
       } else {
-        dispatch(crearBusquedaPedidoLibro(pedidoPaginado))
+        if (
+          responsePedidoLibross.pagina != itemsContexto.busquedaActual.pagina
+          && itemsContexto.busquedaActual.query === pedidoPaginado.query
+        ) {
+          dispatch(agregarPedidoLibrosBusquedaActual(pedidoPaginado))
+
+        } else {
+          dispatch(crearBusquedaPedidoLibro(pedidoPaginado))
+        }
       }
     }
   }, [responsePedidoLibross]);
 
+  useEffect(() => {
+    if (!modal) {
+      dispatch(resetSeleccionarPedido());
+    }
+  }, [modal])
+
   if (!libro) return <p>No se encontro el libro seleccionado</p>
 
   const handlePedido = (item: PedidoLibroProp) => {
-    obtenerPedidoLibrosByPedidoId(item.id);
-    dispatch(seleccionarPedido(item));
     setModal(true);
+    obtenerPedidoLibrosByPedidoId(item.idPedido);
+    dispatch(seleccionarPedido(item.pedido));
   }
 
   return (
-    <Centro ref={contenedorRef}>
-      <div className="div-vertical libro-select">
-        <div className="libro-superior">
-          {libro.img ? (
-            <img src={libro.img} alt={libro.nombre} className="libro-img" />
-          ) : (null)}
-          <div className="div-vertical">
-            <Texto texto={nombreLibroXstring(libro)} grande centrado negrita />
-            <Texto textoResaltado={'Año de edición:  '} texto={libro.anio ?? ''} chica />
-            {libro.edicion && <Texto textoResaltado={'Número de edición:  '} texto={`${libro.edicion}`} chica />}
-            <Texto textoResaltado={'Editorial:  '} texto={`${libro.editorial ?? ''}`} chica />
-            <Texto textoResaltado={'Autor:  '} texto={`${libro.autor ?? ''}`} chica />
-            <Texto textoResaltado={'Materia:  '} texto={`${libro.materia.nombre}`} chica />
-            <Texto textoResaltado={'Descripción:  '} texto={`${libro.descripcion ?? ''}`} chica />
-            <Texto textoResaltado={'Cantidad de páginas:  '} texto={`${libro.cantidadPg}`} chica />
-            <Texto textoResaltado={'Cantidad de adhesivos:  '} texto={`${libro.adhesivos ?? 0}`} chica />
-            <Texto textoResaltado={'Propuestas:  '} texto={``} mediana />
-            {libro.propuesta?.map(p => <Texto texto={p.nombre} />)}
+    <Centro
+      ref={contenedorRef}
+      nuevoEstilo="libro-selec-centro"
+    >
+      <div className="libro-select-superior">
+        <div className="div-vertical libro-select">
+          <div className="libro-superior">
+            {libro.img ? (
+              <img src={libro.img} alt={libro.nombre} className="libro-img" />
+            ) : (null)}
+            <div className="div-vertical">
+              <Texto texto={nombreLibroXstring(libro)} grande centrado negrita />
+              <Texto textoResaltado={'Año de edición:  '} texto={libro.anio ?? ''} chica />
+              {libro.edicion && <Texto textoResaltado={'Número de edición:  '} texto={`${libro.edicion}`} chica />}
+              <Texto textoResaltado={'Editorial:  '} texto={`${libro.editorial ?? ''}`} chica />
+              <Texto textoResaltado={'Autor:  '} texto={`${libro.autor ?? ''}`} chica />
+              <Texto textoResaltado={'Materia:  '} texto={`${libro.materia.nombre}`} chica />
+              <Texto textoResaltado={'Descripción:  '} texto={`${libro.descripcion ?? ''}`} chica />
+              <Texto textoResaltado={'Cantidad de páginas:  '} texto={`${libro.cantidadPg}`} chica />
+              <Texto textoResaltado={'Cantidad de adhesivos:  '} texto={`${libro.adhesivos ?? 0}`} chica />
+              <Texto textoResaltado={'Propuestas:  '} texto={``} mediana />
+              {libro.propuesta?.map(p => <Texto texto={p.nombre} />)}
+            </div>
           </div>
         </div>
+        <Presupuesto libro={libro} />
       </div>
-      <Presupuesto libro={libro} />
       <Texto texto={`Lista de pedidos`} mediana negrita centrado />
       <div className="cliente-pedido">
         {loadingPedidoLibross && <Cargando />}
@@ -155,7 +171,7 @@ const LibroSelect = () => {
         {
           itemsContexto.busquedaActual.datosQuery.length === 0 ? <TextoVacio entidad="pedidos" />
             : itemsContexto.busquedaActual.datosQuery.map(pedidoItem => (
-              <PedidoLibroXPedidoCard pL={pedidoItem} key={pedidoItem.id} onClick={handlePedido} idPedido={pedidoItem.idPedido} />
+              <ItemCardCompleto item={recrearItemLibro({ libro, item: pedidoItem })} key={pedidoItem.id} onClick={handlePedido} idPedido={pedidoItem.idPedido} />
             ))}
         <div ref={finListaRef}>
           <p>Fin de lista</p>

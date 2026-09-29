@@ -4,7 +4,7 @@ import { ReduxProp } from "../modelo/reduxContext.interface";
 import { ActionProp } from "../modelo/reduxContext.interface";
 import { StockProp } from "../../modelo/Entidades/libro/stock.interface";
 
-export const actualizarMuchosStockRedux = (
+export const actualizarMuchosStockFn = (
   state: WritableDraft<ReduxProp<LibroProp>>,
   action: ActionProp<StockProp[]>
 ) => {
@@ -26,7 +26,7 @@ export const actualizarMuchosStockRedux = (
   };
 }
 
-export const actualizarStockRedux = (
+export const actualizarStockFn = (
   state: WritableDraft<ReduxProp<LibroProp>>,
   action: ActionProp<StockProp>
 ) => {

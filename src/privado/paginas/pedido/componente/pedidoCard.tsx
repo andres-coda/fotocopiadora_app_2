@@ -6,7 +6,6 @@ import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas"
 import CardFechas from "../../../../componente/pedido/cardFechas"
 import CardArchivos from "../../../../componente/pedido/cardArchivos"
 import CardImporte from "../../../../componente/pedido/cardImporte"
-import PedidoLibroXPedidoCard from "./pedidoLibroXPedidoCard"
 import Botonera from "../../../../componente-estilo/botonera/botonera"
 import Boton from "../../../../componente-estilo/boton/boton"
 import Edit from '../../../../assets/edit.svg?react'
@@ -26,6 +25,7 @@ import { StockProp } from "../../../../modelo/Entidades/libro/stock.interface"
 import { actualizarResumenClienteRedux } from "../../../../redux/state/cliente.state"
 import { cambiarEstadoPedidoRedux } from "../../../../redux/state/pedido.state"
 import Texto from "../../../../componente-estilo/texto/texto"
+import ItemCard from "../../item/componente/itemCard"
 
 interface Props {
   pedido: PedidoProp;
@@ -76,7 +76,7 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
         activo &&
         <div className="pedidos-internos">
           {pedido.libroPedidos.length === 0 && <Cargando />}
-          {pedido?.libroPedidos.map(lp => <PedidoLibroXPedidoCard pL={lp} key={lp.id} idPedido={pedido.id} />)}
+          {pedido?.libroPedidos.map(lp => <ItemCard item={lp} key={lp.id} idPedido={pedido.id} />)}
         </div>
       }
       {!cliente && <CardDatosCliente pedido={pedido} />}

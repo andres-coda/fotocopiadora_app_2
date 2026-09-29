@@ -1,6 +1,7 @@
 import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
 import { Especificaciones } from "../especificacion/especificacion.enum";
 import { LibroAdapterProp, libroInicial, LibroProp } from "../libro/libro.interface";
+import { PedidoAdapterProp, PedidoProp } from "../pedido/pedido.interface";
 import { SedeAdapterProp, sedeInicial, SedeProp } from "../sede/sede.interface";
 import { Estado } from "./estado.enum";
 
@@ -12,6 +13,7 @@ export interface PedidoLibroAdapterProp extends BaseAdapterProp {
   libro: LibroAdapterProp;
   sede: SedeAdapterProp;
   especificaciones: Especificaciones[];
+  pedido?: PedidoAdapterProp;
 }
 
 export interface PedidoLibroProp extends BaseProp {
@@ -22,6 +24,7 @@ export interface PedidoLibroProp extends BaseProp {
   libro: LibroProp;
   sede: SedeProp;
   especificaciones: Especificaciones[];
+  pedido?: PedidoProp;
 }
 
 export interface PedidoLibroConstruccionProp {

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
 import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
-import { actualizarMuchosStockRedux as actualizarMuchosStockFn, actualizarStockRedux as actualizarStockFn } from "../utils/funcionesLibro";
+import { actualizarMuchosStockFn, actualizarStockFn } from "../utils/funcionesLibro";
 
 const cantidadBusquedas: number = 15;
 
