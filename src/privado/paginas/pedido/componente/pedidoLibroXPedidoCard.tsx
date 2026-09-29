@@ -38,6 +38,7 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido, onClick }: Prop) => {
   const { cambiarSedePedidoLibro, responsePedidoLibro: responseItem, loadingPedidoLibro: loadingItem, errorFetchPedidoLibro: errorItem } = usePedidoLibroApi();
 
   const estadoAnteriorRef = useRef(pL.estado);
+  const sedeAnteriorRef = useRef(pL.sede.id);
 
 
   const { control, formState: { errors }, watch, reset } = useForm<formValuesEstado>({
@@ -45,7 +46,7 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido, onClick }: Prop) => {
     defaultValues: estadoFormEdit(pL)
   });
 
-  const { control: controlSede, formState: { errors: erSede }, watch: watchSede } = useForm<formValuesSede>({
+  const { control: controlSede, formState: { errors: erSede }, watch: watchSede, reset: resetSede } = useForm<formValuesSede>({
     resolver: zodResolver(sede),
     defaultValues: sedeFormEdit(pL.sede)
   });
@@ -57,20 +58,21 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido, onClick }: Prop) => {
 
   useEffect(() => {
     if (estadoAnteriorRef.current !== pL.estado) {
-    // El estado YA cambió en Redux (vino del backend), no hace falta llamar API
-    estadoAnteriorRef.current = pL.estado;
-    return;
-  }
-  // Solo si el usuario cambió el desplegable (form) y difiere del prop real:
-  if (estadoActual !== pL.estado) {
-    cambiarEstadoPedidoLibro({ idPedido, nroPedido: pL.id, estado: estadoActual });
-  }
-
+      estadoAnteriorRef.current = pL.estado;
+      return;
+    }
+    if (estadoActual !== pL.estado) {
+      cambiarEstadoPedidoLibro({ idPedido, nroPedido: pL.id, estado: estadoActual });
+    }
   }, [estadoActual, pL.estado]);
 
   useEffect(() => {
     const idSedeActual: SedeProp | undefined = sedes.datosIniciales?.datosQuery?.find(s => s.nombre === sedeActual || s.id === sedeActual);
 
+    if (sedeAnteriorRef.current !== pL.sede.id) {
+      sedeAnteriorRef.current = pL.sede.id;
+      return;
+    }
     if (idSedeActual != undefined && idSedeActual?.id != pL.sede.id) {
       cambiarSedePedidoLibro({ idPedido, nroPedido: pL.id, sede_id: sedeActual });
     }
@@ -79,6 +81,11 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido, onClick }: Prop) => {
   useEffect(() => {
     reset(estadoFormEdit(pL));
   }, [pL.estado, reset])
+
+
+  useEffect(() => {
+    resetSede(sedeFormEdit(pL.sede));
+  }, [pL.estado, resetSede])
 
   useEffect(() => {
     if (responseCambioEstadoPedido) {
