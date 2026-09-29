@@ -97,10 +97,12 @@ const LibroSelect = () => {
   useEffect(() => {
     if (responsePedidoLibross) {
       const pedidoPaginado: UltimaBusquedaProp<PedidoLibroProp> = {
-        ...responsePedidoLibross,
         query: `${libro?.id}+${estadoSelec}`,
         sortBy: itemsContexto.busquedaActual.sortBy ?? 'estado',
         sortOrder: 'asc',
+        pagina: responsePedidoLibross.pagina,
+        limite: responsePedidoLibross.limite,
+        total: responsePedidoLibross.total,
         datosQuery: responsePedidoLibross.datos
       }
       if (

@@ -109,7 +109,9 @@ const ClienteSelect = () => {
   useEffect(() => {
     if (responsePedidos) {
       const pedidoPaginado: UltimaBusquedaProp<PedidoProp> = {
-        ...responsePedidos,
+        pagina: responsePedidos.pagina,
+        limite: responsePedidos.limite,
+        total: responsePedidos.total,
         query: `${clienteContexto.datoSeleccionado?.id}+${estadoSelec}`,
         sortBy: pedidosCliente.busquedaActual.sortBy ?? 'estado',
         sortOrder: 'asc',
