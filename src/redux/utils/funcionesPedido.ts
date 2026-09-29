@@ -1,20 +1,20 @@
 import { WritableDraft } from "@reduxjs/toolkit";
 import { ActionProp, ReduxProp } from "../modelo/reduxContext.interface";
 import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
-import { CambiarEstadoLibroItem, CambiarEstadoPedidoProp } from "../../modelo/Entidades/pedido_libro/cambioEstado.interface";
+import { CambiarEstadoItemProp, CambiarEstadoPedidoCompletoProp, CambiarEstadoPedidoProp } from "../../modelo/Entidades/pedido_libro/cambioEstado.interface";
 import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 
 export const modificarEstadoPedidoRedux = (
   state: WritableDraft<ReduxProp<PedidoProp>>,
-  action: ActionProp<CambiarEstadoPedidoProp>
+  action: ActionProp<CambiarEstadoPedidoCompletoProp>
 ) => {
   const newBusquedaActual = {
     ...state.busquedaActual,
-    datosQuery: actualizarEstadoPedidoLista(action.payload, state.busquedaActual.datosQuery)
+    datosQuery: actualizarEstadoPedidoLista(action.payload.pedido, state.busquedaActual.datosQuery)
   };
   const newDatosIniciales = {
     ...state.datosIniciales,
-    datosQuery: actualizarEstadoPedidoLista(action.payload, state.datosIniciales.datosQuery)
+    datosQuery: actualizarEstadoPedidoLista(action.payload.pedido, state.datosIniciales.datosQuery)
   };
   return {
     ...state,
@@ -24,14 +24,14 @@ export const modificarEstadoPedidoRedux = (
   };
 };
 
-const modificarEstadoPedidoSelect = (prop: CambiarEstadoPedidoProp, pedido: PedidoProp | undefined): PedidoProp | undefined => {
-  if (!prop?.id || !pedido || pedido.id != prop.id) return pedido;
+const modificarEstadoPedidoSelect = (prop: CambiarEstadoPedidoCompletoProp, pedido: PedidoProp | undefined): PedidoProp | undefined => {
+  if (!prop?.pedido.id || !pedido || pedido.id != prop.pedido.id) return pedido;
   
   // Actualizar estado del pedido
   const updatedPedido = {
     ...pedido,
-    estado: prop.estado,
-    ultAct: prop.ultAct ?? pedido.ultAct
+    estado: prop.pedido.estado,
+    ultAct: prop.pedido.ultAct ?? pedido.ultAct
   };
   
   // Actualizar items del pedido si vienen en la respuesta
@@ -42,11 +42,11 @@ const modificarEstadoPedidoSelect = (prop: CambiarEstadoPedidoProp, pedido: Pedi
   return updatedPedido;
 };
 
-const actualizarItemsPedidoLista = (items: CambiarEstadoLibroItem[], libroPedidos: PedidoLibroProp[]): PedidoLibroProp[] => {
+const actualizarItemsPedidoLista = (items: CambiarEstadoItemProp[], libroPedidos: PedidoLibroProp[]): PedidoLibroProp[] => {
   if (!items?.length || !libroPedidos?.length) return libroPedidos;
   
   return libroPedidos.map(lp => {
-    const item = items.find(i => i.idPedido === lp.idPedido && i.nro === Number(lp.id));
+    const item = items.find(i => i.idPedido === lp.idPedido && i.id === lp.id);
     if (!item) return lp;
     return {
       ...lp,
@@ -110,7 +110,7 @@ const cambiarSedeFuncion = (prop: PedidoLibroProp, pedido: PedidoLibroProp | und
  */
 export const modificarEstadoPedidoLibroRedux = (
   state: WritableDraft<ReduxProp<PedidoLibroProp>>,
-  action: ActionProp<CambiarEstadoLibroItem[]>
+  action: ActionProp<CambiarEstadoItemProp[]>
 ) => {
   const newBusquedaActual = {
     ...state.busquedaActual,
@@ -128,9 +128,9 @@ export const modificarEstadoPedidoLibroRedux = (
   };
 };
 
-const modificarEstadoPedidoLibroSelected = (prop: CambiarEstadoLibroItem[], pedidoLibro: PedidoLibroProp | undefined): PedidoLibroProp | undefined => {
+const modificarEstadoPedidoLibroSelected = (prop: CambiarEstadoItemProp[], pedidoLibro: PedidoLibroProp | undefined): PedidoLibroProp | undefined => {
   if (!prop || prop.length === 0 || !pedidoLibro) return pedidoLibro;
-  const item: CambiarEstadoLibroItem | undefined = prop.find(i => i.idPedido === pedidoLibro.idPedido && i.nro === Number(pedidoLibro.id));
+  const item: CambiarEstadoItemProp | undefined = prop.find(i => i.idPedido === pedidoLibro.idPedido && i.id === pedidoLibro.id);
   if (!item) return pedidoLibro;
   return {
     ...pedidoLibro,
@@ -139,11 +139,11 @@ const modificarEstadoPedidoLibroSelected = (prop: CambiarEstadoLibroItem[], pedi
   }
 }
 
-const actualizarEstadoPedidoLibroLista = (prop: CambiarEstadoLibroItem[], pedidoLibros: PedidoLibroProp[]): PedidoLibroProp[] => {
+const actualizarEstadoPedidoLibroLista = (prop: CambiarEstadoItemProp[], pedidoLibros: PedidoLibroProp[]): PedidoLibroProp[] => {
   if (!prop?.length || !pedidoLibros?.length) return pedidoLibros;
 
   return pedidoLibros.map((pl) => {
-    const item = prop.find(i => i.idPedido === pl.idPedido && i.nro === Number(pl.id));
+    const item = prop.find(i => i.idPedido === pl.idPedido && i.id === pl.id);
 
     if (!item) return pl;
 

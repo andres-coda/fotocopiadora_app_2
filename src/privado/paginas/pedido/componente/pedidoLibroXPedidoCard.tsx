@@ -10,9 +10,8 @@ import './pedidoCard.css'
 import { estado, estadoFormEdit, formValuesEstado } from "../../../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { estadosParaDesplegable, pasarEstadoDesplegable } from "../../../../utils/estado";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
 import { actualizarStockRedux } from "../../../../redux/state/libro.state";
 import { actualizarResumenClienteRedux } from "../../../../redux/state/cliente.state";
 import { cambiarEstadoPedidoRedux } from "../../../../redux/state/pedido.state";
@@ -29,7 +28,7 @@ import useCambiarEstadoPedidoApi from "../../../../servicio/pedido/useCambiarEst
 interface Prop {
   pL: PedidoLibroProp;
   idPedido: string;
-  onClick?: (pL:PedidoLibroProp)=> void;
+  onClick?: (pL: PedidoLibroProp) => void;
 }
 
 const PedidoLibroXPedidoCard = ({ pL, idPedido, onClick }: Prop) => {
@@ -37,47 +36,56 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido, onClick }: Prop) => {
 
   const { cambiarEstadoPedidoLibro, responseCambioEstadoPedido, loadingCambioEstadoPedido, errorFetchCambioEstadoPedido } = useCambiarEstadoPedidoApi();
   const { cambiarSedePedidoLibro, responsePedidoLibro: responseItem, loadingPedidoLibro: loadingItem, errorFetchPedidoLibro: errorItem } = usePedidoLibroApi();
-  
-  const { control, formState: { errors }, watch } = useForm<formValuesEstado>({
+
+  const estadoAnteriorRef = useRef(pL.estado);
+
+
+  const { control, formState: { errors }, watch, reset } = useForm<formValuesEstado>({
     resolver: zodResolver(estado),
     defaultValues: estadoFormEdit(pL)
   });
-  console.log('<<<--- Sede --->>>', pL.sede)
+
   const { control: controlSede, formState: { errors: erSede }, watch: watchSede } = useForm<formValuesSede>({
     resolver: zodResolver(sede),
     defaultValues: sedeFormEdit(pL.sede)
   });
   const dispatch = useDispatch();
 
-  const [clasEstado, setClasEstado] = useState<Estado>(pL.estado);
-
   const estadoActual = watch().estado;
 
   const sedeActual = watchSede().nombre;
 
   useEffect(() => {
-    if (estadoActual != clasEstado) {
-      cambiarEstadoPedidoLibro({ idPedido, nroPedido: pL.id, estado: estadoActual });
-    }
-  }, [estadoActual]);
+    if (estadoAnteriorRef.current !== pL.estado) {
+    // El estado YA cambió en Redux (vino del backend), no hace falta llamar API
+    estadoAnteriorRef.current = pL.estado;
+    return;
+  }
+  // Solo si el usuario cambió el desplegable (form) y difiere del prop real:
+  if (estadoActual !== pL.estado) {
+    cambiarEstadoPedidoLibro({ idPedido, nroPedido: pL.id, estado: estadoActual });
+  }
+
+  }, [estadoActual, pL.estado]);
 
   useEffect(() => {
-    const idSedeActual:SedeProp | undefined = sedes.datosIniciales?.datosQuery?.find(s => s.nombre === sedeActual || s.id === sedeActual);
-    console.log('Sede actual en watch: ', sedeActual)
-    console.log('Sede actual: ', idSedeActual)
-    
-    if (idSedeActual != undefined && idSedeActual?.id != pL.sede.id ) {
+    const idSedeActual: SedeProp | undefined = sedes.datosIniciales?.datosQuery?.find(s => s.nombre === sedeActual || s.id === sedeActual);
+
+    if (idSedeActual != undefined && idSedeActual?.id != pL.sede.id) {
       cambiarSedePedidoLibro({ idPedido, nroPedido: pL.id, sede_id: sedeActual });
     }
   }, [sedeActual]);
 
   useEffect(() => {
+    reset(estadoFormEdit(pL));
+  }, [pL.estado, reset])
+
+  useEffect(() => {
     if (responseCambioEstadoPedido) {
       dispatch(actualizarStockRedux(responseCambioEstadoPedido.items[0].stock));
       dispatch(actualizarResumenClienteRedux(responseCambioEstadoPedido.resumenCliente));
-      dispatch(cambiarEstadoPedidoRedux(responseCambioEstadoPedido.pedido));
+      dispatch(cambiarEstadoPedidoRedux(responseCambioEstadoPedido));
       dispatch(cambiarEstadoPedidoLibroRedux(responseCambioEstadoPedido.items));
-      setClasEstado(responseCambioEstadoPedido.pedido.estado);
     }
   }, [responseCambioEstadoPedido]);
 
@@ -102,13 +110,13 @@ const PedidoLibroXPedidoCard = ({ pL, idPedido, onClick }: Prop) => {
   )
 
   const handleItem = () => {
-    if(onClick)
-    onClick(pL);
+    if (onClick)
+      onClick(pL);
   }
 
   return (
     <Card
-      nuevoEstilo={`pedido-libro-card ${claseXestado(clasEstado)} pedido-cliente-card`}
+      nuevoEstilo={`pedido-libro-card ${claseXestado(pL.estado)} pedido-cliente-card`}
       tituloCard={`${nombreLibroXstring(pL.libro)}`}
       onClick={onClick ? handleItem : undefined}
     >

@@ -5,7 +5,7 @@ import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSe
 import { limiteDefecto } from "../../utils/constantes";
 import { cambiarSedePedidoLibroRedux as cambiarSedePedidoLibroFn, modificarEstadoPedidoLibroRedux as modificarEstadoPedidoLibroFn } from "../utils/funcionesPedido";
 
-const cantidadBusquedas: number = 1;
+const cantidadBusquedas: number = 2;
 
 export const busquedaPedidoLibroInicial: UltimaBusquedaProp<PedidoLibroProp> = {
   query: undefined,

@@ -2,6 +2,15 @@ import { ResumenProp } from "../cliente/resumen.interface";
 import { StockProp } from "../libro/stock.interface";
 import { Estado } from "./estado.enum";
 
+export interface ResumenGeneralAdapterProp {
+  id: string;
+  pendiente: number;
+  listo: number;
+  retirado: number;
+  cancelado: number;
+  stock?: number;
+}
+
 export interface CambioEstadoPedidoItemAdapterProp {
   libro: {
     id: string;
@@ -13,7 +22,7 @@ export interface CambioEstadoPedidoItemAdapterProp {
   idPedido: string;
 }
 
-export interface CambiarEstadoPedidoAdapterInternoProp {
+export interface CambiarEstadoPedidoAdapterProp {
   id: string;
   estado: Estado;
   fechaActualizacion?: string;
@@ -21,43 +30,26 @@ export interface CambiarEstadoPedidoAdapterInternoProp {
     id: string,
     resumen: ResumenGeneralAdapterProp
   }
-  items?: CambiarEstadoLibroItem[];
-}
-
-export interface CambioEstadoPedidoAdapterProp extends CambiarEstadoPedidoAdapterInternoProp{
-  items: CambioEstadoPedidoItemAdapterProp[];
-}
-
-export interface CambiarEstadoLibroPedidoAdapterProp extends CambioEstadoPedidoItemAdapterProp{
-  pedido:CambiarEstadoPedidoAdapterInternoProp;
-}
-
-export interface ResumenGeneralAdapterProp {
-  pendiente: number;
-  listo: number;
-  retirado: number;
-  cancelado: number;
-  stock?: number;
-
+  items?: CambioEstadoPedidoItemAdapterProp[];
 }
 
 export interface CambiarEstadoPedidoProp {
   id:string,
   estado:Estado,
   ultAct?: string,
-  items?: CambiarEstadoLibroItem[];
+  items?: CambiarEstadoItemProp[];
 }
 
-export interface CambiarEstadoLibroItem {
+export interface CambiarEstadoItemProp {
   ultAct?: string,
   idPedido: string;
-  nro: number;
+  id: string;
   estado: Estado;
   stock: StockProp;
 }
 
-export interface CambiarEstadoLibroPedidoProp {
-  items: CambiarEstadoLibroItem[];
+export interface CambiarEstadoPedidoCompletoProp {
+  items: CambiarEstadoItemProp[];
   pedido: CambiarEstadoPedidoProp;
   resumenCliente: ResumenProp;
 }
