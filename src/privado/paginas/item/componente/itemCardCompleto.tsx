@@ -1,6 +1,6 @@
 import { PedidoLibroProp } from "../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import Card from "../../../../componente-estilo/card/card";
-import { claseXestado, nombreLibroXstring } from "../../../../utils/formatoDatos";
+import { nombreLibroXstring } from "../../../../utils/formatoDatos";
 import ItemInternoCard from "./itemInternoCard";
 import CardArchivos from "../../../../componente/pedido/cardArchivos";
 import CardFechas from "../../../../componente/pedido/cardFechas";

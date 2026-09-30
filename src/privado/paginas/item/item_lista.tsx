@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { PedidoLibroProp } from "../../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { ReduxProp } from "../../../redux/modelo/reduxContext.interface";
 import { appStore } from "../../../redux/store";
@@ -16,7 +16,6 @@ const ItemsLista = () => {
   const items: ReduxProp<PedidoLibroProp> = useSelector((store: appStore) => store.pedidoLibro);
   const { obtenerPedidoLibross, responsePedidoLibross, loadingPedidoLibross } = usePedidoLibrosApi()
   const [valor, setValor] = useState<string>('');
-  const dispatch = useDispatch();
 
   const { contenedorRef, finListaRef, nuevoElemento } = useBusquedaPaginada<PedidoLibroProp>({
     valor,
