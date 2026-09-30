@@ -6,12 +6,11 @@ import usePedidoLibrosApi from "../../../servicio/pedido_libro/usePedidoLibrosAp
 import { useState } from "react";
 import useBusquedaPaginada from "../../../hooks/buscador/useBusquedaPaginada";
 import { agregarPedidoLibrosBusquedaActual, crearBusquedaPedidoLibro, resetBusquedaPedidoLibro } from "../../../redux/state/pedido_libro.state";
-import { useModalContext } from "../../../contexto/contextoModal";
 import BuscadorPaginadoCompleto from "../../../componente/buscador/buscadorPaginadoCompleto";
 import { rutaPrivadaBase, RutasPrivadas } from "../../rutas/rutasPrivadas";
 import Centro from "../../../componente-estilo/centro/centro";
 import TextoVacio from "../../../componente/Textos/textoVacio";
-import ItemCard from "./componente/itemCard";
+import ItemCardCompleto from "./componente/itemCardCompleto";
 
 const ItemsLista = () => {
   const items: ReduxProp<PedidoLibroProp> = useSelector((store: appStore) => store.pedidoLibro);
@@ -72,7 +71,7 @@ const ItemsLista = () => {
         {
           !items.busquedaActual || items.busquedaActual.datosQuery.length === 0
             ? (<TextoVacio entidad='clientes' />)
-            : items?.busquedaActual?.datosQuery?.map(d => <ItemCard item={d} key={d.id} idPedido={d.idPedido} onClick={handleSelectItem}/>)
+            : items?.busquedaActual?.datosQuery?.map(d => <ItemCardCompleto item={d} key={d.id} idPedido={d.idPedido} onClick={handleSelectItem}/>)
         }
         <div ref={finListaRef}>
           <p>Fin de lista</p>

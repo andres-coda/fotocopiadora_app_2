@@ -15,3 +15,7 @@
   padding: 0.3rem 0;
   width: 100%;
 }
+
+.card-item-completa{
+  min-height: 250px;
+}
