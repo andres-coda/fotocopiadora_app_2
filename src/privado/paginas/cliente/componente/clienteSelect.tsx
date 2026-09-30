@@ -18,76 +18,15 @@ import usePedidosApi from "../../../../servicio/pedido/usePedidosApi";
 import { agregarItemsPedidoSeleccionadoRedux, agregarPedidosBusquedaActual, crearBusquedaPedido, resetSeleccionarPedido, seleccionarPedido } from "../../../../redux/state/pedido.state";
 import usePedidoLibrosApi from "../../../../servicio/pedido_libro/usePedidoLibrosApi";
 import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
+import EstadoPedidos from "../../../../componente/pedido/estadoPedidos";
 
 const ClienteSelect = () => {
   const clienteContexto: ReduxProp<ClienteProp> = useSelector((store: appStore) => store.cliente);
   const pedidosCliente: ReduxProp<PedidoProp> = useSelector((store: appStore) => store.pedido);
   const { responsePedidos, loadingPedidos, errorFetchPedidos, obtenerPedidosByCienteId } = usePedidosApi();
-  const [estadoSelec, setEstadoSelect] = useState<Estado | undefined>(undefined);
+   const finListaRef = useRef<HTMLDivElement>(null);
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-  const finListaRef = useRef<HTMLDivElement>(null);
-
-
-  useEffect(() => {
-    if (clienteContexto.datoSeleccionado?.id)
-      obtenerPedidosByCienteId({
-        pagina: 1,
-        limite: pedidosCliente.busquedaActual.limite,
-        idCliente: clienteContexto.datoSeleccionado?.id,
-        orden: pedidosCliente.busquedaActual.sortBy,
-        estado: estadoSelec
-      });
-  }, [clienteContexto.datoSeleccionado?.id, estadoSelec])
-
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!clienteContexto.datoSeleccionado?.id) {
-          return
-        }
-
-        if (!entry.isIntersecting) {
-          return
-        };
-        if (pedidosCliente.busquedaActual.query != `${clienteContexto.datoSeleccionado?.id}+${estadoSelec}`) {
-          return
-        }
-        if (loadingPedidos) {
-          return;
-        }
-        if (
-          pedidosCliente.busquedaActual.pagina *
-          pedidosCliente.busquedaActual.limite >=
-          pedidosCliente.busquedaActual.total
-        ) {
-          return;
-        }
-
-        obtenerPedidosByCienteId({
-          pagina: pedidosCliente.busquedaActual.pagina + 1,
-          limite: pedidosCliente.busquedaActual.limite,
-          idCliente: clienteContexto.datoSeleccionado?.id,
-          orden: pedidosCliente.busquedaActual.sortBy,
-          estado: estadoSelec ?? undefined
-        });
-
-      },
-      {
-        root: contenedorRef.current,
-        threshold: 0.2,
-      }
-    );
-
-    if (finListaRef.current) {
-      observer.observe(finListaRef.current);
-    } else {
-      console.log('NO HAY ELEMENTO PARA OBSERVAR');
-    }
-
-    return () => observer.disconnect();
-
-  }, [pedidosCliente.busquedaActual.query, pedidosCliente.busquedaActual.pagina, estadoSelec]);
+  const [estadoSelec, setEstadoSelect] = useState<Estado | undefined>(undefined);
 
   const { setModal, modal } = useModalContext();
   const { obtenerPedidoLibrosByPedidoId, responsePedidoLibross, loadingPedidoLibross, errorFetchPedidoLibross } = usePedidoLibrosApi();
@@ -129,12 +68,6 @@ const ClienteSelect = () => {
     }
   }, [responsePedidos]);
 
-  const handleFiltro = (estado: Estado) => {
-    if (estado != estadoSelec) {
-      setEstadoSelect(estado);
-    }
-  }
-
   const handlePedido = (pedido: PedidoProp) => {
     obtenerPedidoLibrosByPedidoId(pedido.id);
     dispatch(seleccionarPedido(pedido));
@@ -149,12 +82,16 @@ const ClienteSelect = () => {
       nuevoEstilo={'cliente-select'}>
       <div className="cliente-vertical">
         <ClienteDatos cliente={clienteContexto.datoSeleccionado} />
-        <ul>
-          <li className='pendiente' title='Pedidos pendientes' onClick={() => handleFiltro(Estado.PENDIENTE)}><Texto texto='Pendiente: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.pendiente}`} derecha chica /></li>
-          <li className='terminado' title='Pedidos listos para entregar' onClick={() => handleFiltro(Estado.LISTO)}><Texto texto='Para retirar: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.listo}`} derecha chica /></li>
-          <li className='retirado' title='Pedidos retirados' onClick={() => handleFiltro(Estado.RETIRADO)}><Texto texto='Retirados: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.retirado}`} derecha chica /></li>
-          <li className='cancelado' title='Pedidos cancelados' onClick={() => handleFiltro(Estado.CANCELADO)}><Texto texto='Cancelado: ' chica /> <Texto texto={`${clienteContexto.datoSeleccionado.resumen.cancelado}`} derecha chica /></li>
-        </ul>
+        <EstadoPedidos
+        stock={clienteContexto.datoSeleccionado.resumen}
+        finListaRef={finListaRef}
+        contenedorRef={contenedorRef}
+        obtenerPedidosElementoById={obtenerPedidosByCienteId}
+        loading={loadingPedidos}
+        busquedaRedux={pedidosCliente.busquedaActual}
+        estadoSelec={estadoSelec}
+        setEstadoSelect={setEstadoSelect}
+        />
 
       </div>
       <Texto texto={`Lista de pedidos ${estadoSelec ? `- ${estadoPedidoXstring(estadoSelec)}` : ''}`} mediana negrita centrado />
@@ -167,7 +104,6 @@ const ClienteSelect = () => {
               <PedidoCard pedido={pedidoItem} key={pedidoItem.id} onClick={handlePedido} nuevoEstilo="pedido-cliente-card" cliente/>
             ))}
         <div ref={finListaRef}>
-          <p>Fin de lista</p>
         </div>
       </div>
       <Modal texto={`Pedido de ${clienteContexto.datoSeleccionado.telefono ? formatoTelefonoMostrar(clienteContexto.datoSeleccionado.telefono) : clienteContexto.datoSeleccionado.email ?? ''}`}>

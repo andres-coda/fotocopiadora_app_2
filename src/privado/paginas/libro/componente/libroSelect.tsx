@@ -21,6 +21,7 @@ import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
 import { agregarPedidoLibrosBusquedaActual, crearBusquedaPedidoLibro } from "../../../../redux/state/pedido_libro.state";
 import ItemCardCompleto from "../../item/componente/itemCardCompleto";
 import { recrearItemLibro } from "../../../../hooks/itemsCard/useItem";
+import EstadoPedidos from "../../../../componente/pedido/estadoPedidos";
 
 const LibroSelect = () => {
   const libro: LibroProp | undefined = useSelector((store: appStore) => store.libro.datoSeleccionado);
@@ -34,66 +35,6 @@ const LibroSelect = () => {
   const { obtenerPedidoLibrosByLibroId, obtenerPedidoLibrosByPedidoId, responsePedidoLibross, loadingPedidoLibross, errorFetchPedidoLibross } = usePedidoLibrosApi();
 
   const { modal, setModal } = useModalContext();
-
-  useEffect(() => {
-    if (libro?.id)
-      obtenerPedidoLibrosByLibroId({
-        pagina: 1,
-        limite: itemsContexto.busquedaActual.limite ?? 6,
-        idLibro: libro?.id,
-        orden: itemsContexto.busquedaActual.sortBy,
-        estado: estadoSelec
-      });
-  }, [libro?.id, estadoSelec]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!libro?.id) {
-          return
-        }
-
-        if (!entry.isIntersecting) {
-          return
-        };
-        if (itemsContexto.busquedaActual.query != `${libro?.id}+${estadoSelec}`) {
-          return
-        }
-        if (loadingPedidoLibross) {
-          return;
-        }
-        if (
-          itemsContexto.busquedaActual.pagina *
-          itemsContexto.busquedaActual.limite >=
-          itemsContexto.busquedaActual.total
-        ) {
-          return;
-        }
-
-        obtenerPedidoLibrosByLibroId({
-          pagina: itemsContexto.busquedaActual.pagina + 1,
-          limite: itemsContexto.busquedaActual.limite,
-          idLibro: libro?.id,
-          orden: itemsContexto.busquedaActual.sortBy,
-          estado: estadoSelec ?? undefined
-        });
-
-      },
-      {
-        root: contenedorRef.current,
-        threshold: 0.2,
-      }
-    );
-
-    if (finListaRef.current) {
-      observer.observe(finListaRef.current);
-    } else {
-      console.log('NO HAY ELEMENTO PARA OBSERVAR');
-    }
-
-    return () => observer.disconnect();
-
-  }, [itemsContexto.busquedaActual.query, itemsContexto.busquedaActual.pagina, estadoSelec]);
 
   useEffect(() => {
     if (responsePedidoLibross) {
@@ -157,14 +98,30 @@ const LibroSelect = () => {
               <Texto textoResaltado={'Descripción:  '} texto={`${libro.descripcion ?? ''}`} chica />
               <Texto textoResaltado={'Cantidad de páginas:  '} texto={`${libro.cantidadPg}`} chica />
               <Texto textoResaltado={'Cantidad de adhesivos:  '} texto={`${libro.adhesivos ?? 0}`} chica />
-              <Texto textoResaltado={'Propuestas:  '} texto={``} mediana />
+              {libro.stock && <EstadoPedidos
+                stock={libro.stock}
+                finListaRef={finListaRef}
+                contenedorRef={contenedorRef}
+                obtenerPedidosElementoById={obtenerPedidoLibrosByLibroId}
+                loading={loadingPedidoLibross}
+                busquedaRedux={itemsContexto.busquedaActual}
+                estadoSelec={estadoSelec}
+                setEstadoSelect={setEstadoSelect}
+              />}
+              {
+              /*
+                <Texto textoResaltado={'Propuestas:  '} texto={``} mediana />
               {libro.propuesta?.map(p => <Texto texto={p.nombre} />)}
+              */
+              }
             </div>
           </div>
         </div>
         <Presupuesto libro={libro} />
       </div>
+      {errorFetchPedidoLibross && <Texto texto={'No se pudieron cargar los pedidos libro'} error chica />}
       <Texto texto={`Lista de pedidos`} mediana negrita centrado />
+      {loadingPedidoLibross && <Texto texto={'Pedidos cargando...'} />}
       <div className="cliente-pedido">
         {loadingPedidoLibross && <Cargando />}
         {errorFetchPedidoLibross && <Texto texto={errorFetchPedidoLibross} />}
@@ -174,7 +131,6 @@ const LibroSelect = () => {
               <ItemCardCompleto item={recrearItemLibro({ libro, item: pedidoItem })} key={pedidoItem.id} onClick={handlePedido} idPedido={pedidoItem.idPedido} />
             ))}
         <div ref={finListaRef}>
-          <p>Fin de lista</p>
         </div>
       </div>
 

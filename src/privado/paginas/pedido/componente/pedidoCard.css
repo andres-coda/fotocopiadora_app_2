@@ -16,21 +16,7 @@
   min-height: 115px;
 }
 
-.retirado {
-  background-color: var(--colorCardGris);
-}
 
-.terminado {
-  background-color: var(--colorCardVerde);
-}
-
-.pendiente {
-  background-color: var(--colorCardRosa);
-}
-
-.construccion {
-  background-color: var(--colorCardEdit);
-}
 
 .cliente-pedidos {
   display: flex;

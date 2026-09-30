@@ -7,8 +7,8 @@ import { limiteDefecto } from "../../utils/constantes";
 import { PEDIDO, PEDIDO_CLIENTE } from "../../utils/endpoint";
 import useApiPaginado from "../hooks/useApiPaginado";
 
-interface ObtenerPedidosByClienteIdProp extends Omit<BusquedaApiProp, 'query'>{
-  idCliente:string;
+export interface ObtenerPedidosByClienteIdProp extends Omit<BusquedaApiProp, 'query'>{
+  id:string;
   orden?:string;
   estado?: Estado;
 }
@@ -20,8 +20,8 @@ const usePedidosApi = () => {
     fetchData({ url: `${PEDIDO}?q=${query.trimEnd()}&limite=${limite ?? limiteDefecto}&pagina=${pagina ?? 1}`, methodo: httpMethod.GET, adapter: pedidoAdapter });
   }
 
-  const obtenerPedidosByCienteId = ({idCliente, limite, pagina, orden, estado}:ObtenerPedidosByClienteIdProp) => {
-    fetchData({ url: `${PEDIDO_CLIENTE}/${idCliente}?orden=${orden?.trimEnd() ?? ''}&limite=${limite ?? limiteDefecto}&pagina=${pagina ?? 1}&estado=${estado ?? ''}`, methodo: httpMethod.GET, adapter: pedidoAdapter });
+  const obtenerPedidosByCienteId = ({id, limite, pagina, orden, estado}:ObtenerPedidosByClienteIdProp) => {
+    fetchData({ url: `${PEDIDO_CLIENTE}/${id}?orden=${orden?.trimEnd() ?? ''}&limite=${limite ?? limiteDefecto}&pagina=${pagina ?? 1}&estado=${estado ?? ''}`, methodo: httpMethod.GET, adapter: pedidoAdapter });
   }
 
   const obtenerPedidos = () =>

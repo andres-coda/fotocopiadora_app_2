@@ -6,14 +6,18 @@ export interface filtroLlamada{
 
 export type orden = 'asc' | 'desc' | undefined
 
-export interface UltimaBusquedaProp<T>{
+export interface BusquedaRedux {
   query?: string;
-  datosQuery: T[];
-  sortBy: keyof T;
   sortOrder: orden;
   pagina: number;
   limite:number;
   total:number;
+  sortBy: string;
+}
+
+export interface UltimaBusquedaProp<T> extends Omit<BusquedaRedux, 'sortBy'>{
+  datosQuery: T[];
+  sortBy: keyof T;
 }
 
 export interface ReduxProp<T>{

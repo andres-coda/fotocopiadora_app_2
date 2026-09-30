@@ -37,9 +37,6 @@
   font-size: small;
 }
 
-.enStock {
-  background-color: var(--colorStock);
-}
 
 .vertical-libro-card{
   position: relative;
@@ -57,23 +54,6 @@
   right: 10px;
   padding: .1rem .1rem .1rem .8rem;
   background-color: var(--colorCardGris);
-}
-
-.retirado {
-  background-color: var(--colorCardGris);
-}
-
-.terminado {
-  background-color: var(--colorCardVerde);
-}
-
-.pendiente {
-  background-color: var(--colorCardRosa);
-}
-
-.enProceso {
-  background-color: var(--colorCardEdit);
-  height: auto;
 }
 
 .card-libro-pedido{

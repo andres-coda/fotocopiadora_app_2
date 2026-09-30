@@ -17,3 +17,32 @@
   overflow: hidden;
   box-sizing: border-box;
 }
+
+.retirado {
+  background-color: var(--colorCardGris);
+}
+
+.terminado {
+  background-color: var(--colorCardVerde);
+}
+
+.pendiente {
+  background-color: var(--colorCardRosa);
+}
+
+.enStock {
+  background-color: var(--colorStock);
+}
+
+.cancelado {
+  background-color: var(--colorSombra);
+}
+
+.construccion {
+  background-color: var(--colorCardEdit);
+}
+
+.enProceso {
+  background-color: var(--colorCardEdit);
+  height: auto;
+}
