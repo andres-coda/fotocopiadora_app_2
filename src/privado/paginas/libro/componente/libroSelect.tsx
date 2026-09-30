@@ -22,6 +22,11 @@ import { agregarPedidoLibrosBusquedaActual, crearBusquedaPedidoLibro } from "../
 import ItemCardCompleto from "../../item/componente/itemCardCompleto";
 import { recrearItemLibro } from "../../../../hooks/itemsCard/useItem";
 import EstadoPedidos from "../../../../componente/pedido/estadoPedidos";
+import Boton from "../../../../componente-estilo/boton/boton";
+import useEditar from "../../../../hooks/editar/useEditar";
+import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
+import Editar from '../../../../assets/edit.svg?react'
+import Eliminar from '../../../../assets/deleted.svg?react'
 
 const LibroSelect = () => {
   const libro: LibroProp | undefined = useSelector((store: appStore) => store.libro.datoSeleccionado);
@@ -30,6 +35,8 @@ const LibroSelect = () => {
   const pedidoSeleccionado: PedidoProp | undefined = useSelector((store: appStore) => store.pedido.datoSeleccionado);
   const [estadoSelec, setEstadoSelect] = useState<Estado | undefined>(undefined);
   const finListaRef = useRef<HTMLDivElement>(null);
+
+  const {handleEdit} = useEditar({libro, ruta:`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`})
 
   const dispatch = useDispatch();
   const { obtenerPedidoLibrosByLibroId, obtenerPedidoLibrosByPedidoId, responsePedidoLibross, loadingPedidoLibross, errorFetchPedidoLibross } = usePedidoLibrosApi();
@@ -88,8 +95,10 @@ const LibroSelect = () => {
             {libro.img ? (
               <img src={libro.img} alt={libro.nombre} className="libro-img" />
             ) : (null)}
-            <div className="div-vertical">
-              <Texto texto={nombreLibroXstring(libro)} grande centrado negrita />
+            <div className="div-vertical" title={nombreLibroXstring(libro)}>
+              <Boton icono={<Editar />} secundario onClick={()=>handleEdit({libro})} nuevoEstilo='btn-icono-mediano btn-edit-libro' titulo="Editar libro" />
+              <Boton icono={<Eliminar />} secundario onClick={()=>handleEdit({libro})} nuevoEstilo='btn-icono-mediano btn-eliminar-libro' titulo="Eliminar libro" />
+              <Texto texto={nombreLibroXstring(libro)} grande centrado negrita inline />
               <Texto textoResaltado={'Año de edición:  '} texto={libro.anio ?? ''} chica />
               {libro.edicion && <Texto textoResaltado={'Número de edición:  '} texto={`${libro.edicion}`} chica />}
               <Texto textoResaltado={'Editorial:  '} texto={`${libro.editorial ?? ''}`} chica />

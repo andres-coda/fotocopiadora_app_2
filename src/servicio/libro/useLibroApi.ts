@@ -14,10 +14,10 @@ const useLibroApi = () => {
     fetchData({ url: `${LIBRO}/${id}`, methodo: httpMethod.GET, adapter: libroAdapter });
 
   const crearLibro = (data: formValuesLibro) =>
-    fetchData({ url: LIBRO, methodo: httpMethod.POST, bodyData: JSON.stringify(libroDtoAdapter(data)) });
+    fetchData({ url: LIBRO, methodo: httpMethod.POST, bodyData: JSON.stringify(libroDtoAdapter(data)), adapter: libroAdapter  });
 
   const editarLibro = (data: formValuesLibro, id: string) =>
-    fetchData({ url: `${LIBRO}/${id}`, methodo: httpMethod.PUT, bodyData: JSON.stringify(libroDtoAdapter(data)) });
+    fetchData({ url: `${LIBRO}/${id}`, methodo: httpMethod.PUT, bodyData: JSON.stringify(libroDtoAdapter(data)), adapter: libroAdapter  });
 
 
 

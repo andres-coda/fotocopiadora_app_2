@@ -175,24 +175,10 @@ const LibroCargar = () => {
     }));
   };
 
-  const crearLibroSimple = (libro: LibroProp) => {
-    const payload: UltimaBusquedaProp<LibroProp> = {
-      query: undefined,
-      datosQuery: [libro],
-      sortBy: 'nombre' as keyof LibroProp,
-      sortOrder: 'asc',
-      pagina: 1,
-      limite: 20,
-      total: 1
-    };
-    return crearLibros(payload as any);
-  };
-
   const { retroceder } = useFormulario<LibroProp, formValuesLibro, LibroProp>({
     response: responseLibro,
     resetSelect: resetSeleccionarLibro,
     selectElemento: seleccionarLibro,
-    agregarElemento: crearLibroSimple,
     reset,
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
   })

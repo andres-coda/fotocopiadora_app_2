@@ -18,10 +18,10 @@ interface Prop {
 
 }
 
-const EstadoPedidos = ({ 
+const EstadoPedidos = ({
   stock, finListaRef, obtenerPedidosElementoById, loading, busquedaRedux, contenedorRef, estadoSelec, setEstadoSelect
 }: Prop) => {
-  
+
   useEffect(() => {
     if (stock?.id)
       obtenerPedidosElementoById({
@@ -90,7 +90,7 @@ const EstadoPedidos = ({
 
   return (
     <ul className="estado_pedido">
-      {stock.stock && <li className='enStock' title='Pedidos en stock' onClick={() => handleFiltro(Estado.STOCK)}><Texto texto='Stock: ' chica /> <Texto texto={`${stock.stock}`} derecha chica /></li>}
+      {stock.stock != undefined && <li className='enStock' title='Pedidos en stock' onClick={() => handleFiltro(Estado.STOCK)}><Texto texto='Stock: ' chica /> <Texto texto={`${stock.stock}`} derecha chica /></li>}
       <li className='pendiente' title='Pedidos pendientes' onClick={() => handleFiltro(Estado.PENDIENTE)}><Texto texto='Pendiente: ' chica /> <Texto texto={`${stock.pendiente}`} derecha chica /></li>
       <li className='terminado' title='Pedidos listos para entregar' onClick={() => handleFiltro(Estado.LISTO)}><Texto texto='Para retirar: ' chica /> <Texto texto={`${stock.listo}`} derecha chica /></li>
       <li className='retirado' title='Pedidos retirados' onClick={() => handleFiltro(Estado.RETIRADO)}><Texto texto='Retirados: ' chica /> <Texto texto={`${stock.retirado}`} derecha chica /></li>

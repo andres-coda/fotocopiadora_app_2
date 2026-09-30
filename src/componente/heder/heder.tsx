@@ -29,7 +29,7 @@ function Heder() {
         <li title='Libros'><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_LISTA}`} ><Libro /></Link></li>
         <li title='Clientes'><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE_LISTA}`} ><Cliente/></Link></li>
         <li title={'Precios'}><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PRECIO_LISTO}`} ><Pesos/></Link></li>
-        <li title={'Pedidos'}><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_LISTA}`} ><Pedido/></Link></li>
+        <li title={'Pedidos'}><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_LIBRO_LISTA}`} ><Pedido/></Link></li>
         <li title={'Sedes'}><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SEDE_LISTA}`} ><Sedes /></Link></li>
          
         <li title={'Usuario'}>{userActual

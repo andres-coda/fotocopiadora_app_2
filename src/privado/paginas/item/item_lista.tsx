@@ -14,7 +14,7 @@ import ItemCardCompleto from "./componente/itemCardCompleto";
 
 const ItemsLista = () => {
   const items: ReduxProp<PedidoLibroProp> = useSelector((store: appStore) => store.pedidoLibro);
-  const { obtenerPedidoLibross, responsePedidoLibross, loadingPedidoLibross } = usePedidoLibrosApi()
+  const { obtenerItemsBusqueda, responsePedidoLibross, loadingPedidoLibross } = usePedidoLibrosApi()
   const [valor, setValor] = useState<string>('');
 
   const { contenedorRef, finListaRef, nuevoElemento } = useBusquedaPaginada<PedidoLibroProp>({
@@ -22,7 +22,7 @@ const ItemsLista = () => {
     datosRedux: items,
     resetBusqueda: resetBusquedaPedidoLibro,
     crearBusqueda: crearBusquedaPedidoLibro,
-    obtenerBusqueda: obtenerPedidoLibross,
+    obtenerBusqueda: obtenerItemsBusqueda,
     agregarBusqueda: agregarPedidoLibrosBusquedaActual,
     response: responsePedidoLibross,
     loading: loadingPedidoLibross,
@@ -73,7 +73,6 @@ const ItemsLista = () => {
             : items?.busquedaActual?.datosQuery?.map(d => <ItemCardCompleto item={d} key={d.id} idPedido={d.idPedido} onClick={handleSelectItem}/>)
         }
         <div ref={finListaRef}>
-          <p>Fin de lista</p>
         </div>
         {/* <Modal texto={`Pedido de ${items?.datoSeleccionado?.cliente.telefono ? formatoTelefonoMostrar(items?.datoSeleccionado?.cliente.telefono) : items?.datoSeleccionado?.cliente.email ?? ''}`}>
           {items.datoSeleccionado ?

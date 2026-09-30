@@ -12,6 +12,7 @@
 }
 
 .libro-superior {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -29,7 +30,7 @@
   max-height: 333px;
 }
 
-.libro-superior.div-vertical {
+.libro-superior div {
   width: 100%;
 }
 
@@ -52,6 +53,21 @@
   right: .5rem;
 }
 
+.btn-edit-libro,
+.btn-eliminar-libro{
+  position: absolute;
+  z-index: 10;
+  top: 5px;
+}
+
+.btn-edit-libro{
+  right: 5px;
+}
+
+.btn-eliminar-libro{
+  left: 5px;
+}
+
 @media (width > 500px) {
   .libro-superior {
     display: flex;
@@ -62,7 +78,7 @@
   }
 
   .libro-superior img {
-    max-width: fit-content;
+    max-width: min-content;
   }
 
   .libro-select-superior {

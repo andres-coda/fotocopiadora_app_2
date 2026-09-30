@@ -49,19 +49,23 @@ const useFormulario = <T, F extends FieldValues, P extends HasId>({
 
   useEffect(() => {
     if (response) {
+    console.log('-- Ingrese a cargar el elemento ---', response)
       if (agregarElemento) dispatch(agregarElemento(response))
       if (selectElemento) dispatch(selectElemento(response))
-      resetForm({})
+        resetForm({})
     }
   }, [response])
 
   useEffect(() => {
+    console.log('-- Ingrese al reset ---')
     if (watch && itemsWatch && itemsWatch.length != 0 && resetSelect) {
       const dato: P | undefined = itemsWatch.find(c => c.id === watch)
       if (dato) {
         if (setWatch) setWatch(dato);
         if (selectElementoWatch) dispatch(selectElementoWatch(dato))
       } else {
+    
+    console.log('-- Aplique el reset ---')
         dispatch(resetSelect());
       }
     }
@@ -76,13 +80,12 @@ const useFormulario = <T, F extends FieldValues, P extends HasId>({
   }: recetProp<F>) => {
 
     const newReset = resetLocal || reset;
-    const newResetSelect = resetSelect || resetSelectLocal;
     const newSetModal = setModalLocal || setModal;
     const newRuta = rutaLocal || ruta;
     const newAtras = atrasLocal || atras;
 
     if (newReset) newReset();
-    if (newResetSelect) dispatch(newResetSelect());
+    if (resetSelectLocal) dispatch(resetSelectLocal());
     if (newSetModal) newSetModal(false);
     if (newAtras) { navigate(-1) };
     if (newRuta) navigate(newRuta);
