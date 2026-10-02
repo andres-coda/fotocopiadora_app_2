@@ -24,9 +24,9 @@ import { recrearItemLibro } from "../../../../hooks/itemsCard/useItem";
 import EstadoPedidos from "../../../../componente/pedido/estadoPedidos";
 import Boton from "../../../../componente-estilo/boton/boton";
 import useEditar from "../../../../hooks/editar/useEditar";
-import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
 import Editar from '../../../../assets/edit.svg?react'
 import Eliminar from '../../../../assets/deleted.svg?react'
+import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
 
 const LibroSelect = () => {
   const libro: LibroProp | undefined = useSelector((store: appStore) => store.libro.datoSeleccionado);
@@ -36,12 +36,12 @@ const LibroSelect = () => {
   const [estadoSelec, setEstadoSelect] = useState<Estado | undefined>(undefined);
   const finListaRef = useRef<HTMLDivElement>(null);
 
-  const {handleEdit} = useEditar({libro, ruta:`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_CARGAR}`})
+  const { modal, setModal } = useModalContext();
+  const {handleEdit} = useEditar({libro, ruta:`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_EDITAR}`})
 
   const dispatch = useDispatch();
   const { obtenerPedidoLibrosByLibroId, obtenerPedidoLibrosByPedidoId, responsePedidoLibross, loadingPedidoLibross, errorFetchPedidoLibross } = usePedidoLibrosApi();
 
-  const { modal, setModal } = useModalContext();
 
   useEffect(() => {
     if (responsePedidoLibross) {

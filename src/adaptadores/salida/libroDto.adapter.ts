@@ -1,22 +1,38 @@
-import { Especificaciones } from "../../modelo/Entidades/especificacion/especificacion.enum"
-import { libroDtoProp } from "../../modelo/Entidades/libro/dtoLibro.interface"
-import { formValuesLibro } from "../../modelo/Entidades/libro/esqLibro.esquema"
+import { Especificaciones } from "../../modelo/Entidades/especificacion/especificacion.enum";
+import { libroDtoProp, LibroEmresaDtoProp } from "../../modelo/Entidades/libro/dtoLibro.interface"
+import { formValuesLibroDatosLocales } from "../../modelo/Entidades/libro/esqLibro.esquema";
+import { CrearLibroProp } from "../../servicio/libro/useLibroApi"
 
-export const libroDtoAdapter = (l: formValuesLibro): libroDtoProp => {
+interface EditarLibroLocalAdapterProp{
+  data:formValuesLibroDatosLocales;
+  especificaciones: Especificaciones[];
+}
+
+export const libroDtoAdapter = ({data, especificaciones}:CrearLibroProp): libroDtoProp => {
   const newGrupo: libroDtoProp = {
-    nombre: l.nombre,
-    descripcion: l.descripcion,
-    autor: l.autor,
-    edicion: Number(l.edicion),
-    nivel: l.nivel,
-    editorial: l.editorial,
-    anio: l.anio,
-    img: l.img,
-    cantidadPg: Number(l.cantidadPg),
-    adhesivos: Number(l.adhesivos),
-    materia: l.materia,
-    componentes: transformarComponenteArray(l.componentes),
-    especificacionesDefecto: especificacionesDefecto(l)
+    nombre: data.nombre,
+    descripcion: data.descripcion,
+    autor: data.autor,
+    edicion: Number(data.edicion),
+    nivel: data.nivel,
+    editorial: data.editorial,
+    anio: data.anio,
+    img: data.img,
+    cantidadPg: Number(data.cantidadPg),
+    adhesivos: Number(data.adhesivos),
+    materia: data.materia,
+    componentes: transformarComponenteArray(data.componentes),
+    especificacionesDefecto: especificaciones
+  }
+  return newGrupo
+}
+
+export const libroEmpresaEditarDtoAdapter = ({data, especificaciones}:EditarLibroLocalAdapterProp): LibroEmresaDtoProp => {
+  const newGrupo: LibroEmresaDtoProp = {
+    cantidadPg: Number(data.cantidadPg),
+    adhesivos: Number(data.adhesivos),
+    especificacionesDefecto: especificaciones,
+    detalle_impresion: data.detalles_impresion
   }
   return newGrupo
 }
@@ -27,18 +43,4 @@ const transformarComponenteArray = (c: string | undefined): string[] => {
     .split(',')
     .map(x => x.trim())
     .filter(Boolean);
-}
-
-const especificacionesDefecto = (l:formValuesLibro):Especificaciones[] => {
-  const espDefecto: Especificaciones[] = [];
-
-  if(l.s_f) espDefecto.push(Especificaciones.SIMPLE_FAZ);
-  if(l.d_f) espDefecto.push(Especificaciones.DOBLE_FAZ);
-  if(l.color) espDefecto.push(Especificaciones.COLOR);
-  if(l.byn) espDefecto.push(Especificaciones.BLANCO_Y_NEGRO);
-  if(l.adhesivo) espDefecto.push(Especificaciones.ADHESIVO);
-  if(l.anillado) espDefecto.push(Especificaciones.ANILLADO);
-  if(l.trokelado) espDefecto.push(Especificaciones.TROKELADO);
-  
-  return espDefecto;
 }

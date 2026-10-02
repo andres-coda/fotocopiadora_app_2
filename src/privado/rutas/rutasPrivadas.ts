@@ -6,6 +6,7 @@ export const RutasPrivadas = {
   LIBRO: 'libro',
   LIBRO_LISTA: `libros`,
   LIBRO_CARGAR: `new-libro`,
+  LIBRO_EDITAR: `edit-libro`,
   CLIENTE: 'cliente',
   CLIENTE_LISTA: `clientes`,
   CLIENTE_CARGAR: 'new-cliente',

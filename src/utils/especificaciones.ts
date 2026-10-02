@@ -72,7 +72,7 @@ export const especificacionEnumXString = (e: Especificaciones) => {
 }
 
 export const espDefaultInicial: Especificaciones[] = [
-  Especificaciones.BLANCO_Y_NEGRO,
+  Especificaciones.COLOR,
   Especificaciones.ABROCHADO,
   Especificaciones.DOBLE_FAZ,
 ];

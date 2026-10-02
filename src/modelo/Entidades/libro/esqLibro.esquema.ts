@@ -1,61 +1,51 @@
 import { z } from "zod";
 import { LibroProp } from "./libro.interface";
-import { Especificaciones } from "../especificacion/especificacion.enum";
 import { transformarComponente } from "../../../utils/componente";
-import { transformarEspecificaciones } from "../../../utils/especificaciones";
 
-export const libro = z.object({
+const libroNombre = z.object({
   nombre: z.string().min(1, 'El libro debe tener un nombre'),
-  descripcion: z.string().optional(),
-  editorial: z.string().optional(),
-  edicion: z.string().optional(),
-  nivel: z.string().optional(),
-  cantidadPg: z.string().min(1, 'El libro debe tener cantidad de páginas, para poder calcular los precios'),
-  anio: z.string().optional(),
-  adhesivos: z.string().optional(),
-  autor: z.string().optional(),
-  img: z.string().optional(),
   materia: z.string().min(1, 'El libro debe pertenecer a una materia'),
+  editorial: z.string().optional(),
+});
+
+export type formValuesLibroNombre = z.infer<typeof libroNombre>;
+
+export const libroComponentes = z.object({
+  nivel: z.string().optional(),
   componentes: z.string().optional(),
-  color: z.boolean().optional(),
-  byn: z.boolean().optional(),
-  anillado: z.boolean().optional(),
-  d_f: z.boolean().optional(),
-  s_f: z.boolean().optional(),
-  adhesivo: z.boolean().optional(),
-  trokelado: z.boolean().optional(),
+});
+
+export type formValuesLibroComponentes = z.infer<typeof libroComponentes>;
+
+const libroDatosExtras = z.object({
+  descripcion: z.string().optional(),
+  edicion: z.string().optional(),
+  anio: z.string().optional(),
+  autor: z.string().optional(),
+  img: z.string().optional()
+});
+
+
+export type formValuesLibroDatosExtras = z.infer<typeof libroDatosExtras>;
+
+export const libroDatosLocal = z.object({
+  cantidadPg: z.string().min(1, 'El libro debe tener cantidad de páginas, para poder calcular los precios'),
+  adhesivos: z.string().optional(),
+  detalles_impresion: z.string().optional()
 })
-  .superRefine((data, ctx) => {
-    const incompatibles = [
-      {
-        a: 'color',
-        b: 'byn',
-        mensaje: 'No puede ser color y blanco y negro al mismo tiempo',
-      },
-      {
-        a: 'd_f',
-        b: 's_f',
-        mensaje: 'No puede ser doble y simple faz al mismo tiempo',
-      },
-    ] as const;
 
-    incompatibles.forEach(({ a, b, mensaje }) => {
-      if (data[a] && data[b]) {
-        ctx.addIssue({
-          code: 'custom',
-          message: mensaje,
-          path: [a],
-        });
-        ctx.addIssue({
-          code: 'custom',
-          message: mensaje,
-          path: [b],
-        });
-      }
-    });
-  });
+export type formValuesLibroDatosLocales = z.infer<typeof libroDatosLocal>;
 
-export type formValuesLibro = z.infer<typeof libro>;
+export const libro = libroNombre
+  .extend(libroComponentes.shape)
+  .extend(libroDatosExtras.shape)
+  .extend(libroDatosLocal.shape);
+
+export type formValuesLibro = 
+  formValuesLibroNombre
+  & formValuesLibroComponentes
+  & formValuesLibroDatosExtras
+  & formValuesLibroDatosLocales;
 
 export const libroFormDefault: formValuesLibro = {
   nombre: '',
@@ -70,13 +60,6 @@ export const libroFormDefault: formValuesLibro = {
   img: '',
   materia: '',
   componentes: '',
-  color: true,
-  byn: false,
-  anillado: true,
-  d_f: true,
-  s_f: false,
-  adhesivo: false,
-  trokelado: false,
 }
 
 export const libroFormEdit = (libro?: LibroProp | null): formValuesLibro => {
@@ -94,13 +77,6 @@ export const libroFormEdit = (libro?: LibroProp | null): formValuesLibro => {
     img: libro?.img || libroFormDefault.img,
     materia: libro?.materia.nombre || libroFormDefault.materia,
     componentes: transformarComponente(libro?.componentes),
-    color: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.COLOR),
-    byn: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.BLANCO_Y_NEGRO),
-    anillado: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.ANILLADO),
-    d_f: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.DOBLE_FAZ),
-    s_f: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.SIMPLE_FAZ),
-    adhesivo: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.ADHESIVO),
-    trokelado: transformarEspecificaciones(libro.especificacionesDefecto, Especificaciones.TROKELADO)
   }
 }
 

@@ -18,6 +18,7 @@ import { ProveiderPedidoContext } from "../contexto/contextoPedido";
 import Libros_lista from "./paginas/libro/libro_lista";
 import Cliente_lista from "./paginas/cliente/cliente_lista";
 import ItemsLista from "./paginas/item/item_lista";
+import EditarLibroEmresa from "./paginas/libro/cargar/editarLibroEmresa";
 
 const PrivadoRuta = () => {
   return (
@@ -29,6 +30,7 @@ const PrivadoRuta = () => {
             <Route path="/" element={<Navigate to={RutasPrivadas.LIBRO_LISTA} />}></Route>
             <Route path={RutasPrivadas.LIBRO_LISTA} element={<Libros_lista />}></Route>
             <Route path={RutasPrivadas.LIBRO_CARGAR} element={<LibroCargar />}></Route>
+            <Route path={RutasPrivadas.LIBRO_EDITAR} element={<EditarLibroEmresa />}></Route>
             <Route path={RutasPrivadas.LIBRO} element={<LibroSelect />}></Route>
             <Route path={RutasPrivadas.CLIENTE_LISTA} element={<Cliente_lista />}></Route>
             <Route path={RutasPrivadas.CLIENTE_CARGAR} element={<ClienteCargar />}></Route>
