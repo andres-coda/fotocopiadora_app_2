@@ -19,8 +19,8 @@ interface Prop<T extends formValuesLibroComponentes> {
 }
 
 const CargarComponentes = <T extends formValuesLibroComponentes>({ control, errors, watch, reset }: Prop<T>) => {
-  const nameNivel = 'cantidadPg' as Path<T>;
-  const nameComponentes = 'adhesivos' as Path<T>;
+  const nameNivel = 'nivel' as Path<T>;
+  const nameComponentes = 'componentes' as Path<T>;
 
   const [componenteSeleccionado, setComponenteSeleccionado] = useState<string | undefined>(undefined);
   const [nivelSeleccionado, setNivelSeleccionado] = useState<string | undefined>(undefined);

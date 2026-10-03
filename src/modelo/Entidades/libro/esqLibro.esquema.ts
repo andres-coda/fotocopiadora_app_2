@@ -17,7 +17,7 @@ export const libroComponentes = z.object({
 
 export type formValuesLibroComponentes = z.infer<typeof libroComponentes>;
 
-const libroDatosExtras = z.object({
+export const libroDatosExtras = z.object({
   descripcion: z.string().optional(),
   edicion: z.string().optional(),
   anio: z.string().optional(),

@@ -5,6 +5,7 @@ import { formValuesLibroDatosLocales, libroDatosLocal } from "../../../../modelo
 import { parseDecimal } from "../../../../utils/formulario";
 import { Especificaciones } from "../../../../modelo/Entidades/especificacion/especificacion.enum";
 import { Dispatch, SetStateAction } from "react";
+import Texto from "../../../../componente-estilo/texto/texto";
 
 interface Prop<T extends formValuesLibroDatosLocales> {
   control: Control<T>;
@@ -21,6 +22,7 @@ const CargarLibroDatosLocal = <T extends formValuesLibroDatosLocales> ({ control
 
   return (
     <>
+      <Texto texto={'Especificaciones por defecto'} centrado mediana inline/>
       <EspecificacionesSelect especificaciones={especificaciones} setEspecificaciones={setEspecificaciones} />
       <div className="form-horizontal">
         <Input<T> name={nameCantidadPg} control={control} label='Cantidad de páginas' tipo='text' error={errors.cantidadPg} esquema={libroDatosLocal} formatValue={(v) => parseDecimal(v, 4, 0)} parseValue={(v) => parseDecimal(v, 4, 0)} />

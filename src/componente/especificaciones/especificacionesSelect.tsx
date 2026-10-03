@@ -5,10 +5,11 @@ import { useSelector } from "react-redux";
 import { EspecificacionProp } from "../../modelo/Entidades/especificacion/especificacion.interface";
 import { normalizarEspecificaciones, transformarEspecificacinParticularATexto } from "../../utils/especificaciones";
 import InputCheckFueraForm from "../formulario/inputCheckFueraForm";
+import './especificacionCard.css'
 
 interface EspSelectProp {
   setEspecificaciones: Dispatch<React.SetStateAction<Especificaciones[]>>
-  especificaciones: Especificaciones[]
+  especificaciones: Especificaciones[];
 }
 
 const EspecificacionesSelect = ({ setEspecificaciones, especificaciones }: EspSelectProp) => {
@@ -19,12 +20,14 @@ const EspecificacionesSelect = ({ setEspecificaciones, especificaciones }: EspSe
   })
 
   return (
-    <InputCheckFueraForm<Especificaciones>
-      elementosSelect={especificaciones}
-      setelementosSelect={setEspecificaciones}
-      normalizar={normalizarEspecificaciones}
-      lista={newEsp}
-    />
+    <div className="esp-select">
+      <InputCheckFueraForm<Especificaciones>
+        elementosSelect={especificaciones}
+        setelementosSelect={setEspecificaciones}
+        normalizar={normalizarEspecificaciones}
+        lista={newEsp}
+      />
+    </div>
 
   )
 }

@@ -34,3 +34,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.esp-select{
+  box-shadow: 1px 1px 1px var(--colorSombra);
+  border-radius: 5px;
+  padding: .5rem;
+  box-sizing: border-box;
+}

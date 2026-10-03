@@ -65,7 +65,7 @@ function Modal({ children, chica = undefined, nuevoEstilo = '', texto=undefined}
   return createPortal(
     <div className={`modal-fondo ${modal ? 'modal-abierto' : ''}`} onClick={cerrarModal}>
       <div className={`modal-frente ${chica ? 'modal-chico' : ''} ${nuevoEstilo}`} ref={modalRef} onClick={handleClickDentroModal}>
-        {texto ? <Texto texto={texto} centrado inline etiqueta={texto} nuevoEstilo="titulo-modal"/> : <Texto texto='modal'/>}
+        {texto ? <Texto texto={texto} centrado inline etiqueta={texto} nuevoEstilo="titulo-modal"/> : <span></span>}
         <div className="modal-interno">
           <div className={`modal ${nuevoEstilo ?? ''}`}>
           {children}

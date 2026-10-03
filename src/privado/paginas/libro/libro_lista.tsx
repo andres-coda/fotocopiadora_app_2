@@ -12,6 +12,8 @@ import { resetSeleccionarLibro, seleccionarLibro } from '../../../redux/state/li
 import { LibroProp } from '../../../modelo/Entidades/libro/libro.interface'
 import { useNavigate } from 'react-router-dom'
 import { rutaPrivadaBase, RutasPrivadas } from '../../rutas/rutasPrivadas'
+import Modal from '../../../componente/modal/modal'
+import LibroCargar from './cargar/libroCargar'
 
 
 const Libros_lista = () => {
@@ -65,6 +67,9 @@ const Libros_lista = () => {
         <div ref={finListaRef}>
           <p>Fin de lista</p>
         </div>
+        <Modal>
+          <LibroCargar />
+        </Modal>
       </Centro>
     </>
   )

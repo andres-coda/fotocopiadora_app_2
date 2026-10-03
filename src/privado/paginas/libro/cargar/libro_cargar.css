@@ -1,0 +1,13 @@
+.cargar-libro form div span{
+  min-height: 10px;
+  
+}
+
+.crear-libro-menu{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+}

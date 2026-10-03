@@ -5,12 +5,13 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { HasId } from "../../modelo/general/hasId.interface";
 import { Opcion } from "../../componente/formulario/modelo/input.interface";
+import { useModalContext } from "../../contexto/contextoModal";
 
 interface recetProp<F extends FieldValues> {
   reset?: UseFormReset<F>
   resetSelect?: () => UnknownAction;
   ruta?: string;
-  setModal?: Dispatch<SetStateAction<boolean>>;
+  setModal?: boolean;
   atras?: boolean;
   watch?: string;
 }
@@ -44,6 +45,7 @@ const useFormulario = <T, F extends FieldValues, P extends HasId>({
   setWatch = undefined,
 }: useFormularioProp<T, F, P>) => {
 
+  const {setModal:setNewModal} = useModalContext()
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -86,7 +88,7 @@ const useFormulario = <T, F extends FieldValues, P extends HasId>({
 
     if (newReset) newReset();
     if (resetSelectLocal) dispatch(resetSelectLocal());
-    if (newSetModal) newSetModal(false);
+    if (newSetModal) setNewModal(false);
     if (newAtras) { navigate(-1) };
     if (newRuta) navigate(newRuta);
   }

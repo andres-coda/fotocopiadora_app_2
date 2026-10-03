@@ -9,6 +9,7 @@
   box-shadow: 1px 1px 1px var(--colorSombra);
   border-radius: 10px;
   box-sizing: border-box;
+  margin: .5rem 0;
 }
 
 .form {
@@ -18,7 +19,7 @@
 .form-horizontal, .form-horizontal-flexible {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-end;
   flex: 1;
   gap: .5rem;
   box-sizing: border-box;
