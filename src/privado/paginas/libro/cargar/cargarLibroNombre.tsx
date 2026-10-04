@@ -26,17 +26,26 @@ interface libroSelecProp {
   materia?: string;
 }
 
+const libroSelectDefecto = <T extends formValuesLibroNombre>( watch: UseFormWatch<T>):libroSelecProp | undefined => {
+  if(!watch()) return undefined;
+  return {
+    nombre: watch().nombre,
+    editorial: watch().editorial,
+    materia: watch().materia
+  }
+}
+
 
 const limiteBusquedaLibro: number = 3;
 
 const CargarLibroNombre = <T extends formValuesLibroNombre>({ control, errors, watch, reset }: Prop<T>) => {
-  
+
   const nameNombre = 'nombre' as Path<T>;
-    const nameMateria = 'materia' as Path<T>;
-    const nameEditorial = 'editorial' as Path<T>;
-  
-  const [libroSeleccionado, setLibroSeleccionado] = useState<libroSelecProp | undefined>(undefined);
- 
+  const nameMateria = 'materia' as Path<T>;
+  const nameEditorial = 'editorial' as Path<T>;
+
+  const [libroSeleccionado, setLibroSeleccionado] = useState<libroSelecProp | undefined>(libroSelectDefecto<T>(watch));
+
   const { obtenerLibrosNombre, responseLibros: responseLibroNombre, loadingLibros } = useLibroNombreApi();
   const { finListaRef: finLibros, datos: libros, setDatos: setLibros } = useBusquedaSimple<LibroNombreProp>({
     valor: libroSeleccionado?.nombre != watch().nombre ? watch().nombre : '',
@@ -59,7 +68,7 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({ control, errors, w
       editorial: l.editorial ?? '',
       materia: l.materia.nombre ?? ''
     });
-  };  
+  };
 
   const { obtenerEditorialesNombre, responseEditoriales, loadingEditoriales } = useEditorialNombreApi();
   const { finListaRef: finEditoriales, datos: editoriales, setDatos: setEditoriales } = useBusquedaSimple<EditorialNombreProp>({

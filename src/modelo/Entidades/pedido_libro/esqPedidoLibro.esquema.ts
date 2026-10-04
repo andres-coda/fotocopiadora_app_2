@@ -33,7 +33,7 @@ export const normalizarPedidoLibro = (pl?:PedidoLibroProp[]):PedidoLibroConstruc
       libro: p.libro,
       detalles: p.detalles,
       cantidad: p.cantidad,
-      especificaciones: transformarEspeAEnum(p.especificaciones),
+      especificaciones: p.especificaciones,
       sede: p.sede,
       estado: p.estado
     }

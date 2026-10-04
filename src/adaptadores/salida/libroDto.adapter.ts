@@ -1,6 +1,6 @@
 import { Especificaciones } from "../../modelo/Entidades/especificacion/especificacion.enum";
-import { libroDtoProp, LibroEmresaDtoProp } from "../../modelo/Entidades/libro/dtoLibro.interface"
-import { formValuesLibroDatosLocales } from "../../modelo/Entidades/libro/esqLibro.esquema";
+import { libroDtoProp, LibroEmresaDtoProp, LibroExtraDtoProp, LibroPrincipalDtoProp } from "../../modelo/Entidades/libro/dtoLibro.interface"
+import { formValuesLibroComponentes, formValuesLibroDatosExtras, formValuesLibroDatosLocales, formValuesLibroNombre } from "../../modelo/Entidades/libro/esqLibro.esquema";
 import { CrearLibroProp } from "../../servicio/libro/useLibroApi"
 
 interface EditarLibroLocalAdapterProp{
@@ -8,21 +8,13 @@ interface EditarLibroLocalAdapterProp{
   especificaciones: Especificaciones[];
 }
 
-export const libroDtoAdapter = ({data, especificaciones}:CrearLibroProp): libroDtoProp => {
-  const newGrupo: libroDtoProp = {
-    nombre: data.nombre,
+export const libroExtraDtoAdapter = (data:formValuesLibroDatosExtras): LibroExtraDtoProp => {
+  const newGrupo: LibroExtraDtoProp = {
     descripcion: data.descripcion,
     autor: data.autor,
     edicion: Number(data.edicion),
-    nivel: data.nivel,
-    editorial: data.editorial,
     anio: data.anio,
     img: data.img,
-    cantidadPg: Number(data.cantidadPg),
-    adhesivos: Number(data.adhesivos),
-    materia: data.materia,
-    componentes: transformarComponenteArray(data.componentes),
-    especificacionesDefecto: especificaciones
   }
   return newGrupo
 }
@@ -33,6 +25,28 @@ export const libroEmpresaEditarDtoAdapter = ({data, especificaciones}:EditarLibr
     adhesivos: Number(data.adhesivos),
     especificacionesDefecto: especificaciones,
     detalle_impresion: data.detalles_impresion
+  }
+  return newGrupo
+}
+
+export const libroPrincipalDtoAdapter = (data: formValuesLibroNombre, componentes: formValuesLibroComponentes ): LibroPrincipalDtoProp => {
+
+  const newGrupo: LibroPrincipalDtoProp = {
+    nombre: data.nombre,
+    nivel: componentes.nivel,
+    editorial: data.editorial,
+    materia: data.materia,
+    componentes: transformarComponenteArray(componentes.componentes),
+  }
+  return newGrupo
+}
+
+export const libroDtoAdapter = ({data, especificaciones}:CrearLibroProp): libroDtoProp => {
+
+  const newGrupo: libroDtoProp = {
+    ...libroExtraDtoAdapter(data),
+    ...libroEmpresaEditarDtoAdapter({data, especificaciones}),
+    ...libroPrincipalDtoAdapter(data, data)
   }
   return newGrupo
 }

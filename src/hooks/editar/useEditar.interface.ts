@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import { ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
@@ -17,7 +16,7 @@ export interface PropEditar {
 
 export interface PropEditarCompleto extends PropEditar {
   ruta?: string;
-  setModalLocal?: Dispatch<SetStateAction<boolean>>;
+  setModalLocal?: boolean;
 }
 
 export interface HandleSelectProp extends PropEditar {

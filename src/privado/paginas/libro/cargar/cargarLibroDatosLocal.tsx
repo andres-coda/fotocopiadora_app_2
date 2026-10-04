@@ -19,15 +19,17 @@ const CargarLibroDatosLocal = <T extends formValuesLibroDatosLocales> ({ control
   // T always contains the part keys; these casts only bridge the generic to its constraint
   const nameCantidadPg = 'cantidadPg' as Path<T>;
   const nameAdhesivos = 'adhesivos' as Path<T>;
+  const nameDetalle = 'detalles_impresion' as Path<T>
 
   return (
     <>
-      <Texto texto={'Especificaciones por defecto'} centrado mediana inline/>
-      <EspecificacionesSelect especificaciones={especificaciones} setEspecificaciones={setEspecificaciones} />
       <div className="form-horizontal">
         <Input<T> name={nameCantidadPg} control={control} label='Cantidad de páginas' tipo='text' error={errors.cantidadPg} esquema={libroDatosLocal} formatValue={(v) => parseDecimal(v, 4, 0)} parseValue={(v) => parseDecimal(v, 4, 0)} />
         <Input<T> name={nameAdhesivos} control={control} label='Cantidad de adhesivos' tipo='text' error={errors.adhesivos} esquema={libroDatosLocal} formatValue={(v) => parseDecimal(v, 2, 0)} parseValue={(v) => parseDecimal(v, 2, 0)} />
       </div>
+      <Texto texto={'Especificaciones por defecto'} centrado mediana inline/>
+      <EspecificacionesSelect especificaciones={especificaciones} setEspecificaciones={setEspecificaciones} />
+      <Input<T> name={nameDetalle} control={control} label='Detalles de impresión' tipo='text' error={errors.detalles_impresion} esquema={libroDatosLocal} />
     </>
   )
 }

@@ -45,7 +45,6 @@ const useEditar = ({
 
     ruta && navigate(ruta);
     if (setModalLocal) {
-      setModalLocal(true);
       setModal(true);
     }
   }

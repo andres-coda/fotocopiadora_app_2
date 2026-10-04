@@ -1,6 +1,8 @@
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
-import { StockAdapterProp, StockProp } from "../../modelo/Entidades/libro/stock.interface";
+import { StockAdapterProp, stockIndividualAdapterProp, stockIndividualProp, StockProp } from "../../modelo/Entidades/libro/stock.interface";
 import { baseAdapter } from "./base.adapter";
+
+
 
 export const stockAdapter = (stock?: StockAdapterProp): StockProp => {
   if (!stock) throw new Error('No hay stock en el libro');
@@ -18,4 +20,11 @@ export const stockAdapter = (stock?: StockAdapterProp): StockProp => {
     cancelado: stock.cancelado,
   }
   return newStock;
+}
+
+export const stockIndividualAdapter=(dato:stockIndividualAdapterProp ):stockIndividualProp =>{
+  return {
+    id: dato.id,
+    stock: dato.stock
+  }
 }

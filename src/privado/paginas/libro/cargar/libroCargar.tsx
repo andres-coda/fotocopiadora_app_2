@@ -6,7 +6,7 @@ import Formulario from "../../../../componente/formulario/formulario";
 import useFormulario from "../../../../hooks/formulario/useFormulario";
 import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface";
 import useLibroApi from "../../../../servicio/libro/useLibroApi";
-import { formValuesLibro, libro, libroFormEdit } from "../../../../modelo/Entidades/libro/esqLibro.esquema";
+import { formValuesLibro, libro, libroFormEdit, libroFormDefault } from "../../../../modelo/Entidades/libro/esqLibro.esquema";
 import { resetSeleccionarLibro, seleccionarLibro } from "../../../../redux/state/libro.state";
 import useEspecificacionesSelect from "../../../../hooks/presupuesto/useEspecificacionesSelect";
 import CargarLibroNombre from "./cargarLibroNombre";
@@ -20,7 +20,11 @@ import Botonera from "../../../../componente-estilo/botonera/botonera";
 import Boton from "../../../../componente-estilo/boton/boton";
 import { useEffect, useState } from "react";
 
-const LibroCargar = () => {
+interface Prop {
+  libroDespuesGuardar?: (libro:LibroProp) => void 
+}
+
+const LibroCargar = ({libroDespuesGuardar}:Prop) => {
   const { crearLibro, responseLibro, errorFetchLibro, loadingLibro } = useLibroApi()
   const { control, handleSubmit, formState: { errors }, reset, watch } = useForm<formValuesLibro>({
     resolver: zodResolver(libro),
@@ -44,6 +48,10 @@ const LibroCargar = () => {
 
   useEffect(()=>{
     if(responseLibro){
+      if(libroDespuesGuardar){
+        libroDespuesGuardar(responseLibro)
+        resetForm({ reset:()=>reset(libroFormDefault), setModal: true })
+      }
       setNombreLibro(nombreLibroXstring(responseLibro));
     }
   },[responseLibro])
@@ -54,16 +62,16 @@ const LibroCargar = () => {
       <Texto texto={`El libro fue guardado con exito`} centrado/>
       <Botonera>
         <Boton
-          onClick={() => {resetForm({ reset, resetSelect: resetSeleccionarLibro, setModal: true }), setNombreLibro(undefined)}}
+          onClick={() => {resetForm({ reset:()=>reset(libroFormDefault), resetSelect: resetSeleccionarLibro, setModal: true }), setNombreLibro(undefined)}}
           texto="Atras"
           edit
         />
-        <Boton onClick={() => {resetForm({ reset, setModal: true, ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}` }), setNombreLibro(undefined)}}
+        <Boton onClick={() => {resetForm({ reset:()=>reset(libroFormDefault), setModal: true, ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}` }), setNombreLibro(undefined)}}
           texto="Ir al libro"
           secundario
         />
         <Boton
-          onClick={() => {resetForm({ reset, resetSelect: resetSeleccionarLibro }), setNombreLibro(undefined)}}
+          onClick={() => {resetForm({ reset: () => reset(libroFormDefault), resetSelect: resetSeleccionarLibro }), setNombreLibro(undefined)}}
           texto="Nuevo libro"
         />
       </Botonera>

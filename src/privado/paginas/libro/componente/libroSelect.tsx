@@ -26,6 +26,9 @@ import Boton from "../../../../componente-estilo/boton/boton";
 import useEditar from "../../../../hooks/editar/useEditar";
 import Editar from '../../../../assets/edit.svg?react'
 import Eliminar from '../../../../assets/deleted.svg?react'
+import LibroSelectNombre from "./libroSelectNombre";
+import LibroSelectExtra from "./libroSelectExtra";
+import LibroSelectLocal from "./libroSelectLocal";
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
 
 const LibroSelect = () => {
@@ -98,15 +101,9 @@ const LibroSelect = () => {
             <div className="div-vertical" title={nombreLibroXstring(libro)}>
               <Boton icono={<Editar />} secundario onClick={()=>handleEdit({libro})} nuevoEstilo='btn-icono-mediano btn-edit-libro' titulo="Editar libro" />
               <Boton icono={<Eliminar />} secundario onClick={()=>handleEdit({libro})} nuevoEstilo='btn-icono-mediano btn-eliminar-libro' titulo="Eliminar libro" />
-              <Texto texto={nombreLibroXstring(libro)} grande centrado negrita inline />
-              <Texto textoResaltado={'Año de edición:  '} texto={libro.anio ?? ''} chica />
-              {libro.edicion && <Texto textoResaltado={'Número de edición:  '} texto={`${libro.edicion}`} chica />}
-              <Texto textoResaltado={'Editorial:  '} texto={`${libro.editorial ?? ''}`} chica />
-              <Texto textoResaltado={'Autor:  '} texto={`${libro.autor ?? ''}`} chica />
-              <Texto textoResaltado={'Materia:  '} texto={`${libro.materia.nombre}`} chica />
-              <Texto textoResaltado={'Descripción:  '} texto={`${libro.descripcion ?? ''}`} chica />
-              <Texto textoResaltado={'Cantidad de páginas:  '} texto={`${libro.cantidadPg}`} chica />
-              <Texto textoResaltado={'Cantidad de adhesivos:  '} texto={`${libro.adhesivos ?? 0}`} chica />
+              <LibroSelectNombre libro={libro}/>
+              <LibroSelectExtra libro={libro}/>
+              <LibroSelectLocal libro={libro}/>
               {libro.stock && <EstadoPedidos
                 stock={libro.stock}
                 finListaRef={finListaRef}
@@ -117,12 +114,6 @@ const LibroSelect = () => {
                 estadoSelec={estadoSelec}
                 setEstadoSelect={setEstadoSelect}
               />}
-              {
-              /*
-                <Texto textoResaltado={'Propuestas:  '} texto={``} mediana />
-              {libro.propuesta?.map(p => <Texto texto={p.nombre} />)}
-              */
-              }
             </div>
           </div>
         </div>

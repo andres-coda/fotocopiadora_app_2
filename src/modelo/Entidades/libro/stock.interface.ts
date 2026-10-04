@@ -13,6 +13,16 @@ export interface StockProp extends ResumenProp {
   stock?: number;
 }
 
+export interface stockIndividualProp {
+  id:string;
+  stock: number;
+}
+
+export interface stockIndividualAdapterProp {
+  id: string;
+  stock: number;
+}
+
 export const stockInicial: StockProp = {
   ...baseInicial,
   stock: 0,
