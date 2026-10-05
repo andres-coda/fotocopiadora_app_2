@@ -1,5 +1,6 @@
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { StockAdapterProp, stockIndividualAdapterProp, stockIndividualProp, StockProp } from "../../modelo/Entidades/libro/stock.interface";
+import { formatoFecha } from "../../utils/calendario";
 import { baseAdapter } from "./base.adapter";
 
 
@@ -25,6 +26,7 @@ export const stockAdapter = (stock?: StockAdapterProp): StockProp => {
 export const stockIndividualAdapter=(dato:stockIndividualAdapterProp ):stockIndividualProp =>{
   return {
     id: dato.id,
-    stock: dato.stock
+    stock: dato.stock,
+    ultAct: formatoFecha({fecha:dato.fechaActualizacion})
   }
 }

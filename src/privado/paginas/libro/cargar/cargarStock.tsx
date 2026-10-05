@@ -32,13 +32,14 @@ const CargarStock = ({ libroSelect }: Prop) => {
   });
 
   
-    const { setModal } = useModalContext()
+  const { setModal } = useModalContext()
 
   const { resetForm } = useFormulario<stockIndividualProp, formValuesLibroStock, LibroProp>({
     response: responseStock,
     resetSelect: resetSeleccionarLibro,
     selectElemento: actualizarStockLocal,
     reset,
+    setModal:true
   })
 
   const onSubmit = (data: formValuesLibroStock) => {

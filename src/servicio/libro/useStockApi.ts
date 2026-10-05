@@ -14,7 +14,7 @@ const useStockApi = () => {
   const { fetchData, response, loading, errorFetch } = useApi<stockIndividualProp | undefined>({});
 
   const editarStockLibro = ({ data, id }: EditarStockProp) =>
-    fetchData({ url: `${LIBRO_STOCK}/${id}`, methodo: httpMethod.PATCH, bodyData: JSON.stringify({ stock: Number(data.stock ?? 0) ?? 0 }), adapter: stockIndividualAdapter});
+    fetchData({ url: `${LIBRO_STOCK}/${id}`, methodo: httpMethod.PUT, bodyData: JSON.stringify({ stock: Number(data.stock ?? 0) ?? 0 }), adapter: stockIndividualAdapter});
 
   return { editarStockLibro, responseStock: response, loadingStock: loading, errorFetchStock: errorFetch };
 

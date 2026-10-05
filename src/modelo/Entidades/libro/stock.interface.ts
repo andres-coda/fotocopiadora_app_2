@@ -16,11 +16,13 @@ export interface StockProp extends ResumenProp {
 export interface stockIndividualProp {
   id:string;
   stock: number;
+  ultAct: string;
 }
 
 export interface stockIndividualAdapterProp {
   id: string;
   stock: number;
+  fechaActualizacion?:Date;
 }
 
 export const stockInicial: StockProp = {
