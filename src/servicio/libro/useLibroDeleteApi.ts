@@ -1,7 +1,8 @@
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
-import { LIBRO } from "../../utils/endpoint";
+import { LIBRO, LIBRO_PRINCIPAL } from "../../utils/endpoint";
 import useApi from "../hooks/useApi";
 import { formValuesLibroComponentes, formValuesLibroNombre } from "../../modelo/Entidades/libro/esqLibro.esquema";
+import { libroPrincipalDtoAdapter } from "../../adaptadores/salida/libroDto.adapter";
 
 interface EditarLibroPrincipalProp {
   id: string;
