@@ -22,12 +22,6 @@ interface EditarLibroExtraProp {
   data: formValuesLibroDatosExtras;
 }
 
-interface EditarLibroPrincipalProp {
-  id: string;
-  data: formValuesLibroNombre;
-  componentes: formValuesLibroComponentes;
-}
-
 const useLibroApi = () => {
   const { fetchData, response, loading, errorFetch } = useApi<LibroProp | undefined>({});
 
@@ -43,11 +37,7 @@ const useLibroApi = () => {
   const editarLibroExtra = ({ data, id }: EditarLibroExtraProp) =>
     fetchData({ url: `${LIBRO_EXTRA}/${id}`, methodo: httpMethod.PATCH, bodyData: JSON.stringify(libroExtraDtoAdapter( data)), adapter: libroAdapter });
 
-  const editarLibroPrincipal = ({ data, componentes, id }: EditarLibroPrincipalProp) =>
-    fetchData({ url: `${LIBRO_PRINCIPAL}/${id}`, methodo: httpMethod.PATCH, bodyData: JSON.stringify(libroPrincipalDtoAdapter( data, componentes)), adapter: libroAdapter });
-
-
-  return { editarLibroExtra, editarLibroPrincipal, obtenerLibroById, editarLibroEmpresa, crearLibro, responseLibro: response, loadingLibro: loading, errorFetchLibro: errorFetch };
+  return { editarLibroExtra, obtenerLibroById, editarLibroEmpresa, crearLibro, responseLibro: response, loadingLibro: loading, errorFetchLibro: errorFetch };
 
 }
 

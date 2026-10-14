@@ -4,6 +4,7 @@ import { LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
 import './libro_cargar.css';
 import { formValuesLibro, libro, libroFormEdit } from '../../../../modelo/Entidades/libro/esqLibro.esquema';
 import useLibroApi from '../../../../servicio/libro/useLibroApi';
+import useLibroDeleteApi from '../../../../servicio/libro/useLibroDeleteApi';
 import { useForm } from 'react-hook-form';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import useEspecificacionesSelect from '../../../../hooks/presupuesto/useEspecificacionesSelect';
@@ -28,7 +29,8 @@ interface Prop {
 }
 
 const LibroEditarFormulario = ({ libroSelect, local = false, extra = false, stock = false, datos = false }: Prop) => {
-  const { editarLibroExtra, editarLibroPrincipal, editarLibroEmpresa, responseLibro, errorFetchLibro, loadingLibro } = useLibroApi()
+  const { editarLibroExtra, editarLibroEmpresa, responseLibro, errorFetchLibro, loadingLibro } = useLibroApi()
+  const { editarLibroPrincipal, responseLibro:response, errorFetchLibro:error, loadingLibro:loading } = useLibroDeleteApi()
 
   const { control, handleSubmit, formState: { errors }, reset, watch } = useForm<formValuesLibro>({
     resolver: zodResolver(libro),
@@ -66,11 +68,11 @@ const LibroEditarFormulario = ({ libroSelect, local = false, extra = false, stoc
   }
 
   useEffect(() => {
-    if (responseLibro) {
+    if (responseLibro || response) {
       reset(libroFormEdit());
       setModal(false);
     }
-  }, [responseLibro]);
+  }, [responseLibro, response]);
 
   if (local) return (
     <Formulario
@@ -117,8 +119,8 @@ const LibroEditarFormulario = ({ libroSelect, local = false, extra = false, stoc
       onClickSecundario={() => retroceder()}
       etiquetaPrimaria="Editar"
       etiquetaSecundaria="Atras"
-      loading={loadingLibro}
-      errorFetch={errorFetchLibro}
+      loading={loading}
+      errorFetch={error}
       claseForm={'cargar-libro'}
       textBtnConfirmar="Guardar"
       textBtnSecundario="Atras"
