@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
-import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden, eliminarElemento} from "../utils/funcionesGenericasEmpresa";
 import { actualizarMuchosStockFn, actualizarStockFn, actualizarStockLocalFn } from "../utils/funcionesLibro";
 
 const cantidadBusquedas: number = 15;
@@ -36,7 +36,8 @@ export const libroSlice = createSlice({
     actualizarStockRedux: actualizarStockFn,
     actualizarMuchosStockRedux: actualizarMuchosStockFn,
     cambiarOrdenLibro: cambiarOrden<LibroProp>,
-    actualizarStockLocal: actualizarStockLocalFn
+    actualizarStockLocal: actualizarStockLocalFn,
+    eliminarLibroRedux: eliminarElemento<LibroProp>,
   }
 });
 
@@ -50,7 +51,8 @@ export const {
   actualizarStockRedux,
   actualizarMuchosStockRedux,
   cambiarOrdenLibro,
-  actualizarStockLocal
+  actualizarStockLocal,
+  eliminarLibroRedux
 } = libroSlice.actions;
 
 export default libroSlice.reducer;

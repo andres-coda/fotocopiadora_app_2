@@ -30,6 +30,7 @@ import LibroSelectNombre from "./libroSelectNombre";
 import LibroSelectExtra from "./libroSelectExtra";
 import LibroSelectLocal from "./libroSelectLocal";
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
+import EliminarLibro from "./eliminarLibro";
 
 const LibroSelect = () => {
   const libro: LibroProp | undefined = useSelector((store: appStore) => store.libro.datoSeleccionado);
@@ -38,9 +39,11 @@ const LibroSelect = () => {
   const pedidoSeleccionado: PedidoProp | undefined = useSelector((store: appStore) => store.pedido.datoSeleccionado);
   const [estadoSelec, setEstadoSelect] = useState<Estado | undefined>(undefined);
   const finListaRef = useRef<HTMLDivElement>(null);
+  const [eliminar, setEliminar] = useState<boolean>(false)
+
 
   const { modal, setModal } = useModalContext();
-  const {handleEdit} = useEditar({libro, ruta:`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_EDITAR}`})
+  const { handleEdit } = useEditar({ libro, ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_EDITAR}` })
 
   const dispatch = useDispatch();
   const { obtenerPedidoLibrosByLibroId, obtenerPedidoLibrosByPedidoId, responsePedidoLibross, loadingPedidoLibross, errorFetchPedidoLibross } = usePedidoLibrosApi();
@@ -76,6 +79,7 @@ const LibroSelect = () => {
   useEffect(() => {
     if (!modal) {
       dispatch(resetSeleccionarPedido());
+      setEliminar(false);
     }
   }, [modal])
 
@@ -99,11 +103,11 @@ const LibroSelect = () => {
               <img src={libro.img} alt={libro.nombre} className="libro-img" />
             ) : (null)}
             <div className="div-vertical" title={nombreLibroXstring(libro)}>
-              <Boton icono={<Editar />} secundario onClick={()=>handleEdit({libro})} nuevoEstilo='btn-icono-mediano btn-edit-libro' titulo="Editar libro" />
-              <Boton icono={<Eliminar />} secundario onClick={()=>handleEdit({libro})} nuevoEstilo='btn-icono-mediano btn-eliminar-libro' titulo="Eliminar libro" />
-              <LibroSelectNombre libro={libro}/>
-              <LibroSelectExtra libro={libro}/>
-              <LibroSelectLocal libro={libro}/>
+              <Boton icono={<Editar />} secundario onClick={() => handleEdit({ libro })} nuevoEstilo='btn-icono-mediano btn-edit-libro' titulo="Editar libro" />
+              <Boton icono={<Eliminar />} secundario onClick={() => { setEliminar(true), setModal(true) }} nuevoEstilo='btn-icono-mediano btn-eliminar-libro' titulo="Eliminar libro" />
+              <LibroSelectNombre libro={libro} />
+              <LibroSelectExtra libro={libro} />
+              <LibroSelectLocal libro={libro} />
               {libro.stock && <EstadoPedidos
                 stock={libro.stock}
                 finListaRef={finListaRef}
@@ -134,15 +138,16 @@ const LibroSelect = () => {
         </div>
       </div>
 
-      <Modal texto={`Pedido del ${nombreLibroXstring(libro)}`} >
-        {pedidoSeleccionado ?
+      <Modal texto={`Libro: ${nombreLibroXstring(libro)}`} >
+        {!eliminar && !pedidoSeleccionado && <TextoVacio entidad="pedido" />}
+        {pedidoSeleccionado &&
           <PedidoCard
             pedido={pedidoSeleccionado}
             activo
-          />
-          : <TextoVacio entidad="pedido" />}
+          />}
         {loadingPedidoLibross && <Cargando />}
         {errorFetchPedidoLibross && <Texto texto={errorFetchPedidoLibross} error chica />}
+        {eliminar && <EliminarLibro libro={libro} />}
       </Modal>
 
     </Centro>

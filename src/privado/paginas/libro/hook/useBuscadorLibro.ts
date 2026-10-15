@@ -11,7 +11,6 @@ import usePropuestasApi from "../../../../servicio/propuesta/usePropuestasApi";
 import { agregarPropuestasBusquedaActual, crearBusquedaPropuesta, resetBusquedaPropuesta } from "../../../../redux/state/propuesta.state";
 import { listaLibroPropuestaSeleccionable } from "../util/funcionesAdicionales";
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
-import { useModalContext } from "../../../../contexto/contextoModal";
 
 interface BuscadorLibroProp {
   opcionesActivas: string[];

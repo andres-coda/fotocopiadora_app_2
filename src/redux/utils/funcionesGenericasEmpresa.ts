@@ -1,5 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
+import { HasId } from "../../modelo/general/hasId.interface";
 
 export const evaluarUltimasBusquedas = <T>(
   state: ReduxProp<T>,
@@ -105,3 +106,23 @@ export const cambiarOrden = <T>(
     sortOrder: action.payload.sortOrder,
   };
 };
+
+export const eliminarElemento = <T extends HasId>(
+  state: ReduxProp<T>,
+  action: PayloadAction<string>
+) => {
+  state.busquedaActual = eliminarElementoLista(state.busquedaActual, action.payload)
+  if(state.datoSeleccionado?.id === action.payload)
+    state.datoSeleccionado = undefined;
+  state.datosIniciales = eliminarElementoLista(state.datosIniciales, action.payload);
+  state.ultimasBusqueda = state.ultimasBusqueda.map(b=> eliminarElementoLista(b, action.payload));
+}
+
+const eliminarElementoLista = <T extends HasId> (
+  elementos: UltimaBusquedaProp<T>, id:string
+):UltimaBusquedaProp<T> => {
+  return {
+    ...elementos,
+    datosQuery: elementos.datosQuery.filter(e=> e.id != id)
+  }
+}

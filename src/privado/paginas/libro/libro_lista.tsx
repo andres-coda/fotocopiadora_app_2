@@ -25,9 +25,11 @@ const Libros_lista = () => {
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   useEffect(()=>{
     dispatch(resetSeleccionarLibro());
-  },[])
+  },[]);
+  
   const selectLibro =(libro:LibroProp ) => {
     dispatch(seleccionarLibro(libro));
     navigate(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`)
