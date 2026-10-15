@@ -42,7 +42,7 @@ export default function Card({
   }
 
   return (
-    <div className={`card ${clase}`} onClick={handleClick} title={tituloCard}>
+    <div className={`${clase} card`} onClick={handleClick} title={tituloCard}>
       {ultActualizacion && <Texto texto={ultAct} chica sombra derecha />}
 
       {children}

@@ -15,10 +15,11 @@ import BuscadorLibro from "../../../../componente/buscador/buscadorLibro";
 import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface";
 import LibroCard from "../../libro/componente/libroCard";
 import { resetSeleccionarPropuesta } from "../../../../redux/state/propuesta.state";
+import './propuestaCargar.css'
 
 const PropuestaCargar = () => {
   const propuestaSelect: PropuestaProp | undefined = useSelector((store: appStore) => store.propuesta.datoSeleccionado);
-  const [libros, setLibros] = useState<LibroProp[]>([]);
+  const [libros, setLibros] = useState<LibroProp[]>(propuestaSelect?.libro ?? []);
  
   const { editarPropuesta, crearPropuesta, responsePropuesta, errorFetchPropuesta, loadingPropuesta } = usePropuestaApi()
 
@@ -69,9 +70,11 @@ const PropuestaCargar = () => {
       >
           <Input<formValuesPropuesta> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={propuesta} />
           <BuscadorLibro selectLibro={handleLibroBuscador} selectPropuesta={()=>true}/>
+          <div className="propuesta-libros" title="seleccione el libro que desea quitar">
           {
             libros?.map(l=> <LibroCard libro={l} selecLibro={handleSelectLibro}/>)
           }
+          </div>
       </Formulario>
     </Centro>
   )

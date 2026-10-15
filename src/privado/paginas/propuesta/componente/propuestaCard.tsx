@@ -1,44 +1,31 @@
 import Boton from '../../../../componente-estilo/boton/boton'
 import Card from '../../../../componente-estilo/card/card'
 import Texto from '../../../../componente-estilo/texto/texto'
-import useEditar from '../../../../hooks/editar/useEditar'
 import { PropuestaProp } from '../../../../modelo/Entidades/propuesta/propuesta.interface'
-import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas'
 import './propuestacard.css'
 import Copiar from '../../../../assets/copiar.svg?react'
-import Editar from '../../../../assets/edit.svg?react'
 import Arrow from '../../../../assets/arrow.svg?react'
 import usePresupuesto from '../../../../hooks/presupuesto/usePresupuesto'
-import { useState } from 'react'
-import LibroCard from '../../libro/componente/libroCard'
 import Botonera from '../../../../componente-estilo/botonera/botonera'
 import { nombreLibroXstring } from '../../../../utils/formatoDatos'
-import DesplegableConteiner from '../../../../componente-estilo/desplegable/desplegableConteiner'
+import { useModalContext } from '../../../../contexto/contextoModal'
+import { useDispatch } from 'react-redux'
+import { seleccionarPropuesta } from '../../../../redux/state/propuesta.state'
 
 interface Prop {
   propuesta: PropuestaProp,
-  selecPropuesta?: (propuesta: PropuestaProp) => void;
 }
 
-const PropuestaCard = ({ propuesta, selecPropuesta }: Prop) => {
+const PropuestaCard = ({ propuesta }: Prop) => {
   const { copiarPresupuestoLibros } = usePresupuesto({ libros: propuesta.libro })
-  const { handleSelect, handleEdit } = useEditar({
-    ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`,
-    propuesta
-  });
 
-  const handleClic = () => {
-    if (selecPropuesta) {
-      selecPropuesta(propuesta);
-    } else {
-      handleSelect
-    }
-  }
-  const [verMas, setVerMas] = useState<boolean>(false)
+  const dispatch = useDispatch()
+  const { setModal } = useModalContext()
+  
   return (
     <Card
-      onClick={handleClic}
-      nuevoEstilo={`propuesta-card ${verMas && 'propuesta-card-desactivado'}`}
+      onClick={()=>{setModal(true), dispatch(seleccionarPropuesta(propuesta))}}
+      nuevoEstilo={`propuesta-card `}
       tituloCard={propuesta.nombre}
     >
       <div className='card-horizontal propuesta-titulo'>
@@ -51,19 +38,10 @@ const PropuestaCard = ({ propuesta, selecPropuesta }: Prop) => {
           {propuesta.libro?.map(l => <Texto texto={`- ${nombreLibroXstring(l)}`} chica inline key={l.id} />)}
         </div>
         <Botonera nuevoEstilo='botonera-card-propuesta'>
-          <Boton icono={<Editar />} terciario nuevoEstilo="btn-icono-chico" titulo={`Editar propuesta`} />
-          <Boton icono={<Arrow />} terciario nuevoEstilo={`btn-icono-chico ${verMas ? 'btn-icono-arriba' : 'btn-icono-abajo'}`} titulo={`Mostrar todos los libros`} onClick={() => setVerMas(prev => !prev)} />
+          <Boton icono={<Arrow />} terciario nuevoEstilo={`btn-icono-chico btn-icono-abajo`} titulo={`Mostrar todos los libros`} onClick={() => {setModal(true), dispatch(seleccionarPropuesta(propuesta))}} />
         </Botonera>
       </div>
-      {verMas &&
-        <DesplegableConteiner>
-          {propuesta.libro?.map(l => <LibroCard libro={l} key={l.id} />)}
-          <Botonera nuevoEstilo='botonera-card-propuesta'>
-            <Boton icono={<Editar />} terciario nuevoEstilo="btn-icono-chico" titulo={`Editar propuesta`} onClick={() => handleEdit({ propuesta })} />
-            <Boton icono={<Arrow />} terciario nuevoEstilo={`btn-icono-chico ${verMas ? 'btn-icono-arriba' : 'btn-icono-abajo'}`} titulo={`Mostrar todos los libros`} onClick={() => setVerMas(prev => !prev)} />
-          </Botonera>
-        </DesplegableConteiner>
-      }
+
     </Card>
   )
 }

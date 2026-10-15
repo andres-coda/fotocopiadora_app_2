@@ -1,8 +1,9 @@
 import { WritableDraft } from "@reduxjs/toolkit";
-import { ActionProp, ReduxProp } from "../modelo/reduxContext.interface";
+import { ActionProp, ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContext.interface";
 import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { CambiarEstadoItemProp, CambiarEstadoPedidoCompletoProp, CambiarEstadoPedidoProp } from "../../modelo/Entidades/pedido_libro/cambioEstado.interface";
 import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
+import { estado } from "../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface";
 
 export const modificarEstadoPedidoRedux = (
   state: WritableDraft<ReduxProp<PedidoProp>>,
@@ -108,9 +109,9 @@ const cambiarSedeFuncion = (prop: PedidoLibroProp, pedido: PedidoLibroProp | und
  * Actualiza el estado de items en el slice pedidoLibro
  * Actualiza: búsqueda inicial, búsqueda actual y dato seleccionado
  */
-export const modificarEstadoPedidoLibroRedux = (
+export const modificarEstadoPedidoLibroFn = (
   state: WritableDraft<ReduxProp<PedidoLibroProp>>,
-  action: ActionProp<CambiarEstadoItemProp[]>
+  action: ActionProp<CambiarEstadoPedidoCompletoProp>
 ) => {
   const newBusquedaActual = {
     ...state.busquedaActual,
@@ -124,9 +125,20 @@ export const modificarEstadoPedidoLibroRedux = (
     ...state,
     datosIniciales: newDatosIniciales,
     busquedaActual: newBusquedaActual,
-    datoSeleccionado: modificarEstadoPedidoLibroSelected(action.payload, state.datoSeleccionado)
+    ultimasBusqueda: modificarEstadoItemUltimaBusqueda(action.payload, state.ultimasBusqueda),
+    datoSeleccionado: modificarEstadoPedidoLibroSelected(action.payload.items, state.datoSeleccionado)
   };
 };
+
+const modificarEstadoItemUltimaBusqueda = (prop: CambiarEstadoPedidoCompletoProp, ultBusqueda: UltimaBusquedaProp<PedidoLibroProp>[]): UltimaBusquedaProp<PedidoLibroProp>[] => {
+  if (!prop || prop.items.length === 0 || !ultBusqueda || ultBusqueda.length === 0) return ultBusqueda;
+  return ultBusqueda.map(ub => {
+    return {
+      ...ub,
+      datosQuery: actualizarEstadoPedidoLibroLista(prop, ub.datosQuery)
+    }
+  })
+}
 
 const modificarEstadoPedidoLibroSelected = (prop: CambiarEstadoItemProp[], pedidoLibro: PedidoLibroProp | undefined): PedidoLibroProp | undefined => {
   if (!prop || prop.length === 0 || !pedidoLibro) return pedidoLibro;
@@ -139,18 +151,24 @@ const modificarEstadoPedidoLibroSelected = (prop: CambiarEstadoItemProp[], pedid
   }
 }
 
-const actualizarEstadoPedidoLibroLista = (prop: CambiarEstadoItemProp[], pedidoLibros: PedidoLibroProp[]): PedidoLibroProp[] => {
-  if (!prop?.length || !pedidoLibros?.length) return pedidoLibros;
+const actualizarEstadoPedidoLibroLista = (prop: CambiarEstadoPedidoCompletoProp, pedidoLibros: PedidoLibroProp[]): PedidoLibroProp[] => {
+  if (!prop.items?.length || !pedidoLibros?.length) return pedidoLibros;
 
   return pedidoLibros.map((pl) => {
-    const item = prop.find(i => i.idPedido === pl.idPedido && i.id === pl.id);
+    const item = prop.items.find(i => i.idPedido === pl.idPedido && i.id === pl.id);
 
     if (!item) return pl;
+
+    const pedido = !pl.pedido ? undefined : {
+      ...pl.pedido,
+      estado: prop.pedido.estado,
+    }
 
     return {
       ...pl,
       estado: item.estado,
-      ultAct: item.ultAct || pl.ultAct
+      ultAct: item.ultAct || pl.ultAct,
+      pedido
     };
   });
 }

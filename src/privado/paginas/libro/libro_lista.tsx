@@ -14,23 +14,24 @@ import { useNavigate } from 'react-router-dom'
 import { rutaPrivadaBase, RutasPrivadas } from '../../rutas/rutasPrivadas'
 import Modal from '../../../componente/modal/modal'
 import LibroCargar from './cargar/libroCargar'
+import PropuestaSelect from '../propuesta/componente/propuestaSelect'
 
 
 const Libros_lista = () => {
   const [opcionesActivas, setOpcionesActivas] = useState<string[]>([listaLibroPropuestaSeleccionable[0].nombre]);
-  
-  const { valor, setValor, contenedorRef, handleNuevoElemento, libros, propuestas, finListaRef } = useBuscadorLibro({
+
+  const { valor, setValor, contenedorRef, handleNuevoElemento, libros, propuestas, finListaRef, propuesta } = useBuscadorLibro({
     opcionesActivas
   })
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(resetSeleccionarLibro());
-  },[]);
-  
-  const selectLibro =(libro:LibroProp ) => {
+  }, []);
+
+  const selectLibro = (libro: LibroProp) => {
     dispatch(seleccionarLibro(libro));
     navigate(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`)
   }
@@ -53,7 +54,7 @@ const Libros_lista = () => {
       />
       <Centro ref={contenedorRef} nuevoEstilo='centro-libro'>
         {propuestas.map(d => <PropuestaCard propuesta={d} key={d.id} />)}
-        {libros.map(d => <LibroCard libro={d} key={d.id} selecLibro={selectLibro}/>)}
+        {libros.map(d => <LibroCard libro={d} key={d.id} selecLibro={selectLibro} />)}
         {
           libros.length === 0 && propuestas.length === 0 && opcionesActivas.includes(listaLibroPropuestaSeleccionable[0].nombre) &&
           <TextoVacio entidad='libros y propuestas' />
@@ -70,7 +71,11 @@ const Libros_lista = () => {
           <p>Fin de lista</p>
         </div>
         <Modal>
-          <LibroCargar />
+          <>
+            {propuesta && <PropuestaSelect propuesta={propuesta}/>
+            }
+            {!propuesta && <LibroCargar />}
+          </>
         </Modal>
       </Centro>
     </>

@@ -26,6 +26,7 @@ import { actualizarResumenClienteRedux } from "../../../../redux/state/cliente.s
 import { cambiarEstadoPedidoRedux } from "../../../../redux/state/pedido.state"
 import Texto from "../../../../componente-estilo/texto/texto"
 import ItemCard from "../../item/componente/itemCard"
+import { cambiarEstadoPedidoLibroRedux } from "../../../../redux/state/pedido_libro.state"
 
 interface Props {
   pedido: PedidoProp;
@@ -62,6 +63,7 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
       dispatch(actualizarMuchosStockRedux(stocks));
       dispatch(actualizarResumenClienteRedux(responseCambioEstadoPedido.resumenCliente));
       dispatch(cambiarEstadoPedidoRedux(responseCambioEstadoPedido));
+      dispatch(cambiarEstadoPedidoLibroRedux(responseCambioEstadoPedido))
     }
   }, [responseCambioEstadoPedido])
 

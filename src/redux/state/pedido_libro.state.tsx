@@ -3,7 +3,7 @@ import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro
 import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
 import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
 import { limiteDefecto } from "../../utils/constantes";
-import { cambiarSedePedidoLibroRedux as cambiarSedePedidoLibroFn, modificarEstadoPedidoLibroRedux as modificarEstadoPedidoLibroFn } from "../utils/funcionesPedido";
+import { cambiarSedePedidoLibroRedux as cambiarSedePedidoLibroFn, modificarEstadoPedidoLibroFn } from "../utils/funcionesPedido";
 
 const cantidadBusquedas: number = 5;
 

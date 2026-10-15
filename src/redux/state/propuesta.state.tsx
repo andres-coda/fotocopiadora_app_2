@@ -29,8 +29,8 @@ export const propuestaSlice = createSlice({
     crearPropuestas: crearDatoInicial,
     crearBusquedaPropuesta: crearBusqueda<PropuestaProp>(cantidadBusquedas),
     resetBusquedaPropuesta: resetBusqueda<PropuestaProp>(cantidadBusquedas),
-    seleccionarPropuesta: seleccionarDato,
-    resetSeleccionarPropuesta: resetSeleccionDato,
+    seleccionarPropuesta: seleccionarDato<PropuestaProp>,
+    resetSeleccionarPropuesta: resetSeleccionDato<PropuestaProp>,
     agregarPropuestasBusquedaActual: agregarDatosBusquedaActual<PropuestaProp>,
     cambiarOrdenPropuesta: cambiarOrden<PropuestaProp>
   }

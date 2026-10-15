@@ -4,7 +4,7 @@ import Boton from "../../componente-estilo/boton/boton";
 import Titulo from "../../componente-estilo/texto/titulo";
 import Texto from "../../componente-estilo/texto/texto";
 import Botonera from "../../componente-estilo/botonera/botonera";
-import Arrow from "../../assets/arrow-small.svg?react"
+import Arrow from "../../assets/arrow.svg?react"
 
 interface FormularioProps {
   children: ReactNode;
