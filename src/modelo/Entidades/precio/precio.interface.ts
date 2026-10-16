@@ -1,4 +1,4 @@
-import { baseInicial } from "../base/base.interface";
+import { BaseAdapterProp, baseInicial } from "../base/base.interface";
 import { PrecioAbareviatura } from "./precio.enum";
 
 export interface PrecioNombreAdapterProp{
@@ -15,12 +15,8 @@ export interface PrecioNombreProp{
   descripcion?: string;
 }
 
-export interface PrecioAdapterProp{
-  idPrecio: string;
+export interface PrecioAdapterProp extends BaseAdapterProp{
   descripcion?: string;
-  fecha_actualizacion: Date;
-  fecha_creacion: Date;
-  delete: boolean;
   importe: number;
   detalles?: string;
   nombre: string;

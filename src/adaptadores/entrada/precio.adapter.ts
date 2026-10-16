@@ -1,16 +1,17 @@
+import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { PrecioAdapterProp, PrecioNombreAdapterProp, PrecioNombreProp, PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
-import { ultFechaAdapter } from "../../utils/calendario";
+import { baseAdapter } from "./base.adapter";
 
 export const precioAdapter = (precio?: PrecioAdapterProp): PrecioProp | undefined => {
   if (!precio) return undefined;
 
-  const ultAct = ultFechaAdapter({ fechaActualizacion: precio.fecha_actualizacion, fechaCreacion: precio.fecha_creacion });
+  const base: BaseProp | undefined = baseAdapter<PrecioAdapterProp>({ base: precio });
+
+  if (!base) return undefined;
 
   const newPrecio: PrecioProp = {
-    id: precio.idPrecio,
+    ...base,
     descripcion: precio.descripcion,
-    ultAct,
-    deleted: precio.delete,
     importe: precio.importe,
     detalles: precio.detalles,
     nombre: precio.nombre,
