@@ -1,0 +1,45 @@
+.switch {
+  position: relative;
+  box-sizing: border-box;
+  width:37px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--colorBoton);
+  border-radius: 50px;
+  background-color: var(--colorFondo);
+  box-shadow: 1px 1px 1px var(--colorSombra);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--colorFondo);
+  border: 2px solid var(--colorBoton);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.switch-on {
+  background-color: var(--colorBoton);
+}
+
+.switch-on::after {
+  transform: translateX(14px);
+}
+
+.swith-contenedor{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: .1rem;
+  width: min-content;
+}

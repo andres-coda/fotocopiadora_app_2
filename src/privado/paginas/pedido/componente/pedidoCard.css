@@ -80,7 +80,8 @@
 }
 
 .pedido-card-botonera{
-  padding: .5rem .2rem;
+  padding: .5rem;
+  justify-content: space-around;
   box-sizing: border-box;
 }
 

@@ -8,6 +8,7 @@ import CardArchivos from "../../../../componente/pedido/cardArchivos"
 import CardImporte from "../../../../componente/pedido/cardImporte"
 import Botonera from "../../../../componente-estilo/botonera/botonera"
 import Boton from "../../../../componente-estilo/boton/boton"
+import Switch from "../../../../componente-estilo/switch/switch"
 import Edit from '../../../../assets/edit.svg?react'
 import { claseXestadoPedido } from "../../../../utils/formatoDatos"
 import { estadosPedidoParaDesplegable, pasarEstadoDesplegable } from "../../../../utils/estado"
@@ -88,17 +89,14 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
       {
         activo &&
         <Botonera nuevoEstilo={`pedido-card-botonera ${claseXestadoPedido(pedido.estado)}`}>
-          <Boton icono={<Edit />} titulo="Editar pedido" secundario nuevoEstilo="btn-icono-mediano" onClick={() => handleSelect({ pedido, rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}` })} />
-          {// Aqui debería ir un switch para si esta activado enviar mensaje a whatsapp, por lo pronto necesito el que lo conectes al useState enviarWap
-          }
-          <Texto texto='Enviar mensaje al retirar' />
-          
+          <Switch activo={enviarWapp} onActivar={setEnviarWap} titulo="Enviar solo al retirar" texto="whatsapp: "/>
           {
             errorFetchCambioEstadoPedido ? <Texto texto={errorFetchCambioEstadoPedido} chica ajustado /> :
               !loadingCambioEstadoPedido ?
                 <Desplegable<formValuesEstadoPedido> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable(estadosPedidoParaDesplegable)} nuevoEstilo="desplegable-estado desplegable-estado-pedido" />
                 : <Texto texto={'Cambiando...'} chica ajustado />
           }
+          <Boton icono={<Edit />} titulo="Editar pedido" secundario nuevoEstilo="btn-icono-mediano" onClick={() => handleSelect({ pedido, rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}` })} />
         </Botonera>
       }
     </Card>
