@@ -4,6 +4,19 @@ import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { UseApiProps, FetchDataProps } from "../../modelo/HTTP/peticiones.interface";
 import useRetardo from "../../hooks/tiempo/useRetardo";
 
+/** Error de una respuesta HTTP no exitosa del backend: conserva status y statusText reales. */
+export class HttpApiError extends Error {
+  status: number;
+  statusText: string;
+
+  constructor(status: number, statusText: string, message: string) {
+    super(message);
+    this.name = 'HttpApiError';
+    this.status = status;
+    this.statusText = statusText;
+  }
+}
+
 function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseApiProps<T>) {
   const {token} = useAutenticacion()
   const [response, setResponse] = useState<T | null>(null);
@@ -51,7 +64,7 @@ function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseAp
         } catch (jsonErr) {
           console.error('No se pudo parsear la respuesta de error JSON:', jsonErr);
         }
-        throw new Error(errorMsg);
+        throw new HttpApiError(res.status, res.statusText, errorMsg);
       }
       const result = blob
       ? await res.blob()
@@ -62,7 +75,10 @@ function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseAp
       setControlador(true);
       setErrorFetch(null);
     } catch (err) {
-      if (err instanceof Error) {
+      if (err instanceof HttpApiError) {
+        setErrorFetch(`La petición falló (HTTP ${err.status} ${err.statusText}): ${err.message}`);
+        console.error(err);
+      } else if (err instanceof Error) {
         if (err.name === 'AbortError') {
           console.log('Petición abortada');
         } else {
