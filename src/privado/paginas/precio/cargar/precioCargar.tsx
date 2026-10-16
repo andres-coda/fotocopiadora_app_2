@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PrecioNombreProp, PrecioProp } from "../../../../modelo/Entidades/precio/precio.interface";
 import { appStore } from "../../../../redux/store";
 import usePrecioApi from "../../../../servicio/precio/usePrecioApi";
@@ -6,22 +6,26 @@ import { useForm } from "react-hook-form";
 import { formValuesPrecio, precio, precioFormEdit } from "../../../../modelo/Entidades/precio/esqPrecio.esquema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useFormulario from "../../../../hooks/formulario/useFormulario";
-import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
 import Formulario from "../../../../componente/formulario/formulario";
 import Input from "../../../../componente/formulario/input";
-import { resetSeleccionarPrecio } from "../../../../redux/state/precio.state";
+import { actualizarPrecioRedux, resetSeleccionarPrecio } from "../../../../redux/state/precio.state";
 import { useState } from "react";
 import usePreciosNombreApi from "../../../../servicio/precio/usePrecioNombreApi";
 import useBusquedaSimple from "../../../../hooks/buscador/useBuscadorSimple";
 import DesplegablePredictivo from "../../../../componente-estilo/predictivo/desplegablePredictivo";
 import PrecioNombreCard from "../componente/precioNombreCard";
 import { parseDecimal } from "../../../../utils/formulario";
+import { useModalContext } from "../../../../contexto/contextoModal";
+import CartelExito from "../../../../componente/cartelExito/cartelExito";
 
 const limiteBusquedaPrecioNombre = 3;
 
 const PrecioCargar = () => {
   const precioSelect: PrecioProp | undefined = useSelector((store: appStore) => store.precio.datoSeleccionado);
   const { editarPrecio, crearPrecio, responsePrecio, errorFetchPrecio, loadingPrecio } = usePrecioApi()
+  const { setModal } = useModalContext();
+  const dispatch = useDispatch();
+  const esEdicion = Boolean(precioSelect?.id);
 
   const { control, handleSubmit, formState: { errors }, reset, watch } = useForm<formValuesPrecio>({
     resolver: zodResolver(precio),
@@ -40,14 +44,17 @@ const PrecioCargar = () => {
   });
 
   const { retroceder } = useFormulario<PrecioProp, formValuesPrecio, PrecioProp>({
-    response: responsePrecio,
     resetSelect: resetSeleccionarPrecio,
     reset,
-    ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PRECIO_LISTO}`,
   })
 
+  const finalizar = () => {
+    if (esEdicion && responsePrecio) dispatch(actualizarPrecioRedux(responsePrecio as PrecioProp));
+    setModal(false);
+  }
+
   const onSubmit = (data: formValuesPrecio) => {
-    if (precioSelect?.id) {
+    if (esEdicion && precioSelect) {
       editarPrecio(data, precioSelect.id);
     } else {
       crearPrecio(data);
@@ -62,6 +69,13 @@ const PrecioCargar = () => {
     });
     setPrecioSeleccionado(c.nombre);
   };
+
+  if (responsePrecio) return (
+    <CartelExito
+      mensaje={`El precio ---[ ${responsePrecio.nombre} - $ ${responsePrecio.importe} ]--- fue ${esEdicion ? 'editado' : 'creado'} con exito`}
+      onCerrar={finalizar}
+    />
+  )
 
   return (
     <Formulario
