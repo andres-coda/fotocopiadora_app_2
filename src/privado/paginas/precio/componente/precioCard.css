@@ -2,5 +2,24 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   padding: 1rem;
+  background-color: var(--colorCardGris);
+}
+
+.botonera-precio{
+  width: fit-content;
+  margin-left: .5rem;
+  gap: .2rem;
+}
+
+.btn-apagado {
+  background-color: var(--colorCardGris);
+  color: var(--colorSombra);
+  cursor: default;
+}
+
+.btn-apagado:hover{
+  scale: none;
+  box-shadow: none;
 }

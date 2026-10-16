@@ -9,7 +9,7 @@
 .card-libro img {
   width: 20%;
   height: 100%;
-  object-fit: cover;
+  object-fit:contain;
   filter: drop-shadow(1px 1px 2px var(--colorSombra));
   margin: 0;
   padding: 0;

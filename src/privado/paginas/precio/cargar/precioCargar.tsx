@@ -7,7 +7,6 @@ import { formValuesPrecio, precio, precioFormEdit } from "../../../../modelo/Ent
 import { zodResolver } from "@hookform/resolvers/zod";
 import useFormulario from "../../../../hooks/formulario/useFormulario";
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
-import Centro from "../../../../componente-estilo/centro/centro";
 import Formulario from "../../../../componente/formulario/formulario";
 import Input from "../../../../componente/formulario/input";
 import { resetSeleccionarPrecio } from "../../../../redux/state/precio.state";
@@ -56,34 +55,32 @@ const PrecioCargar = () => {
   }
 
   const handleSelectPrecioNombre = (c: PrecioNombreProp) => {
-      setPrecios(undefined);
-      reset({
-        ...watch(),
-        nombre: c.nombre,
-      });
-      setPrecioSeleccionado(c.nombre);
-    };
+    setPrecios(undefined);
+    reset({
+      ...watch(),
+      nombre: c.nombre,
+    });
+    setPrecioSeleccionado(c.nombre);
+  };
 
   return (
-    <Centro>
-      <Formulario
-        titulo={`${precioSelect ? `Editar precio` : 'Nuevo precio'}`}
-        onSubmit={handleSubmit(onSubmit)}
-        onClickSecundario={() => retroceder()}
-        etiquetaPrimaria="Guardar precio"
-        etiquetaSecundaria="Atras"
-        loading={loadingPrecio}
-        errorFetch={errorFetchPrecio}
-      >
-        <Input<formValuesPrecio> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={precio} />
-        {precios && precios.datosQuery.length > 0 && <DesplegablePredictivo
-          children={precios.datosQuery.map(c => <PrecioNombreCard precioNombre={c} selectPrecioNombre={handleSelectPrecioNombre} />)}
-          finRegistros={finPrecio}
-        />}
-        <Input<formValuesPrecio> name='importe' control={control} label='Importe' tipo='text' error={errors.importe} esquema={precio}  formatValue={(v) => parseDecimal(v, 9, 2)} parseValue={(v) => parseDecimal(v, 9, 2)} />
+    <Formulario
+      titulo={`${precioSelect ? `Editar precio` : 'Nuevo precio'}`}
+      onSubmit={handleSubmit(onSubmit)}
+      onClickSecundario={() => retroceder()}
+      etiquetaPrimaria="Guardar precio"
+      etiquetaSecundaria="Atras"
+      loading={loadingPrecio}
+      errorFetch={errorFetchPrecio}
+    >
+      <Input<formValuesPrecio> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={precio} />
+      {precios && precios.datosQuery.length > 0 && <DesplegablePredictivo
+        children={precios.datosQuery.map(c => <PrecioNombreCard precioNombre={c} selectPrecioNombre={handleSelectPrecioNombre} />)}
+        finRegistros={finPrecio}
+      />}
+      <Input<formValuesPrecio> name='importe' control={control} label='Importe' tipo='text' error={errors.importe} esquema={precio} formatValue={(v) => parseDecimal(v, 9, 2)} parseValue={(v) => parseDecimal(v, 9, 2)} />
 
-      </Formulario>
-    </Centro>
+    </Formulario>
   )
 }
 

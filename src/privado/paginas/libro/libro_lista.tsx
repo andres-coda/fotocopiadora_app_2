@@ -70,7 +70,9 @@ const Libros_lista = () => {
         <div ref={finListaRef}>
           <p>Fin de lista</p>
         </div>
-        <Modal>
+        <Modal
+        nuevoEstilo={propuesta ? 'propuesta-select-color' : ''}
+        >
           <>
             {propuesta && <PropuestaSelect propuesta={propuesta}/>
             }

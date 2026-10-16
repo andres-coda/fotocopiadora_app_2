@@ -25,6 +25,8 @@ import useBusquedaSimple from "../../../../hooks/buscador/useBuscadorSimple";
 import DesplegablePredictivo from "../../../../componente-estilo/predictivo/desplegablePredictivo";
 import ClienteDatos from "../../cliente/componente/clienteDatos";
 import { resetSeleccionarPedido, seleccionarPedido } from "../../../../redux/state/pedido.state";
+import Switch from "../../../../componente-estilo/switch/switch";
+import Botonera from "../../../../componente-estilo/botonera/botonera";
 
 const calcularTotal = (precios: PrecioProp[], libros?: PedidoLibroConstruccionProp[]): number => {
   return libros?.reduce(
@@ -126,10 +128,12 @@ const PedidoCargar = () => {
     }
   }, [errorFetchClientes])
 
+  const [enviarWapp, setEnviarWap] = useState<boolean>(false);
   return (
     <Centro
       nuevoEstilo="pedido-cargar"
     >
+
       <Formulario
         titulo={`${pedidoSelect ? `Editar pedido` : 'Nuevo pedido'}`}
         onSubmit={handleSubmit(onSubmit)}
@@ -151,6 +155,9 @@ const PedidoCargar = () => {
               finRegistros={finClientes}
             />
           }
+          <Botonera nuevoEstilo="switch-pedido-cargar">
+            <Switch activo={enviarWapp} onActivar={setEnviarWap} titulo="Enviar mensaje de pedido tomado" texto="whatsapp: " />
+          </Botonera>
           <div className="form-horizontal">
             <Input<formValuesPedido> name='archivos' control={control} label='Archivos' tipo='text' error={errors.archivos} esquema={pedido} />
             <Input<formValuesPedido> name='anillados' control={control} label='Anillados' tipo='text' error={errors.anillados} esquema={pedido} />

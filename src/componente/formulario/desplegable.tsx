@@ -18,7 +18,7 @@ const Desplegable = <T extends FieldValues>({
   texto = undefined
 }: DesplegableProps<T>) => {
   return (
-    <div className='desplegable-horizontal'>
+    <div className={`desplegable-horizontal ${nuevoEstilo ?? ''}`}>
       { texto ? <Texto texto={texto} chica /> : null}
       <div className={`inputs-span ${nuevoEstilo ? nuevoEstilo : ''}`}>
         <span>{esCampoRequerido(esquema, name) && <Texto texto='*' derecha chica negrita error />}</span>

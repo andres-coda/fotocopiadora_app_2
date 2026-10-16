@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 # Local AI runtime state
 .atl/
+
+# ia
+odd
+skill
+.codegraph

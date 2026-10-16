@@ -8,26 +8,32 @@ import { useModalContext } from "../../../../contexto/contextoModal";
 import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
 import useEditar from "../../../../hooks/editar/useEditar";
 import Texto from "../../../../componente-estilo/texto/texto";
+import Copiar from '../../../../assets/copiar.svg?react'
 import './propuestacard.css'
+import usePresupuesto from "../../../../hooks/presupuesto/usePresupuesto";
 
 interface Prop {
-  propuesta:PropuestaProp;
+  propuesta: PropuestaProp;
 }
 
-const PropuestaSelect = ({propuesta}:Prop) => {
-  const { setModal } = useModalContext();  
+const PropuestaSelect = ({ propuesta }: Prop) => {
+  const { setModal } = useModalContext();
+  const { copiarPresupuestoLibros } = usePresupuesto({ libros: propuesta.libro })
+
   const { handleSelect, handleEdit } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`,
     propuesta
   });
   return (
-    <div className="propuesta-select">
-      <Texto texto={propuesta.nombre} centrado negrita mediana/>
-      {propuesta.libro?.map(l => <LibroCard libro={l} key={l.id} />)}
-          <Botonera>
-            <Boton icono={<Arrow />} secundario nuevoEstilo={`btn-icono-chico`} titulo={`Mostrar todos los libros`} onClick={() => {setModal(false)}} />
-            <Boton icono={<Editar />} nuevoEstilo="btn-icono-chico" titulo={`Editar propuesta`} onClick={() => handleEdit({ propuesta })} />
-          </Botonera>
+    <div className="propuesta-select propuesta-select-color">
+      <Texto texto={propuesta.nombre} centrado negrita mediana />
+      <Texto texto={`Cantidad de libros: ${propuesta.cantidadLibros}`} chica/>
+      {propuesta.libro?.map(l => <LibroCard libro={l} key={l.id} selecLibro={()=>setModal(false)}/>)}
+      <Botonera>
+        <Boton icono={<Arrow />} terciario nuevoEstilo={`btn-icono-chico`} titulo={`Mostrar todos los libros`} onClick={() => { setModal(false) }} />
+        <Boton icono={<Editar />} secundario nuevoEstilo="btn-icono-chico" titulo={`Editar propuesta`} onClick={() => handleEdit({ propuesta })} />
+        <Boton icono={<Copiar />} nuevoEstilo="btn-icono-chico" titulo={`Copiar presupuesto`} onClick={copiarPresupuestoLibros} />
+      </Botonera>
     </div>
   )
 }

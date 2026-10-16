@@ -40,6 +40,8 @@ const PedidoLibroCargar = () => {
   });
   const pedidoParcial = watch();
 
+  
+
   const handleLibro = (libro: LibroProp) => {
     setDatos(prev => {
       const newPedido: PedidoLibroConstruccionProp = crearLibropedido(libro, pedidoParcial, sedes, Estado.CONSTRUCCION);
@@ -103,7 +105,7 @@ const PedidoLibroCargar = () => {
   return (
     <div className='pedidoLibroCargar'>
       <div className='form-horizontal'>
-        <Desplegable name='sede' control={control} label='Sede' tipo='text' error={errors.sede} esquema={pedidoLibro} opciones={pasarDesplegable({ items: sedes })} />
+        <Desplegable nuevoEstilo='pedido-cargar-sede' name='sede' control={control} label='Sede' tipo='text' error={errors.sede} esquema={pedidoLibro} opciones={pasarDesplegable({ items: sedes })} />
         <Input<formValuesPedidoLibro> name='cantidad' control={control} label='Cantidad de libros' tipo='number' error={errors.cantidad} esquema={pedidoLibro} />
         <Input<formValuesPedidoLibro> name='detalles' control={control} label='Detalle del pedido' tipo='text' error={errors.detalles} esquema={pedidoLibro} />
       </div>
@@ -118,6 +120,7 @@ const PedidoLibroCargar = () => {
       }
       {datos?.pedidos?.map(p => <PedidoLibroCard pL={p} estadoClas={Estado.POR_CONFIRMAR} key={p.id} />)
       }
+          
     </div>
   )
 }
