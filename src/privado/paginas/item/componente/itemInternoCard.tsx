@@ -95,7 +95,9 @@ const ItemInternoCard = ({ item, idPedido }: Prop) => {
           }
           {
             !loadingCambioEstadoPedido ?
+            <form onSubmit={(e)=> e.preventDefault()}>
               <Desplegable<formValuesEstado> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable(undefined, estadosParaDesplegable)} nuevoEstilo="desplegable-estado" />
+            </form>
               : <Texto texto={'Cambiando...'} chica ajustado />
           }
         </div>

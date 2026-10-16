@@ -53,6 +53,7 @@
   gap: .1rem;
   background-color: var(--colorCardGris);
   border-radius: 4px;
+  min-width: 250px;
 }
 
 .card-vertical.datos-cliente.cliente-seleccionar:hover{

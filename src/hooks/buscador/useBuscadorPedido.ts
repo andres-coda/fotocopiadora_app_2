@@ -7,7 +7,7 @@ import { PaginadoProp } from "../../adaptadores/entrada/paginado.adapter";
 import { useNavigate } from "react-router-dom";
 import { useModalContext } from "../../contexto/contextoModal";
 import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import { agregarItemsPedidoSeleccionadoRedux, seleccionarPedido } from "../../redux/state/pedido.state";
+import { agregarItemsPedidoSeleccionadoRedux, resetSeleccionarPedido, seleccionarPedido } from "../../redux/state/pedido.state";
 
 interface UseBuscadorPaginadoProp {
   valor: string;
@@ -74,7 +74,7 @@ const useBuscadorPedido = ({
     if (response && modal) {
       dispatch(agregarItemsPedidoSeleccionadoRedux(response.datos));
     }
-    if(response && !modal) { 
+    if (response && !modal) {
       console.log("ACTUALIZO REDUX", response.pagina);
       if (query.length >= limiteLetrasBusqueda && query != datosRedux.busquedaActual.query) {
         dispatch(crearBusqueda({
@@ -99,6 +99,11 @@ const useBuscadorPedido = ({
       }
     }
   }, [response]);
+
+  useEffect(() => {
+    if(!modal)
+    dispatch(resetSeleccionarPedido());
+  }, [modal])
 
   const nuevoElemento = (ruta?: string) => {
     if (ruta) {

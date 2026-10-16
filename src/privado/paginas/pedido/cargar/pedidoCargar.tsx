@@ -38,7 +38,7 @@ const limiteBusquedaCliente = 4;
 const PedidoCargar = () => {
   const pedidoSelect: PedidoProp | undefined = useSelector((store: appStore) => store.pedido.datoSeleccionado);
   const precios: PrecioProp[] = useSelector((store: appStore) => store.precio.datosIniciales.datosQuery);
-  
+
   const { control, handleSubmit, formState: { errors }, reset, watch, setValue } = useForm<formValuesPedido>({
     resolver: zodResolver(pedido),
     defaultValues: pedidoFormEdit({ pedido: pedidoSelect || undefined, cliente: pedidoSelect?.cliente })
@@ -107,23 +107,24 @@ const PedidoCargar = () => {
 
 
   const onSubmit = (data: formValuesPedido) => {
-    console.log('pedidos: ',datos)
-    if (datos?.pedidos && datos?.pedidos?.length > 0) {
-      if (pedidoSelect?.id) {
-        editarPedido(data, pedidoSelect.id, datos.pedidos);
-      } else {
-        crearPedido(data, datos.pedidos, clienteSeleccionado);
-      }
-    } else {
+    console.log('pedidos: ', datos)
+    if (!datos?.pedidos || datos.pedidos.length === 0) {
       setError('requiere agregar libros al pedido')
+      return
+    }
+
+    if (pedidoSelect?.id) {
+      editarPedido(data, pedidoSelect.id, datos.pedidos);
+    } else {
+      crearPedido(data, datos.pedidos, clienteSeleccionado);
     }
   }
 
-  useEffect(()=>{
-    if(errorFetchClientes){
+  useEffect(() => {
+    if (errorFetchClientes) {
       setError(errorFetchClientes);
     }
-  },[errorFetchClientes])
+  }, [errorFetchClientes])
 
   return (
     <Centro
@@ -144,12 +145,12 @@ const PedidoCargar = () => {
             <Input<formValuesPedido> name='telefono' control={control} label='Telefono' tipo='text' error={errors.telefono} esquema={pedido} formatValue={(v) => formatTelefono(v)} parseValue={(v) => parseDecimal(v, 12, 2)} />
             <Input<formValuesPedido> name='email' control={control} label='Email' tipo='text' error={errors.email} esquema={pedido} />
           </div>
-            {clientes && clientes.datosQuery.length > 0 &&
-              <DesplegablePredictivo
-                children={clientes.datosQuery.map(c => <ClienteDatos cliente={c} selectCliente={handleSelectCliente} key={c.id} />)}
-                finRegistros={finClientes}
-              />
-            }
+          {clientes && clientes.datosQuery.length > 0 &&
+            <DesplegablePredictivo
+              children={clientes.datosQuery.map(c => <ClienteDatos cliente={c} selectCliente={handleSelectCliente} key={c.id} />)}
+              finRegistros={finClientes}
+            />
+          }
           <div className="form-horizontal">
             <Input<formValuesPedido> name='archivos' control={control} label='Archivos' tipo='text' error={errors.archivos} esquema={pedido} />
             <Input<formValuesPedido> name='anillados' control={control} label='Anillados' tipo='text' error={errors.anillados} esquema={pedido} />

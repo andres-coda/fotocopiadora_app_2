@@ -50,7 +50,7 @@ const BuscadorLibro = ({ selectLibro, selectPropuesta }: Prop) => {
         <DesplegablePredictivo
           children={
             <>
-              {propuestas?.map(p => <PropuestaCard propuesta={p} selecPropuesta={handlePropuesta} key={p.id} />)}
+              {propuestas?.map(p => <PropuestaCard propuesta={p} selectPropuesta={handlePropuesta} key={p.id} />)}
               {libros?.map(d => <LibroCard libro={d} key={d.id} selecLibro={handleLibro} />)}
             </>
           }

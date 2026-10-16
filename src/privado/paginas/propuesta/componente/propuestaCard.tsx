@@ -13,18 +13,28 @@ import { useDispatch } from 'react-redux'
 import { seleccionarPropuesta } from '../../../../redux/state/propuesta.state'
 
 interface Prop {
-  propuesta: PropuestaProp,
+  propuesta: PropuestaProp;
+  selectPropuesta?: (propuesta: PropuestaProp) => void;
 }
 
-const PropuestaCard = ({ propuesta }: Prop) => {
+const PropuestaCard = ({ propuesta, selectPropuesta = undefined }: Prop) => {
   const { copiarPresupuestoLibros } = usePresupuesto({ libros: propuesta.libro })
 
   const dispatch = useDispatch()
-  const { setModal } = useModalContext()
+  const { setModal } = useModalContext();
+
+  const handleSelect = (propuesta: PropuestaProp) => {
+    if(selectPropuesta) {
+      selectPropuesta(propuesta)
+    } else {
+      setModal(true), 
+      dispatch(seleccionarPropuesta(propuesta))
+    }
+  }
   
   return (
     <Card
-      onClick={()=>{setModal(true), dispatch(seleccionarPropuesta(propuesta))}}
+      onClick={()=>handleSelect(propuesta)}
       nuevoEstilo={`propuesta-card `}
       tituloCard={propuesta.nombre}
     >

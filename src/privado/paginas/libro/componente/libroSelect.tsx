@@ -139,15 +139,15 @@ const LibroSelect = () => {
       </div>
 
       <Modal texto={`Libro: ${nombreLibroXstring(libro)}`} >
-        {!eliminar && !pedidoSeleccionado && <TextoVacio entidad="pedido" />}
+        {!eliminar && !pedidoSeleccionado &&<TextoVacio entidad="pedido" />}
         {pedidoSeleccionado &&
           <PedidoCard
             pedido={pedidoSeleccionado}
             activo
-          />}
+          /> }
         {loadingPedidoLibross && <Cargando />}
         {errorFetchPedidoLibross && <Texto texto={errorFetchPedidoLibross} error chica />}
-        {eliminar && <EliminarLibro libro={libro} />}
+        {eliminar && <EliminarLibro libro={libro}/>}        
       </Modal>
 
     </Centro>
