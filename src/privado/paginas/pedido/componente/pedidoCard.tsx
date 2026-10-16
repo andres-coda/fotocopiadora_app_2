@@ -18,7 +18,7 @@ import Desplegable from "../../../../componente/formulario/desplegable"
 import CardDatosCliente from "../../../../componente/pedido/cardDatosCliente"
 import Cargando from "../../../../componente/cargando/cargando"
 import useCambiarEstadoPedidoApi from "../../../../servicio/pedido/useCambiarEstadoPedidoApi"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { actualizarMuchosStockRedux } from "../../../../redux/state/libro.state"
 import { StockProp } from "../../../../modelo/Entidades/libro/stock.interface"
@@ -46,6 +46,8 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     pedido
   });
+
+  const [enviarWapp, setEnviarWap] = useState<boolean>(false);
 
   const dispatch = useDispatch();
 
@@ -87,11 +89,15 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
         activo &&
         <Botonera nuevoEstilo={`pedido-card-botonera ${claseXestadoPedido(pedido.estado)}`}>
           <Boton icono={<Edit />} titulo="Editar pedido" secundario nuevoEstilo="btn-icono-mediano" onClick={() => handleSelect({ pedido, rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}` })} />
+          {// Aqui debería ir un switch para si esta activado enviar mensaje a whatsapp, por lo pronto necesito el que lo conectes al useState enviarWap
+          }
+          <Texto texto='Enviar mensaje al retirar' />
+          
           {
             errorFetchCambioEstadoPedido ? <Texto texto={errorFetchCambioEstadoPedido} chica ajustado /> :
-            !loadingCambioEstadoPedido ?
-              <Desplegable<formValuesEstadoPedido> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable(estadosPedidoParaDesplegable)} nuevoEstilo="desplegable-estado desplegable-estado-pedido" />
-              : <Texto texto={'Cambiando...'} chica ajustado />
+              !loadingCambioEstadoPedido ?
+                <Desplegable<formValuesEstadoPedido> name="estado" control={control} label="Seleccione nuevo estado" error={errors.estado} esquema={estado} alingDerecha opciones={pasarEstadoDesplegable(estadosPedidoParaDesplegable)} nuevoEstilo="desplegable-estado desplegable-estado-pedido" />
+                : <Texto texto={'Cambiando...'} chica ajustado />
           }
         </Botonera>
       }

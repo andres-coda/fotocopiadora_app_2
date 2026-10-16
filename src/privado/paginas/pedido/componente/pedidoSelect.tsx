@@ -8,13 +8,16 @@ import Texto from "../../../../componente-estilo/texto/texto"
 import ItemCard from "../../item/componente/itemCard"
 import CardDatosCliente from "../../../../componente/pedido/cardDatosCliente"
 import CardImporte from "../../../../componente/pedido/cardImporte"
+import './pedidoSelect.css'
 
 const PedidoSelect = () => {
   const pedido: PedidoProp | undefined = useSelector((store: appStore) => store.pedido.datoSeleccionado);
 
   if(!pedido) return <Texto texto={'No hay pedido seleccionado'}/>
   return (
-    <Centro>
+    <Centro
+    nuevoEstilo="pedido-select"
+    >
       <CardDatosCliente pedido={pedido} />
       <CardFechas pedido={pedido} />
       <CardArchivos pedido={pedido} />
