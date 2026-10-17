@@ -5,10 +5,9 @@ import usePrecioApi from "../../../../servicio/precio/usePrecioApi";
 import { useForm } from "react-hook-form";
 import { formValuesPrecio, precio, precioFormEdit } from "../../../../modelo/Entidades/precio/esqPrecio.esquema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useFormulario from "../../../../hooks/formulario/useFormulario";
 import Formulario from "../../../../componente/formulario/formulario";
 import Input from "../../../../componente/formulario/input";
-import { actualizarPrecioRedux } from "../../../../redux/state/precio.state";
+import { actualizarPrecioRedux, agregarPrecioInicioRedux } from "../../../../redux/state/precio.state";
 import { useState } from "react";
 import usePreciosNombreApi from "../../../../servicio/precio/usePrecioNombreApi";
 import useBusquedaSimple from "../../../../hooks/buscador/useBuscadorSimple";
@@ -43,12 +42,11 @@ const PrecioCargar = () => {
     obtenerBusqueda: obtenerPreciosBusqueda
   });
 
-  const { retroceder } = useFormulario<PrecioProp, formValuesPrecio, PrecioProp>({
-    reset,
-  })
-
   const finalizar = () => {
-    if (esEdicion && responsePrecio) dispatch(actualizarPrecioRedux(responsePrecio as PrecioProp));
+    if (responsePrecio) {
+      if (esEdicion) dispatch(actualizarPrecioRedux(responsePrecio as PrecioProp));
+      else dispatch(agregarPrecioInicioRedux(responsePrecio as PrecioProp));
+    }
     setModal(false);
   }
 
@@ -80,7 +78,7 @@ const PrecioCargar = () => {
     <Formulario
       titulo={`${precioSelect ? `Editar precio` : 'Nuevo precio'}`}
       onSubmit={handleSubmit(onSubmit)}
-      onClickSecundario={() => retroceder()}
+      onClickSecundario={() => setModal(false)}
       etiquetaPrimaria="Guardar precio"
       etiquetaSecundaria="Atras"
       loading={loadingPrecio}

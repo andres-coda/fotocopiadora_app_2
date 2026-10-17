@@ -4,7 +4,6 @@ import { RutasPrivadas } from "./rutas/rutasPrivadas";
 import PrivadoContenedor from "../componente-estilo/Contenedor/privadoContenedor";
 import CargarDatosIniciales from "../redux/cargadatos/cargarDatosIniciales";
 import LibroSelect from "./paginas/libro/componente/libroSelect";
-import ClienteCargar from "./paginas/cliente/cargar/clienteCargar";
 import ClienteSelect from "./paginas/cliente/componente/clienteSelect";
 import Precios from "./paginas/precio/precio";
 import PrecioCargar from "./paginas/precio/cargar/precioCargar";
@@ -32,7 +31,6 @@ const PrivadoRuta = () => {
             <Route path={RutasPrivadas.LIBRO_EDITAR} element={<LibroEditar />}></Route>
             <Route path={RutasPrivadas.PROPUESTA_CARGAR} element={<PropuestaCargar />}></Route>
             <Route path={RutasPrivadas.CLIENTE_LISTA} element={<Cliente_lista />}></Route>
-            <Route path={RutasPrivadas.CLIENTE_CARGAR} element={<ClienteCargar />}></Route>
             <Route path={RutasPrivadas.CLIENTE} element={<ClienteSelect />}></Route>
             <Route path={RutasPrivadas.PRECIO_LISTO} element={<Precios />}></Route>
             <Route path={RutasPrivadas.PRECIO_CARGAR} element={<PrecioCargar />}></Route>

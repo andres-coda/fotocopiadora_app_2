@@ -1,21 +1,25 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReduxProp } from "../../../redux/modelo/reduxContext.interface";
 import { ClienteProp } from "../../../modelo/Entidades/cliente/cliente.interface";
 import { appStore } from "../../../redux/store";
 import useBusquedaPaginada from "../../../hooks/buscador/useBusquedaPaginada";
 import useClientesApi from "../../../servicio/cliente/useClientesApi";
-import { agregarClientesBusquedaActual, crearBusquedaCliente, resetBusquedaCliente } from "../../../redux/state/cliente.state";
+import { agregarClientesBusquedaActual, crearBusquedaCliente, resetBusquedaCliente, resetSeleccionarCliente } from "../../../redux/state/cliente.state";
 import Centro from "../../../componente-estilo/centro/centro";
 import TextoVacio from "../../../componente/Textos/textoVacio";
 import ClienteCard from "./componente/clienteCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BuscadorPaginadoCompleto from "../../../componente/buscador/buscadorPaginadoCompleto";
-import { rutaPrivadaBase, RutasPrivadas } from "../../rutas/rutasPrivadas";
+import Modal from "../../../componente/modal/modal";
+import ClienteCargar from "./cargar/clienteCargar";
+import { useModalContext } from "../../../contexto/contextoModal";
 
 const Cliente_lista = () => {
   const clienteDatos: ReduxProp<ClienteProp> = useSelector((store: appStore) => store.cliente);
   const { obtenerClientesBusqueda, responseClientes, loadingClientes } = useClientesApi()
   const [valor, setValor] = useState<string>('');
+  const { modal } = useModalContext();
+  const dispatch = useDispatch();
 
   const { contenedorRef, finListaRef, nuevoElemento } = useBusquedaPaginada<ClienteProp>({
     valor,
@@ -29,12 +33,16 @@ const Cliente_lista = () => {
     limiteLetrasBusqueda: 4,
   });
 
+  useEffect(() => {
+    if (!modal) dispatch(resetSeleccionarCliente());
+  }, [modal])
+
   return (
     <>
       <BuscadorPaginadoCompleto
         ref={contenedorRef}
         texto='Buscar cliente'
-        handleMas={()=>nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE_CARGAR}`)}
+        handleMas={() => { dispatch(resetSeleccionarCliente()); nuevoElemento(); }}
         valor={valor}
         setValor={setValor}
         titulo='Lista de clientes'
@@ -51,6 +59,9 @@ const Cliente_lista = () => {
           <p>Fin de lista</p>
         </div>
       </Centro>
+      <Modal>
+        <ClienteCargar />
+      </Modal>
     </>
   )
 }

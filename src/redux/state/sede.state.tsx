@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
 import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
-import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden, eliminarElemento, modificarElementoRedux} from "../utils/funcionesGenericasEmpresa";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden, eliminarElemento, modificarElementoRedux, agregarElementoInicio} from "../utils/funcionesGenericasEmpresa";
 
 const cantidadBusquedas: number = 1;
 
@@ -34,10 +34,11 @@ export const sedeSlice = createSlice({
     agregarSedesBusquedaActual: agregarDatosBusquedaActual<SedeProp>,
     cambiarOrdenSede: cambiarOrden<SedeProp>,
     eliminarSedeRedux: eliminarElemento<SedeProp>,
-    actualizarSedeRedux: modificarElementoRedux<SedeProp>
+    actualizarSedeRedux: modificarElementoRedux<SedeProp>,
+    agregarSedeInicioRedux: agregarElementoInicio<SedeProp>
   }
 });
 
-export const { crearSedes, crearBusquedaSede, resetBusquedaSede, resetSeleccionarSede, seleccionarSede, agregarSedesBusquedaActual, cambiarOrdenSede, eliminarSedeRedux, actualizarSedeRedux } = sedeSlice.actions;
+export const { crearSedes, crearBusquedaSede, resetBusquedaSede, resetSeleccionarSede, seleccionarSede, agregarSedesBusquedaActual, cambiarOrdenSede, eliminarSedeRedux, actualizarSedeRedux, agregarSedeInicioRedux } = sedeSlice.actions;
 
 export default sedeSlice.reducer;

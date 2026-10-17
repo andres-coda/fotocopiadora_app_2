@@ -5,11 +5,9 @@ import useSedeApi from "../../../../servicio/sede/useSedeApi";
 import { useForm } from "react-hook-form";
 import { formValuesSede, sede, sedeFormEdit } from "../../../../modelo/Entidades/sede/esqSede.esquema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useFormulario from "../../../../hooks/formulario/useFormulario";
-import Centro from "../../../../componente-estilo/centro/centro";
 import Formulario from "../../../../componente/formulario/formulario";
 import Input from "../../../../componente/formulario/input";
-import { actualizarSedeRedux, resetSeleccionarSede } from "../../../../redux/state/sede.state";
+import { actualizarSedeRedux, agregarSedeInicioRedux } from "../../../../redux/state/sede.state";
 import { useModalContext } from "../../../../contexto/contextoModal";
 import CartelExito from "../../../../componente/cartelExito/cartelExito";
 
@@ -20,18 +18,16 @@ const SedeCargar = () => {
   const dispatch = useDispatch();
   const esEdicion = Boolean(sedeSelect?.id);
 
-  const { control, handleSubmit, formState: { errors }, reset } = useForm<formValuesSede>({
+  const { control, handleSubmit, formState: { errors } } = useForm<formValuesSede>({
     resolver: zodResolver(sede),
     defaultValues: sedeFormEdit(sedeSelect)
   });
 
-  const { retroceder } = useFormulario<SedeProp, formValuesSede, SedeProp>({
-    resetSelect: resetSeleccionarSede,
-    reset,
-  })
-
   const finalizar = () => {
-    if (esEdicion && responseSede) dispatch(actualizarSedeRedux(responseSede as SedeProp));
+    if (responseSede) {
+      if (esEdicion) dispatch(actualizarSedeRedux(responseSede as SedeProp));
+      else dispatch(agregarSedeInicioRedux(responseSede as SedeProp));
+    }
     setModal(false);
   }
 
@@ -51,20 +47,18 @@ const SedeCargar = () => {
   )
 
   return (
-    <Centro>
-      <Formulario
-        titulo={`${sedeSelect ? `Editar sede` : 'Nueva sede'}`}
-        onSubmit={handleSubmit(onSubmit)}
-        onClickSecundario={() => retroceder()}
-        etiquetaPrimaria="Guardar sede"
-        etiquetaSecundaria="Atras"
-        loading={loadingSede}
-        errorFetch={errorFetchSede}
-      >
-          <Input<formValuesSede> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={sede} />
+    <Formulario
+      titulo={`${sedeSelect ? `Editar sede` : 'Nueva sede'}`}
+      onSubmit={handleSubmit(onSubmit)}
+      onClickSecundario={() => setModal(false)}
+      etiquetaPrimaria="Guardar sede"
+      etiquetaSecundaria="Atras"
+      loading={loadingSede}
+      errorFetch={errorFetchSede}
+    >
+        <Input<formValuesSede> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={sede} />
 
-      </Formulario>
-    </Centro>
+    </Formulario>
   )
 }
 

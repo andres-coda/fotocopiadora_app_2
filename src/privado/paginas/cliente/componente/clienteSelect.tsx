@@ -10,6 +10,12 @@ import PedidoCard from "../../pedido/componente/pedidoCard";
 import Cargando from "../../../../componente/cargando/cargando";
 import { useModalContext } from "../../../../contexto/contextoModal";
 import Modal from "../../../../componente/modal/modal";
+import Boton from "../../../../componente-estilo/boton/boton";
+import Botonera from "../../../../componente-estilo/botonera/botonera";
+import Editar from "../../../../assets/edit.svg?react";
+import Eliminar from "../../../../assets/deleted.svg?react";
+import ClienteCargar from "../cargar/clienteCargar";
+import EliminarCliente from "./eliminarCliente";
 import { PedidoProp } from "../../../../modelo/Entidades/pedido/pedido.interface";
 import TextoVacio from "../../../../componente/Textos/textoVacio";
 import { estadoPedidoXstring, formatoTelefonoMostrar } from "../../../../utils/formatoDatos";
@@ -27,6 +33,7 @@ const ClienteSelect = () => {
    const finListaRef = useRef<HTMLDivElement>(null);
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const [estadoSelec, setEstadoSelect] = useState<Estado | undefined>(undefined);
+  const [accion, setAccion] = useState<'pedido' | 'editar' | 'eliminar'>('pedido');
 
   const { setModal, modal } = useModalContext();
   const { obtenerPedidoLibrosByPedidoId, responsePedidoLibross, loadingPedidoLibross, errorFetchPedidoLibross } = usePedidoLibrosApi();
@@ -42,6 +49,7 @@ const ClienteSelect = () => {
   useEffect(()=>{
     if(!modal){
       dispatch(resetSeleccionarPedido());
+      setAccion('pedido');
     }
   },[modal])
 
@@ -71,17 +79,31 @@ const ClienteSelect = () => {
   const handlePedido = (pedido: PedidoProp) => {
     obtenerPedidoLibrosByPedidoId(pedido.id);
     dispatch(seleccionarPedido(pedido));
+    setAccion('pedido');
     setModal(true);
   }
 
+  const handleEditar = () => { setAccion('editar'); setModal(true); }
+  const handleEliminar = () => { setAccion('eliminar'); setModal(true); }
+
   if (!clienteContexto.datoSeleccionado) return <Texto texto={'No se encontro el cliente seleccionado'} />
+
+  const textoModal = accion === 'editar' ? 'Editar cliente'
+    : accion === 'eliminar' ? 'Eliminar cliente'
+    : `Pedido de ${clienteContexto.datoSeleccionado.telefono ? formatoTelefonoMostrar(clienteContexto.datoSeleccionado.telefono) : clienteContexto.datoSeleccionado.email ?? ''}`;
 
   return (
     <Centro
       ref={contenedorRef} texto="Datos del cliente"
       nuevoEstilo={'cliente-select'}>
       <div className="cliente-vertical">
-        <ClienteDatos cliente={clienteContexto.datoSeleccionado} />
+        <div className="cliente-datos-acciones">
+          <ClienteDatos cliente={clienteContexto.datoSeleccionado} />
+          <Botonera nuevoEstilo="cliente-acciones">
+            <Boton icono={<Eliminar />} edit nuevoEstilo="btn-icono-chico" titulo="Eliminar cliente" onClick={handleEliminar} />
+            <Boton icono={<Editar />} secundario nuevoEstilo="btn-icono-chico" titulo="Editar cliente" onClick={handleEditar} />
+          </Botonera>
+        </div>
         <EstadoPedidos
         stock={clienteContexto.datoSeleccionado.resumen}
         finListaRef={finListaRef}
@@ -106,15 +128,18 @@ const ClienteSelect = () => {
         <div ref={finListaRef}>
         </div>
       </div>
-      <Modal texto={`Pedido de ${clienteContexto.datoSeleccionado.telefono ? formatoTelefonoMostrar(clienteContexto.datoSeleccionado.telefono) : clienteContexto.datoSeleccionado.email ?? ''}`}>
-        {pedidosCliente.datoSeleccionado ?
-          <PedidoCard
-            pedido={pedidosCliente.datoSeleccionado}
-            activo
-          />
-          : <TextoVacio entidad="pedido" />}
-        {loadingPedidoLibross && <Cargando />}
-        {errorFetchPedidoLibross && <Texto texto={errorFetchPedidoLibross} error chica />}
+      <Modal texto={textoModal}>
+        {accion === 'editar' && <ClienteCargar />}
+        {accion === 'eliminar' && <EliminarCliente />}
+        {accion === 'pedido' && (
+          <>
+            {pedidosCliente.datoSeleccionado
+              ? <PedidoCard pedido={pedidosCliente.datoSeleccionado} activo />
+              : <TextoVacio entidad="pedido" />}
+            {loadingPedidoLibross && <Cargando />}
+            {errorFetchPedidoLibross && <Texto texto={errorFetchPedidoLibross} error chica />}
+          </>
+        )}
       </Modal>
     </Centro>
   )

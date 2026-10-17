@@ -96,6 +96,16 @@ export const agregarDatosBusquedaActual = <T>(
   }
 };
 
+export const agregarElementoInicio = <T extends HasId>(
+  state: ReduxProp<T>,
+  action: PayloadAction<T>
+) => {
+  state.busquedaActual = {
+    ...state.busquedaActual,
+    datosQuery: [action.payload, ...state.busquedaActual.datosQuery],
+  };
+};
+
 export const cambiarOrden = <T>(
   state: ReduxProp<T>,
   action: PayloadAction<{ sortBy: keyof T; sortOrder: orden }>

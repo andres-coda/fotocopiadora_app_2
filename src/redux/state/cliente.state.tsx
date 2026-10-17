@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
 import { ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
-import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden, eliminarElemento, modificarElementoRedux, agregarElementoInicio} from "../utils/funcionesGenericasEmpresa";
 import { modificarResumenClienteRedux as modificarResumenClienteFn } from "../utils/funcionesCliente";
 
 const cantidadBusquedas: number = 1;
@@ -34,10 +34,13 @@ export const clienteSlice = createSlice({
     resetSeleccionarCliente: resetSeleccionDato,
     agregarClientesBusquedaActual: agregarDatosBusquedaActual<ClienteProp>,
     actualizarResumenClienteRedux: modificarResumenClienteFn,
-    cambiarOrdenCliente: cambiarOrden<ClienteProp>
+    cambiarOrdenCliente: cambiarOrden<ClienteProp>,
+    eliminarClienteRedux: eliminarElemento<ClienteProp>,
+    actualizarClienteRedux: modificarElementoRedux<ClienteProp>,
+    agregarClienteInicioRedux: agregarElementoInicio<ClienteProp>
   }
 });
 
-export const { crearClientes, crearBusquedaCliente, resetBusquedaCliente, resetSeleccionarCliente, seleccionarCliente, agregarClientesBusquedaActual, cambiarOrdenCliente, actualizarResumenClienteRedux } = clienteSlice.actions;
+export const { crearClientes, crearBusquedaCliente, resetBusquedaCliente, resetSeleccionarCliente, seleccionarCliente, agregarClientesBusquedaActual, cambiarOrdenCliente, actualizarResumenClienteRedux, eliminarClienteRedux, actualizarClienteRedux, agregarClienteInicioRedux } = clienteSlice.actions;
 
 export default clienteSlice.reducer;

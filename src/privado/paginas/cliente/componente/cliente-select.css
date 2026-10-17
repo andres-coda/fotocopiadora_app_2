@@ -58,3 +58,14 @@
     gap: 1rem;
   }
 }
+
+.cliente-datos-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.cliente-acciones {
+  display: flex;
+  gap: .5rem;
+}
