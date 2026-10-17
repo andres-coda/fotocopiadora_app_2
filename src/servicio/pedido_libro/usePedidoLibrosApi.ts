@@ -1,7 +1,10 @@
+import { useSelector } from "react-redux";
 import { pedidoLibroAdapter } from "../../adaptadores/entrada/pedidoLibro.adapter";
 import { PedidoLibroAdapterProp, PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { BusquedaApiProp } from "../../modelo/HTTP/peticiones.interface";
+import { appStore } from "../../redux/store";
+import { busquedaQueryParams } from "../../utils/busquedaQueryParams";
 import { limiteDefecto } from "../../utils/constantes";
 import { PEDIDO, PEDIDO_LIBRO } from "../../utils/endpoint";
 import useApiPaginado from "../hooks/useApiPaginado";
@@ -10,12 +13,16 @@ import { ObtenerPedidosByClienteIdProp } from "../pedido/usePedidosApi";
 
 const usePedidoLibrosApi = () => {
   const { fetchData, response, loading, errorFetch } = useApiPaginado<PedidoLibroAdapterProp, PedidoLibroProp>({ adapterGet: pedidoLibroAdapter });
+  const filtrosPedidoLibro = useSelector((store: appStore) => store.pedidoLibro.filtrosPedidoLibro);
+  const ordenPedidoLibro = useSelector((store: appStore) => store.pedidoLibro.ordenPedidoLibro);
 
   const obtenerPedidoLibross = () =>
     fetchData({ url: PEDIDO_LIBRO, methodo: httpMethod.GET, adapter: pedidoLibroAdapter });
 
   const obtenerItemsBusqueda = ({ query, limite, pagina }: BusquedaApiProp) => {
-    fetchData({ url: `${PEDIDO}/buscar?q=${query.trimEnd()}&limite=${limite ?? limiteDefecto}&pagina=${pagina ?? 1}`, methodo: httpMethod.GET, adapter: pedidoLibroAdapter });
+    const params = busquedaQueryParams(filtrosPedidoLibro, ordenPedidoLibro);
+    const extra = params ? `&${params}` : '';
+    fetchData({ url: `${PEDIDO}/buscar?q=${query.trimEnd()}&limite=${limite ?? limiteDefecto}&pagina=${pagina ?? 1}${extra}`, methodo: httpMethod.GET, adapter: pedidoLibroAdapter });
   }
 
   const obtenerPedidoLibrosByPedidoId = (pedidoId: string) =>

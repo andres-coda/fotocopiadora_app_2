@@ -1,0 +1,45 @@
+.orden-item__form {
+  width: 100%;
+}
+
+.orden-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.orden-item__fila {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: end;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.orden-item__prioridad {
+  font-weight: 600;
+  padding-bottom: 0.6rem;
+}
+
+/*
+ * Los selects usan una ruta anidada (criterios.N.campo); esCampoRequerido no la
+ * encuentra y marcaría un '*' falso. Se oculta manteniendo el espacio del layout.
+ */
+.orden-item__fila .desplegable-horizontal .inputs-span > span:first-child {
+  visibility: hidden;
+}
+
+.orden-item__agregar {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 0.3rem;
+}
+
+.orden-item__quitar-deshabilitado {
+  opacity: 0.4;
+  pointer-events: none;
+}

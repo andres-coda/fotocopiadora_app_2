@@ -2,7 +2,9 @@ import { Dispatch } from "react";
 import { Especificaciones } from "../../modelo/Entidades/especificacion/especificacion.enum";
 import './input.css'
 
-type inputSet = string | Especificaciones;
+// Se incluye number para admitir enums numéricos (p. ej. Estado) además de los string.
+type inputSet = string | number | Especificaciones;
+
 interface ListaProp<P> {
   nombre: P;
   texto?: string;

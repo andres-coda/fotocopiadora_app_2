@@ -22,6 +22,9 @@ interface UseBuscadorPaginadoProp {
   sortBy?: keyof PedidoLibroProp;
   sortOrder?: orden;
   limiteLetrasBusqueda?: number;
+  // Clave opcional de filtros/orden. Si se define, la búsqueda se dispara aunque
+  // no haya texto y se separa la cache por clave.
+  claveBusqueda?: string;
 }
 
 const useBuscadorPedido = ({
@@ -36,6 +39,7 @@ const useBuscadorPedido = ({
   sortBy = 'id' as keyof PedidoLibroProp,
   sortOrder = 'asc' as orden,
   limiteLetrasBusqueda = 3,
+  claveBusqueda,
   loading = false,
 }: UseBuscadorPaginadoProp) => {
 
@@ -56,11 +60,12 @@ const useBuscadorPedido = ({
   }, [valor]);
 
   useEffect(() => {
-    if (query.length < limiteLetrasBusqueda) {
+    const sinTexto = query.length < limiteLetrasBusqueda;
+    if (sinTexto && !claveBusqueda) {
       dispatch(resetBusqueda());
     } else {
       const busqueda = datosRedux.ultimasBusqueda.find(
-        d => d.query?.toLowerCase() === query.toLowerCase()
+        d => d.query?.toLowerCase() === query.toLowerCase() && d.clave === claveBusqueda
       );
       if (busqueda) {
         dispatch(crearBusqueda(busqueda));
@@ -68,7 +73,7 @@ const useBuscadorPedido = ({
         obtenerBusqueda({ query })
       }
     }
-  }, [query])
+  }, [query, claveBusqueda])
 
   useEffect(() => {
     if (response && modal) {
@@ -76,7 +81,8 @@ const useBuscadorPedido = ({
     }
     if (response && !modal) {
       console.log("ACTUALIZO REDUX", response.pagina);
-      if (query.length >= limiteLetrasBusqueda && query != datosRedux.busquedaActual.query) {
+      const claveCambio = claveBusqueda !== datosRedux.busquedaActual.clave;
+      if ((query.length >= limiteLetrasBusqueda && query != datosRedux.busquedaActual.query) || claveCambio) {
         dispatch(crearBusqueda({
           query: query,
           datosQuery: response.datos,
@@ -84,7 +90,8 @@ const useBuscadorPedido = ({
           pagina: response.pagina,
           limite: response.limite,
           sortBy,
-          sortOrder
+          sortOrder,
+          clave: claveBusqueda
         }));
       } else {
         dispatch(agregarBusqueda({
@@ -94,7 +101,8 @@ const useBuscadorPedido = ({
           pagina: response.pagina,
           limite: response.limite,
           sortBy,
-          sortOrder
+          sortOrder,
+          clave: claveBusqueda
         }));
       }
     }
@@ -174,7 +182,7 @@ const useBuscadorPedido = ({
 
     return () => observer.disconnect();
 
-  }, [datosRedux.busquedaActual.query, datosRedux.busquedaActual.pagina]);
+  }, [datosRedux.busquedaActual.query, datosRedux.busquedaActual.pagina, claveBusqueda]);
 
   return { contenedorRef, nuevoElemento, finListaRef, handleSeleccionarItem }
 

@@ -18,6 +18,8 @@ export interface BusquedaRedux {
 export interface UltimaBusquedaProp<T> extends Omit<BusquedaRedux, 'sortBy'>{
   datosQuery: T[];
   sortBy: keyof T;
+  // Identifica una búsqueda alterada por filtros/orden, además del texto buscado.
+  clave?: string;
 }
 
 export interface ReduxProp<T>{

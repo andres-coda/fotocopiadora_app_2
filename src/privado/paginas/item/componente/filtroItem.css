@@ -1,0 +1,76 @@
+.filtro-item__form {
+  width: 100%;
+}
+
+.filtro-item {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* Columna izquierda: lista vertical estilo submenú (ítem full-width, alineado a la izquierda). */
+.filtro-item__categorias {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-right: 0.5rem;
+  border-right: 1px solid var(--colorSombra);
+  box-sizing: border-box;
+}
+
+.filtro-item__categoria {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+  font: inherit;
+  color: var(--colorNegro);
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.filtro-item__categoria:hover {
+  background-color: var(--colorBoton);
+  color: var(--colorBlanco);
+}
+
+.filtro-item__categoria-activa,
+.filtro-item__categoria-activa:hover {
+  background-color: var(--colorSubmenu);
+  color: var(--colorNegro);
+  font-weight: 600;
+}
+
+.filtro-item__check {
+  color: var(--colorBoton);
+  font-weight: 700;
+}
+
+/* Columna derecha: panel de la categoría activa. */
+.filtro-item__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.filtro-item__lista {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.filtro-item__lista li {
+  width: 100%;
+  margin: 0;
+}
