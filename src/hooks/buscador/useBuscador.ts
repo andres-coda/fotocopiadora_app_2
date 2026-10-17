@@ -1,52 +1,15 @@
-import { RefObject, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useModalContext } from "../../contexto/contextoModal";
 import { useDispatch } from "react-redux";
 import { BuscadorProp } from "./useBuscadorProp.interface";
-import { BaseProp, TipoBusqueda } from "../../modelo/Entidades/base/base.interface";
+import { BaseProp } from "../../modelo/Entidades/base/base.interface";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
-import { normalizarTexto } from "../../utils/formatoDatos";
 
 interface RetornoBusquedaProp<T extends BaseProp> {
   elementos: T[];
   propuestas: PropuestaProp[];
 }
-
-const filtrarPorBusqueda = <T extends BaseProp>(
-  datos: T[] | undefined,
-  busqueda: string
-): T[] => {
-  if (!datos) return [];
-
-  const busquedaNormalizada = normalizarTexto(busqueda);
-
-  if (busquedaNormalizada.length < 2) {
-    return datos;
-  }
-
-  const palabrasBusqueda = busquedaNormalizada
-    .split(/\s+/)
-    .filter(Boolean);
-
-  return datos.filter(dato => {
-    const campos = dato.campoBusqueda;
-    if (!campos || campos.length === 0) return true; // Sin campoBusqueda -> no filtrar local
-    return palabrasBusqueda.every(palabra => {
-      return campos.some(campo => {
-        switch (campo.tipo) {
-          case TipoBusqueda.INVERSO:
-            return campo.valor.endsWith(palabra);
-
-          case TipoBusqueda.ESTRICTO:
-            return campo.valor === palabra;
-
-          default:
-            return campo.valor.includes(palabra);
-        }
-      });
-    });
-  });
-};
 
 const useBuscador = <T extends BaseProp>({
   setModalLocal,
@@ -98,9 +61,6 @@ const useBuscador = <T extends BaseProp>({
     return resultado;
   }, [elementos, sortBy, sortOrder]);
 
-  // ✅ El filtrado de texto reacciona al valor diferido, no al valor directo
-  const deferredValor = useDeferredValue(valor);
-
   const elementosFiltrados: RetornoBusquedaProp<T> = useMemo(() => {
     let elementosResultado: T[] = elementosOrdenados;
 
@@ -109,10 +69,10 @@ const useBuscador = <T extends BaseProp>({
     }
 
     return {
-      elementos: filtrarPorBusqueda(elementosResultado, deferredValor),
-      propuestas: filtrarPorBusqueda(propuestas, deferredValor)
+      elementos: elementosResultado,
+      propuestas: propuestas ?? []
     };
-  }, [elementosOrdenados, deferredValor, filtros, propuestas]);
+  }, [elementosOrdenados, filtros, propuestas]);
 
   const nuevoElemento = (ruta?: string) => {
     if (ruta) {

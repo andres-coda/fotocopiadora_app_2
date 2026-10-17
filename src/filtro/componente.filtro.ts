@@ -1,7 +1,5 @@
-import { CampoBusqueda } from "../modelo/Entidades/base/base.interface";
-import { ComponenteAdapterProp, ComponenteProp } from "../modelo/Entidades/libro/componente.interface";
+import { ComponenteProp } from "../modelo/Entidades/libro/componente.interface";
 import { filtroLlamada } from "../redux/modelo/reduxContext.interface";
-import { normalizarTexto } from "../utils/formatoDatos";
 import { FiltroIndividual } from "./filtro.interface";
 
 export const componenteKeyBuscador: (keyof ComponenteProp)[] = ['nombre'];
@@ -11,8 +9,4 @@ export const filtrosInicialesComponente: filtroLlamada[] = [
 ]
 
 export const filtrosComponenteFuntion: FiltroIndividual<ComponenteProp>[] = [
-]
-
-export const camposBusquedaComponente: CampoBusqueda<ComponenteAdapterProp>[] = [
-  c => ({ valor: normalizarTexto(c.nombre) }),
 ]
