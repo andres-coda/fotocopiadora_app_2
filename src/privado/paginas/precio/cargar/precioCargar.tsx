@@ -36,7 +36,7 @@ const PrecioCargar = () => {
 
   const { obtenerPreciosBusqueda, responsePrecios: responsePrecioNombre, loadingPrecios } = usePreciosNombreApi();
   const { finListaRef: finPrecio, datos: precios, setDatos: setPrecios } = useBusquedaSimple<PrecioNombreProp>({
-    valor: precioSeleccionado != watch().nombre ? watch().nombre : '',
+    valor: (precioSeleccionado != watch().nombre && precioSelect?.nombre !=  watch().nombre) ? watch().nombre : '',
     response: responsePrecioNombre,
     loading: loadingPrecios,
     limiteLetrasBusqueda: limiteBusquedaPrecioNombre,

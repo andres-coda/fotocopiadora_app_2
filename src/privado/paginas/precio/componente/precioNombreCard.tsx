@@ -1,6 +1,7 @@
 import Card from "../../../../componente-estilo/card/card";
 import Texto from "../../../../componente-estilo/texto/texto";
 import { PrecioNombreProp } from "../../../../modelo/Entidades/precio/precio.interface";
+import './precioCard.css'
 
 interface Prop {
   precioNombre: PrecioNombreProp;
@@ -18,6 +19,7 @@ const PrecioNombreCard = ({precioNombre, selectPrecioNombre }: Prop) => {
     <Card
       onClick={selectPrecioNombre ? handlePrecioNombre : undefined}
       tituloCard={precioNombre.nombre}
+      nuevoEstilo="card-precio-nombre"
     >
         <Texto texto={precioNombre.nombre} chica/>
         <Texto texto={precioNombre.abreviatura} chica/>

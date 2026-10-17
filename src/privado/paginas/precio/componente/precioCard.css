@@ -23,3 +23,8 @@
   scale: none;
   box-shadow: none;
 }
+
+.card-precio-nombre{
+  background-color: var(--colorCardGris);
+
+}
