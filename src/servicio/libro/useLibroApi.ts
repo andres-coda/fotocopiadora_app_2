@@ -1,10 +1,10 @@
 import { libroAdapter } from "../../adaptadores/entrada/libro.adapter";
-import { libroDtoAdapter, libroEmpresaEditarDtoAdapter, libroExtraDtoAdapter, libroPrincipalDtoAdapter } from "../../adaptadores/salida/libroDto.adapter";
+import { libroDtoAdapter, libroEmpresaEditarDtoAdapter, libroExtraDtoAdapter } from "../../adaptadores/salida/libroDto.adapter";
 import { Especificaciones } from "../../modelo/Entidades/especificacion/especificacion.enum";
-import { formValuesLibro, formValuesLibroComponentes, formValuesLibroDatosExtras, formValuesLibroDatosLocales, formValuesLibroNombre } from "../../modelo/Entidades/libro/esqLibro.esquema";
+import { formValuesLibro, formValuesLibroDatosExtras, formValuesLibroDatosLocales } from "../../modelo/Entidades/libro/esqLibro.esquema";
 import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
-import { LIBRO, LIBRO_EXTRA, LIBRO_PRINCIPAL } from "../../utils/endpoint";
+import { LIBRO, LIBRO_EXTRA } from "../../utils/endpoint";
 import useApi from "../hooks/useApi";
 
 export interface CrearLibroProp {

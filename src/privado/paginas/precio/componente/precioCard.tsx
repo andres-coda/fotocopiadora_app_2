@@ -7,7 +7,7 @@ import Editar from '../../../../assets/edit.svg?react'
 import Eliminar from '../../../../assets/deleted.svg?react'
 import './precioCard.css'
 import useEditar from "../../../../hooks/editar/useEditar";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useModalContext } from "../../../../contexto/contextoModal";
 import { useDispatch } from "react-redux";
 import { seleccionarPrecio } from "../../../../redux/state/precio.state";

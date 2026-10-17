@@ -1,11 +1,9 @@
 import { BaseProp } from "../../modelo/Entidades/base/base.interface";
-import { EspecificacionProp } from "../../modelo/Entidades/especificacion/especificacion.interface";
 import { libroInicial, LibroProp } from "../../modelo/Entidades/libro/libro.interface";
 import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { PedidoLibroAdapterProp, PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
 import { sedeInicial, SedeProp } from "../../modelo/Entidades/sede/sede.interface";
 import { baseAdapter } from "./base.adapter";
-import { especificacionAdapterArray } from "./especificacion.adapter";
 import { libroAdapter } from "./libro.adapter";
 import { pedidoAdapter } from "./pedido.adapter";
 import { sedeAdapter } from "./sede.adapter";

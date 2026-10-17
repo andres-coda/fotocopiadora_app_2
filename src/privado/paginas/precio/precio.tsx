@@ -19,7 +19,7 @@ const Precios = () => {
   const precioDatos: ReduxProp<PrecioProp> = useSelector((store: appStore) => store.precio);
   const { obtenerPreciosBusqueda, responsePrecios, loadingPrecios } = usePreciosApi()
   const [valor, setValor] = useState<string>('');
-  const { modal, setModal } = useModalContext();
+  const { modal } = useModalContext();
   const [eliminar, setEliminar] = useState<boolean>(false);
   const dispatch = useDispatch();
 
@@ -46,7 +46,7 @@ const Precios = () => {
       <BuscadorPaginadoCompleto
         ref={contenedorRef}
         texto='Buscar precio'
-        handleMas={() => setModal(true)}
+        handleMas={() => nuevoElemento()}
         valor={valor}
         setValor={setValor}
         titulo='Lista de precios'

@@ -6,7 +6,7 @@ import { formValuesLibro, libro, libroFormEdit } from '../../../../modelo/Entida
 import useLibroApi from '../../../../servicio/libro/useLibroApi';
 import useLibroDeleteApi from '../../../../servicio/libro/useLibroDeleteApi';
 import { useForm } from 'react-hook-form';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useEffect } from 'react';
 import useEspecificacionesSelect from '../../../../hooks/presupuesto/useEspecificacionesSelect';
 import useFormulario from '../../../../hooks/formulario/useFormulario';
 import { resetSeleccionarLibro, seleccionarLibro } from '../../../../redux/state/libro.state';
@@ -17,7 +17,6 @@ import CargarLibroDatosExtras from './cargarLibroDatosExtras';
 import CargarLibroDatosLocal from './cargarLibroDatosLocal';
 import { useModalContext } from '../../../../contexto/contextoModal';
 import Texto from '../../../../componente-estilo/texto/texto';
-import { EditarLibroEstadoProp, estadoDefault } from './libro_editar';
 import CargarStock from './cargarStock';
 
 interface Prop {
@@ -43,7 +42,7 @@ const LibroEditarFormulario = ({ libroSelect, local = false, extra = false, stoc
 
   const { especificaciones, setEspecificaciones } = useEspecificacionesSelect(libroSelect.especificacionesDefecto ?? []);
 
-  const { resetForm } = useFormulario<LibroProp, formValuesLibro, LibroProp>({
+  useFormulario<LibroProp, formValuesLibro, LibroProp>({
     response: responseLibro,
     resetSelect: resetSeleccionarLibro,
     selectElemento: seleccionarLibro,

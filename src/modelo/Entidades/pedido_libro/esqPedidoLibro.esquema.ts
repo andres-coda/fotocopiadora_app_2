@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { LibroProp } from "../libro/libro.interface";
 import { PedidoLibroConstruccionProp, PedidoLibroProp } from "./pedidoLibro.interface";
-import { transformarEspeAEnum } from "../../../utils/especificaciones";
 import { SedeProp } from "../sede/sede.interface";
 
 

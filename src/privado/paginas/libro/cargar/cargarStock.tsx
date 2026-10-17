@@ -1,7 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
 import Formulario from "../../../../componente/formulario/formulario";
 import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface";
-import { EditarLibroEstadoProp, estadoDefault } from "./libro_editar";
 import { nombreLibroXstring } from "../../../../utils/formatoDatos";
 import { formValuesLibroStock, libroStock } from "../../../../modelo/Entidades/libro/esqStock.esquema";
 import Input from "../../../../componente/formulario/input";
@@ -34,7 +32,7 @@ const CargarStock = ({ libroSelect }: Prop) => {
   
   const { setModal } = useModalContext()
 
-  const { resetForm } = useFormulario<stockIndividualProp, formValuesLibroStock, LibroProp>({
+  useFormulario<stockIndividualProp, formValuesLibroStock, LibroProp>({
     response: responseStock,
     resetSelect: resetSeleccionarLibro,
     selectElemento: actualizarStockLocal,

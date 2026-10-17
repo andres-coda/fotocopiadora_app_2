@@ -20,7 +20,7 @@ const PropuestaSelect = ({ propuesta }: Prop) => {
   const { setModal } = useModalContext();
   const { copiarPresupuestoLibros } = usePresupuesto({ libros: propuesta.libro })
 
-  const { handleSelect, handleEdit } = useEditar({
+  const { handleEdit } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`,
     propuesta
   });

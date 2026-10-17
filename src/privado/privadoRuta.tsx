@@ -3,7 +3,6 @@ import RutaInvalida from "../componente/ruta_invalida/rutaInvalida";
 import { RutasPrivadas } from "./rutas/rutasPrivadas";
 import PrivadoContenedor from "../componente-estilo/Contenedor/privadoContenedor";
 import CargarDatosIniciales from "../redux/cargadatos/cargarDatosIniciales";
-import LibroCargar from "./paginas/libro/cargar/libroCargar";
 import LibroSelect from "./paginas/libro/componente/libroSelect";
 import ClienteCargar from "./paginas/cliente/cargar/clienteCargar";
 import ClienteSelect from "./paginas/cliente/componente/clienteSelect";
