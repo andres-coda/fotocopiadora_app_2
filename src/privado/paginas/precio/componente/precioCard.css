@@ -5,6 +5,7 @@
   align-items: center;
   padding: 1rem;
   background-color: var(--colorCardGris);
+  min-height: 68px;
 }
 
 .botonera-precio{
