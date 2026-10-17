@@ -66,10 +66,11 @@ const useItemCard = ({ item, idPedido, estadoActual, sedeActual, resetEstado, re
 
   useEffect(() => {
     if (responseCambioEstadoPedido) {
-      dispatch(actualizarStockRedux(responseCambioEstadoPedido.items[0].stock));
+      const item = responseCambioEstadoPedido.items[0];
+      if (item) dispatch(actualizarStockRedux(item.stock));
       dispatch(actualizarResumenClienteRedux(responseCambioEstadoPedido.resumenCliente));
       dispatch(cambiarEstadoPedidoRedux(responseCambioEstadoPedido));
-      dispatch(cambiarEstadoPedidoLibroRedux(responseCambioEstadoPedido.items));
+      dispatch(cambiarEstadoPedidoLibroRedux(responseCambioEstadoPedido));
     }
   }, [responseCambioEstadoPedido]);
 

@@ -3,7 +3,6 @@ import { ActionProp, ReduxProp, UltimaBusquedaProp } from "../modelo/reduxContex
 import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
 import { CambiarEstadoItemProp, CambiarEstadoPedidoCompletoProp, CambiarEstadoPedidoProp } from "../../modelo/Entidades/pedido_libro/cambioEstado.interface";
 import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import { estado } from "../../modelo/Entidades/pedido_libro/esqEstadoPedido.interface";
 
 export const modificarEstadoPedidoRedux = (
   state: WritableDraft<ReduxProp<PedidoProp>>,
@@ -131,7 +130,7 @@ export const modificarEstadoPedidoLibroFn = (
 };
 
 const modificarEstadoItemUltimaBusqueda = (prop: CambiarEstadoPedidoCompletoProp, ultBusqueda: UltimaBusquedaProp<PedidoLibroProp>[]): UltimaBusquedaProp<PedidoLibroProp>[] => {
-  if (!prop || prop.items.length === 0 || !ultBusqueda || ultBusqueda.length === 0) return ultBusqueda;
+  if (!prop || !prop.items?.length || !ultBusqueda || ultBusqueda.length === 0) return ultBusqueda;
   return ultBusqueda.map(ub => {
     return {
       ...ub,
