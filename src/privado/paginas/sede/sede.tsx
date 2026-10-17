@@ -1,22 +1,28 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReduxProp } from "../../../redux/modelo/reduxContext.interface";
 import { SedeProp } from "../../../modelo/Entidades/sede/sede.interface";
 import { appStore } from "../../../redux/store";
 import BuscadorFiltros from "../../../componente/buscador/buscadorCompleto";
-import { rutaPrivadaBase, RutasPrivadas } from "../../rutas/rutasPrivadas";
 import Centro from "../../../componente-estilo/centro/centro";
 import TextoVacio from "../../../componente/Textos/textoVacio";
 import SedeCard from "./componente/sedeCard";
 import useSedesApi from "../../../servicio/sede/useSedesApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useBusquedaPaginada from "../../../hooks/buscador/useBusquedaPaginada";
-import { agregarSedesBusquedaActual, crearBusquedaSede, resetBusquedaSede } from "../../../redux/state/sede.state";
+import { agregarSedesBusquedaActual, crearBusquedaSede, resetBusquedaSede, resetSeleccionarSede } from "../../../redux/state/sede.state";
+import Modal from "../../../componente/modal/modal";
+import SedeCargar from "./cargar/sedeCargar";
+import EliminarSede from "./componente/eliminarSede";
+import { useModalContext } from "../../../contexto/contextoModal";
 
 const Sedes = () => {
   const sedeDatos: ReduxProp<SedeProp> = useSelector((store: appStore) => store.sede)
- 
+
   const { obtenerSedesBusqueda, responseSedes, loadingSedes } = useSedesApi()
   const [valor, setValor] = useState<string>('');
+  const { modal } = useModalContext();
+  const [eliminar, setEliminar] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const { contenedorRef, nuevoElemento } = useBusquedaPaginada<SedeProp>({
     valor,
@@ -28,13 +34,20 @@ const Sedes = () => {
     response: responseSedes,
     loading: loadingSedes
   });
-  
+
+  useEffect(() => {
+    if (!modal) {
+      setEliminar(false);
+      dispatch(resetSeleccionarSede());
+    }
+  }, [modal])
+
 return (
   <>
     <BuscadorFiltros
       ref={contenedorRef}
       texto='Buscar sede'
-      handleMas={() => nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SEDE_CARGAR}`)}
+      handleMas={() => nuevoElemento()}
       valor={valor}
       setValor={setValor}
       etiquetaArriba='Al comienzo de la lista'
@@ -44,11 +57,15 @@ return (
     <Centro ref={contenedorRef}>
       {sedeDatos.busquedaActual.datosQuery.length > 0
         ? sedeDatos.busquedaActual.datosQuery.map(dato => (
-            <SedeCard sede={dato} key={dato.id} />
+            <SedeCard sede={dato} setEliminar={setEliminar} key={dato.id} />
           ))
         : <TextoVacio entidad='sedes' />
       }
     </Centro>
+    <Modal>
+      {!eliminar && <SedeCargar />}
+      {eliminar && <EliminarSede />}
+    </Modal>
   </>
 )
 }

@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
 import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
-import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden, eliminarElemento} from "../utils/funcionesGenericasEmpresa";
-import { modificarPrecioRedux as modificarPrecioFn } from "../utils/funcionesPrecio";
+import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden, eliminarElemento, modificarElementoRedux} from "../utils/funcionesGenericasEmpresa";
 
 const cantidadBusquedas: number = 1;
 
@@ -35,7 +34,7 @@ export const precioSlice = createSlice({
     eliminarPrecioRedux: eliminarElemento<PrecioProp>,
     agregarPreciosBusquedaActual: agregarDatosBusquedaActual<PrecioProp>,
     cambiarOrdenPrecio: cambiarOrden<PrecioProp>,
-    actualizarPrecioRedux: modificarPrecioFn
+    actualizarPrecioRedux: modificarElementoRedux<PrecioProp>
   }
 });
 

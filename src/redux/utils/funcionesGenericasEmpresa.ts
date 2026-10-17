@@ -126,3 +126,25 @@ const eliminarElementoLista = <T extends HasId> (
     datosQuery: elementos.datosQuery.filter(e=> e.id != id)
   }
 }
+
+export const modificarElementoRedux = <T extends HasId>(
+  state: ReduxProp<T>,
+  action: PayloadAction<T>
+) => {
+  state.busquedaActual = modificarElementoLista(state.busquedaActual, action.payload);
+  state.datosIniciales = modificarElementoLista(state.datosIniciales, action.payload);
+  state.ultimasBusqueda = state.ultimasBusqueda.map(b => modificarElementoLista(b, action.payload));
+
+  const actual = state.datoSeleccionado;
+  if (actual && actual.id === action.payload.id)
+    state.datoSeleccionado = { ...actual, ...action.payload };
+}
+
+const modificarElementoLista = <T extends HasId>(
+  elementos: UltimaBusquedaProp<T>, elemento: T
+):UltimaBusquedaProp<T> => {
+  return {
+    ...elementos,
+    datosQuery: elementos.datosQuery.map(e => e.id != elemento.id ? e : { ...e, ...elemento })
+  }
+}

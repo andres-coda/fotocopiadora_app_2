@@ -1,0 +1,14 @@
+.card-sede{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--colorCardGris);
+}
+
+.botonera-sede{
+  width: fit-content;
+  margin-left: .5rem;
+  gap: .2rem;
+}
