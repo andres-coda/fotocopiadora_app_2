@@ -23,7 +23,7 @@ const Precios = () => {
   const [eliminar, setEliminar] = useState<boolean>(false);
   const dispatch = useDispatch();
 
-  const { contenedorRef, nuevoElemento } = useBusquedaPaginada<PrecioProp>({
+  const { contenedorRef, nuevoElemento, finListaRef } = useBusquedaPaginada<PrecioProp>({
     valor,
     datosRedux: precioDatos,
     resetBusqueda: resetBusquedaPrecio,
@@ -53,12 +53,13 @@ const Precios = () => {
         etiquetaArriba='Al comienzo de la lista'
         etiquetaMas='Nuevo precio'
       />
-      <Centro>
+      <Centro ref={contenedorRef}>
         {
           !precioDatos.busquedaActual || precioDatos.busquedaActual.datosQuery.length === 0
             ? (<TextoVacio entidad='precios' />)
             : precioDatos.busquedaActual.datosQuery.map(d => <PrecioCard precio={d} key={d.id} setEliminar={setEliminar} />)
         }
+        <div ref={finListaRef} style={{ gridColumn: '1 / -1', height: '1px' }} />
       </Centro>
       <Modal>
         {!eliminar && <PrecioCargar />}

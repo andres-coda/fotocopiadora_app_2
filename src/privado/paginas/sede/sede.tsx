@@ -24,7 +24,7 @@ const Sedes = () => {
   const [eliminar, setEliminar] = useState<boolean>(false);
   const dispatch = useDispatch();
 
-  const { contenedorRef, nuevoElemento } = useBusquedaPaginada<SedeProp>({
+  const { contenedorRef, nuevoElemento, finListaRef } = useBusquedaPaginada<SedeProp>({
     valor,
     datosRedux: sedeDatos,
     resetBusqueda: resetBusquedaSede,
@@ -61,6 +61,7 @@ return (
           ))
         : <TextoVacio entidad='sedes' />
       }
+      <div ref={finListaRef} style={{ gridColumn: '1 / -1', height: '1px' }} />
     </Centro>
     <Modal>
       {!eliminar && <SedeCargar />}
