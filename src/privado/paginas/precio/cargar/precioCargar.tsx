@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import useFormulario from "../../../../hooks/formulario/useFormulario";
 import Formulario from "../../../../componente/formulario/formulario";
 import Input from "../../../../componente/formulario/input";
-import { actualizarPrecioRedux, resetSeleccionarPrecio } from "../../../../redux/state/precio.state";
+import { actualizarPrecioRedux } from "../../../../redux/state/precio.state";
 import { useState } from "react";
 import usePreciosNombreApi from "../../../../servicio/precio/usePrecioNombreApi";
 import useBusquedaSimple from "../../../../hooks/buscador/useBuscadorSimple";
@@ -44,7 +44,6 @@ const PrecioCargar = () => {
   });
 
   const { retroceder } = useFormulario<PrecioProp, formValuesPrecio, PrecioProp>({
-    resetSelect: resetSeleccionarPrecio,
     reset,
   })
 
