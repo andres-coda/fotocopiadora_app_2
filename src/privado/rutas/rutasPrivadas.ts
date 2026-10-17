@@ -25,4 +25,5 @@ export const RutasPrivadas = {
   PEDIDO_LIBRO_CARGAR: 'new-pedido-libro',
   PROPUESTA_LISTA:'propuestas',
   PROPUESTA_CARGAR:'new-propuesta',
+  PERFIL: 'perfil',
 }

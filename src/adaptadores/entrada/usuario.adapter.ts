@@ -3,13 +3,22 @@ import { TokenAdapterProp, TokenProp, usuarioAdapterProps, usuarioProps } from "
 export const usuarioAdapter = (user?:usuarioAdapterProps):usuarioProps | undefined=> {
   if(!user) return undefined
   const newUser: usuarioProps = {
+    id: user.id,
     nombre: user.nombre,
     email: user.email,
     role: user.role,
-    id: user.idUsuario
-
   }
   return newUser;
+}
+
+export const usuarioAdapterArray = (datos?: usuarioAdapterProps[]): usuarioProps[] => {
+  const newUsuarios: usuarioProps[] =
+    datos?.flatMap(d => {
+      const usuario = usuarioAdapter(d);
+      return usuario ? [usuario] : [];
+    }) ?? [];
+
+  return newUsuarios;
 }
 
 export const tokenAdapter = (token?: TokenAdapterProp | null): TokenProp | undefined => {

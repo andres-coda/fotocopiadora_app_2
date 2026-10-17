@@ -63,7 +63,6 @@ const Login = () => {
           </>
         </Formulario>
         <Botonera>
-          <Boton texto="Cerrar sesión" secundario onClick={()=>localStorage.setItem('token', '')}/>
           <Boton texto="Registrarse" secundario onClick={()=>navigate(`/${rutaPublica.REGISTRO}`)}/>
         </Botonera>
     </Centro>

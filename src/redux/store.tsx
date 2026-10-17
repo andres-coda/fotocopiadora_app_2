@@ -11,12 +11,13 @@ import { MateriaProp } from "../modelo/Entidades/libro/materia.interface";
 import { materiaSlice } from "./state/materia.state";
 import { PedidoProp } from "../modelo/Entidades/pedido/pedido.interface";
 import { pedidoSlice } from "./state/pedido.state";
-import { PedidoLibroProp } from "../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import { pedidoLibroSlice } from "./state/pedido_libro.state";
+import { pedidoLibroSlice, PedidoLibroStateProp } from "./state/pedido_libro.state";
 import { PrecioProp } from "../modelo/Entidades/precio/precio.interface";
 import { precioSlice } from "./state/precio.state";
 import { SedeProp } from "../modelo/Entidades/sede/sede.interface";
 import { sedeSlice } from "./state/sede.state";
+import { SesionStateProp, sesionSlice } from "./state/sesion.state";
+import { usuariosSlice } from "./state/usuarios.state";
 import { PropuestaProp } from "../modelo/Entidades/propuesta/propuesta.interface";
 import { libroSlice } from "./state/libro.state";
 import { propuestaSlice } from "./state/propuesta.state";
@@ -26,12 +27,14 @@ export interface appStore {
   especificacion: ReduxProp<EspecificacionProp>,
   materia: ReduxProp<MateriaProp>,
   pedido: ReduxProp<PedidoProp>,
-  pedidoLibro: ReduxProp<PedidoLibroProp>,
+  pedidoLibro: PedidoLibroStateProp,
   precio: ReduxProp<PrecioProp>,
   sede: ReduxProp<SedeProp>,
   propuesta: ReduxProp<PropuestaProp>,
   usuario: usuarioProps,
+  usuarios: ReduxProp<usuarioProps>,
   libro: ReduxProp<LibroProp>,
+  sesion: SesionStateProp,
 }
 
 export default configureStore<appStore>({
@@ -45,6 +48,8 @@ export default configureStore<appStore>({
     pedidoLibro: pedidoLibroSlice.reducer,
     precio: precioSlice.reducer,
     sede: sedeSlice.reducer,
-    libro: libroSlice.reducer
+    libro: libroSlice.reducer,
+    usuarios: usuariosSlice.reducer,
+    sesion: sesionSlice.reducer
   }
 })

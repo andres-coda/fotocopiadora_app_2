@@ -33,8 +33,8 @@ function Heder() {
         <li title={'Sedes'}><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SEDE_LISTA}`} ><Sedes /></Link></li>
          
         <li title={'Usuario'}>{userActual
-          ? <Link to='/' ><UserCheck/></Link>
-          : <Link to='/' ><User/></Link>
+          ? <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PERFIL}`} ><UserCheck/></Link>
+          : <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PERFIL}`} ><User/></Link>
         }
         </li>
       </ul>

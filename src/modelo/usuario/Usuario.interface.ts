@@ -1,15 +1,18 @@
+export type RolUsuario = 'super_admin' | 'admin' | 'operador';
+
+// Los endpoints de usuario devuelven {id, nombre, email, role}, igual que /auth/profile.
 export interface usuarioAdapterProps {
-  idUsuario: string,
+  id: string,
   nombre: string,
   email: string,
-  role: string,
+  role: RolUsuario,
 }
 
 export interface usuarioProps {
   id: string,
   nombre: string,
   email: string,
-  role: string,
+  role: RolUsuario,
 }
 
 
@@ -17,7 +20,7 @@ export const usuarioInicial: usuarioProps = {
   id: '',
   nombre: '',
   email: '',
-  role: '',
+  role: 'operador',
 }
 
 export interface TokenAdapterProp {
