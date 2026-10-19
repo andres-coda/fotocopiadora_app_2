@@ -1,0 +1,21 @@
+.card.perfil-dato-cobro-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+  padding: 1rem;
+  background-color: var(--colorCardGris);
+}
+
+.perfil-dato-cobro-card__datos {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+
+.perfil-dato-cobro-card__botonera {
+  width: fit-content;
+  margin-left: .5rem;
+  gap: .2rem;
+}

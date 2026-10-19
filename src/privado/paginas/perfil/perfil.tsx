@@ -10,15 +10,26 @@ import { useModalContext } from "../../../contexto/contextoModal";
 import { useSesion } from "../../../hooks/sesion/useSesion";
 import useEmpresaApi from "../../../servicio/empresa/useEmpresaApi";
 import { EmpresaProp } from "../../../modelo/Entidades/empresa/empresa.interface";
+import { ConfiguracionProp } from "../../../modelo/Entidades/configuracion/configuracion.interface";
 import PerfilDatosUsuario from "./componente/perfilDatosUsuario";
 import PerfilDatosEmpresa from "./componente/perfilDatosEmpresa";
 import PerfilUsuarios from "./componente/perfilUsuarios";
+import PerfilConfiguraciones from "./componente/perfilConfiguraciones";
+import PerfilMensajes from "./componente/perfilMensajes";
+import PerfilDatosCobro from "./componente/perfilDatosCobro";
 import PerfilLogout from "./componente/perfilLogout";
 import UsuarioEditar from "./cargar/usuarioEditar";
 import EmpresaEditar from "./cargar/empresaEditar";
+import ConfiguracionEditar from "./cargar/configuracionEditar";
 import UsuarioCargar from "./cargar/usuarioCargar";
+import MensajeCargar from "./cargar/mensajeCargar";
+import DatoCobroCargar from "./cargar/datoCobroCargar";
 import EliminarUsuario from "./componente/eliminarUsuario";
+import EliminarMensaje from "./componente/eliminarMensaje";
+import EliminarDatoCobro from "./componente/eliminarDatoCobro";
 import { resetSeleccionarUsuario } from "../../../redux/state/usuarios.state";
+import { resetSeleccionarMensaje } from "../../../redux/state/mensaje.state";
+import { DatoCobroProp } from "../../../modelo/Entidades/dato_cobro/datoCobro.interface";
 import './perfil.css'
 
 const Perfil = () => {
@@ -29,19 +40,29 @@ const Perfil = () => {
   const [modalEmpresa, setModalEmpresa] = useState<boolean>(false);
   const [modalUsuarioCargar, setModalUsuarioCargar] = useState<boolean>(false);
   const [modalUsuarioEliminar, setModalUsuarioEliminar] = useState<boolean>(false);
+  const [modalConfiguracion, setModalConfiguracion] = useState<boolean>(false);
+  const [modalMensajeCargar, setModalMensajeCargar] = useState<boolean>(false);
+  const [modalMensajeEliminar, setModalMensajeEliminar] = useState<boolean>(false);
+  const [modalDatoCobroCargar, setModalDatoCobroCargar] = useState<boolean>(false);
+  const [modalDatoCobroEliminar, setModalDatoCobroEliminar] = useState<boolean>(false);
+  const [datoCobroSeleccionado, setDatoCobroSeleccionado] = useState<DatoCobroProp | undefined>(undefined);
   const [empresa, setEmpresa] = useState<EmpresaProp | null>(null);
+  const [configuracion, setConfiguracion] = useState<ConfiguracionProp | undefined>(empresa?.configuracion);
   const dispatch = useDispatch();
 
   // Solo admin y super_admin pueden administrar usuarios (regla de RLS del back).
   const esAdmin = usuarioSesion?.role === 'admin' || usuarioSesion?.role === 'super_admin';
 
   useEffect(() => {
-    // /empresa/mia deduce la empresa del token: no hay id que esperar.
-    obtenerEmpresaMia();
-  }, []);
+    // /empresa/mia resuelve la empresa desde el token: el id no viaja en la URL.
+    if (usuarioSesion?.idEmpresa) obtenerEmpresaMia();
+  }, [usuarioSesion?.idEmpresa]);
 
   useEffect(() => {
-    if (responseEmpresa) setEmpresa(responseEmpresa);
+    if (responseEmpresa) {
+      setEmpresa(responseEmpresa);
+      setConfiguracion(responseEmpresa.configuracion);
+    }
   }, [responseEmpresa]);
 
   useEffect(() => {
@@ -50,14 +71,22 @@ const Perfil = () => {
       setModalEmpresa(false);
       setModalUsuarioCargar(false);
       setModalUsuarioEliminar(false);
+      setModalConfiguracion(false);
+      setModalMensajeCargar(false);
+      setModalMensajeEliminar(false);
+      setModalDatoCobroCargar(false);
+      setModalDatoCobroEliminar(false);
       dispatch(resetSeleccionarUsuario());
+      dispatch(resetSeleccionarMensaje());
+      setDatoCobroSeleccionado(undefined);
     }
   }, [modal]);
 
-  // Caso borde: un super_admin no tiene empresa (id_empresa NULL). El back
-  // responde 404 (o falla) y no hay que romper la pagina.
-  const sinEmpresa = !loadingEmpresa && !!errorFetchEmpresa
-    && (errorFetchEmpresa.includes('404') || usuarioSesion?.role === 'super_admin');
+  // Caso borde: un super_admin no tiene empresa (id_empresa NULL). Sin id no
+  // hay request; si el back responde 404 tampoco hay que romper la pagina.
+  const sinEmpresa = !loadingEmpresa && (!usuarioSesion?.idEmpresa
+    || usuarioSesion?.role === 'super_admin'
+    || (!!errorFetchEmpresa && errorFetchEmpresa.includes('404')));
 
   if (error) return <Centro><Texto texto={error} error /></Centro>;
   if (cargando || !usuarioSesion) return <Centro><Cargando /></Centro>;
@@ -97,7 +126,35 @@ const Perfil = () => {
           </Card>
         )}
 
-        {/* Corte 3: aca va la seccion "Configuraciones" (perfilConfiguraciones.tsx) */}
+        {!loadingEmpresa && !sinEmpresa && !errorFetchEmpresa && empresa && (
+          <Card nuevoEstilo="perfil-seccion">
+            <Titulo titulo="Configuraciones" />
+            <PerfilConfiguraciones
+              configuracion={configuracion}
+              onEditar={() => { setModalConfiguracion(true); setModal(true); }}
+            />
+          </Card>
+        )}
+
+        <Card nuevoEstilo="perfil-seccion">
+          <Titulo titulo="Mensajes" />
+          <PerfilMensajes
+            esAdmin={esAdmin}
+            onNuevo={() => { setModalMensajeCargar(true); setModal(true); }}
+            onEditar={() => setModalMensajeCargar(true)}
+            setEliminar={setModalMensajeEliminar}
+          />
+        </Card>
+
+        <Card nuevoEstilo="perfil-seccion">
+          <Titulo titulo="Datos de cobro" />
+          <PerfilDatosCobro
+            esAdmin={esAdmin}
+            onNuevo={() => { setDatoCobroSeleccionado(undefined); setModalDatoCobroCargar(true); setModal(true); }}
+            onEditar={(datoSeleccionado) => { setDatoCobroSeleccionado(datoSeleccionado); setModalDatoCobroCargar(true); }}
+            onEliminar={(datoSeleccionado) => { setDatoCobroSeleccionado(datoSeleccionado); setModalDatoCobroEliminar(true); }}
+          />
+        </Card>
 
         <Card nuevoEstilo="perfil-seccion">
           <Titulo titulo="Sesion" />
@@ -110,6 +167,11 @@ const Perfil = () => {
         {modalEmpresa && empresa && <EmpresaEditar empresa={empresa} onActualizar={setEmpresa} />}
         {modalUsuarioCargar && <UsuarioCargar />}
         {modalUsuarioEliminar && <EliminarUsuario />}
+        {modalConfiguracion && <ConfiguracionEditar configuracion={configuracion} onActualizar={setConfiguracion} />}
+        {modalMensajeCargar && <MensajeCargar />}
+        {modalMensajeEliminar && <EliminarMensaje />}
+        {modalDatoCobroCargar && <DatoCobroCargar datoCobro={datoCobroSeleccionado} />}
+        {modalDatoCobroEliminar && <EliminarDatoCobro datoCobro={datoCobroSeleccionado} />}
       </Modal>
     </>
   )
