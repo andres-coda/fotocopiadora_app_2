@@ -5,7 +5,6 @@ import { SedeAdapterProp, SedeProp } from "../sede/sede.interface";
 // La tabla configuraciones no tiene id (su PK es id_empresa), ni deleted,
 // ni fecha_creacion: por eso no extiende BaseAdapterProp/BaseProp.
 export interface ConfiguracionAdapterProp {
-  idEmpresa: string;
   fechaActualizacion?: string;
   fechaEntrega?: string;
   horaEntrega?: number;
@@ -18,7 +17,6 @@ export interface ConfiguracionAdapterProp {
 }
 
 export interface ConfiguracionProp {
-  idEmpresa: string;
   fechaActualizacion?: string;
   fechaEntrega?: string;
   horaEntrega?: number;

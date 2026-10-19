@@ -30,7 +30,6 @@ export const perfilAdapter = (perfil?: perfilAdapterProp): usuarioProps | undefi
     nombre: perfil.nombre,
     email: '',
     role: perfil.role,
-    idEmpresa: perfil.idEmpresa ?? null,
   }
   return newUser;
 }

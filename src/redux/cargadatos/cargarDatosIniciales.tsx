@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { appStore } from "../store";
 import { AppProp } from "../modelo/cargarDatos.interface";
@@ -22,6 +22,9 @@ import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
 import useSockets from "../../hooks/sockets/useSockets";
 import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
 import usePropuestasApi from "../../servicio/propuesta/usePropuestasApi";
+import { useSesion } from "../../hooks/sesion/useSesion";
+import useEmpresaApi from "../../servicio/empresa/useEmpresaApi";
+import { setCargandoEmpresa, setEmpresa, setErrorEmpresa, setSolicitadaEmpresa } from "../state/empresa.state";
 
 const CargarDatosIniciales = ({ children }: AppProp) => {
 
@@ -37,6 +40,18 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
 
   const dispatch = useDispatch();
 
+  // Unica fuente de verdad del perfil: useSesion sincroniza GET /auth/profile
+  // en el slice `sesion`. Header y perfil solo leen de Redux.
+  useSesion();
+
+  const { obtenerEmpresaMia, responseEmpresa, loadingEmpresa, errorFetchEmpresa } = useEmpresaApi();
+
+  const empresaActual = useSelector((store: appStore) => store.empresa.empresa);
+  const errorEmpresa = useSelector((store: appStore) => store.empresa.error);
+
+  // Evita repetir la peticion cuando el back responde 404 (sin empresa).
+  const empresaSolicitada = useRef<boolean>(false);
+
   const librosIniciales:LibroProp[] = useSelector((store:appStore) => store.libro.datosIniciales.datosQuery)
   const clienteItems: ClienteProp[] = useSelector((store: appStore) => store.cliente.datosIniciales.datosQuery);
   const especificacionItems: EspecificacionProp[] = useSelector((store: appStore) => store.especificacion.datosIniciales.datosQuery);
@@ -50,6 +65,37 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const {
   } = useSockets({
   })
+
+  useEffect(() => {
+    dispatch(setCargandoEmpresa(loadingEmpresa));
+  }, [loadingEmpresa]);
+
+  useEffect(() => {
+    if (responseEmpresa) dispatch(setEmpresa(responseEmpresa));
+  }, [responseEmpresa]);
+
+  useEffect(() => {
+    if (!errorFetchEmpresa) return;
+
+    // GET /empresa/mia responde 404 cuando el usuario no tiene empresa.
+    // Ese caso no es un fallo: se refleja como "sin empresa".
+    if (errorFetchEmpresa.includes('404')) {
+      dispatch(setEmpresa(null));
+      dispatch(setErrorEmpresa(null));
+      return;
+    }
+
+    dispatch(setErrorEmpresa(errorFetchEmpresa));
+  }, [errorFetchEmpresa]);
+
+  useEffect(() => {
+    if (empresaSolicitada.current) return;
+    if (empresaActual !== null || errorEmpresa) return;
+
+    empresaSolicitada.current = true;
+    dispatch(setSolicitadaEmpresa(true));
+    obtenerEmpresaMia();
+  }, [empresaActual, errorEmpresa]);
 
   useEffect(() => {
     console.log('response pedido: ', responsePedidos)

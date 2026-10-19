@@ -10,7 +10,6 @@ export const configuracionAdapter = (configuracion?: ConfiguracionAdapterProp): 
   if (!configuracion) return undefined;
 
   const newConfiguracion: ConfiguracionProp = {
-    idEmpresa: configuracion.idEmpresa,
     fechaActualizacion: configuracion.fechaActualizacion,
     fechaEntrega: configuracion.fechaEntrega,
     horaEntrega: configuracion.horaEntrega,

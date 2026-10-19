@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { appStore } from "../../../redux/store";
+import { setConfiguracionEmpresa, setEmpresa } from "../../../redux/state/empresa.state";
 import Centro from "../../../componente-estilo/centro/centro";
 import Card from "../../../componente-estilo/card/card";
 import Titulo from "../../../componente-estilo/texto/titulo";
@@ -7,10 +9,6 @@ import Texto from "../../../componente-estilo/texto/texto";
 import Cargando from "../../../componente/cargando/cargando";
 import Modal from "../../../componente/modal/modal";
 import { useModalContext } from "../../../contexto/contextoModal";
-import { useSesion } from "../../../hooks/sesion/useSesion";
-import useEmpresaApi from "../../../servicio/empresa/useEmpresaApi";
-import { EmpresaProp } from "../../../modelo/Entidades/empresa/empresa.interface";
-import { ConfiguracionProp } from "../../../modelo/Entidades/configuracion/configuracion.interface";
 import PerfilDatosUsuario from "./componente/perfilDatosUsuario";
 import PerfilDatosEmpresa from "./componente/perfilDatosEmpresa";
 import PerfilUsuarios from "./componente/perfilUsuarios";
@@ -33,8 +31,14 @@ import { DatoCobroProp } from "../../../modelo/Entidades/dato_cobro/datoCobro.in
 import './perfil.css'
 
 const Perfil = () => {
-  const { usuarioSesion, cargando, error } = useSesion();
-  const { obtenerEmpresaMia, responseEmpresa, loadingEmpresa, errorFetchEmpresa } = useEmpresaApi();
+  // El perfil y la empresa ya vienen cargados por CargarDatosIniciales.
+  const usuarioSesion = useSelector((store: appStore) => store.sesion.usuario);
+  const cargando = useSelector((store: appStore) => store.sesion.cargando);
+  const error = useSelector((store: appStore) => store.sesion.error);
+  const empresa = useSelector((store: appStore) => store.empresa.empresa);
+  const cargandoEmpresa = useSelector((store: appStore) => store.empresa.cargando);
+  const errorEmpresa = useSelector((store: appStore) => store.empresa.error);
+  const solicitadaEmpresa = useSelector((store: appStore) => store.empresa.solicitada);
   const { modal, setModal } = useModalContext();
   const [modalUsuario, setModalUsuario] = useState<boolean>(false);
   const [modalEmpresa, setModalEmpresa] = useState<boolean>(false);
@@ -46,24 +50,12 @@ const Perfil = () => {
   const [modalDatoCobroCargar, setModalDatoCobroCargar] = useState<boolean>(false);
   const [modalDatoCobroEliminar, setModalDatoCobroEliminar] = useState<boolean>(false);
   const [datoCobroSeleccionado, setDatoCobroSeleccionado] = useState<DatoCobroProp | undefined>(undefined);
-  const [empresa, setEmpresa] = useState<EmpresaProp | null>(null);
-  const [configuracion, setConfiguracion] = useState<ConfiguracionProp | undefined>(empresa?.configuracion);
   const dispatch = useDispatch();
+
+  const configuracion = empresa?.configuracion;
 
   // Solo admin y super_admin pueden administrar usuarios (regla de RLS del back).
   const esAdmin = usuarioSesion?.role === 'admin' || usuarioSesion?.role === 'super_admin';
-
-  useEffect(() => {
-    // /empresa/mia resuelve la empresa desde el token: el id no viaja en la URL.
-    if (usuarioSesion?.idEmpresa) obtenerEmpresaMia();
-  }, [usuarioSesion?.idEmpresa]);
-
-  useEffect(() => {
-    if (responseEmpresa) {
-      setEmpresa(responseEmpresa);
-      setConfiguracion(responseEmpresa.configuracion);
-    }
-  }, [responseEmpresa]);
 
   useEffect(() => {
     if (!modal) {
@@ -82,18 +74,18 @@ const Perfil = () => {
     }
   }, [modal]);
 
-  // Caso borde: un super_admin no tiene empresa (id_empresa NULL). Sin id no
-  // hay request; si el back responde 404 tampoco hay que romper la pagina.
-  const sinEmpresa = !loadingEmpresa && (!usuarioSesion?.idEmpresa
-    || usuarioSesion?.role === 'super_admin'
-    || (!!errorFetchEmpresa && errorFetchEmpresa.includes('404')));
+  // Sin empresa: la peticion ya se disparo, termino y no hay empresa ni error.
+  // Cubre tanto a un super_admin como al 404 de GET /empresa/mia.
+  const sinEmpresa = solicitadaEmpresa && !cargandoEmpresa && !errorEmpresa && empresa === null;
 
   if (error) return <Centro><Texto texto={error} error /></Centro>;
   if (cargando || !usuarioSesion) return <Centro><Cargando /></Centro>;
 
   return (
     <>
-      <Centro>
+      <Centro
+        nuevoEstilo="perfil-centro"
+      >
         <Card nuevoEstilo="perfil-seccion">
           <Titulo titulo="Mis datos" />
           <PerfilDatosUsuario usuario={usuarioSesion} onEditar={() => { setModalUsuario(true); setModal(true); }} />
@@ -101,14 +93,14 @@ const Perfil = () => {
 
         <Card nuevoEstilo="perfil-seccion">
           <Titulo titulo="Datos de la empresa" />
-          {loadingEmpresa && <Cargando />}
-          {!loadingEmpresa && sinEmpresa && (
+          {cargandoEmpresa && <Cargando />}
+          {!cargandoEmpresa && sinEmpresa && (
             <Texto texto="Sin empresa asociada" mediana centrado />
           )}
-          {!loadingEmpresa && !sinEmpresa && errorFetchEmpresa && (
-            <Texto texto={errorFetchEmpresa} error chica />
+          {!cargandoEmpresa && !sinEmpresa && errorEmpresa && (
+            <Texto texto={errorEmpresa} error chica />
           )}
-          {!loadingEmpresa && !sinEmpresa && !errorFetchEmpresa && empresa && (
+          {!cargandoEmpresa && !sinEmpresa && !errorEmpresa && empresa && (
             <PerfilDatosEmpresa empresa={empresa} onEditar={() => { setModalEmpresa(true); setModal(true); }} />
           )}
         </Card>
@@ -126,7 +118,7 @@ const Perfil = () => {
           </Card>
         )}
 
-        {!loadingEmpresa && !sinEmpresa && !errorFetchEmpresa && empresa && (
+        {!cargandoEmpresa && !sinEmpresa && !errorEmpresa && empresa && (
           <Card nuevoEstilo="perfil-seccion">
             <Titulo titulo="Configuraciones" />
             <PerfilConfiguraciones
@@ -164,10 +156,10 @@ const Perfil = () => {
 
       <Modal>
         {modalUsuario && <UsuarioEditar />}
-        {modalEmpresa && empresa && <EmpresaEditar empresa={empresa} onActualizar={setEmpresa} />}
+        {modalEmpresa && empresa && <EmpresaEditar empresa={empresa} onActualizar={(e) => dispatch(setEmpresa({ ...e, configuracion: e.configuracion ?? empresa.configuracion }))} />}
         {modalUsuarioCargar && <UsuarioCargar />}
         {modalUsuarioEliminar && <EliminarUsuario />}
-        {modalConfiguracion && <ConfiguracionEditar configuracion={configuracion} onActualizar={setConfiguracion} />}
+        {modalConfiguracion && <ConfiguracionEditar configuracion={configuracion} onActualizar={(c) => dispatch(setConfiguracionEmpresa(c))} />}
         {modalMensajeCargar && <MensajeCargar />}
         {modalMensajeEliminar && <EliminarMensaje />}
         {modalDatoCobroCargar && <DatoCobroCargar datoCobro={datoCobroSeleccionado} />}

@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
 import './heder.css'
-import { usuarioProps } from '../../modelo/usuario/Usuario.interface';
-import { useUsuario } from '../../servicio/usuario/useUsuario';
+import { useSelector } from 'react-redux';
+import { appStore } from '../../redux/store';
 import { Link } from 'react-router-dom';
 import { rutaPrivadaBase, RutasPrivadas } from '../../privado/rutas/rutasPrivadas';
 import Libro from './../../assets/books.svg?react'
@@ -13,15 +12,8 @@ import UserCheck from './../../assets/userCheck.svg?react'
 import User from './../../assets/user.svg?react'
 
 function Heder() {
-  const [userActual, setUserActual] = useState<usuarioProps | null>(null);
-  const { user } = useUsuario();
-
-  useEffect(() => {
-    if (user) {
-      setUserActual(user);
-    }
-  }, [user]);
-
+  // El perfil ya lo carga CargarDatosIniciales en el slice `sesion`.
+  const userActual = useSelector((store: appStore) => store.sesion.usuario);
 
   return (
     <nav className="heder">
