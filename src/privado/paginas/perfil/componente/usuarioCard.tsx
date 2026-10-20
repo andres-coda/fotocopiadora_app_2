@@ -4,13 +4,15 @@ import Card from "../../../../componente-estilo/card/card";
 import Texto from "../../../../componente-estilo/texto/texto";
 import Editar from '../../../../assets/edit.svg?react'
 import Eliminar from '../../../../assets/deleted.svg?react'
-import './usuarioCard.css'
+import './perfilEmpresa.css'
 import useEditar from "../../../../hooks/editar/useEditar";
 import { Dispatch, SetStateAction } from "react";
 import { useModalContext } from "../../../../contexto/contextoModal";
 import { useDispatch } from "react-redux";
 import { seleccionarUsuario } from "../../../../redux/state/usuarios.state";
 import { usuarioProps } from "../../../../modelo/usuario/Usuario.interface";
+import Email from '../../../../assets/email.svg?react';
+import Monigote from '../../../../assets/user.svg?react';
 
 interface Props {
   usuario: usuarioProps;
@@ -28,12 +30,19 @@ const UsuarioCard = ({ usuario, esAdmin, esUsuarioActual, onEditar, setEliminar 
 
   return (
     <Card
-      nuevoEstilo="perfil-usuario-card"
+      nuevoEstilo="empresa-dato"
     >
+      <div className="empresa-renglon">
+        <Monigote />
+        <Texto texto={`Email: ${usuario.nombre}`} />
+      </div>
+      <div className="empresa-renglon">
+        <Email />
+        <Texto texto={`Email: ${usuario.email}`} />
+      </div>
       <div className="perfil-usuario-card__datos">
         <Texto texto={usuario.nombre} chica />
         <Texto texto={usuario.email} chica />
-        <Texto texto={`Rol: ${usuario.role}`} chica />
       </div>
       {esAdmin && (
         <Botonera nuevoEstilo="perfil-usuario-card__botonera">

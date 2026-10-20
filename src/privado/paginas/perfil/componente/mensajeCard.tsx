@@ -13,12 +13,12 @@ import { MensajeProp } from "../../../../modelo/Entidades/mensaje/mensaje.interf
 
 interface Props {
   mensaje: MensajeProp;
-  esAdmin: boolean;
-  onEditar: () => void;
-  setEliminar: Dispatch<SetStateAction<boolean>>;
+  esAdmin?: boolean;
+  onEditar?: () => void;
+  setEliminar?: Dispatch<SetStateAction<boolean>>;
 }
 
-const MensajeCard = ({ mensaje, esAdmin, onEditar, setEliminar }: Props) => {
+const MensajeCard = ({ mensaje, esAdmin = false, onEditar = undefined, setEliminar = undefined }: Props) => {
 
   const { setModal } = useModalContext();
   const dispatch = useDispatch();
@@ -28,11 +28,11 @@ const MensajeCard = ({ mensaje, esAdmin, onEditar, setEliminar }: Props) => {
       nuevoEstilo="perfil-mensaje-card"
     >
       <div className="perfil-mensaje-card__datos">
-        <Texto texto={mensaje.nombre} chica />
+        <Texto texto={mensaje.nombre} centrado />
         {mensaje.mensaje && <Texto texto={mensaje.mensaje} chica />}
         <Texto texto={`Favorito: ${mensaje.favorito ? 'Si' : 'No'}`} chica />
       </div>
-      {esAdmin && (
+      {esAdmin && onEditar && setEliminar && (
         <Botonera nuevoEstilo="perfil-mensaje-card__botonera">
           <Boton icono={<Eliminar />} edit nuevoEstilo="btn-icono-chico" titulo="Eliminar mensaje" onClick={() => { setEliminar(true); setModal(true); dispatch(seleccionarMensaje(mensaje)); }} />
           <Boton icono={<Editar />} secundario nuevoEstilo="btn-icono-chico" titulo="Editar mensaje" onClick={() => { onEditar(); setModal(true); dispatch(seleccionarMensaje(mensaje)); }} />

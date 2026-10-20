@@ -86,13 +86,6 @@ const Perfil = () => {
       <Centro
         nuevoEstilo="perfil-centro"
       >
-        <Card nuevoEstilo="perfil-seccion">
-          <Titulo titulo="Mis datos" />
-          <PerfilDatosUsuario usuario={usuarioSesion} onEditar={() => { setModalUsuario(true); setModal(true); }} />
-        </Card>
-
-        <Card nuevoEstilo="perfil-seccion">
-          <Titulo titulo="Datos de la empresa" />
           {cargandoEmpresa && <Cargando />}
           {!cargandoEmpresa && sinEmpresa && (
             <Texto texto="Sin empresa asociada" mediana centrado />
@@ -101,9 +94,14 @@ const Perfil = () => {
             <Texto texto={errorEmpresa} error chica />
           )}
           {!cargandoEmpresa && !sinEmpresa && !errorEmpresa && empresa && (
-            <PerfilDatosEmpresa empresa={empresa} onEditar={() => { setModalEmpresa(true); setModal(true); }} />
+            <PerfilDatosEmpresa empresa={empresa} onEditar={() => { setModalEmpresa(true); setModal(true); }} usuario={usuarioSesion}/>
           )}
+
+        <Card nuevoEstilo="perfil-seccion">
+          <Titulo titulo="Mis datos" />
+          <PerfilDatosUsuario usuario={usuarioSesion} onEditar={() => { setModalUsuario(true); setModal(true); }} />
         </Card>
+
 
         {esAdmin && (
           <Card nuevoEstilo="perfil-seccion">
