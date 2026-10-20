@@ -97,60 +97,7 @@ const Perfil = () => {
             <PerfilDatosEmpresa empresa={empresa} onEditar={() => { setModalEmpresa(true); setModal(true); }} usuario={usuarioSesion}/>
           )}
 
-        <Card nuevoEstilo="perfil-seccion">
-          <Titulo titulo="Mis datos" />
-          <PerfilDatosUsuario usuario={usuarioSesion} onEditar={() => { setModalUsuario(true); setModal(true); }} />
-        </Card>
-
-
-        {esAdmin && (
-          <Card nuevoEstilo="perfil-seccion">
-            <Titulo titulo="Usuarios" />
-            <PerfilUsuarios
-              esAdmin={esAdmin}
-              usuarioActualId={usuarioSesion.id}
-              onNuevo={() => { setModalUsuarioCargar(true); setModal(true); }}
-              onEditar={() => setModalUsuarioCargar(true)}
-              setEliminar={setModalUsuarioEliminar}
-            />
-          </Card>
-        )}
-
-        {!cargandoEmpresa && !sinEmpresa && !errorEmpresa && empresa && (
-          <Card nuevoEstilo="perfil-seccion">
-            <Titulo titulo="Configuraciones" />
-            <PerfilConfiguraciones
-              configuracion={configuracion}
-              onEditar={() => { setModalConfiguracion(true); setModal(true); }}
-            />
-          </Card>
-        )}
-
-        <Card nuevoEstilo="perfil-seccion">
-          <Titulo titulo="Mensajes" />
-          <PerfilMensajes
-            esAdmin={esAdmin}
-            onNuevo={() => { setModalMensajeCargar(true); setModal(true); }}
-            onEditar={() => setModalMensajeCargar(true)}
-            setEliminar={setModalMensajeEliminar}
-          />
-        </Card>
-
-        <Card nuevoEstilo="perfil-seccion">
-          <Titulo titulo="Datos de cobro" />
-          <PerfilDatosCobro
-            esAdmin={esAdmin}
-            onNuevo={() => { setDatoCobroSeleccionado(undefined); setModalDatoCobroCargar(true); setModal(true); }}
-            onEditar={(datoSeleccionado) => { setDatoCobroSeleccionado(datoSeleccionado); setModalDatoCobroCargar(true); }}
-            onEliminar={(datoSeleccionado) => { setDatoCobroSeleccionado(datoSeleccionado); setModalDatoCobroEliminar(true); }}
-          />
-        </Card>
-
-        <Card nuevoEstilo="perfil-seccion">
-          <Titulo titulo="Sesion" />
-          <PerfilLogout />
-        </Card>
-      </Centro>
+        </Centro>
 
       <Modal>
         {modalUsuario && <UsuarioEditar />}
