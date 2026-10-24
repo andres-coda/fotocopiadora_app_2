@@ -55,7 +55,7 @@ const MensajeCard = ({ mensaje, puedeEditar = false }: Prop) => {
         </div>
       </div>
       {mensaje.mensaje && (
-        <Texto texto={mensaje.mensaje} chica nuevoEstilo="card-mensaje__texto" />
+        <Texto texto={mensaje.mensaje} chica inline />
       )}
     </Card>
   );

@@ -12,9 +12,11 @@ import {
   registroFormDefault,
 } from '../../../modelo/usuario/esqUsuario.esquema';
 import useUsuarioTokens from '../../../servicio/usuario/useUsuarioTokens';
+import { useAuth } from '../../../contexto/contextoAutenticacion';
 
 const Registro = () => {
   const navigate = useNavigate();
+  const { login: doLogin } = useAuth();
   const {
     control,
     handleSubmit,
@@ -27,10 +29,10 @@ const Registro = () => {
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem('token', user.access_token);
+      doLogin(user.access_token);
       navigate(`/${rutaPrivadaBase.PRIVADO}`);
     }
-  }, [user]);
+  }, [user, doLogin, navigate]);
 
   const onSubmit = (data: formValuesRegistro) => {
     crearUsuario(data);

@@ -17,6 +17,7 @@ import {
   loginFormDefault,
 } from '../../../modelo/usuario/esqUsuario.esquema';
 import useApi from '../../../servicio/hooks/useApi';
+import { useAuth } from '../../../contexto/contextoAutenticacion';
 
 export interface LoginResponseProp {
   access_token: string;
@@ -33,14 +34,15 @@ const Login = () => {
   });
   const navigate = useNavigate();
   const { fetchData, loading, response, errorFetch } = useApi<LoginResponseProp>({});
+  const { login: doLogin } = useAuth();
 
   useEffect(() => {
     if (response) {
       console.log('Token: ', response);
-      localStorage.setItem('token', response.access_token);
+      doLogin(response.access_token);
       navigate(`/${rutaPrivadaBase.PRIVADO}`);
     }
-  }, [response]);
+  }, [response, doLogin, navigate]);
 
   const onSubmit = async (data: formValuesLogin) => {
     await fetchData({

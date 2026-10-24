@@ -2,6 +2,7 @@ import { CardProp } from '../modelo/card.interface';
 
 function useCard({ chica, listo, pendiente, retirado, ruta, nuevoEstilo, onClick }: CardProp) {
   const clase = [
+    'card',
     chica && 'chica',
     !listo && !pendiente && retirado && 'retirado',
     !listo && pendiente && 'pendiente',

@@ -9,16 +9,16 @@ import Cerrar_Sesion from '../../assets/cerrar-sesion.svg?react';
 import Boton from '../../componente-estilo/boton/boton';
 import { useNavigate } from 'react-router-dom';
 import { rutaPublica } from '../../publico/rutas/rutasPublicas';
+import { useAuth } from '../../contexto/contextoAutenticacion';
 
 const LateralDerecho = () => {
   const sesion: SesionStateProp | undefined = useSelector((store: appStore) => store.sesion);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const cerrarSesion = () => {
-    localStorage.removeItem('token');
+    logout();
     dispatch(resetSesion());
-    // Al salir de /privado/* el guard se desmonta; al volver a entrar
-    // se remonta y vuelve a leer el token (ya nulo) -> redirige al login.
     navigate(`/${rutaPublica.LOGIN}`);
   };
   if (!sesion.usuario) return <Texto texto={'No hay sesion'} mediana negrita />;

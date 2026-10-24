@@ -23,9 +23,3 @@
   align-items: center;
   gap: 0.25rem;
 }
-
-.texto.card-mensaje__texto {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  line-height: 1.35;
-}

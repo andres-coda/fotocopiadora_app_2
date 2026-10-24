@@ -5,6 +5,7 @@ import AppRouter from './AppRouter';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { ProveiderModalContext } from './contexto/contextoModal';
+import { AuthProvider } from './contexto/contextoAutenticacion';
 
 const AppHookConteiner = () => {
   return (
@@ -12,9 +13,11 @@ const AppHookConteiner = () => {
       <ErrorBoundary>
         <BrowserRouter>
           <Provider store={store}>
-            <App>
-              <AppRouter />
-            </App>
+            <AuthProvider>
+              <App>
+                <AppRouter />
+              </App>
+            </AuthProvider>
           </Provider>
         </BrowserRouter>
       </ErrorBoundary>

@@ -19,6 +19,7 @@ import Monigote from '../../../../assets/user.svg?react';
 import Arrow from '../../../../assets/arrow.svg?react';
 import './perfilEmpresa.css';
 import Configuracion from './configuracion';
+import { useAuth } from '../../../../contexto/contextoAutenticacion';
 
 interface Props {
   empresa: EmpresaProp;
@@ -39,14 +40,13 @@ const telefonoMostrar = (telefono: string): string => {
 const PerfilDatosEmpresa = ({ empresa, onEditar, onEditarConfiguracion, usuario }: Props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const [activo, setActivo] = useState<boolean>(false);
 
   const cerrarSesion = () => {
-    localStorage.removeItem('token');
+    logout();
     dispatch(resetSesion());
-    // Al salir de /privado/* el guard se desmonta; al volver a entrar
-    // se remonta y vuelve a leer el token (ya nulo) -> redirige al login.
     navigate(`/${rutaPublica.LOGIN}`);
   };
 
