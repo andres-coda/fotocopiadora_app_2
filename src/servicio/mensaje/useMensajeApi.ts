@@ -1,5 +1,8 @@
 import { mensajeAdapter } from '../../adaptadores/entrada/mensaje.adapter';
-import { mensajeDtoAdapter } from '../../adaptadores/salida/mensajeDto.adapter';
+import {
+  mensajeDtoAdapter,
+  mensajeFavoritoDtoAdapter,
+} from '../../adaptadores/salida/mensajeDto.adapter';
 import { MensajeProp } from '../../modelo/Entidades/mensaje/mensaje.interface';
 import { formValuesMensaje } from '../../modelo/Entidades/mensaje/esqMensaje.esquema';
 import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
@@ -30,9 +33,9 @@ const useMensajeApi = () => {
 
   const toggleFavorito = (id: string, favorito: boolean) =>
     fetchData({
-      url: `${MENSAJE}/${id}`,
+      url: `${MENSAJE}/${id}/favorito`,
       methodo: httpMethod.PUT,
-      bodyData: JSON.stringify({ favorito }),
+      bodyData: JSON.stringify(mensajeFavoritoDtoAdapter(favorito)),
       adapter: mensajeAdapter,
     });
 

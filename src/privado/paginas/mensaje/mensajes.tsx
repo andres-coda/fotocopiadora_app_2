@@ -10,9 +10,11 @@ import TextoVacio from '../../../componente/Textos/textoVacio';
 import Cargando from '../../../componente/cargando/cargando';
 import Modal from '../../../componente/modal/modal';
 import useMensajesApi from '../../../servicio/mensaje/useMensajesApi';
+import useMensajeApi from '../../../servicio/mensaje/useMensajeApi';
 import useBusquedaPaginada from '../../../hooks/buscador/useBusquedaPaginada';
 import { useModalContext } from '../../../contexto/contextoModal';
 import {
+  actualizarMensajeRedux,
   agregarMensajesBusquedaActual,
   crearBusquedaMensaje,
   resetBusquedaMensaje,
@@ -25,19 +27,15 @@ import './mensajes.css';
 const Mensajes = () => {
   const mensajeDatos: ReduxProp<MensajeProp> = useSelector((store: appStore) => store.mensaje);
   const usuario = useSelector((store: appStore) => store.sesion.usuario);
-  const {
-    obtenerMensajesBusqueda,
-    responseMensajes,
-    loadingMensajes,
-    errorFetchMensajes,
-    toggleFavorito,
-  } = useMensajesApi();
+  const { obtenerMensajesBusqueda, responseMensajes, loadingMensajes, errorFetchMensajes } =
+    useMensajesApi();
+  const { toggleFavorito, responseMensaje } = useMensajeApi();
   const { modal } = useModalContext();
   const dispatch = useDispatch();
   const [valor, setValor] = useState<string>('');
 
-  // POST y PUT de mensaje estan detras de AdminGuard: el alta y la edicion solo
-  // se ofrecen a admin.
+  // El alta y la edicion siguen detras de AdminGuard. El favorito es por
+  // usuario, asi que esta disponible para cualquier usuario autenticado.
   const esAdmin = usuario?.role === 'admin' || usuario?.role === 'super_admin';
 
   // Al cerrar el modal se limpia la seleccion, si no el formulario reabre en
@@ -45,6 +43,11 @@ const Mensajes = () => {
   useEffect(() => {
     if (!modal) dispatch(resetSeleccionarMensaje());
   }, [modal]);
+
+  // Igual que en el modal: la lista se actualiza apenas el back confirma.
+  useEffect(() => {
+    if (responseMensaje) dispatch(actualizarMensajeRedux(responseMensaje));
+  }, [responseMensaje]);
 
   const { contenedorRef, nuevoElemento, finListaRef } = useBusquedaPaginada<MensajeProp>({
     valor,
@@ -61,9 +64,8 @@ const Mensajes = () => {
   const { datosQuery: mensajes, pagina, limite, total } = mensajeDatos.busquedaActual;
   const hayMas = pagina * limite < total;
 
-  const handleToggleFavorito = async (id: string, favorito: boolean) => {
-    await toggleFavorito(id, favorito);
-  };
+  const handleToggleFavorito = (mensaje: MensajeProp) =>
+    toggleFavorito(mensaje.id, !mensaje.favorito);
 
   return (
     <>

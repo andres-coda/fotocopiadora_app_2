@@ -4,16 +4,12 @@ import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
 import { BusquedaApiProp } from '../../modelo/HTTP/peticiones.interface';
 import { MENSAJE, MENSAJE_NOMBRE } from '../../utils/endpoint';
 import useApiPaginado from '../hooks/useApiPaginado';
-import useApi from '../hooks/useApi';
 
 const useMensajesApi = () => {
   const { fetchData, response, loading, errorFetch } = useApiPaginado<
     MensajeAdapterProp,
     MensajeProp
   >({ adapterGet: mensajeAdapter });
-
-  // useApi independiente para toggleFavorito (PUT simple sin paginacion)
-  const { fetchData: fetchDataToggle } = useApi<MensajeProp | undefined>({});
 
   const obtenerMensajesBusqueda = ({ query, limite, pagina }: BusquedaApiProp) => {
     fetchData({
@@ -31,18 +27,9 @@ const useMensajesApi = () => {
       adapter: mensajeAdapter,
     });
 
-  const toggleFavorito = (id: string, favorito: boolean) =>
-    fetchDataToggle({
-      url: `${MENSAJE}/${id}`,
-      methodo: httpMethod.PUT,
-      bodyData: JSON.stringify({ favorito }),
-      adapter: mensajeAdapter,
-    });
-
   return {
     obtenerMensajes,
     obtenerMensajesBusqueda,
-    toggleFavorito,
     responseMensajes: response,
     loadingMensajes: loading,
     errorFetchMensajes: errorFetch,

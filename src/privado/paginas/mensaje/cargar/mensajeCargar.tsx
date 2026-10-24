@@ -50,8 +50,6 @@ const MensajeCargar = () => {
   }, [responseMensaje]);
 
   const onSubmit = (data: formValuesMensaje) => {
-    // El switch de favorito no es campo del formulario: DtoMensajeCrear no lo
-    // declara y el whitelist del back lo descarta. Se conserva el valor previo.
     if (esEdicion && mensajeSelect) editarMensaje(data, mensajeSelect.id);
     else crearMensaje(data);
   };
