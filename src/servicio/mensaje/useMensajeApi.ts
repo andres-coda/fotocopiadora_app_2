@@ -28,6 +28,14 @@ const useMensajeApi = () => {
       adapter: mensajeAdapter,
     });
 
+  const toggleFavorito = (id: string, favorito: boolean) =>
+    fetchData({
+      url: `${MENSAJE}/${id}`,
+      methodo: httpMethod.PUT,
+      bodyData: JSON.stringify({ favorito }),
+      adapter: mensajeAdapter,
+    });
+
   // El back devuelve un body JSON (true) tambien en el DELETE.
   const eliminarMensaje = (id: string) =>
     fetchData({ url: `${MENSAJE}/${id}`, methodo: httpMethod.DELETE, adapter: mensajeAdapter });
@@ -36,6 +44,7 @@ const useMensajeApi = () => {
     obtenerMensajeById,
     crearMensaje,
     editarMensaje,
+    toggleFavorito,
     eliminarMensaje,
     responseMensaje: response,
     loadingMensaje: loading,

@@ -25,8 +25,13 @@ import './mensajes.css';
 const Mensajes = () => {
   const mensajeDatos: ReduxProp<MensajeProp> = useSelector((store: appStore) => store.mensaje);
   const usuario = useSelector((store: appStore) => store.sesion.usuario);
-  const { obtenerMensajesBusqueda, responseMensajes, loadingMensajes, errorFetchMensajes } =
-    useMensajesApi();
+  const {
+    obtenerMensajesBusqueda,
+    responseMensajes,
+    loadingMensajes,
+    errorFetchMensajes,
+    toggleFavorito,
+  } = useMensajesApi();
   const { modal } = useModalContext();
   const dispatch = useDispatch();
   const [valor, setValor] = useState<string>('');
@@ -56,6 +61,10 @@ const Mensajes = () => {
   const { datosQuery: mensajes, pagina, limite, total } = mensajeDatos.busquedaActual;
   const hayMas = pagina * limite < total;
 
+  const handleToggleFavorito = async (id: string, favorito: boolean) => {
+    await toggleFavorito(id, favorito);
+  };
+
   return (
     <>
       <BuscadorPaginadoCompleto
@@ -72,7 +81,12 @@ const Mensajes = () => {
         {errorFetchMensajes && <Texto texto={errorFetchMensajes} error chica />}
         {mensajes.length > 0 ? (
           mensajes.map(mensaje => (
-            <MensajeCard mensaje={mensaje} key={mensaje.id} puedeEditar={esAdmin} />
+            <MensajeCard
+              mensaje={mensaje}
+              key={mensaje.id}
+              puedeEditar={esAdmin}
+              onToggleFavorito={handleToggleFavorito}
+            />
           ))
         ) : loadingMensajes ? (
           <Cargando />

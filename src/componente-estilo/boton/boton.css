@@ -123,3 +123,13 @@
   padding: 0 0.2rem;
   border-radius: 10px;
 }
+
+.btn-icono-favorito svg{
+  fill: transparent;
+  stroke: var(--colorBoton);
+}
+
+.btn-icono-favorito-activo svg{
+  fill: var(--colorSubmenu);
+  stroke: var(--colorBoton);
+}

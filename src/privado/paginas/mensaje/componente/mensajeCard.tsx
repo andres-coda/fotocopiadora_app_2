@@ -5,6 +5,8 @@ import Texto from '../../../../componente-estilo/texto/texto';
 import Copiar from '../../../../assets/copiar.svg?react';
 import Check from '../../../../assets/check.svg?react';
 import Editar from '../../../../assets/edit.svg?react';
+import Estrella from '../../../../assets/star.svg?react';
+import EstrellaVacia from '../../../../assets/star-outline.svg?react';
 import useEditar from '../../../../hooks/editar/useEditar';
 import { MensajeProp } from '../../../../modelo/Entidades/mensaje/mensaje.interface';
 import './mensajeCard.css';
@@ -12,9 +14,10 @@ import './mensajeCard.css';
 interface Prop {
   mensaje: MensajeProp;
   puedeEditar?: boolean;
+  onToggleFavorito?: (id: string, favorito: boolean) => void;
 }
 
-const MensajeCard = ({ mensaje, puedeEditar = false }: Prop) => {
+const MensajeCard = ({ mensaje, puedeEditar = false, onToggleFavorito }: Prop) => {
   const [copiado, setCopiado] = useState<boolean>(false);
   const { handleEdit } = useEditar({ setModalLocal: true });
 
@@ -31,6 +34,12 @@ const MensajeCard = ({ mensaje, puedeEditar = false }: Prop) => {
     setCopiado(true);
   };
 
+  const handleToggleFavorito = () => {
+    if (onToggleFavorito) {
+      onToggleFavorito(mensaje.id, !mensaje.favorito);
+    }
+  };
+
   return (
     <Card nuevoEstilo="card-mensaje" tituloCard={mensaje.nombre}>
       <div className="card-mensaje__cabecera">
@@ -45,6 +54,13 @@ const MensajeCard = ({ mensaje, puedeEditar = false }: Prop) => {
               onClick={() => handleEdit({ mensaje })}
             />
           )}
+          <Boton
+            icono={ <EstrellaVacia />}
+            edit
+            nuevoEstilo={`btn-icono-chico ${mensaje.favorito ? 'btn-icono-favorito-activo' : 'btn-icono-favorito'}`}
+            titulo={mensaje.favorito ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+            onClick={handleToggleFavorito}
+          />
           <Boton
             icono={copiado ? <Check /> : <Copiar />}
             edit
