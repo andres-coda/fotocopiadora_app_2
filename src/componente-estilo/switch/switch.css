@@ -1,7 +1,7 @@
 .switch {
   position: relative;
   box-sizing: border-box;
-  width:37px;
+  width: 37px;
   height: 24px;
   padding: 0;
   margin: 0;
@@ -24,7 +24,9 @@
   border-radius: 50%;
   background-color: var(--colorFondo);
   border: 2px solid var(--colorBoton);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .switch-on {
@@ -35,11 +37,11 @@
   transform: translateX(14px);
 }
 
-.swith-contenedor{
+.swith-contenedor {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  gap: .1rem;
+  gap: 0.1rem;
   width: min-content;
 }

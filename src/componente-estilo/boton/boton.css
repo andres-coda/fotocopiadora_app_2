@@ -1,4 +1,4 @@
-.btn-general { 
+.btn-general {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,42 +21,41 @@
 }
 
 .btn-general:active {
-  scale: .8;
+  scale: 0.8;
   box-shadow: none;
 }
 
-.btn-icono{
+.btn-icono {
   width: 70px;
   height: 50px;
   padding: 0 10px;
   fill: currentColor;
   flex-shrink: 0;
-  display: inline-block; 
+  display: inline-block;
   vertical-align: middle;
 }
 
-.btn-icono-chico{
+.btn-icono-chico {
   padding: 0;
   width: 28px;
   height: 28px;
 }
 
-.btn-icono-mediano{
+.btn-icono-mediano {
   padding: 0;
   width: 36px;
   height: 36px;
 }
 
-
-.btn-icono-arriba svg{
+.btn-icono-arriba svg {
   transform: rotate(90deg); /* rotá 90 grados */
 }
 
-.btn-icono-derecha svg{
+.btn-icono-derecha svg {
   transform: rotate(180deg); /* rotá 90 grados */
 }
 
-.btn-icono-abajo svg{
+.btn-icono-abajo svg {
   transform: rotate(-90deg); /* rotá 90 grados */
 }
 
@@ -80,10 +79,10 @@
 
 .edit {
   background-color: transparent;
-  box-shadow:none;
+  box-shadow: none;
 }
 
-.edit:hover{  
+.edit:hover {
   border: 2px solid transparent;
 }
 
@@ -106,22 +105,21 @@
   color: var(--colorBoton);
 }
 
-.btn-concepto{
+.btn-concepto {
   width: fit-content;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
 }
 
-.btn-simbolo-letra{
+.btn-simbolo-letra {
   width: 100%;
   height: 40px;
-  padding: 0 .2rem;
+  padding: 0 0.2rem;
   border-radius: 10px;
-
 }
 
-.btn-simbolo{
+.btn-simbolo {
   width: 100%;
   height: 40px;
-  padding: 0 .2rem;
+  padding: 0 0.2rem;
   border-radius: 10px;
 }

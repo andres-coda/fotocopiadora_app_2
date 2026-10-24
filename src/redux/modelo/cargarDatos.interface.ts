@@ -1,29 +1,30 @@
-import { Dispatch, ReactNode } from "react";
-import { UnknownAction } from "@reduxjs/toolkit";
-import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
-import { ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
-import { EspecificacionProp } from "../../modelo/Entidades/especificacion/especificacion.interface";
-import { MateriaProp } from "../../modelo/Entidades/libro/materia.interface";
-import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
-import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
-import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
-import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
-import { PaginadoProp } from "../../adaptadores/entrada/paginado.adapter";
-
+import { Dispatch, ReactNode } from 'react';
+import { UnknownAction } from '@reduxjs/toolkit';
+import { LibroProp } from '../../modelo/Entidades/libro/libro.interface';
+import { ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
+import { EspecificacionProp } from '../../modelo/Entidades/especificacion/especificacion.interface';
+import { MateriaProp } from '../../modelo/Entidades/libro/materia.interface';
+import { PedidoProp } from '../../modelo/Entidades/pedido/pedido.interface';
+import { PedidoLibroProp } from '../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
+import { PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
+import { SedeProp } from '../../modelo/Entidades/sede/sede.interface';
+import { PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interface';
+import { MensajeProp } from '../../modelo/Entidades/mensaje/mensaje.interface';
+import { PaginadoProp } from '../../adaptadores/entrada/paginado.adapter';
 
 export interface crearContextProp {
   libros?: PaginadoProp<LibroProp>;
   clientes?: PaginadoProp<ClienteProp>;
   especificaciones?: EspecificacionProp[];
   materias?: MateriaProp[];
-  pedidos?:  PaginadoProp<PedidoProp>;
+  pedidos?: PaginadoProp<PedidoProp>;
   pedidoLibros?: PaginadoProp<PedidoLibroProp>;
   precios?: PaginadoProp<PrecioProp>;
   sedes?: PaginadoProp<SedeProp>;
-  propuestas?:PaginadoProp<PropuestaProp>;
+  propuestas?: PaginadoProp<PropuestaProp>;
+  mensajes?: PaginadoProp<MensajeProp>;
 
-  libro?: LibroProp,
+  libro?: LibroProp;
   cliente?: ClienteProp;
   especificacione?: EspecificacionProp;
   materia?: MateriaProp;

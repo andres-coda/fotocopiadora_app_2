@@ -1,5 +1,5 @@
-import Titulo from "../../componente-estilo/texto/titulo"
-import './cargando.css'
+import Titulo from '../../componente-estilo/texto/titulo';
+import './cargando.css';
 
 const Cargando = () => {
   return (
@@ -7,7 +7,7 @@ const Cargando = () => {
       <Titulo titulo="Cargando" subtitulo nuevoEstilo="cargando-texto" />
       <Titulo titulo="" subtitulo nuevoEstilo="cargando-puntos" />
     </div>
-  )
-}
+  );
+};
 
-export default Cargando
+export default Cargando;

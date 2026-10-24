@@ -1,19 +1,17 @@
-import Card from "../../../../componente-estilo/card/card";
-import Texto from "../../../../componente-estilo/texto/texto";
-import { PrecioNombreProp } from "../../../../modelo/Entidades/precio/precio.interface";
-import './precioCard.css'
+import Card from '../../../../componente-estilo/card/card';
+import Texto from '../../../../componente-estilo/texto/texto';
+import { PrecioNombreProp } from '../../../../modelo/Entidades/precio/precio.interface';
+import './precioCard.css';
 
 interface Prop {
   precioNombre: PrecioNombreProp;
   selectPrecioNombre?: (c: PrecioNombreProp) => void;
 }
 
-const PrecioNombreCard = ({precioNombre, selectPrecioNombre }: Prop) => {
-
+const PrecioNombreCard = ({ precioNombre, selectPrecioNombre }: Prop) => {
   const handlePrecioNombre = () => {
-    if( selectPrecioNombre)
-    selectPrecioNombre(precioNombre);
-  }
+    if (selectPrecioNombre) selectPrecioNombre(precioNombre);
+  };
 
   return (
     <Card
@@ -21,10 +19,10 @@ const PrecioNombreCard = ({precioNombre, selectPrecioNombre }: Prop) => {
       tituloCard={precioNombre.nombre}
       nuevoEstilo="card-precio-nombre"
     >
-        <Texto texto={precioNombre.nombre} chica/>
-        <Texto texto={precioNombre.abreviatura} chica/>
+      <Texto texto={precioNombre.nombre} chica />
+      <Texto texto={precioNombre.abreviatura} chica />
     </Card>
-  )
-}
+  );
+};
 
 export default PrecioNombreCard;

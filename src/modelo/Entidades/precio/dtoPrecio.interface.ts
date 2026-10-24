@@ -1,4 +1,4 @@
-export interface PrecioDtoProp{
+export interface PrecioDtoProp {
   nombre: string;
   importe: number;
 }

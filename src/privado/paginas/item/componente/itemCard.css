@@ -1,22 +1,22 @@
-.item-cantidad{
+.item-cantidad {
   min-width: 25px;
   text-align: center;
 }
 
-.item-card{
+.item-card {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
   justify-content: space-between;
 }
 
-.item-card-interno{
+.item-card-interno {
   padding: 0.3rem 0;
   width: 100%;
   min-height: 90px;
 }
 
-.card-item-completa{
+.card-item-completa {
   min-height: 250px;
 }

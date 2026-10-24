@@ -1,4 +1,4 @@
 export const rutaPublica = {
   LOGIN: 'login',
-  REGISTRO: 'registro'
-}
+  REGISTRO: 'registro',
+};

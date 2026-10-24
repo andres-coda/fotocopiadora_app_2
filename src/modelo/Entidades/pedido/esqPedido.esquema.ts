@@ -1,39 +1,33 @@
-import { ClienteProp } from "../cliente/cliente.interface";
-import { PedidoProp } from "./pedido.interface";
-import { z } from "zod";
+import { ClienteProp } from '../cliente/cliente.interface';
+import { PedidoProp } from './pedido.interface';
+import { z } from 'zod';
 
 export const pedido = z.object({
   nombre: z.string().optional(),
   email: z.string().optional(),
   telefono: z
     .union([
-      z.string()
+      z
+        .string()
         .min(1)
         .refine(
-          (val) => {
-
+          val => {
             const cleaned = val.replace(/\D/g, '');
 
-            return cleaned.length >= 8
-              && cleaned.length <= 15;
-
+            return cleaned.length >= 8 && cleaned.length <= 15;
           },
           {
-            message: 'Debe ser un teléfono válido'
+            message: 'Debe ser un teléfono válido',
           }
         )
-        .transform((val) => {
-
+        .transform(val => {
           let cleaned = val.replace(/[^\d+]/g, '');
 
           // sacar espacios y símbolos
           cleaned = cleaned.replace(/(?!^\+)\D/g, '');
 
           // quitar 0 inicial si no tiene código internacional
-          if (
-            !cleaned.startsWith('+')
-            && cleaned.startsWith('0')
-          ) {
+          if (!cleaned.startsWith('+') && cleaned.startsWith('0')) {
             cleaned = cleaned.slice(1);
           }
 
@@ -48,7 +42,7 @@ export const pedido = z.object({
   fechaEntrega: z.string().min(1, 'El pedido debe tener un nombre'),
   importeTotal: z.string(),
   sena: z.string(),
-})
+});
 
 export type formValuesPedido = z.infer<typeof pedido>;
 
@@ -61,11 +55,11 @@ export const pedidoFormDefault: formValuesPedido = {
   fechaEntrega: '',
   importeTotal: '',
   sena: '',
-}
+};
 
 interface FromValuesDefectoProp {
-  pedido?: PedidoProp,
-  cliente?: ClienteProp,
+  pedido?: PedidoProp;
+  cliente?: ClienteProp;
 }
 
 export const pedidoFormEdit = ({ pedido, cliente }: FromValuesDefectoProp): formValuesPedido => {
@@ -79,5 +73,5 @@ export const pedidoFormEdit = ({ pedido, cliente }: FromValuesDefectoProp): form
     nombre: cliente?.nombre || pedidoFormDefault.nombre,
     telefono: cliente?.telefono || pedidoFormDefault.telefono,
     email: cliente?.email || pedidoFormDefault.email,
-  }
-}
+  };
+};

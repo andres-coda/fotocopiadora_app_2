@@ -1,7 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { EspecificacionProp } from "../../modelo/Entidades/especificacion/especificacion.interface";
-import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
-import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
+import { createSlice } from '@reduxjs/toolkit';
+import { EspecificacionProp } from '../../modelo/Entidades/especificacion/especificacion.interface';
+import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import {
+  crearDatoInicial,
+  crearBusqueda,
+  resetBusqueda,
+  seleccionarDato,
+  resetSeleccionDato,
+  agregarDatosBusquedaActual,
+  cambiarOrden,
+} from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 1;
 
@@ -12,15 +20,15 @@ export const busquedaEspecificacionInicial: UltimaBusquedaProp<EspecificacionPro
   sortOrder: 'asc' as orden,
   pagina: 1,
   limite: 20,
-  total: 0
-}
+  total: 0,
+};
 
 const estadoEspecificacionInicial: ReduxProp<EspecificacionProp> = {
   datosIniciales: busquedaEspecificacionInicial,
   busquedaActual: busquedaEspecificacionInicial,
   ultimasBusqueda: [],
-  datoSeleccionado: undefined
-}
+  datoSeleccionado: undefined,
+};
 
 export const especificacionSlice = createSlice({
   name: 'especificacion',
@@ -32,18 +40,18 @@ export const especificacionSlice = createSlice({
     seleccionarEspecificacion: seleccionarDato,
     resetSeleccionarEspecificacion: resetSeleccionDato,
     agregarEspecificacionesBusquedaActual: agregarDatosBusquedaActual<EspecificacionProp>,
-    cambiarOrdenEspecificacion: cambiarOrden<EspecificacionProp>
-  }
+    cambiarOrdenEspecificacion: cambiarOrden<EspecificacionProp>,
+  },
 });
 
-export const { 
-  crearEspecificaciones, 
-  crearBusquedaEspecificacion, 
-  resetBusquedaEspecificacion, 
-  resetSeleccionarEspecificacion, 
-  seleccionarEspecificacion, 
+export const {
+  crearEspecificaciones,
+  crearBusquedaEspecificacion,
+  resetBusquedaEspecificacion,
+  resetSeleccionarEspecificacion,
+  seleccionarEspecificacion,
   agregarEspecificacionesBusquedaActual,
-  cambiarOrdenEspecificacion
+  cambiarOrdenEspecificacion,
 } = especificacionSlice.actions;
 
 export default especificacionSlice.reducer;

@@ -1,6 +1,11 @@
-import { BaseProp } from "../../modelo/Entidades/base/base.interface";
-import { PrecioAdapterProp, PrecioNombreAdapterProp, PrecioNombreProp, PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
-import { baseAdapter } from "./base.adapter";
+import { BaseProp } from '../../modelo/Entidades/base/base.interface';
+import {
+  PrecioAdapterProp,
+  PrecioNombreAdapterProp,
+  PrecioNombreProp,
+  PrecioProp,
+} from '../../modelo/Entidades/precio/precio.interface';
+import { baseAdapter } from './base.adapter';
 
 export const precioAdapter = (precio?: PrecioAdapterProp): PrecioProp | undefined => {
   if (!precio) return undefined;
@@ -15,10 +20,14 @@ export const precioAdapter = (precio?: PrecioAdapterProp): PrecioProp | undefine
     importe: precio.importe,
     detalles: precio.detalles,
     nombre: precio.nombre,
-    abreviatura: precio.abreviatura
-  }
+    abreviatura: precio.abreviatura,
+    categoria: precio.categoria ? {
+      id: precio.categoria.id,
+      nombre: precio.categoria.nombre
+    } : undefined
+  };
   return newPrecio;
-}
+};
 
 export const precioAdapterArray = (precios?: PrecioAdapterProp[]): PrecioProp[] => {
   const newPrecios: PrecioProp[] =
@@ -28,17 +37,18 @@ export const precioAdapterArray = (precios?: PrecioAdapterProp[]): PrecioProp[] 
     }) ?? [];
 
   return newPrecios;
-}
+};
 
-
-export const precioNombreAdapter = (precio?: PrecioNombreAdapterProp): PrecioNombreProp | undefined => {
+export const precioNombreAdapter = (
+  precio?: PrecioNombreAdapterProp
+): PrecioNombreProp | undefined => {
   if (!precio) return undefined;
 
   const newPrecio: PrecioNombreProp = {
     id: precio.id,
     descripcion: precio.descripcion,
     nombre: precio.nombre,
-    abreviatura: precio.abreviatura
-  }
+    abreviatura: precio.abreviatura,
+  };
   return newPrecio;
-}
+};

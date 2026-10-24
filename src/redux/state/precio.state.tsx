@@ -1,7 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { PrecioProp } from "../../modelo/Entidades/precio/precio.interface";
-import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
-import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden, eliminarElemento, modificarElementoRedux, agregarElementoInicio} from "../utils/funcionesGenericasEmpresa";
+import { createSlice } from '@reduxjs/toolkit';
+import { PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
+import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import {
+  crearDatoInicial,
+  crearBusqueda,
+  resetBusqueda,
+  seleccionarDato,
+  resetSeleccionDato,
+  agregarDatosBusquedaActual,
+  cambiarOrden,
+  eliminarElemento,
+  modificarElementoRedux,
+  agregarElementoInicio,
+} from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 1;
 
@@ -12,15 +23,15 @@ export const busquedaPrecioInicial: UltimaBusquedaProp<PrecioProp> = {
   sortOrder: 'asc' as orden,
   pagina: 1,
   limite: 20,
-  total: 0
-}
+  total: 0,
+};
 
 const estadoPrecioInicial: ReduxProp<PrecioProp> = {
   datosIniciales: busquedaPrecioInicial,
   busquedaActual: busquedaPrecioInicial,
   ultimasBusqueda: [],
-  datoSeleccionado: undefined
-}
+  datoSeleccionado: undefined,
+};
 
 export const precioSlice = createSlice({
   name: 'precio_empresa',
@@ -35,10 +46,21 @@ export const precioSlice = createSlice({
     agregarPreciosBusquedaActual: agregarDatosBusquedaActual<PrecioProp>,
     cambiarOrdenPrecio: cambiarOrden<PrecioProp>,
     actualizarPrecioRedux: modificarElementoRedux<PrecioProp>,
-    agregarPrecioInicioRedux: agregarElementoInicio<PrecioProp>
-  }
+    agregarPrecioInicioRedux: agregarElementoInicio<PrecioProp>,
+  },
 });
 
-export const { crearPrecios, crearBusquedaPrecio, resetBusquedaPrecio, resetSeleccionarPrecio, seleccionarPrecio, agregarPreciosBusquedaActual, cambiarOrdenPrecio, eliminarPrecioRedux, actualizarPrecioRedux, agregarPrecioInicioRedux } = precioSlice.actions;
+export const {
+  crearPrecios,
+  crearBusquedaPrecio,
+  resetBusquedaPrecio,
+  resetSeleccionarPrecio,
+  seleccionarPrecio,
+  agregarPreciosBusquedaActual,
+  cambiarOrdenPrecio,
+  eliminarPrecioRedux,
+  actualizarPrecioRedux,
+  agregarPrecioInicioRedux,
+} = precioSlice.actions;
 
 export default precioSlice.reducer;

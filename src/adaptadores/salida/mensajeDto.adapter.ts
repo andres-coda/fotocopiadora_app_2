@@ -1,5 +1,5 @@
-import { MensajeDtoProp } from "../../modelo/Entidades/mensaje/dtoMensaje.interface";
-import { formValuesMensaje } from "../../modelo/Entidades/mensaje/esqMensaje.esquema";
+import { MensajeDtoProp } from '../../modelo/Entidades/mensaje/dtoMensaje.interface';
+import { formValuesMensaje } from '../../modelo/Entidades/mensaje/esqMensaje.esquema';
 
 /**
  * Arma el body de POST/PUT /mensaje.
@@ -14,4 +14,4 @@ export const mensajeDtoAdapter = (p: formValuesMensaje): MensajeDtoProp => {
   };
   if (p.mensaje) dto.mensaje = p.mensaje;
   return dto;
-}
+};

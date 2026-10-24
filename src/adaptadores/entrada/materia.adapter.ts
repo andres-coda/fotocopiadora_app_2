@@ -1,21 +1,20 @@
-import { BaseProp } from "../../modelo/Entidades/base/base.interface";
-import { MateriaAdapterProp, MateriaProp } from "../../modelo/Entidades/libro/materia.interface";
-import { baseAdapter } from "./base.adapter";
+import { BaseProp } from '../../modelo/Entidades/base/base.interface';
+import { MateriaAdapterProp, MateriaProp } from '../../modelo/Entidades/libro/materia.interface';
+import { baseAdapter } from './base.adapter';
 
 export const materiaAdapter = (materia?: MateriaAdapterProp): MateriaProp | undefined => {
   if (!materia) return undefined;
 
-  const base: BaseProp | undefined = baseAdapter<MateriaAdapterProp>({ base: materia});
+  const base: BaseProp | undefined = baseAdapter<MateriaAdapterProp>({ base: materia });
 
   if (!base) return undefined;
 
   const newMateria: MateriaProp = {
     ...base,
     nombre: materia.nombre,
-
-  }
+  };
   return newMateria;
-}
+};
 
 export const materiaAdapterArray = (materias?: MateriaAdapterProp[]): MateriaProp[] => {
   const newMaterias: MateriaProp[] =
@@ -25,4 +24,4 @@ export const materiaAdapterArray = (materias?: MateriaAdapterProp[]): MateriaPro
     }) ?? [];
 
   return newMaterias;
-}
+};

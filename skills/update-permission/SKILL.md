@@ -1,10 +1,10 @@
 ---
 name: update-permission
-description: "Trigger: cualquier actualizacion de codigo, dependencias, configuracion, herramientas, entorno o skills. Impone pedir permiso antes de actualizar, con las razones por las que debe actualizarse."
+description: 'Trigger: cualquier actualizacion de codigo, dependencias, configuracion, herramientas, entorno o skills. Impone pedir permiso antes de actualizar, con las razones por las que debe actualizarse.'
 license: Apache-2.0
 metadata:
-  author: "andres"
-  version: "1.0"
+  author: 'andres'
+  version: '1.0'
 ---
 
 ## Hard Rules
@@ -16,9 +16,9 @@ metadata:
 
 ## Decision Gates
 
-| Accion | Requiere Plan | Requiere Confirmacion | Delegacion |
-|--------|---------------|----------------------|------------|
-| Actualizar codigo / dependencias / config / herramienta / skill / entorno | Si (estado actual, objetivo, por que, impacto, rollback) | **Explicita** | Depende del alcance |
+| Accion                                                                    | Requiere Plan                                            | Requiere Confirmacion | Delegacion          |
+| ------------------------------------------------------------------------- | -------------------------------------------------------- | --------------------- | ------------------- |
+| Actualizar codigo / dependencias / config / herramienta / skill / entorno | Si (estado actual, objetivo, por que, impacto, rollback) | **Explicita**         | Depende del alcance |
 
 ## Execution Steps
 

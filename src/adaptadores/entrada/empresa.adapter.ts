@@ -1,12 +1,17 @@
-import { BaseProp } from "../../modelo/Entidades/base/base.interface";
-import { ConfiguracionAdapterProp, ConfiguracionProp } from "../../modelo/Entidades/configuracion/configuracion.interface";
-import { EmpresaAdapterProp, EmpresaProp } from "../../modelo/Entidades/empresa/empresa.interface";
-import { baseAdapter } from "./base.adapter";
-import { datoCobroAdapter } from "./datoCobro.adapter";
-import { mensajeAdapter } from "./mensaje.adapter";
-import { sedeAdapter } from "./sede.adapter";
+import { BaseProp } from '../../modelo/Entidades/base/base.interface';
+import {
+  ConfiguracionAdapterProp,
+  ConfiguracionProp,
+} from '../../modelo/Entidades/configuracion/configuracion.interface';
+import { EmpresaAdapterProp, EmpresaProp } from '../../modelo/Entidades/empresa/empresa.interface';
+import { baseAdapter } from './base.adapter';
+import { datoCobroAdapter } from './datoCobro.adapter';
+import { mensajeAdapter } from './mensaje.adapter';
+import { sedeAdapter } from './sede.adapter';
 
-export const configuracionAdapter = (configuracion?: ConfiguracionAdapterProp): ConfiguracionProp | undefined => {
+export const configuracionAdapter = (
+  configuracion?: ConfiguracionAdapterProp
+): ConfiguracionProp | undefined => {
   if (!configuracion) return undefined;
 
   const newConfiguracion: ConfiguracionProp = {
@@ -19,9 +24,9 @@ export const configuracionAdapter = (configuracion?: ConfiguracionAdapterProp): 
     msjTomado: mensajeAdapter(configuracion.msjTomado),
     sede: sedeAdapter(configuracion.sede),
     datoCobrado: datoCobroAdapter(configuracion.datoCobrado),
-  }
+  };
   return newConfiguracion;
-}
+};
 
 export const empresaAdapter = (empresa?: EmpresaAdapterProp): EmpresaProp | undefined => {
   if (!empresa) return undefined;
@@ -36,9 +41,9 @@ export const empresaAdapter = (empresa?: EmpresaAdapterProp): EmpresaProp | unde
     email: empresa.email,
     telefono: empresa.telefono,
     configuracion: configuracionAdapter(empresa.configuracion),
-  }
+  };
   return newEmpresa;
-}
+};
 
 export const empresaAdapterArray = (datos?: EmpresaAdapterProp[]): EmpresaProp[] => {
   const newEmpresas: EmpresaProp[] =
@@ -48,4 +53,4 @@ export const empresaAdapterArray = (datos?: EmpresaAdapterProp[]): EmpresaProp[]
     }) ?? [];
 
   return newEmpresas;
-}
+};

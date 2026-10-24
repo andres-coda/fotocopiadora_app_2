@@ -19,4 +19,4 @@ export const mensajeInicial: MensajeProp = {
   nombre: '',
   mensaje: undefined,
   favorito: false,
-}
+};

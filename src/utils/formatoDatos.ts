@@ -1,5 +1,5 @@
-import { LibroProp } from "../modelo/Entidades/libro/libro.interface";
-import { Estado } from "../modelo/Entidades/pedido_libro/estado.enum";
+import { LibroProp } from '../modelo/Entidades/libro/libro.interface';
+import { Estado } from '../modelo/Entidades/pedido_libro/estado.enum';
 
 export const normalizarTexto = (texto: string | undefined): string => {
   if (!texto) return '';
@@ -22,9 +22,7 @@ export const formatoTelefonoMostrar = (telefono: string): string => {
   const parte3a = t.slice(-10, -7);
   const resto = t.slice(0, -10);
 
-  return ['+',resto, parte3a, parte3b, parte4]
-    .filter(Boolean)
-    .join(' ');
+  return ['+', resto, parte3a, parte3b, parte4].filter(Boolean).join(' ');
 };
 
 export const claseXestado = (estado: Estado): string => {
@@ -33,40 +31,53 @@ export const claseXestado = (estado: Estado): string => {
   if (estado === Estado.CANCELADO) return 'cancelado';
   if (estado === Estado.CONSTRUCCION) return 'construccion';
   if (estado === Estado.POR_CONFIRMAR) return 'por-confirmar';
-  return 'pendiente'
-}
+  return 'pendiente';
+};
 
 export const claseXestadoPedido = (estado: Estado): string => {
   if (estado === Estado.LISTO) return 'listo';
   if (estado === Estado.RETIRADO) return 'retirado';
   if (estado === Estado.CANCELADO) return 'cancelado';
-  return 'pendiente'
-}
+  return 'pendiente';
+};
 
 export const estadoXstring = (estado: Estado): string => {
   switch (estado) {
-    case Estado.PENDIENTE: return 'Pendiente';
-    case Estado.LISTO: return 'Listo';
-    case Estado.RETIRADO: return 'Retirado';
-    case Estado.CANCELADO: return 'Cancelado';
-    case Estado.IMPRESO_COMPLETO: return 'Impreso';
-    case Estado.IMPRESO_MITAD: return 'Imprimiendo...';
-    case Estado.STOCK: return 'En stock';
-    default: return 'todavía no se resolvió este estado';
+    case Estado.PENDIENTE:
+      return 'Pendiente';
+    case Estado.LISTO:
+      return 'Listo';
+    case Estado.RETIRADO:
+      return 'Retirado';
+    case Estado.CANCELADO:
+      return 'Cancelado';
+    case Estado.IMPRESO_COMPLETO:
+      return 'Impreso';
+    case Estado.IMPRESO_MITAD:
+      return 'Imprimiendo...';
+    case Estado.STOCK:
+      return 'En stock';
+    default:
+      return 'todavía no se resolvió este estado';
   }
-}
+};
 
 export const estadoPedidoXstring = (estado: Estado): string => {
   switch (estado) {
-    case Estado.PENDIENTE: return 'Pendiente';
-    case Estado.LISTO: return 'Listo';
-    case Estado.RETIRADO: return 'Retirado';
-    case Estado.CANCELADO: return 'Cancelado';
-    default: return 'todavía no se resolvió este estado';
+    case Estado.PENDIENTE:
+      return 'Pendiente';
+    case Estado.LISTO:
+      return 'Listo';
+    case Estado.RETIRADO:
+      return 'Retirado';
+    case Estado.CANCELADO:
+      return 'Cancelado';
+    default:
+      return 'todavía no se resolvió este estado';
   }
-}
+};
 
-export const nombreLibroXstring = (libro:LibroProp | undefined) => {
-  if(!libro) return '';
-  return `${libro.nombre}${libro.nivel ? ` - ${libro.nivel}`: ''}${libro.componentes_texto ? ` - ${libro.componentes_texto}` : ''}`
-}
+export const nombreLibroXstring = (libro: LibroProp | undefined) => {
+  if (!libro) return '';
+  return `${libro.nombre}${libro.nivel ? ` - ${libro.nivel}` : ''}${libro.componentes_texto ? ` - ${libro.componentes_texto}` : ''}`;
+};

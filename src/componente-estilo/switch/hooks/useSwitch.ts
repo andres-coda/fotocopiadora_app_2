@@ -1,11 +1,7 @@
-import { SwitchHookProp } from "../modelo/switch.interface";
+import { SwitchHookProp } from '../modelo/switch.interface';
 
 function useSwitch({ activo, nuevoEstilo }: SwitchHookProp) {
-  const clase = [
-    activo && 'switch-on',
-    !activo && 'switch-off',
-    nuevoEstilo,
-  ]
+  const clase = [activo && 'switch-on', !activo && 'switch-off', nuevoEstilo]
     .filter(Boolean)
     .join(' ');
 

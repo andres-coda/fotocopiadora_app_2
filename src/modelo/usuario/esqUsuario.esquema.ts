@@ -1,25 +1,26 @@
-import { z } from "zod";
-import { usuarioProps } from "./Usuario.interface";
+import { z } from 'zod';
+import { usuarioProps } from './Usuario.interface';
 
-export const registro = z.object({
-  nombre: z.string().min(1, 'El nombre es obligatorio'),
-  email: z.email('Email invalido').min(1, 'El email es obligatorio'),
-  password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
-  confirPassword: z.string().min(6, 'La confirmación debe tener al menos 6 caracteres'),
-}).refine(data => data.password === data.confirPassword, {
-  message: 'Las contraseñas son diferentes',
-  path: ['confirPassword']
-});
+export const registro = z
+  .object({
+    nombre: z.string().min(1, 'El nombre es obligatorio'),
+    email: z.email('Email invalido').min(1, 'El email es obligatorio'),
+    password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
+    confirPassword: z.string().min(6, 'La confirmación debe tener al menos 6 caracteres'),
+  })
+  .refine(data => data.password === data.confirPassword, {
+    message: 'Las contraseñas son diferentes',
+    path: ['confirPassword'],
+  });
 
 export type formValuesRegistro = z.infer<typeof registro>;
 
-export const registroFormDefault:formValuesRegistro = {
+export const registroFormDefault: formValuesRegistro = {
   nombre: '',
   email: '',
   password: '',
   confirPassword: '',
-}
-
+};
 
 export const login = z.object({
   nombre: z.string('Debe ser un texto').min(1, 'El nombre de usuario es obligatorio'),
@@ -28,20 +29,25 @@ export const login = z.object({
 
 export type formValuesLogin = z.infer<typeof login>;
 
-export const loginFormDefault:formValuesLogin = {
+export const loginFormDefault: formValuesLogin = {
   nombre: '',
   password: '',
-}
+};
 
 // Edicion de los datos del usuario logueado. La password es opcional:
 // si viene vacia no se envia al backend.
 export const usuarioEditar = z.object({
-  nombre: z.string().min(1, 'El nombre es obligatorio').max(50, 'El nombre no puede superar los 50 caracteres'),
+  nombre: z
+    .string()
+    .min(1, 'El nombre es obligatorio')
+    .max(50, 'El nombre no puede superar los 50 caracteres'),
   email: z.email('Email invalido').max(50, 'El email no puede superar los 50 caracteres'),
   password: z
     .string()
     .max(255, 'La contraseña no puede superar los 255 caracteres')
-    .refine((val) => val === '' || val.length >= 6, { message: 'La contraseña debe tener al menos 6 caracteres' })
+    .refine(val => val === '' || val.length >= 6, {
+      message: 'La contraseña debe tener al menos 6 caracteres',
+    })
     .optional(),
 });
 
@@ -51,7 +57,7 @@ export const usuarioEditarFormDefault: formValuesUsuarioEditar = {
   nombre: '',
   email: '',
   password: '',
-}
+};
 
 export const usuarioEditarFormEdit = (usuario?: usuarioProps | null): formValuesUsuarioEditar => {
   if (!usuario) return usuarioEditarFormDefault;
@@ -59,20 +65,20 @@ export const usuarioEditarFormEdit = (usuario?: usuarioProps | null): formValues
     nombre: usuario.nombre || usuarioEditarFormDefault.nombre,
     email: usuario.email || usuarioEditarFormDefault.email,
     password: '',
-  }
-}
+  };
+};
 
 // ABM de usuarios por parte de un admin.
 // El desplegable solo ofrece admin | operador: la DB (RLS insert/update) rechaza
 // asignar super_admin a quien no es super_admin, por eso no se ofrece.
 export const rolesAsignables = ['admin', 'operador'] as const;
 
-const nombreAdmin = z.string()
+const nombreAdmin = z
+  .string()
   .min(1, 'El nombre es obligatorio')
   .max(50, 'El nombre no puede superar los 50 caracteres');
 
-const emailAdmin = z.email('Email invalido')
-  .max(50, 'El email no puede superar los 50 caracteres');
+const emailAdmin = z.email('Email invalido').max(50, 'El email no puede superar los 50 caracteres');
 
 const roleAdmin = z.enum(rolesAsignables, 'Rol invalido');
 
@@ -80,7 +86,8 @@ const roleAdmin = z.enum(rolesAsignables, 'Rol invalido');
 export const usuarioAdminAlta = z.object({
   nombre: nombreAdmin,
   email: emailAdmin,
-  password: z.string()
+  password: z
+    .string()
     .min(6, 'La contraseña debe tener al menos 6 caracteres')
     .max(255, 'La contraseña no puede superar los 255 caracteres')
     .optional(),
@@ -91,9 +98,12 @@ export const usuarioAdminAlta = z.object({
 export const usuarioAdminEditar = z.object({
   nombre: nombreAdmin,
   email: emailAdmin,
-  password: z.string()
+  password: z
+    .string()
     .max(255, 'La contraseña no puede superar los 255 caracteres')
-    .refine((val) => val === '' || val.length >= 6, { message: 'La contraseña debe tener al menos 6 caracteres' })
+    .refine(val => val === '' || val.length >= 6, {
+      message: 'La contraseña debe tener al menos 6 caracteres',
+    })
     .optional(),
   role: roleAdmin,
 });
@@ -106,7 +116,7 @@ export const usuarioAdminFormDefault: formValuesUsuarioAdmin = {
   email: '',
   password: '',
   role: 'operador',
-}
+};
 
 export const usuarioAdminFormEdit = (usuario?: usuarioProps | null): formValuesUsuarioAdmin => {
   if (!usuario) return usuarioAdminFormDefault;
@@ -117,5 +127,5 @@ export const usuarioAdminFormEdit = (usuario?: usuarioProps | null): formValuesU
     // Un super_admin no pertenece a una empresa y no aparece en el listado,
     // pero si llegara se mapea a admin para respetar el enum asignable.
     role: usuario.role === 'super_admin' ? 'admin' : usuario.role,
-  }
-}
+  };
+};

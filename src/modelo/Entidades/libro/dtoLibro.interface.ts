@@ -1,4 +1,4 @@
-import { Especificaciones } from "../especificacion/especificacion.enum";
+import { Especificaciones } from '../especificacion/especificacion.enum';
 
 export interface LibroEmresaDtoProp {
   cantidadPg: number;
@@ -7,7 +7,7 @@ export interface LibroEmresaDtoProp {
   detalle_impresion?: string;
 }
 
-export interface LibroExtraDtoProp{
+export interface LibroExtraDtoProp {
   anio?: string;
   img?: string;
   descripcion?: string;
@@ -15,7 +15,7 @@ export interface LibroExtraDtoProp{
   edicion?: number;
 }
 
-export interface LibroPrincipalDtoProp{
+export interface LibroPrincipalDtoProp {
   nombre: string;
   nivel?: string;
   editorial?: string;
@@ -23,7 +23,5 @@ export interface LibroPrincipalDtoProp{
   componentes?: string[];
 }
 
-export interface libroDtoProp extends LibroExtraDtoProp, LibroEmresaDtoProp, LibroPrincipalDtoProp {
-}
-
-
+export interface libroDtoProp
+  extends LibroExtraDtoProp, LibroEmresaDtoProp, LibroPrincipalDtoProp {}

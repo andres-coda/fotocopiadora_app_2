@@ -1,10 +1,16 @@
-import './switch.css'
-import { MouseEvent } from "react";
+import './switch.css';
+import { MouseEvent } from 'react';
 import useSwitch from './hooks/useSwitch';
 import { SwitchProp } from './modelo/switch.interface';
 import Texto from '../texto/texto';
 
-function Switch({ activo, onActivar, nuevoEstilo = undefined, titulo = '', texto = undefined }: SwitchProp) {
+function Switch({
+  activo,
+  onActivar,
+  nuevoEstilo = undefined,
+  titulo = '',
+  texto = undefined,
+}: SwitchProp) {
   const { clase } = useSwitch({ activo, nuevoEstilo });
 
   const handleClick = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
@@ -13,12 +19,10 @@ function Switch({ activo, onActivar, nuevoEstilo = undefined, titulo = '', texto
   };
 
   return (
-    <div className='swith-contenedor'>
-      {texto &&
-        <Texto texto={texto} chica inline ajustado/>
-      }
+    <div className="swith-contenedor">
+      {texto && <Texto texto={texto} chica inline ajustado />}
       <button
-        onClick={(e) => handleClick(e)}
+        onClick={e => handleClick(e)}
         className={`switch ${clase}`}
         type="button"
         role="switch"

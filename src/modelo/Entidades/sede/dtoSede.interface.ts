@@ -1,3 +1,3 @@
-export interface SedeDtoProp{
+export interface SedeDtoProp {
   nombre: string;
 }

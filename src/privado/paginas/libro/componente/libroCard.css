@@ -9,7 +9,7 @@
 .card-libro img {
   width: 20%;
   height: 100%;
-  object-fit:contain;
+  object-fit: contain;
   filter: drop-shadow(1px 1px 2px var(--colorSombra));
   margin: 0;
   padding: 0;
@@ -17,7 +17,7 @@
   filter: drop-shadow(1px 1px 2px var(--colorSombra));
 }
 
-.card-libro ul{
+.card-libro ul {
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -31,52 +31,51 @@
   overflow: hidden;
 }
 .card-libro li {
-  padding: .1rem 0.2rem;
+  padding: 0.1rem 0.2rem;
   margin: 0;
   height: 100%;
   white-space: nowrap;
   font-size: small;
 }
 
-
-.vertical-libro-card{
+.vertical-libro-card {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 0;
   padding-top: 0;
-  flex:1;
+  flex: 1;
   box-sizing: border-box;
 }
 .pg-flotante {
   position: absolute;
   bottom: 2px;
   right: 10px;
-  padding: .1rem .1rem .1rem .8rem;
+  padding: 0.1rem 0.1rem 0.1rem 0.8rem;
   background-color: var(--colorCardGris);
 }
 
-.card-libro-pedido{
+.card-libro-pedido {
   display: flex;
   justify-content: start;
   align-items: center;
-  padding: .5rem;
+  padding: 0.5rem;
   min-height: none;
 }
 
-.card-libro-pedido li{
+.card-libro-pedido li {
   background-color: var(--colorCardGris);
   border: 1px solid var(--colorSombra);
-  padding: 0.1rem .5rem;
+  padding: 0.1rem 0.5rem;
   border-radius: 4px;
 }
 
-.card-libro-pedido-vertical{
+.card-libro-pedido-vertical {
   margin: 0;
 }
 
-.cantidad-libro-card{
+.cantidad-libro-card {
   display: flex;
   max-width: 2rem;
   justify-content: center;

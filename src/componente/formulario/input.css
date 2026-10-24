@@ -48,14 +48,14 @@
   border-radius: 5px;
   height: 36px;
   padding: 9px 0.5rem 0 0.5rem;
-  border: .5px solid var(--colorSombra);
-  color: var(--colorNegro)
+  border: 0.5px solid var(--colorSombra);
+  color: var(--colorNegro);
 }
 
 .inputs-entero input:focus,
 .inputs-entero select:focus,
 .inputs-entero textarea:focus {
-  border: .5px solid var(--colorNegro);
+  border: 0.5px solid var(--colorNegro);
   outline: none;
 }
 
@@ -68,16 +68,16 @@
   pointer-events: none;
   transition: all 0.2s ease;
   background-color: transparent;
-  font-size: .8em;
+  font-size: 0.8em;
   font-weight: 200;
 }
 
-.inputs-entero input:focus+label,
-.inputs-entero input:not(:placeholder-shown)+label,
-.inputs-entero select:focus+label,
-.inputs-entero select:not([value=""])+label,
-.inputs-entero textarea:focus+label,
-.inputs-entero textarea:not(:placeholder-shown)+label {
+.inputs-entero input:focus + label,
+.inputs-entero input:not(:placeholder-shown) + label,
+.inputs-entero select:focus + label,
+.inputs-entero select:not([value='']) + label,
+.inputs-entero textarea:focus + label,
+.inputs-entero textarea:not(:placeholder-shown) + label {
   top: 0;
   left: 0;
   font-size: 0.8em;
@@ -89,7 +89,6 @@
   border-radius: 20px;
 }
 
-
 .alin-derecha input {
   text-align: right;
 }
@@ -99,9 +98,6 @@
 .is-invalida textarea:focus {
   border: 1px solid var(--colorError);
 }
-
-
-
 
 .inputs-entero textarea {
   resize: vertical;
@@ -116,7 +112,7 @@
   gap: 0;
   flex-shrink: 0;
   vertical-align: middle;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .input-buscador input:placeholder-shown:not(:focus) {
@@ -128,7 +124,7 @@
 .btn-buscador {
   border-radius: 5px;
   margin-top: 3px;
-  border: .5px solid var(--colorSombra);
+  border: 0.5px solid var(--colorSombra);
   box-shadow: none;
   color: var(--colorNegro);
   opacity: 1;
@@ -162,11 +158,10 @@
   pointer-events: none;
 }
 
-
 .input-checkbox {
   display: flex;
   gap: 1rem;
-  padding: .2rem;
+  padding: 0.2rem;
   flex: 1;
   box-sizing: border-box;
 }
@@ -186,7 +181,7 @@
   border-radius: 5px;
 }
 
-.input-checkbox input[type="checkbox"] {
+.input-checkbox input[type='checkbox'] {
   width: 20px;
   height: 20px;
   margin-right: 1rem;
@@ -203,11 +198,12 @@
   background-color: transparent;
   cursor: pointer;
   position: relative;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.input-checkbox input[type="checkbox"]:checked {
+.input-checkbox input[type='checkbox']:checked {
   background-color: var(--colorCardVerde);
   border-color: var(--colorNegro);
 }
@@ -219,7 +215,7 @@
   /* Cambia el color del borde cuando está marcado */
 }
 
-.input-checkbox input[type="checkbox"]:checked::after {
+.input-checkbox input[type='checkbox']:checked::after {
   content: '✔';
   position: absolute;
   top: 50%;
@@ -235,24 +231,24 @@
   /* Elimina el contorno al enfocar */
 }
 
-.inputCheck-fuera-formulario{
+.inputCheck-fuera-formulario {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: .1rem;
+  gap: 0.1rem;
   margin: 0;
   border-radius: 5px;
   padding: 0.5rem 0;
 }
 
-.inputCheck-fuera-formulario li{
+.inputCheck-fuera-formulario li {
   text-align: start;
-  padding: .2rem;
-  margin: 0 .2rem;
+  padding: 0.2rem;
+  margin: 0 0.2rem;
   font-size: 0.8em;
 }
 
-.desplegable-horizontal{
+.desplegable-horizontal {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -260,7 +256,7 @@
   gap: 0.1rem;
 }
 
-.estado-contenedor .desplegable-horizontal p{
+.estado-contenedor .desplegable-horizontal p {
   border: none;
   background-color: transparent;
   padding: 0;

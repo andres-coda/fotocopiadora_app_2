@@ -35,6 +35,7 @@
 ## ✅ Por Tipo de Acción
 
 ### Instalar dependencia (`npm install`, `cargo add`, etc.)
+
 - [ ] Qué paquete y versión
 - [ ] Por qué es necesario (no "por si acaso")
 - [ ] Impacto en bundle size / build time / seguridad
@@ -42,27 +43,32 @@
 - [ ] Confirmación explícita del usuario: "sí, instalá X"
 
 ### Editar 1 archivo mecánico (fix typo, ajustar estilo, cambiar constante conocida)
+
 - [ ] Confirmación inline: "Cambio X en archivo Y, ¿dale?"
 - [ ] Verificación: `npm run lint` / `tsc --noEmit` rápido
 
 ### Editar 2+ archivos O cambio no trivial
+
 - [ ] Plan completo escrito (ver Output Contract en SKILL.md)
 - [ ] Confirmación explícita del usuario
 - [ ] Delegar a writer si >3 archivos o cruza capas
 - [ ] Verificación: typecheck + lint + tests afectados
 
 ### Cambiar configuración (tsconfig, vite.config, tauri.conf, Cargo.toml)
+
 - [ ] Plan con impacto: qué rompe, qué mejora, cómo testear
 - [ ] Confirmación explícita
 - [ ] Build de prueba tras el cambio
 
 ### Refactor entre capas
+
 - [ ] Plan de migración paso a paso
 - [ ] Tests de regresión identificados
 - [ ] Rollback documentado
 - [ ] Delegar a writer
 
 ### Crear/eliminar carpeta de nivel superior
+
 - [ ] Justificación arquitectural (no "para ordenar")
 - [ ] Impacto en imports, build, team
 - [ ] Confirmación explícita

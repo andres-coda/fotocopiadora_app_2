@@ -1,8 +1,7 @@
-import { ClienteDtoProp } from "../../modelo/Entidades/cliente/dtoCliente.interface"
-import { formValuesCliente } from "../../modelo/Entidades/cliente/esqCliente.esquema"
+import { ClienteDtoProp } from '../../modelo/Entidades/cliente/dtoCliente.interface';
+import { formValuesCliente } from '../../modelo/Entidades/cliente/esqCliente.esquema';
 
 const normalizarTelefono = (telefono?: string): string | undefined => {
-
   if (!telefono) return undefined;
 
   let limpio = telefono.replace(/\D/g, '');
@@ -26,6 +25,6 @@ export const clienteDtoAdapter = (c: formValuesCliente): ClienteDtoProp => {
     nombre: c.nombre,
     telefono: normalizarTelefono(c.telefono),
     email: c.email ?? null,
-  }
-  return newGrupo
-}
+  };
+  return newGrupo;
+};

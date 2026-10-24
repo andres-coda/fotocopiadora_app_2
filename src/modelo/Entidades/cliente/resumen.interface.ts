@@ -1,4 +1,4 @@
-import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
+import { BaseAdapterProp, baseInicial, BaseProp } from '../base/base.interface';
 
 export interface ResumenAdapterProp extends BaseAdapterProp {
   pendiente: number;
@@ -14,10 +14,10 @@ export interface ResumenProp extends BaseProp {
   cancelado: number;
 }
 
-export const resumenInicial:ResumenProp = {
+export const resumenInicial: ResumenProp = {
   ...baseInicial,
   pendiente: 0,
   listo: 0,
   retirado: 0,
   cancelado: 0,
-}
+};

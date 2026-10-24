@@ -1,5 +1,5 @@
-import { Especificaciones } from "../especificacion/especificacion.enum";
-import { Estado } from "./estado.enum";
+import { Especificaciones } from '../especificacion/especificacion.enum';
+import { Estado } from './estado.enum';
 
 /**
  * Filtros de la lista de items (pedidoLibro).

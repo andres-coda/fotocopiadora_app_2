@@ -7,5 +7,5 @@ export enum Estado {
   CANCELADO = 6,
   STOCK = 7,
   CONSTRUCCION = '8',
-  POR_CONFIRMAR = '9'
+  POR_CONFIRMAR = '9',
 }

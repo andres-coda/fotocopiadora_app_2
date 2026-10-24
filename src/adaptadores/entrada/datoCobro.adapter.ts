@@ -1,4 +1,7 @@
-import { DatoCobroAdapterProp, DatoCobroProp } from "../../modelo/Entidades/dato_cobro/datoCobro.interface";
+import {
+  DatoCobroAdapterProp,
+  DatoCobroProp,
+} from '../../modelo/Entidades/dato_cobro/datoCobro.interface';
 
 // No usa baseAdapter: la tabla dato_cobro no tiene fechas ni deleted.
 export const datoCobroAdapter = (datoCobro?: DatoCobroAdapterProp): DatoCobroProp | undefined => {
@@ -8,9 +11,9 @@ export const datoCobroAdapter = (datoCobro?: DatoCobroAdapterProp): DatoCobroPro
     id: datoCobro.id,
     nombre: datoCobro.nombre,
     mensaje: datoCobro.mensaje ?? undefined,
-  }
+  };
   return newDatoCobro;
-}
+};
 
 export const datoCobroAdapterArray = (datos?: DatoCobroAdapterProp[]): DatoCobroProp[] => {
   const newDatosCobro: DatoCobroProp[] =
@@ -20,4 +23,4 @@ export const datoCobroAdapterArray = (datos?: DatoCobroAdapterProp[]): DatoCobro
     }) ?? [];
 
   return newDatosCobro;
-}
+};

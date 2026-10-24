@@ -5,31 +5,30 @@ export type RolUsuario = 'super_admin' | 'admin' | 'operador';
 // email; por eso su adapter es perfilAdapter. La empresa la deriva el back
 // desde la sesion.
 export interface usuarioAdapterProps {
-  id: string,
-  nombre: string,
-  email: string,
-  role: RolUsuario,
+  id: string;
+  nombre: string;
+  email: string;
+  role: RolUsuario;
 }
 
 export interface usuarioProps {
-  id: string,
-  nombre: string,
-  email: string,
-  role: RolUsuario,
+  id: string;
+  nombre: string;
+  email: string;
+  role: RolUsuario;
 }
-
 
 export const usuarioInicial: usuarioProps = {
   id: '',
   nombre: '',
   email: '',
   role: 'operador',
-}
+};
 
 export interface perfilAdapterProp {
-  sub: string,
-  nombre: string,
-  role: RolUsuario,
+  sub: string;
+  nombre: string;
+  role: RolUsuario;
 }
 
 export interface TokenAdapterProp {

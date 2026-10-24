@@ -1,7 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
-import { usuarioProps } from "../../modelo/usuario/Usuario.interface";
-import { crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden, eliminarElemento, modificarElementoRedux, agregarElementoInicio } from "../utils/funcionesGenericasEmpresa";
+import { createSlice } from '@reduxjs/toolkit';
+import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { usuarioProps } from '../../modelo/usuario/Usuario.interface';
+import {
+  crearDatoInicial,
+  crearBusqueda,
+  resetBusqueda,
+  seleccionarDato,
+  resetSeleccionDato,
+  agregarDatosBusquedaActual,
+  cambiarOrden,
+  eliminarElemento,
+  modificarElementoRedux,
+  agregarElementoInicio,
+} from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 1;
 
@@ -13,15 +24,15 @@ export const busquedaUsuarioInicial: UltimaBusquedaProp<usuarioProps> = {
   sortOrder: 'asc' as orden,
   pagina: 1,
   limite: 20,
-  total: 0
-}
+  total: 0,
+};
 
 const estadoUsuarioInicial: ReduxProp<usuarioProps> = {
   datosIniciales: busquedaUsuarioInicial,
   busquedaActual: busquedaUsuarioInicial,
   ultimasBusqueda: [],
-  datoSeleccionado: undefined
-}
+  datoSeleccionado: undefined,
+};
 
 export const usuariosSlice = createSlice({
   name: 'usuarios',
@@ -36,10 +47,21 @@ export const usuariosSlice = createSlice({
     cambiarOrdenUsuario: cambiarOrden<usuarioProps>,
     eliminarUsuarioRedux: eliminarElemento<usuarioProps>,
     actualizarUsuarioRedux: modificarElementoRedux<usuarioProps>,
-    agregarUsuarioInicioRedux: agregarElementoInicio<usuarioProps>
-  }
+    agregarUsuarioInicioRedux: agregarElementoInicio<usuarioProps>,
+  },
 });
 
-export const { crearUsuarios, crearBusquedaUsuario, resetBusquedaUsuario, resetSeleccionarUsuario, seleccionarUsuario, agregarUsuariosBusquedaActual, cambiarOrdenUsuario, eliminarUsuarioRedux, actualizarUsuarioRedux, agregarUsuarioInicioRedux } = usuariosSlice.actions;
+export const {
+  crearUsuarios,
+  crearBusquedaUsuario,
+  resetBusquedaUsuario,
+  resetSeleccionarUsuario,
+  seleccionarUsuario,
+  agregarUsuariosBusquedaActual,
+  cambiarOrdenUsuario,
+  eliminarUsuarioRedux,
+  actualizarUsuarioRedux,
+  agregarUsuarioInicioRedux,
+} = usuariosSlice.actions;
 
 export default usuariosSlice.reducer;

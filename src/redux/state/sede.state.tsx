@@ -1,7 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
-import { SedeProp } from "../../modelo/Entidades/sede/sede.interface";
-import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden, eliminarElemento, modificarElementoRedux, agregarElementoInicio} from "../utils/funcionesGenericasEmpresa";
+import { createSlice } from '@reduxjs/toolkit';
+import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { SedeProp } from '../../modelo/Entidades/sede/sede.interface';
+import {
+  crearDatoInicial,
+  crearBusqueda,
+  resetBusqueda,
+  seleccionarDato,
+  resetSeleccionDato,
+  agregarDatosBusquedaActual,
+  cambiarOrden,
+  eliminarElemento,
+  modificarElementoRedux,
+  agregarElementoInicio,
+} from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 1;
 
@@ -12,15 +23,15 @@ export const busquedaSedeInicial: UltimaBusquedaProp<SedeProp> = {
   sortOrder: 'asc' as orden,
   pagina: 1,
   limite: 20,
-  total: 0
-}
+  total: 0,
+};
 
 const estadoSedeInicial: ReduxProp<SedeProp> = {
   datosIniciales: busquedaSedeInicial,
   busquedaActual: busquedaSedeInicial,
   ultimasBusqueda: [],
-  datoSeleccionado: undefined
-}
+  datoSeleccionado: undefined,
+};
 
 export const sedeSlice = createSlice({
   name: 'sede',
@@ -35,10 +46,21 @@ export const sedeSlice = createSlice({
     cambiarOrdenSede: cambiarOrden<SedeProp>,
     eliminarSedeRedux: eliminarElemento<SedeProp>,
     actualizarSedeRedux: modificarElementoRedux<SedeProp>,
-    agregarSedeInicioRedux: agregarElementoInicio<SedeProp>
-  }
+    agregarSedeInicioRedux: agregarElementoInicio<SedeProp>,
+  },
 });
 
-export const { crearSedes, crearBusquedaSede, resetBusquedaSede, resetSeleccionarSede, seleccionarSede, agregarSedesBusquedaActual, cambiarOrdenSede, eliminarSedeRedux, actualizarSedeRedux, agregarSedeInicioRedux } = sedeSlice.actions;
+export const {
+  crearSedes,
+  crearBusquedaSede,
+  resetBusquedaSede,
+  resetSeleccionarSede,
+  seleccionarSede,
+  agregarSedesBusquedaActual,
+  cambiarOrdenSede,
+  eliminarSedeRedux,
+  actualizarSedeRedux,
+  agregarSedeInicioRedux,
+} = sedeSlice.actions;
 
 export default sedeSlice.reducer;

@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import './desplegable.css'
+import { ReactNode } from 'react';
+import './desplegable.css';
 
 interface Prop {
   children: ReactNode;
@@ -7,11 +7,7 @@ interface Prop {
 }
 
 const DesplegableConteiner = ({ children, nuevoEstilo }: Prop) => {
-  return (
-    <div className={`desplegable ${nuevoEstilo ? nuevoEstilo : ''}`}>
-      {children}
-    </div>
-  )
-}
+  return <div className={`desplegable ${nuevoEstilo ? nuevoEstilo : ''}`}>{children}</div>;
+};
 
 export default DesplegableConteiner;

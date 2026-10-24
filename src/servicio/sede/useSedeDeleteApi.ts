@@ -1,6 +1,6 @@
-import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
-import { SEDE } from "../../utils/endpoint";
-import useApi from "../hooks/useApi";
+import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
+import { SEDE } from '../../utils/endpoint';
+import useApi from '../hooks/useApi';
 
 const useSedeDeleteApi = () => {
   const { fetchData, response, loading, errorFetch } = useApi<boolean>({});
@@ -9,7 +9,6 @@ const useSedeDeleteApi = () => {
     fetchData({ url: `${SEDE}/${id}`, methodo: httpMethod.DELETE });
 
   return { eliminarSede, responseSede: response, loadingSede: loading, errorFetchSede: errorFetch };
+};
 
-}
-
-export default useSedeDeleteApi
+export default useSedeDeleteApi;

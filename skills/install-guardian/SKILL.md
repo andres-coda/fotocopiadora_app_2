@@ -1,10 +1,10 @@
 ---
 name: install-guardian
-description: "Trigger: cualquier comando de instalacion, add o remove de dependencias, o intento de instalacion de herramientas/paquetes. Impone la politica de no-instalar-sin-pedido."
+description: 'Trigger: cualquier comando de instalacion, add o remove de dependencias, o intento de instalacion de herramientas/paquetes. Impone la politica de no-instalar-sin-pedido.'
 license: Apache-2.0
 metadata:
-  author: "andres"
-  version: "1.0"
+  author: 'andres'
+  version: '1.0'
 ---
 
 ## Hard Rules
@@ -16,9 +16,9 @@ metadata:
 
 ## Decision Gates
 
-| Accion | Requiere Plan | Requiere Confirmacion | Delegacion |
-|--------|---------------|----------------------|------------|
-| Instalar dependencia / herramienta / paquete | Si (que/por que/impacto) | **Explicita** | Inline |
+| Accion                                       | Requiere Plan            | Requiere Confirmacion | Delegacion |
+| -------------------------------------------- | ------------------------ | --------------------- | ---------- |
+| Instalar dependencia / herramienta / paquete | Si (que/por que/impacto) | **Explicita**         | Inline     |
 
 ## Execution Steps
 

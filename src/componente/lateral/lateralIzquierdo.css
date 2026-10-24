@@ -1,0 +1,21 @@
+.fecha-entrega {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: .5rem;
+  box-sizing: border-box;
+  width: 100%;
+  cursor: default;
+}
+
+.sesion {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  cursor: default;
+  gap: .5rem;
+}

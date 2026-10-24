@@ -1,6 +1,6 @@
-import { Dispatch } from "react";
-import { Especificaciones } from "../../modelo/Entidades/especificacion/especificacion.enum";
-import './input.css'
+import { Dispatch } from 'react';
+import { Especificaciones } from '../../modelo/Entidades/especificacion/especificacion.enum';
+import './input.css';
 
 // Se incluye number para admitir enums numéricos (p. ej. Estado) además de los string.
 type inputSet = string | number | Especificaciones;
@@ -19,15 +19,14 @@ interface InputCheckFueraFromProp<T> {
 }
 
 const InputCheckFueraForm = <T extends inputSet>({
-  setelementosSelect, lista, elementosSelect = [], normalizar = undefined, nuevoEstilo = undefined
+  setelementosSelect,
+  lista,
+  elementosSelect = [],
+  normalizar = undefined,
+  nuevoEstilo = undefined,
 }: InputCheckFueraFromProp<T>) => {
-
-  const toggleElemento = (
-    elemento: T
-  ) => {
-
+  const toggleElemento = (elemento: T) => {
     setelementosSelect(prev => {
-
       const existe = prev.includes(elemento);
 
       let nuevos: T[];
@@ -38,16 +37,13 @@ const InputCheckFueraForm = <T extends inputSet>({
         nuevos = [...prev, elemento];
       }
 
-      return normalizar
-        ? normalizar(nuevos)
-        : nuevos;
+      return normalizar ? normalizar(nuevos) : nuevos;
     });
   };
 
-return (
-  <ul className={`inputCheck-fuera-formulario ${nuevoEstilo ?? ''}`}>
-    {
-      lista.map((e, index) => (
+  return (
+    <ul className={`inputCheck-fuera-formulario ${nuevoEstilo ?? ''}`}>
+      {lista.map((e, index) => (
         <li key={`${e.nombre}-${index}`} className="input-checkbox">
           <label className="input-checkbox-label">
             <input
@@ -61,10 +57,9 @@ return (
             {e.texto ? e.texto : e.nombre}
           </label>
         </li>
-      ))
-    }
-  </ul>
-)
-}
+      ))}
+    </ul>
+  );
+};
 
 export default InputCheckFueraForm;

@@ -1,5 +1,5 @@
-import { FieldError, Control, FieldValues, Path } from "react-hook-form";
-import { ZodObject, ZodRawShape } from "zod";
+import { FieldError, Control, FieldValues, Path } from 'react-hook-form';
+import { ZodObject, ZodRawShape } from 'zod';
 
 export interface InputProps<T extends FieldValues> {
   name: Path<T>;
@@ -11,12 +11,20 @@ export interface InputProps<T extends FieldValues> {
   onFocus?: () => void;
   onBlur?: () => void;
   esquema: ZodObject<ZodRawShape>;
-  formatValue?: (value: string) => string;  
-  parseValue?: (value: string) => string; 
-  nuevoEstilo?:string;
+  formatValue?: (value: string) => string;
+  parseValue?: (value: string) => string;
+  nuevoEstilo?: string;
 }
 
-export type CheckInputProps<T extends FieldValues> = Pick<InputProps<T>, 'name' | 'control' | 'label' | "tipo" | 'alingDerecha'>;
+export type CheckInputProps<T extends FieldValues> = Pick<
+  InputProps<T>,
+  'name' | 'control' | 'label' | 'tipo' | 'alingDerecha'
+>;
+
+export interface TextAreaProps<T extends FieldValues>
+  extends Pick<InputProps<T>, 'name' | 'control' | 'label' | 'error' | 'esquema'> {
+  filas?: number;
+}
 
 export interface Opcion {
   value: string;

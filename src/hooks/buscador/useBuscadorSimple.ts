@@ -1,7 +1,7 @@
-import { RefObject, useEffect, useRef, useState } from "react";
-import { PaginadoProp } from "../../adaptadores/entrada/paginado.adapter";
-import { BusquedaApiProp } from "../../modelo/HTTP/peticiones.interface";
-import { UltimaBusquedaProp } from "../../redux/modelo/reduxContext.interface";
+import { RefObject, useEffect, useRef, useState } from 'react';
+import { PaginadoProp } from '../../adaptadores/entrada/paginado.adapter';
+import { BusquedaApiProp } from '../../modelo/HTTP/peticiones.interface';
+import { UltimaBusquedaProp } from '../../redux/modelo/reduxContext.interface';
 
 interface UseBuscadorSimpleProp<T> {
   valor: string;
@@ -26,7 +26,7 @@ const useBusquedaSimple = <T>({
   const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
-    console.log('valor: ', valor)
+    console.log('valor: ', valor);
     const timer = setTimeout(() => {
       setQuery(valor);
     }, 500);
@@ -36,64 +36,59 @@ const useBusquedaSimple = <T>({
 
   useEffect(() => {
     if (query.length >= limiteLetrasBusqueda) {
-      obtenerBusqueda({ query })
+      obtenerBusqueda({ query });
     }
   }, [query]);
 
   useEffect(() => {
     if (response) {
-      console.log("ACTUALIZO REDUX", response.pagina);
-      if(query.length < limiteLetrasBusqueda) {
+      console.log('ACTUALIZO REDUX', response.pagina);
+      if (query.length < limiteLetrasBusqueda) {
         setDatos(undefined);
-        return
+        return;
       }
-if (query === datos?.query) {
+      if (query === datos?.query) {
         setDatos(prev => ({
-         total: response.total,
-         datosQuery: [...prev?.datosQuery ?? [], ...response.datos],
-         pagina: response.pagina,
-         limite: response.limite,
-         sortBy: 'id' as keyof T,
-         sortOrder: 'asc',
-         query: query
-        }))
+          total: response.total,
+          datosQuery: [...(prev?.datosQuery ?? []), ...response.datos],
+          pagina: response.pagina,
+          limite: response.limite,
+          sortBy: 'id' as keyof T,
+          sortOrder: 'asc',
+          query: query,
+        }));
       } else {
         setDatos({
-        total: response.total,
-        datosQuery: [...response.datos],
-        pagina: response.pagina,
-        limite: response.limite,
-        sortBy: 'id' as keyof T,
-        sortOrder: 'asc',
-        query: query
-       });
+          total: response.total,
+          datosQuery: [...response.datos],
+          pagina: response.pagina,
+          limite: response.limite,
+          sortBy: 'id' as keyof T,
+          sortOrder: 'asc',
+          query: query,
+        });
       }
     }
   }, [response]);
 
   useEffect(() => {
-    if(!datos) return;
+    if (!datos) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         console.log('observer detecta:', entry.isIntersecting);
-        
+
         if (!entry.isIntersecting) {
-          return
-        };
+          return;
+        }
         if (query.length >= limiteLetrasBusqueda && datos?.query != query) {
-          console.log('Corta porque no es la query actual: ', query)
-          return
+          console.log('Corta porque no es la query actual: ', query);
+          return;
         }
         if (loading) {
           console.log('CORTO POR LOADING');
           return;
         }
-        if (
-          Number(datos.pagina) *
-          Number(datos.limite) >=
-          Number(datos.total)
-        ) {
-
+        if (Number(datos.pagina) * Number(datos.limite) >= Number(datos.total)) {
           console.log('CORTO PORQUE NO HAY MAS PAGINAS');
           return;
         }
@@ -103,7 +98,6 @@ if (query === datos?.query) {
           limite: Number(datos.limite),
           query,
         });
-
       },
       {
         root: contenedorRef.current,
@@ -118,11 +112,9 @@ if (query === datos?.query) {
     }
 
     return () => observer.disconnect();
-
   }, [datos?.query, datos?.pagina]);
 
-  return { contenedorRef, finListaRef, datos, setDatos }
-
-}
+  return { contenedorRef, finListaRef, datos, setDatos };
+};
 
 export default useBusquedaSimple;

@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { appStore } from "../../redux/store";
-import { setCargandoSesion, setErrorSesion, setUsuario } from "../../redux/state/sesion.state";
-import { useUsuario } from "../../servicio/usuario/useUsuario";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { appStore } from '../../redux/store';
+import { setCargandoSesion, setErrorSesion, setUsuario } from '../../redux/state/sesion.state';
+import { useUsuario } from '../../servicio/usuario/useUsuario';
 
 /**
  * Fuente unica de la sesion: envuelve a useUsuario() (GET /auth/profile)
@@ -26,4 +26,4 @@ export const useSesion = () => {
   }, [userError]);
 
   return { usuarioSesion: usuario, cargando, error };
-}
+};

@@ -1,7 +1,7 @@
 import { Controller, FieldValues } from 'react-hook-form';
-import './input.css'
+import './input.css';
 import Texto from '../../componente-estilo/texto/texto';
-import { DesplegableProps } from "./modelo/input.interface";
+import { DesplegableProps } from './modelo/input.interface';
 import { esCampoRequerido } from '../../utils/formulario';
 
 const Desplegable = <T extends FieldValues>({
@@ -15,42 +15,46 @@ const Desplegable = <T extends FieldValues>({
   onBlur,
   esquema,
   nuevoEstilo = undefined,
-  texto = undefined
+  texto = undefined,
 }: DesplegableProps<T>) => {
   return (
     <div className={`desplegable-horizontal ${nuevoEstilo ?? ''}`}>
-      { texto ? <Texto texto={texto} chica /> : null}
+      {texto ? <Texto texto={texto} chica /> : null}
       <div className={`inputs-span ${nuevoEstilo ? nuevoEstilo : ''}`}>
-        <span>{esCampoRequerido(esquema, name) && <Texto texto='*' derecha chica negrita error />}</span>
-        <div className={`inputs-entero ${error ? 'is-invalida' : ''} ${alingDerecha ? 'alin-derecha' : ''}`}>
-
+        <span>
+          {esCampoRequerido(esquema, name) && <Texto texto="*" derecha chica negrita error />}
+        </span>
+        <div
+          className={`inputs-entero ${error ? 'is-invalida' : ''} ${alingDerecha ? 'alin-derecha' : ''}`}
+        >
           <Controller
             name={name}
             control={control}
-            render={({ field }) =>
+            render={({ field }) => (
               <select
                 id={String(name)}
                 {...field}
-                value={field.value ?? ""}
+                value={field.value ?? ''}
                 onFocus={onFocus}
                 onBlur={onBlur}
               >
-                <option value="" disabled>Seleccionar...</option>
-                {opciones.map((op) => (
+                <option value="" disabled>
+                  Seleccionar...
+                </option>
+                {opciones.map(op => (
                   <option key={op.value} value={op.value}>
                     {op.label}
                   </option>
                 ))}
-              </select>}
+              </select>
+            )}
           />
-          <label htmlFor={String(name)}>
-            {label}
-          </label>
+          <label htmlFor={String(name)}>{label}</label>
         </div>
         <span>{error && <Texto texto={String(error.message)} error chica />}</span>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Desplegable;

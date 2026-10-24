@@ -1,9 +1,9 @@
-import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
-import { Especificaciones } from "../especificacion/especificacion.enum";
-import { LibroAdapterProp, libroInicial, LibroProp } from "../libro/libro.interface";
-import { PedidoAdapterProp, PedidoProp } from "../pedido/pedido.interface";
-import { SedeAdapterProp, sedeInicial, SedeProp } from "../sede/sede.interface";
-import { Estado } from "./estado.enum";
+import { BaseAdapterProp, baseInicial, BaseProp } from '../base/base.interface';
+import { Especificaciones } from '../especificacion/especificacion.enum';
+import { LibroAdapterProp, libroInicial, LibroProp } from '../libro/libro.interface';
+import { PedidoAdapterProp, PedidoProp } from '../pedido/pedido.interface';
+import { SedeAdapterProp, sedeInicial, SedeProp } from '../sede/sede.interface';
+import { Estado } from './estado.enum';
 
 export interface PedidoLibroAdapterProp extends BaseAdapterProp {
   idPedido: string;
@@ -17,7 +17,7 @@ export interface PedidoLibroAdapterProp extends BaseAdapterProp {
 }
 
 export interface PedidoLibroProp extends BaseProp {
-  idPedido:string;
+  idPedido: string;
   cantidad: number;
   detalles?: string;
   estado: Estado;
@@ -45,5 +45,5 @@ export const pedidoLibroInicial: PedidoLibroProp = {
   estado: Estado.CANCELADO,
   libro: libroInicial,
   sede: sedeInicial,
-  especificaciones: []
-}
+  especificaciones: [],
+};

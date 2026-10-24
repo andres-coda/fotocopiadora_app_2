@@ -1,13 +1,17 @@
-import { useDispatch } from "react-redux";
-import { ReduxProp, UltimaBusquedaProp, orden } from "../../redux/modelo/reduxContext.interface";
-import { RefObject, useEffect, useRef, useState } from "react";
-import { UnknownAction } from "@reduxjs/toolkit";
-import { BusquedaApiProp } from "../../modelo/HTTP/peticiones.interface";
-import { PaginadoProp } from "../../adaptadores/entrada/paginado.adapter";
-import { useNavigate } from "react-router-dom";
-import { useModalContext } from "../../contexto/contextoModal";
-import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import { agregarItemsPedidoSeleccionadoRedux, resetSeleccionarPedido, seleccionarPedido } from "../../redux/state/pedido.state";
+import { useDispatch } from 'react-redux';
+import { ReduxProp, UltimaBusquedaProp, orden } from '../../redux/modelo/reduxContext.interface';
+import { RefObject, useEffect, useRef, useState } from 'react';
+import { UnknownAction } from '@reduxjs/toolkit';
+import { BusquedaApiProp } from '../../modelo/HTTP/peticiones.interface';
+import { PaginadoProp } from '../../adaptadores/entrada/paginado.adapter';
+import { useNavigate } from 'react-router-dom';
+import { useModalContext } from '../../contexto/contextoModal';
+import { PedidoLibroProp } from '../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
+import {
+  agregarItemsPedidoSeleccionadoRedux,
+  resetSeleccionarPedido,
+  seleccionarPedido,
+} from '../../redux/state/pedido.state';
 
 interface UseBuscadorPaginadoProp {
   valor: string;
@@ -42,7 +46,6 @@ const useBuscadorPedido = ({
   claveBusqueda,
   loading = false,
 }: UseBuscadorPaginadoProp) => {
-
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const finListaRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
@@ -70,48 +73,54 @@ const useBuscadorPedido = ({
       if (busqueda) {
         dispatch(crearBusqueda(busqueda));
       } else {
-        obtenerBusqueda({ query })
+        obtenerBusqueda({ query });
       }
     }
-  }, [query, claveBusqueda])
+  }, [query, claveBusqueda]);
 
   useEffect(() => {
     if (response && modal) {
       dispatch(agregarItemsPedidoSeleccionadoRedux(response.datos));
     }
     if (response && !modal) {
-      console.log("ACTUALIZO REDUX", response.pagina);
+      console.log('ACTUALIZO REDUX', response.pagina);
       const claveCambio = claveBusqueda !== datosRedux.busquedaActual.clave;
-      if ((query.length >= limiteLetrasBusqueda && query != datosRedux.busquedaActual.query) || claveCambio) {
-        dispatch(crearBusqueda({
-          query: query,
-          datosQuery: response.datos,
-          total: response.total,
-          pagina: response.pagina,
-          limite: response.limite,
-          sortBy,
-          sortOrder,
-          clave: claveBusqueda
-        }));
+      if (
+        (query.length >= limiteLetrasBusqueda && query != datosRedux.busquedaActual.query) ||
+        claveCambio
+      ) {
+        dispatch(
+          crearBusqueda({
+            query: query,
+            datosQuery: response.datos,
+            total: response.total,
+            pagina: response.pagina,
+            limite: response.limite,
+            sortBy,
+            sortOrder,
+            clave: claveBusqueda,
+          })
+        );
       } else {
-        dispatch(agregarBusqueda({
-          query: query,
-          datosQuery: response.datos,
-          total: response.total,
-          pagina: response.pagina,
-          limite: response.limite,
-          sortBy,
-          sortOrder,
-          clave: claveBusqueda
-        }));
+        dispatch(
+          agregarBusqueda({
+            query: query,
+            datosQuery: response.datos,
+            total: response.total,
+            pagina: response.pagina,
+            limite: response.limite,
+            sortBy,
+            sortOrder,
+            clave: claveBusqueda,
+          })
+        );
       }
     }
   }, [response]);
 
   useEffect(() => {
-    if(!modal)
-    dispatch(resetSeleccionarPedido());
-  }, [modal])
+    if (!modal) dispatch(resetSeleccionarPedido());
+  }, [modal]);
 
   const nuevoElemento = (ruta?: string) => {
     if (ruta) {
@@ -119,13 +128,13 @@ const useBuscadorPedido = ({
     } else {
       setModal(true);
     }
-  }
+  };
 
   const handleSeleccionarItem = (item: PedidoLibroProp) => {
     obtenerPedidoLibrosByPedidoId(item.idPedido);
     setModal(true);
     dispatch(seleccionarPedido(item.pedido));
-  }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -133,22 +142,21 @@ const useBuscadorPedido = ({
         console.log('observer detecta:', entry.isIntersecting);
 
         if (!entry.isIntersecting) {
-          return
-        };
+          return;
+        }
         if (query.length > limiteLetrasBusqueda && datosRedux.busquedaActual.query != query) {
-          console.log('Corta porque no es la query actual: ', query)
-          return
+          console.log('Corta porque no es la query actual: ', query);
+          return;
         }
         if (loading) {
           console.log('CORTO POR LOADING');
           return;
         }
         if (
-          datosRedux.busquedaActual.pagina *
-          datosRedux.busquedaActual.limite >=
+          datosRedux.busquedaActual.pagina * datosRedux.busquedaActual.limite >=
           datosRedux.busquedaActual.total
         ) {
-          console.log('que datosRedux estoy pasando: ', datosRedux)
+          console.log('que datosRedux estoy pasando: ', datosRedux);
           console.log('limite: ', datosRedux.busquedaActual.limite);
           console.log('pagina: ', datosRedux.busquedaActual.pagina);
           console.log('total: ', datosRedux.busquedaActual.total);
@@ -156,7 +164,7 @@ const useBuscadorPedido = ({
           console.log('CORTO PORQUE NO HAY MAS PAGINAS');
           return;
         }
-        console.log("PIDO", {
+        console.log('PIDO', {
           paginaRedux: datosRedux.busquedaActual.pagina,
           loading,
         });
@@ -166,7 +174,6 @@ const useBuscadorPedido = ({
           limite: datosRedux.busquedaActual.limite,
           query,
         });
-
       },
       {
         root: contenedorRef.current,
@@ -181,11 +188,9 @@ const useBuscadorPedido = ({
     }
 
     return () => observer.disconnect();
-
   }, [datosRedux.busquedaActual.query, datosRedux.busquedaActual.pagina, claveBusqueda]);
 
-  return { contenedorRef, nuevoElemento, finListaRef, handleSeleccionarItem }
-
-}
+  return { contenedorRef, nuevoElemento, finListaRef, handleSeleccionarItem };
+};
 
 export default useBuscadorPedido;

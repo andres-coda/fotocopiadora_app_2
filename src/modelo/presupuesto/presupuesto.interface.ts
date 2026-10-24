@@ -1,6 +1,6 @@
-import { Especificaciones } from "../Entidades/especificacion/especificacion.enum";
-import { LibroProp } from "../Entidades/libro/libro.interface";
-import { PrecioProp } from "../Entidades/precio/precio.interface";
+import { Especificaciones } from '../Entidades/especificacion/especificacion.enum';
+import { LibroProp } from '../Entidades/libro/libro.interface';
+import { PrecioProp } from '../Entidades/precio/precio.interface';
 
 export interface PresupuestoProp {
   libro?: LibroProp;
@@ -14,5 +14,5 @@ export interface CalcularPresupuestoRetorno {
 }
 
 export interface CalcularPresupuestoProp extends PresupuestoProp {
-  precios: PrecioProp[]
+  precios: PrecioProp[];
 }

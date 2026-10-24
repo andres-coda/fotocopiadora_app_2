@@ -1,30 +1,29 @@
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { appStore } from "../../redux/store";
-import { EspecificacionProp } from "../../modelo/Entidades/especificacion/especificacion.interface";
-import { Especificaciones } from "../../modelo/Entidades/especificacion/especificacion.enum";
-import { espDefaultInicial, normalizarEspecificaciones, sonEspecificacionesIguales, transformarEspecificacinParticularATexto } from "../../utils/especificaciones";
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { appStore } from '../../redux/store';
+import { EspecificacionProp } from '../../modelo/Entidades/especificacion/especificacion.interface';
+import { Especificaciones } from '../../modelo/Entidades/especificacion/especificacion.enum';
+import {
+  espDefaultInicial,
+  normalizarEspecificaciones,
+  sonEspecificacionesIguales,
+  transformarEspecificacinParticularATexto,
+} from '../../utils/especificaciones';
 
 const useEspecificacionesSelect = (
   espDefault: Especificaciones[] = espDefaultInicial,
   cambioLibro?: string
 ) => {
-
   const esp: EspecificacionProp[] = useSelector(
     (store: appStore) => store.especificacion.busquedaActual.datosQuery
   );
 
-  const [especificaciones, setEspecificaciones] =
-    useState<Especificaciones[]>(
-      () => normalizarEspecificaciones(espDefault)
-    );
+  const [especificaciones, setEspecificaciones] = useState<Especificaciones[]>(() =>
+    normalizarEspecificaciones(espDefault)
+  );
 
-  const toggleEspecificacion = (
-    especificacion: Especificaciones
-  ) => {
-
+  const toggleEspecificacion = (especificacion: Especificaciones) => {
     setEspecificaciones(prev => {
-
       const existe = prev.includes(especificacion);
 
       let nuevas: Especificaciones[];
@@ -48,11 +47,9 @@ const useEspecificacionesSelect = (
     setEspecificaciones(prev => {
       const nuevas = normalizarEspecificaciones(espDefault);
 
-      return sonEspecificacionesIguales(prev, nuevas)
-        ? prev
-        : nuevas;
+      return sonEspecificacionesIguales(prev, nuevas) ? prev : nuevas;
     });
-  }, [cambioLibro])
+  }, [cambioLibro]);
 
   return {
     listaEspecificaciones,

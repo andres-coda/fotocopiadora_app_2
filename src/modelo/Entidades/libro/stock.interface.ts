@@ -1,5 +1,5 @@
-import { BaseAdapterProp, baseInicial } from "../base/base.interface";
-import { ResumenProp } from "../cliente/resumen.interface";
+import { BaseAdapterProp, baseInicial } from '../base/base.interface';
+import { ResumenProp } from '../cliente/resumen.interface';
 
 export interface StockAdapterProp extends BaseAdapterProp {
   stock: number;
@@ -14,7 +14,7 @@ export interface StockProp extends ResumenProp {
 }
 
 export interface stockIndividualProp {
-  id:string;
+  id: string;
   stock: number;
   ultAct: string;
 }
@@ -22,7 +22,7 @@ export interface stockIndividualProp {
 export interface stockIndividualAdapterProp {
   id: string;
   stock: number;
-  fechaActualizacion?:Date;
+  fechaActualizacion?: Date;
 }
 
 export const stockInicial: StockProp = {
@@ -32,4 +32,4 @@ export const stockInicial: StockProp = {
   listo: 0,
   retirado: 0,
   cancelado: 0,
-}
+};

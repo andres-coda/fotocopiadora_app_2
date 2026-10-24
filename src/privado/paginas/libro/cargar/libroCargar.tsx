@@ -1,37 +1,48 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import './libro_cargar.css';
-import Formulario from "../../../../componente/formulario/formulario";
-import useFormulario from "../../../../hooks/formulario/useFormulario";
-import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface";
-import useLibroApi from "../../../../servicio/libro/useLibroApi";
-import { formValuesLibro, libro, libroFormEdit, libroFormDefault } from "../../../../modelo/Entidades/libro/esqLibro.esquema";
-import { resetSeleccionarLibro, seleccionarLibro } from "../../../../redux/state/libro.state";
-import useEspecificacionesSelect from "../../../../hooks/presupuesto/useEspecificacionesSelect";
-import CargarLibroNombre from "./cargarLibroNombre";
-import CargarLibroDatosLocal from "./cargarLibroDatosLocal";
-import CargarComponentes from "./cargarComponentes";
-import { espDefaultInicial } from "../../../../utils/especificaciones";
-import CargarLibroDatosExtras from "./cargarLibroDatosExtras";
-import Texto from "../../../../componente-estilo/texto/texto";
-import { nombreLibroXstring } from "../../../../utils/formatoDatos";
-import Botonera from "../../../../componente-estilo/botonera/botonera";
-import Boton from "../../../../componente-estilo/boton/boton";
-import { useEffect, useState } from "react";
+import Formulario from '../../../../componente/formulario/formulario';
+import useFormulario from '../../../../hooks/formulario/useFormulario';
+import { LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
+import useLibroApi from '../../../../servicio/libro/useLibroApi';
+import {
+  formValuesLibro,
+  libro,
+  libroFormEdit,
+  libroFormDefault,
+} from '../../../../modelo/Entidades/libro/esqLibro.esquema';
+import { resetSeleccionarLibro, seleccionarLibro } from '../../../../redux/state/libro.state';
+import useEspecificacionesSelect from '../../../../hooks/presupuesto/useEspecificacionesSelect';
+import CargarLibroNombre from './cargarLibroNombre';
+import CargarLibroDatosLocal from './cargarLibroDatosLocal';
+import CargarComponentes from './cargarComponentes';
+import { espDefaultInicial } from '../../../../utils/especificaciones';
+import CargarLibroDatosExtras from './cargarLibroDatosExtras';
+import Texto from '../../../../componente-estilo/texto/texto';
+import { nombreLibroXstring } from '../../../../utils/formatoDatos';
+import Botonera from '../../../../componente-estilo/botonera/botonera';
+import Boton from '../../../../componente-estilo/boton/boton';
+import { useEffect, useState } from 'react';
 
 interface Prop {
-  libroDespuesGuardar?: (libro:LibroProp) => void 
+  libroDespuesGuardar?: (libro: LibroProp) => void;
 }
 
-const LibroCargar = ({libroDespuesGuardar}:Prop) => {
-  const { crearLibro, responseLibro, errorFetchLibro, loadingLibro } = useLibroApi()
-  const { control, handleSubmit, formState: { errors }, reset, watch } = useForm<formValuesLibro>({
+const LibroCargar = ({ libroDespuesGuardar }: Prop) => {
+  const { crearLibro, responseLibro, errorFetchLibro, loadingLibro } = useLibroApi();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    watch,
+  } = useForm<formValuesLibro>({
     resolver: zodResolver(libro),
-    defaultValues: libroFormEdit()
+    defaultValues: libroFormEdit(),
   });
 
-  const [nombreLibro, setNombreLibro] = useState<string | undefined>(undefined)
+  const [nombreLibro, setNombreLibro] = useState<string | undefined>(undefined);
 
   const { especificaciones, setEspecificaciones } = useEspecificacionesSelect(espDefaultInicial);
 
@@ -40,43 +51,65 @@ const LibroCargar = ({libroDespuesGuardar}:Prop) => {
     resetSelect: resetSeleccionarLibro,
     selectElemento: seleccionarLibro,
     reset,
-  })
+  });
 
   const onSubmit = (data: formValuesLibro) => {
-    crearLibro({ data, especificaciones })
-  }
+    crearLibro({ data, especificaciones });
+  };
 
-  useEffect(()=>{
-    if(responseLibro){
-      if(libroDespuesGuardar){
-        libroDespuesGuardar(responseLibro)
-        resetForm({ reset:()=>reset(libroFormDefault), setModal: true })
+  useEffect(() => {
+    if (responseLibro) {
+      if (libroDespuesGuardar) {
+        libroDespuesGuardar(responseLibro);
+        resetForm({ reset: () => reset(libroFormDefault), setModal: true });
       }
       setNombreLibro(nombreLibroXstring(responseLibro));
     }
-  },[responseLibro])
+  }, [responseLibro]);
 
-  if (nombreLibro) return (
-    <div className="crear-libro-menu">
-      <Texto texto={nombreLibro} mediana centrado/>
-      <Texto texto={`El libro fue guardado con exito`} centrado/>
-      <Botonera>
-        <Boton
-          onClick={() => {resetForm({ reset:()=>reset(libroFormDefault), resetSelect: resetSeleccionarLibro, setModal: true }), setNombreLibro(undefined)}}
-          texto="Atras"
-          edit
-        />
-        <Boton onClick={() => {resetForm({ reset:()=>reset(libroFormDefault), setModal: true, ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}` }), setNombreLibro(undefined)}}
-          texto="Ir al libro"
-          secundario
-        />
-        <Boton
-          onClick={() => {resetForm({ reset: () => reset(libroFormDefault), resetSelect: resetSeleccionarLibro }), setNombreLibro(undefined)}}
-          texto="Nuevo libro"
-        />
-      </Botonera>
-    </div>
-  )
+  if (nombreLibro)
+    return (
+      <div className="crear-libro-menu">
+        <Texto texto={nombreLibro} mediana centrado />
+        <Texto texto={`El libro fue guardado con exito`} centrado />
+        <Botonera>
+          <Boton
+            onClick={() => {
+              (resetForm({
+                reset: () => reset(libroFormDefault),
+                resetSelect: resetSeleccionarLibro,
+                setModal: true,
+              }),
+                setNombreLibro(undefined));
+            }}
+            texto="Atras"
+            edit
+          />
+          <Boton
+            onClick={() => {
+              (resetForm({
+                reset: () => reset(libroFormDefault),
+                setModal: true,
+                ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
+              }),
+                setNombreLibro(undefined));
+            }}
+            texto="Ir al libro"
+            secundario
+          />
+          <Boton
+            onClick={() => {
+              (resetForm({
+                reset: () => reset(libroFormDefault),
+                resetSelect: resetSeleccionarLibro,
+              }),
+                setNombreLibro(undefined));
+            }}
+            texto="Nuevo libro"
+          />
+        </Botonera>
+      </div>
+    );
   return (
     <Formulario
       titulo={`Nuevo libro`}
@@ -91,15 +124,29 @@ const LibroCargar = ({libroDespuesGuardar}:Prop) => {
       textBtnSecundario="Atras"
     >
       <>
-        <CargarLibroNombre<formValuesLibro> control={control} errors={errors} watch={watch} reset={reset} />
-        <CargarComponentes<formValuesLibro> control={control} errors={errors} watch={watch} reset={reset} />
+        <CargarLibroNombre<formValuesLibro>
+          control={control}
+          errors={errors}
+          watch={watch}
+          reset={reset}
+        />
+        <CargarComponentes<formValuesLibro>
+          control={control}
+          errors={errors}
+          watch={watch}
+          reset={reset}
+        />
 
         <CargarLibroDatosExtras<formValuesLibro> control={control} errors={errors} />
-        <CargarLibroDatosLocal<formValuesLibro> control={control} errors={errors} especificaciones={especificaciones} setEspecificaciones={setEspecificaciones} />
-
+        <CargarLibroDatosLocal<formValuesLibro>
+          control={control}
+          errors={errors}
+          especificaciones={especificaciones}
+          setEspecificaciones={setEspecificaciones}
+        />
       </>
     </Formulario>
-  )
-}
+  );
+};
 
 export default LibroCargar;

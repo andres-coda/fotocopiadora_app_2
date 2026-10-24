@@ -1,5 +1,5 @@
-export interface ClienteDtoProp{
+export interface ClienteDtoProp {
   nombre?: string;
   telefono?: string;
-  email?: string | null;   
+  email?: string | null;
 }

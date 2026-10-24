@@ -1,7 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { MateriaProp } from "../../modelo/Entidades/libro/materia.interface";
-import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
-import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
+import { createSlice } from '@reduxjs/toolkit';
+import { MateriaProp } from '../../modelo/Entidades/libro/materia.interface';
+import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import {
+  crearDatoInicial,
+  crearBusqueda,
+  resetBusqueda,
+  seleccionarDato,
+  resetSeleccionDato,
+  agregarDatosBusquedaActual,
+  cambiarOrden,
+} from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 1;
 
@@ -12,15 +20,15 @@ export const busquedaMateriaInicial: UltimaBusquedaProp<MateriaProp> = {
   sortOrder: 'asc' as orden,
   pagina: 1,
   limite: 20,
-  total: 0
-}
+  total: 0,
+};
 
 const estadoMateriaInicial: ReduxProp<MateriaProp> = {
   datosIniciales: busquedaMateriaInicial,
   busquedaActual: busquedaMateriaInicial,
   ultimasBusqueda: [],
-  datoSeleccionado: undefined
-}
+  datoSeleccionado: undefined,
+};
 
 export const materiaSlice = createSlice({
   name: 'materia',
@@ -32,18 +40,18 @@ export const materiaSlice = createSlice({
     seleccionarMateria: seleccionarDato,
     resetSeleccionarMateria: resetSeleccionDato,
     agregarMateriasBusquedaActual: agregarDatosBusquedaActual<MateriaProp>,
-    cambiarOrdenMateria: cambiarOrden<MateriaProp>
-  }
+    cambiarOrdenMateria: cambiarOrden<MateriaProp>,
+  },
 });
 
-export const { 
-  crearMaterias, 
-  crearBusquedaMateria, 
-  resetBusquedaMateria, 
-  resetSeleccionarMateria, 
-  seleccionarMateria, 
+export const {
+  crearMaterias,
+  crearBusquedaMateria,
+  resetBusquedaMateria,
+  resetSeleccionarMateria,
+  seleccionarMateria,
   agregarMateriasBusquedaActual,
-  cambiarOrdenMateria
+  cambiarOrdenMateria,
 } = materiaSlice.actions;
 
 export default materiaSlice.reducer;

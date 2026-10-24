@@ -1,13 +1,16 @@
-import { useState } from "react";
-import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
-import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
-import PropuestaCard from "../../privado/paginas/propuesta/componente/propuestaCard";
-import LibroCard from "../../privado/paginas/libro/componente/libroCard";
-import './buscador.css'
-import useBuscadorLibro from "../../privado/paginas/libro/hook/useBuscadorLibro";
-import BuscadorPaginadoCompleto from "./buscadorPaginadoCompleto";
-import { listaLibroPropuestaSeleccionable, normalizarLibroPropuesta } from "../../privado/paginas/libro/util/funcionesAdicionales";
-import DesplegablePredictivo from "../../componente-estilo/predictivo/desplegablePredictivo";
+import { useState } from 'react';
+import { LibroProp } from '../../modelo/Entidades/libro/libro.interface';
+import { PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interface';
+import PropuestaCard from '../../privado/paginas/propuesta/componente/propuestaCard';
+import LibroCard from '../../privado/paginas/libro/componente/libroCard';
+import './buscador.css';
+import useBuscadorLibro from '../../privado/paginas/libro/hook/useBuscadorLibro';
+import BuscadorPaginadoCompleto from './buscadorPaginadoCompleto';
+import {
+  listaLibroPropuestaSeleccionable,
+  normalizarLibroPropuesta,
+} from '../../privado/paginas/libro/util/funcionesAdicionales';
+import DesplegablePredictivo from '../../componente-estilo/predictivo/desplegablePredictivo';
 
 interface Prop {
   selectLibro: (libro: LibroProp) => void;
@@ -15,55 +18,68 @@ interface Prop {
 }
 
 const BuscadorLibro = ({ selectLibro, selectPropuesta }: Prop) => {
-  const [opcionesActivas, setOpcionesActivas] = useState<string[]>([listaLibroPropuestaSeleccionable[0].nombre]);
-  const { valor, setValor, contenedorRef, handleNuevoElemento, libros, propuestas, finListaRef } = useBuscadorLibro({
-    opcionesActivas
-  })
+  const [opcionesActivas, setOpcionesActivas] = useState<string[]>([
+    listaLibroPropuestaSeleccionable[0].nombre,
+  ]);
+  const { valor, setValor, contenedorRef, handleNuevoElemento, libros, propuestas, finListaRef } =
+    useBuscadorLibro({
+      opcionesActivas,
+    });
 
   const handlePropuesta = (propuesta: PropuestaProp): void => {
     setValor('');
     selectPropuesta(propuesta);
-  }
+  };
 
   const handleLibro = (libro: LibroProp): void => {
     setValor('');
     selectLibro(libro);
-  }
+  };
 
   return (
     <div className="buscador-libro">
       <BuscadorPaginadoCompleto
         ref={contenedorRef}
-        texto='Buscar libro'
+        texto="Buscar libro"
         handleMas={handleNuevoElemento}
         valor={valor}
         setValor={setValor}
-        titulo=''
+        titulo=""
         opcionesActivas={opcionesActivas}
         setOpcionesActivas={setOpcionesActivas}
         listaSeleccionable={listaLibroPropuestaSeleccionable}
         normalizar={normalizarLibroPropuesta}
-        etiquetaArriba='Al comienzo de la lista'
-        etiquetaMas={!opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre) ? `Nuevo libro` : 'Nueva propuesta'}
+        etiquetaArriba="Al comienzo de la lista"
+        etiquetaMas={
+          !opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)
+            ? `Nuevo libro`
+            : 'Nueva propuesta'
+        }
       />
-      {(valor.length>=3 && ((libros && libros.length > 0) || (propuestas && propuestas.length > 0))) &&
-        <DesplegablePredictivo
-          children={
-            <>
-              {propuestas?.map(p => <PropuestaCard propuesta={p} selectPropuesta={handlePropuesta} key={p.id} />)}
-              {libros?.map(d => <LibroCard libro={d} key={d.id} selecLibro={handleLibro} />)}
-            </>
-          }
-          finRegistros={finListaRef}
-        />
-      }      
+      {valor.length >= 3 &&
+        ((libros && libros.length > 0) || (propuestas && propuestas.length > 0)) && (
+          <DesplegablePredictivo
+            children={
+              <>
+                {propuestas?.map(p => (
+                  <PropuestaCard propuesta={p} selectPropuesta={handlePropuesta} key={p.id} />
+                ))}
+                {libros?.map(d => (
+                  <LibroCard libro={d} key={d.id} selecLibro={handleLibro} />
+                ))}
+              </>
+            }
+            finRegistros={finListaRef}
+          />
+        )}
     </div>
-  )
+  );
 };
 
 export default BuscadorLibro;
 
-{/*  {valor.length < 3
+{
+  /*  {valor.length < 3
         ? null
         : <DesplegableConteiner>
 
@@ -85,4 +101,5 @@ export default BuscadorLibro;
             <p>Fin de lista</p>
           </div>
         </DesplegableConteiner>
-      } */}
+      } */
+}

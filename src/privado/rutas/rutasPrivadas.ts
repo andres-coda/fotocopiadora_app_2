@@ -1,6 +1,6 @@
 export const rutaPrivadaBase = {
-  PRIVADO: 'privado'
-}
+  PRIVADO: 'privado',
+};
 
 export const RutasPrivadas = {
   LIBRO: 'libro',
@@ -14,7 +14,8 @@ export const RutasPrivadas = {
   MATERIA: 'materia',
   MATERIA_LISTA: 'materias',
   MATERIA_CARGAR: 'new_materia',
-  SEDE:'sede',
+  MENSAJE_LISTA: 'mensajes',
+  SEDE: 'sede',
   SEDE_LISTA: 'sedes',
   SEDE_CARGAR: 'new-sede',
   PRECIO: 'precio',
@@ -23,7 +24,7 @@ export const RutasPrivadas = {
   PEDIDO_LIBRO: 'pedido-libro',
   PEDIDO_LIBRO_LISTA: 'pedido-libros',
   PEDIDO_LIBRO_CARGAR: 'new-pedido-libro',
-  PROPUESTA_LISTA:'propuestas',
-  PROPUESTA_CARGAR:'new-propuesta',
+  PROPUESTA_LISTA: 'propuestas',
+  PROPUESTA_CARGAR: 'new-propuesta',
   PERFIL: 'perfil',
-}
+};

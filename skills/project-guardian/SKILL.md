@@ -1,15 +1,16 @@
 ---
 name: project-guardian
-description: "Trigger: trabajo en foto-app, cambios en Pedidos 2.0, desarrollo en este proyecto. Enforce project-specific workflow rules: no installs without ask, no edits without plan, preserve structure, justify every step."
+description: 'Trigger: trabajo en foto-app, cambios en Pedidos 2.0, desarrollo en este proyecto. Enforce project-specific workflow rules: no installs without ask, no edits without plan, preserve structure, justify every step.'
 license: Apache-2.0
 metadata:
-  author: "andres"
-  version: "1.0"
+  author: 'andres'
+  version: '1.0'
 ---
 
 ## Activation Contract
 
 Load this skill automatically when:
+
 - Working inside `foto-app` / `Pedidos 2.0` repository
 - Any file read/write/edit/delete operation is requested
 - Dependency installation or configuration change is proposed
@@ -35,23 +36,23 @@ Load this skill automatically when:
    - `src/filtro/*` — filter types
    - `src/utils/*` — pure utilities
    - `src-tauri/*` — Tauri/Rust backend
-   Do not create new top-level folders or flatten layers.
+     Do not create new top-level folders or flatten layers.
 
 4. **JUSTIFY EVERY STEP** — Before any action, explain: what will be done, why this approach, what alternatives were considered, and what the risk/impact is. No silent executions.
 
 ## Decision Gates
 
-| Action | Requires Plan | Requires Confirmation | Requires Justification | Delegation |
-|--------|---------------|----------------------|------------------------|------------|
-| Read 1–3 files (verify/decide) | No | No | Inline | Inline |
-| Read 4+ files (explore/map) | Yes (scope) | No | Yes | Delegate explorer |
-| Edit 1 mechanical file | No | Yes (inline) | Yes | Inline |
-| Edit 2+ files or non-trivial | Yes (full) | Yes | Yes | Delegate writer |
-| Install dependency | Yes (what/why/impact) | **Explicit** | Yes | Inline |
-| Change config (tsconfig, vite, tauri) | Yes | Yes | Yes | Inline |
-| Add/remove top-level folder | Yes (architecture impact) | **Explicit** | Yes | Inline |
-| Refactor across layers | Yes (migration plan) | Yes | Yes | Delegate writer |
-| Run tests/build | No | No (unless new script) | No | Inline |
+| Action                                | Requires Plan             | Requires Confirmation  | Requires Justification | Delegation        |
+| ------------------------------------- | ------------------------- | ---------------------- | ---------------------- | ----------------- |
+| Read 1–3 files (verify/decide)        | No                        | No                     | Inline                 | Inline            |
+| Read 4+ files (explore/map)           | Yes (scope)               | No                     | Yes                    | Delegate explorer |
+| Edit 1 mechanical file                | No                        | Yes (inline)           | Yes                    | Inline            |
+| Edit 2+ files or non-trivial          | Yes (full)                | Yes                    | Yes                    | Delegate writer   |
+| Install dependency                    | Yes (what/why/impact)     | **Explicit**           | Yes                    | Inline            |
+| Change config (tsconfig, vite, tauri) | Yes                       | Yes                    | Yes                    | Inline            |
+| Add/remove top-level folder           | Yes (architecture impact) | **Explicit**           | Yes                    | Inline            |
+| Refactor across layers                | Yes (migration plan)      | Yes                    | Yes                    | Delegate writer   |
+| Run tests/build                       | No                        | No (unless new script) | No                     | Inline            |
 
 ## Execution Steps
 

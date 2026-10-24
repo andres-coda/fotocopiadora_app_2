@@ -1,17 +1,26 @@
-import { useDispatch, useSelector } from "react-redux";
-import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface";
-import { ReduxProp } from "../../../../redux/modelo/reduxContext.interface";
-import { appStore } from "../../../../redux/store";
-import useLibrosApi from "../../../../servicio/libro/useLibrosApi";
-import { useEffect, useState } from "react";
-import useBusquedaPaginada from "../../../../hooks/buscador/useBusquedaPaginada";
-import { agregarLibrosBusquedaActual, crearBusquedaLibro, resetBusquedaLibro } from "../../../../redux/state/libro.state";
-import { PropuestaProp } from "../../../../modelo/Entidades/propuesta/propuesta.interface";
-import usePropuestasApi from "../../../../servicio/propuesta/usePropuestasApi";
-import { agregarPropuestasBusquedaActual, crearBusquedaPropuesta, resetBusquedaPropuesta, resetSeleccionarPropuesta } from "../../../../redux/state/propuesta.state";
-import { listaLibroPropuestaSeleccionable } from "../util/funcionesAdicionales";
-import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
-import { useModalContext } from "../../../../contexto/contextoModal";
+import { useDispatch, useSelector } from 'react-redux';
+import { LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
+import { ReduxProp } from '../../../../redux/modelo/reduxContext.interface';
+import { appStore } from '../../../../redux/store';
+import useLibrosApi from '../../../../servicio/libro/useLibrosApi';
+import { useEffect, useState } from 'react';
+import useBusquedaPaginada from '../../../../hooks/buscador/useBusquedaPaginada';
+import {
+  agregarLibrosBusquedaActual,
+  crearBusquedaLibro,
+  resetBusquedaLibro,
+} from '../../../../redux/state/libro.state';
+import { PropuestaProp } from '../../../../modelo/Entidades/propuesta/propuesta.interface';
+import usePropuestasApi from '../../../../servicio/propuesta/usePropuestasApi';
+import {
+  agregarPropuestasBusquedaActual,
+  crearBusquedaPropuesta,
+  resetBusquedaPropuesta,
+  resetSeleccionarPropuesta,
+} from '../../../../redux/state/propuesta.state';
+import { listaLibroPropuestaSeleccionable } from '../util/funcionesAdicionales';
+import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import { useModalContext } from '../../../../contexto/contextoModal';
 
 interface BuscadorLibroProp {
   opcionesActivas: string[];
@@ -24,10 +33,12 @@ const useBuscadorLibro = ({ opcionesActivas }: BuscadorLibroProp) => {
   const librosDatos: ReduxProp<LibroProp> = useSelector((store: appStore) => store.libro);
   const { obtenerLibrosBusqueda, responseLibros, loadingLibros } = useLibrosApi();
 
-  const {modal} = useModalContext();
+  const { modal } = useModalContext();
   const dispatch = useDispatch();
 
-  const propuestaDatos: ReduxProp<PropuestaProp> = useSelector((store: appStore) => store.propuesta);
+  const propuestaDatos: ReduxProp<PropuestaProp> = useSelector(
+    (store: appStore) => store.propuesta
+  );
   const { obtenerPropuestaBusqueda, responsePropuestas, loadingPropuestas } = usePropuestasApi();
 
   const { contenedorRef, nuevoElemento, finListaRef } = useBusquedaPaginada<LibroProp>({
@@ -39,22 +50,24 @@ const useBuscadorLibro = ({ opcionesActivas }: BuscadorLibroProp) => {
     agregarBusqueda: agregarLibrosBusquedaActual,
     response: responseLibros,
     loading: loadingLibros,
-    limiteLetrasBusqueda: limiteLetrasBusquedaLibro
+    limiteLetrasBusqueda: limiteLetrasBusquedaLibro,
   });
 
-   const handleNuevoElemento = () => {
-    if(opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)){
-      nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`)
+  const handleNuevoElemento = () => {
+    if (opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)) {
+      nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`);
     } else {
-      nuevoElemento()
+      nuevoElemento();
     }
-  }
+  };
 
-  useEffect(()=>{
-    if(!modal) {dispatch(resetSeleccionarPropuesta())}
-  },[modal])
+  useEffect(() => {
+    if (!modal) {
+      dispatch(resetSeleccionarPropuesta());
+    }
+  }, [modal]);
 
-  const { } = useBusquedaPaginada<PropuestaProp>({
+  const {} = useBusquedaPaginada<PropuestaProp>({
     valor: !opcionesActivas.includes(listaLibroPropuestaSeleccionable[2].nombre) ? valor : '',
     datosRedux: propuestaDatos,
     resetBusqueda: resetBusquedaPropuesta,
@@ -66,11 +79,26 @@ const useBuscadorLibro = ({ opcionesActivas }: BuscadorLibroProp) => {
     limiteLetrasBusqueda: limiteLetrasBusquedaLibro,
   });
 
-  const libros: LibroProp[] = !opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre) ? librosDatos?.busquedaActual?.datosQuery ?? [] : [];
+  const libros: LibroProp[] = !opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)
+    ? (librosDatos?.busquedaActual?.datosQuery ?? [])
+    : [];
 
-  const propuestas: PropuestaProp[] = !opcionesActivas.includes(listaLibroPropuestaSeleccionable[2].nombre) ? propuestaDatos?.busquedaActual?.datosQuery ?? [] : [];
+  const propuestas: PropuestaProp[] = !opcionesActivas.includes(
+    listaLibroPropuestaSeleccionable[2].nombre
+  )
+    ? (propuestaDatos?.busquedaActual?.datosQuery ?? [])
+    : [];
 
-  return { valor, setValor, handleNuevoElemento, contenedorRef, libros, propuestas, finListaRef, propuesta:propuestaDatos.datoSeleccionado }
-}
+  return {
+    valor,
+    setValor,
+    handleNuevoElemento,
+    contenedorRef,
+    libros,
+    propuestas,
+    finListaRef,
+    propuesta: propuestaDatos.datoSeleccionado,
+  };
+};
 
 export default useBuscadorLibro;

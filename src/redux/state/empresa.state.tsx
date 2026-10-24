@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ConfiguracionProp } from "../../modelo/Entidades/configuracion/configuracion.interface";
-import { EmpresaProp } from "../../modelo/Entidades/empresa/empresa.interface";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ConfiguracionProp } from '../../modelo/Entidades/configuracion/configuracion.interface';
+import { EmpresaProp } from '../../modelo/Entidades/empresa/empresa.interface';
 
 // La empresa se guarda completa, con su configuracion embebida, tal como la
 // devuelve GET /empresa/mia. El id de empresa no vive en el front: el back lo
@@ -19,7 +19,7 @@ export const empresaInicial: EmpresaStateProp = {
   cargando: false,
   error: null,
   solicitada: false,
-}
+};
 
 export const empresaSlice = createSlice({
   name: 'empresa',
@@ -40,15 +40,22 @@ export const empresaSlice = createSlice({
     setSolicitadaEmpresa: (state, action: PayloadAction<boolean>) => {
       state.solicitada = action.payload;
     },
-    resetEmpresa: (state) => {
+    resetEmpresa: state => {
       state.empresa = null;
       state.cargando = false;
       state.error = null;
       state.solicitada = false;
     },
-  }
+  },
 });
 
-export const { setEmpresa, setConfiguracionEmpresa, setCargandoEmpresa, setErrorEmpresa, setSolicitadaEmpresa, resetEmpresa } = empresaSlice.actions;
+export const {
+  setEmpresa,
+  setConfiguracionEmpresa,
+  setCargandoEmpresa,
+  setErrorEmpresa,
+  setSolicitadaEmpresa,
+  resetEmpresa,
+} = empresaSlice.actions;
 
 export default empresaSlice.reducer;

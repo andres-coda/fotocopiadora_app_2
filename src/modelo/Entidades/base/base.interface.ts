@@ -5,14 +5,14 @@ export interface BaseAdapterProp {
   deleted: boolean;
 }
 
-export interface BaseProp{
+export interface BaseProp {
   id: string;
   ultAct: string;
   deleted: boolean;
 }
 
-export const baseInicial :BaseProp= {
+export const baseInicial: BaseProp = {
   id: '',
-  deleted:false,
+  deleted: false,
   ultAct: '',
-}
+};

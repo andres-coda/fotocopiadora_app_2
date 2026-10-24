@@ -1,23 +1,28 @@
-import { useDispatch, useSelector } from "react-redux";
-import { ReduxProp } from "../../../redux/modelo/reduxContext.interface";
-import { PrecioProp } from "../../../modelo/Entidades/precio/precio.interface";
-import { appStore } from "../../../redux/store";
-import Centro from "../../../componente-estilo/centro/centro";
-import TextoVacio from "../../../componente/Textos/textoVacio";
-import PrecioCard from "./componente/precioCard";
-import { useEffect, useState } from "react";
-import usePreciosApi from "../../../servicio/precio/usePreciosApi";
-import useBusquedaPaginada from "../../../hooks/buscador/useBusquedaPaginada";
-import { agregarPreciosBusquedaActual, crearBusquedaPrecio, resetBusquedaPrecio, resetSeleccionarPrecio } from "../../../redux/state/precio.state";
-import BuscadorPaginadoCompleto from "../../../componente/buscador/buscadorPaginadoCompleto";
-import Modal from "../../../componente/modal/modal";
-import PrecioCargar from "./cargar/precioCargar";
-import { useModalContext } from "../../../contexto/contextoModal";
-import EliminarPrecio from "./componente/eliminarPrecio";
+import { useDispatch, useSelector } from 'react-redux';
+import { ReduxProp } from '../../../redux/modelo/reduxContext.interface';
+import { PrecioProp } from '../../../modelo/Entidades/precio/precio.interface';
+import { appStore } from '../../../redux/store';
+import Centro from '../../../componente-estilo/centro/centro';
+import TextoVacio from '../../../componente/Textos/textoVacio';
+import PrecioCard from './componente/precioCard';
+import { useEffect, useState } from 'react';
+import usePreciosApi from '../../../servicio/precio/usePreciosApi';
+import useBusquedaPaginada from '../../../hooks/buscador/useBusquedaPaginada';
+import {
+  agregarPreciosBusquedaActual,
+  crearBusquedaPrecio,
+  resetBusquedaPrecio,
+  resetSeleccionarPrecio,
+} from '../../../redux/state/precio.state';
+import BuscadorPaginadoCompleto from '../../../componente/buscador/buscadorPaginadoCompleto';
+import Modal from '../../../componente/modal/modal';
+import PrecioCargar from './cargar/precioCargar';
+import { useModalContext } from '../../../contexto/contextoModal';
+import EliminarPrecio from './componente/eliminarPrecio';
 
 const Precios = () => {
   const precioDatos: ReduxProp<PrecioProp> = useSelector((store: appStore) => store.precio);
-  const { obtenerPreciosBusqueda, responsePrecios, loadingPrecios } = usePreciosApi()
+  const { obtenerPreciosBusqueda, responsePrecios, loadingPrecios } = usePreciosApi();
   const [valor, setValor] = useState<string>('');
   const { modal } = useModalContext();
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -39,26 +44,28 @@ const Precios = () => {
       setEliminar(false);
       dispatch(resetSeleccionarPrecio());
     }
-  }, [modal])
+  }, [modal]);
 
   return (
     <>
       <BuscadorPaginadoCompleto
         ref={contenedorRef}
-        texto='Buscar precio'
+        texto="Buscar precio"
         handleMas={() => nuevoElemento()}
         valor={valor}
         setValor={setValor}
-        titulo='Lista de precios'
-        etiquetaArriba='Al comienzo de la lista'
-        etiquetaMas='Nuevo precio'
+        titulo="Lista de precios"
+        etiquetaArriba="Al comienzo de la lista"
+        etiquetaMas="Nuevo precio"
       />
       <Centro ref={contenedorRef}>
-        {
-          !precioDatos.busquedaActual || precioDatos.busquedaActual.datosQuery.length === 0
-            ? (<TextoVacio entidad='precios' />)
-            : precioDatos.busquedaActual.datosQuery.map(d => <PrecioCard precio={d} key={d.id} setEliminar={setEliminar} />)
-        }
+        {!precioDatos.busquedaActual || precioDatos.busquedaActual.datosQuery.length === 0 ? (
+          <TextoVacio entidad="precios" />
+        ) : (
+          precioDatos.busquedaActual.datosQuery.map(d => (
+            <PrecioCard precio={d} key={d.id} setEliminar={setEliminar} />
+          ))
+        )}
         <div ref={finListaRef} style={{ gridColumn: '1 / -1', height: '1px' }} />
       </Centro>
       <Modal>
@@ -66,7 +73,7 @@ const Precios = () => {
         {eliminar && <EliminarPrecio />}
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default Precios
+export default Precios;

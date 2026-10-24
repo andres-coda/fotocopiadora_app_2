@@ -1,4 +1,4 @@
-import { BotonEstilosProp } from "../modelo/boton.interface";
+import { BotonEstilosProp } from '../modelo/boton.interface';
 
 type BtnTipo = 'submit' | 'button' | 'reset';
 
@@ -13,7 +13,6 @@ function useBoton({
   submit,
   reset,
 }: BotonEstilosProp) {
-
   const clase = [
     cerrar && 'cerrar terciario',
     !cerrar && terciario && 'terciario',
@@ -27,11 +26,10 @@ function useBoton({
 
   const tipo: BtnTipo = submit ? 'submit' : reset ? 'reset' : 'button';
 
-  const colorTexto: textoBtnTipo = !cerrar && !terciario && !secundario && !edit 
-    ? 'inverso'
-    : 'nuevoEstilo';
+  const colorTexto: textoBtnTipo =
+    !cerrar && !terciario && !secundario && !edit ? 'inverso' : 'nuevoEstilo';
 
-  return { clase, tipo, colorTexto }
+  return { clase, tipo, colorTexto };
 }
 
-export default useBoton
+export default useBoton;

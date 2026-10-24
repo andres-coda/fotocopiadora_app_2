@@ -1,18 +1,21 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import Formulario from "../../../../componente/formulario/formulario";
-import Input from "../../../../componente/formulario/input";
-import InputCheckFueraForm from "../../../../componente/formulario/inputCheckFueraForm";
-import { useModalContext } from "../../../../contexto/contextoModal";
-import { cambiarFiltrosPedidoLibro } from "../../../../redux/state/pedido_libro.state";
-import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
-import { Especificaciones } from "../../../../modelo/Entidades/especificacion/especificacion.enum";
-import { filtrosPedidoLibroInicial, PedidoLibroFiltrosProp } from "../../../../modelo/Entidades/pedido_libro/pedidoLibroFiltro.interface";
-import { normalizarEspecificaciones } from "../../../../utils/especificaciones";
-import { estadoXstring } from "../../../../utils/formatoDatos";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import Formulario from '../../../../componente/formulario/formulario';
+import Input from '../../../../componente/formulario/input';
+import InputCheckFueraForm from '../../../../componente/formulario/inputCheckFueraForm';
+import { useModalContext } from '../../../../contexto/contextoModal';
+import { cambiarFiltrosPedidoLibro } from '../../../../redux/state/pedido_libro.state';
+import { Estado } from '../../../../modelo/Entidades/pedido_libro/estado.enum';
+import { Especificaciones } from '../../../../modelo/Entidades/especificacion/especificacion.enum';
+import {
+  filtrosPedidoLibroInicial,
+  PedidoLibroFiltrosProp,
+} from '../../../../modelo/Entidades/pedido_libro/pedidoLibroFiltro.interface';
+import { normalizarEspecificaciones } from '../../../../utils/especificaciones';
+import { estadoXstring } from '../../../../utils/formatoDatos';
 import './filtroItem.css';
 
 type CategoriaFiltro = 'estado' | 'especificaciones' | 'entrega' | 'tomado';
@@ -59,7 +62,13 @@ const FiltroItem = () => {
   const [estados, setEstados] = useState<Estado[]>([]);
   const [especificaciones, setEspecificaciones] = useState<Especificaciones[]>([]);
 
-  const { control, handleSubmit, reset, watch, formState: { errors } } = useForm<FormFiltroItem>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm<FormFiltroItem>({
     resolver: zodResolver(esqFiltroItem),
     defaultValues: { entrega: '', tomado: '' },
   });
@@ -75,7 +84,9 @@ const FiltroItem = () => {
   };
 
   const limpiarFiltros = () => {
-    dispatch(cambiarFiltrosPedidoLibro({ ...filtrosPedidoLibroInicial, estado: [], especificaciones: [] }));
+    dispatch(
+      cambiarFiltrosPedidoLibro({ ...filtrosPedidoLibroInicial, estado: [], especificaciones: [] })
+    );
     setEstados([]);
     setEspecificaciones([]);
     reset({ entrega: '', tomado: '' });
@@ -95,34 +106,34 @@ const FiltroItem = () => {
 
   return (
     <Formulario
-      claseForm='filtro-item__form'
+      claseForm="filtro-item__form"
       onSubmit={handleSubmit(onSubmit)}
-      textBtnConfirmar='Aplicar filtros'
-      textBtnSecundario='Limpiar filtros'
+      textBtnConfirmar="Aplicar filtros"
+      textBtnSecundario="Limpiar filtros"
       onClickSecundario={limpiarFiltros}
     >
-      <div className='filtro-item'>
-        <div className='filtro-item__categorias'>
+      <div className="filtro-item">
+        <div className="filtro-item__categorias">
           {categorias.map(c => (
             <button
               key={c.clave}
-              type='button'
+              type="button"
               className={`filtro-item__categoria ${categoria === c.clave ? 'filtro-item__categoria-activa' : ''}`}
               onClick={() => setCategoria(c.clave)}
             >
               <span>{c.label}</span>
-              {tieneValores(c.clave) && <span className='filtro-item__check'>✓</span>}
+              {tieneValores(c.clave) && <span className="filtro-item__check">✓</span>}
             </button>
           ))}
         </div>
 
-        <div className='filtro-item__panel'>
+        <div className="filtro-item__panel">
           {categoria === 'estado' && (
             <InputCheckFueraForm<Estado>
               lista={listaEstados}
               elementosSelect={estados}
               setelementosSelect={setEstados}
-              nuevoEstilo='filtro-item__lista'
+              nuevoEstilo="filtro-item__lista"
             />
           )}
 
@@ -132,16 +143,16 @@ const FiltroItem = () => {
               elementosSelect={especificaciones}
               setelementosSelect={setEspecificaciones}
               normalizar={normalizarEspecificaciones}
-              nuevoEstilo='filtro-item__lista'
+              nuevoEstilo="filtro-item__lista"
             />
           )}
 
           {categoria === 'entrega' && (
             <Input<FormFiltroItem>
-              name='entrega'
+              name="entrega"
               control={control}
-              label='Fecha de entrega'
-              tipo='date'
+              label="Fecha de entrega"
+              tipo="date"
               error={errors.entrega}
               esquema={esqFiltroItem}
             />
@@ -149,10 +160,10 @@ const FiltroItem = () => {
 
           {categoria === 'tomado' && (
             <Input<FormFiltroItem>
-              name='tomado'
+              name="tomado"
               control={control}
-              label='Fecha de tomado'
-              tipo='date'
+              label="Fecha de tomado"
+              tipo="date"
               error={errors.tomado}
               esquema={esqFiltroItem}
             />

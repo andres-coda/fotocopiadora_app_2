@@ -9,17 +9,20 @@ React 18 + TypeScript + Tauri 2 application for print shop order management.
 ## Active Skills
 
 ### project-guardian
+
 **Path**: `skills/project-guardian/SKILL.md`
 **Trigger**: Any work in this repository (foto-app / Pedidos 2.0)
 **Scope**: Project-local (not global)
 
 Enforces four hard rules:
+
 1. **No install without ask** — Explicit confirmation for any package manager command
 2. **No edit without plan** — Written plan required before source modifications
 3. **Preserve structure** — Maintain Clean Architecture layers (modelo → adaptadores → servicio → hooks → componentes → páginas → redux → contexto → guard → filtro → utils)
 4. **Justify every step** — Document what, why, alternatives, risk before acting
 
 **References**:
+
 - `skills/project-guardian/references/project-structure.md` — Current architecture map
 - `skills/project-guardian/assets/rules-checklist.md` — Pre-action validation checklist
 
@@ -41,14 +44,14 @@ Enforces four hard rules:
 
 ## Key Files for Context
 
-| File | Purpose |
-|------|---------|
-| `src/redux/store.tsx` | Redux store configuration |
-| `src/redux/registro.ts` | Reducer registration (single source of truth) |
-| `src/servicio/hooks/useApi.ts` | Base API hook (all services extend) |
-| `src/modelo/Entidades/base/base.interface.ts` | Base entity interface |
-| `src-tauri/tauri.conf.json` | Tauri app configuration |
-| `src-tauri/Cargo.toml` | Rust dependencies |
+| File                                          | Purpose                                       |
+| --------------------------------------------- | --------------------------------------------- |
+| `src/redux/store.tsx`                         | Redux store configuration                     |
+| `src/redux/registro.ts`                       | Reducer registration (single source of truth) |
+| `src/servicio/hooks/useApi.ts`                | Base API hook (all services extend)           |
+| `src/modelo/Entidades/base/base.interface.ts` | Base entity interface                         |
+| `src-tauri/tauri.conf.json`                   | Tauri app configuration                       |
+| `src-tauri/Cargo.toml`                        | Rust dependencies                             |
 
 ---
 

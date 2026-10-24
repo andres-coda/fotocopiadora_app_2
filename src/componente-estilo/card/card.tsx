@@ -1,6 +1,6 @@
-import './card.css'
-import Texto from "../texto/texto";
-import { CardPropComp } from "./modelo/card.interface";
+import './card.css';
+import Texto from '../texto/texto';
+import { CardPropComp } from './modelo/card.interface';
 import useCard from './hooks/useCard';
 import { useNavigate } from 'react-router-dom';
 import { MouseEventHandler } from 'react';
@@ -15,7 +15,7 @@ export default function Card({
   onClick = undefined,
   nuevoEstilo = undefined,
   ruta = undefined,
-  tituloCard = undefined
+  tituloCard = undefined,
 }: CardPropComp) {
   const { clase } = useCard({
     listo,
@@ -23,15 +23,14 @@ export default function Card({
     retirado,
     ruta,
     nuevoEstilo: nuevoEstilo ?? '',
-    onClick
-  })
+    onClick,
+  });
   const navigate = useNavigate();
   const ultAct: string = chica
     ? `Últ. act.: ${ultActualizacion}`
     : `Última actualización ${ultActualizacion}`;
 
-  const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
-
+  const handleClick: MouseEventHandler<HTMLDivElement> = event => {
     if (onClick) {
       onClick(event);
     }
@@ -39,7 +38,7 @@ export default function Card({
     if (ruta) {
       navigate(ruta);
     }
-  }
+  };
 
   return (
     <div className={`${clase} card`} onClick={handleClick} title={tituloCard}>
@@ -47,5 +46,5 @@ export default function Card({
 
       {children}
     </div>
-  )
+  );
 }

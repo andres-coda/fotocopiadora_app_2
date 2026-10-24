@@ -9,13 +9,13 @@
   box-shadow: 1px 1px 1px var(--colorSombra);
   padding: 0.8rem;
   border-radius: 5px;
-  margin-bottom: .1rem;
+  margin-bottom: 0.1rem;
   cursor: pointer;
   overflow: hidden;
 }
 
 .listo {
-  background-color: var(--colorCardVerde) ;
+  background-color: var(--colorCardVerde);
 }
 
 .pendietne {
@@ -30,7 +30,7 @@
   background-color: var(--colorCardCancelado);
 }
 
-.por-confirmar{
+.por-confirmar {
   background-color: var(--colorCardEdit);
 }
 
@@ -64,7 +64,7 @@
 .card-horizontal {
   display: flex;
   flex-direction: row;
-  gap: .5rem;
+  gap: 0.5rem;
   flex: 1;
   justify-content: space-between;
   align-items: center;
@@ -79,8 +79,8 @@
   align-items: stretch;
   flex: 1;
   box-sizing: border-box;
-  padding: 0 .5rem;
-  gap: .5rem;
+  padding: 0 0.5rem;
+  gap: 0.5rem;
   overflow: hidden;
 }
 

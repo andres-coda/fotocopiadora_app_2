@@ -1,8 +1,11 @@
-import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
-import { LIBRO, LIBRO_PRINCIPAL } from "../../utils/endpoint";
-import useApi from "../hooks/useApi";
-import { formValuesLibroComponentes, formValuesLibroNombre } from "../../modelo/Entidades/libro/esqLibro.esquema";
-import { libroPrincipalDtoAdapter } from "../../adaptadores/salida/libroDto.adapter";
+import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
+import { LIBRO, LIBRO_PRINCIPAL } from '../../utils/endpoint';
+import useApi from '../hooks/useApi';
+import {
+  formValuesLibroComponentes,
+  formValuesLibroNombre,
+} from '../../modelo/Entidades/libro/esqLibro.esquema';
+import { libroPrincipalDtoAdapter } from '../../adaptadores/salida/libroDto.adapter';
 
 interface EditarLibroPrincipalProp {
   id: string;
@@ -17,10 +20,19 @@ const useLibroDeleteApi = () => {
     fetchData({ url: `${LIBRO}/${id}`, methodo: httpMethod.DELETE });
 
   const editarLibroPrincipal = ({ data, componentes, id }: EditarLibroPrincipalProp) =>
-    fetchData({ url: `${LIBRO_PRINCIPAL}/${id}`, methodo: httpMethod.PATCH, bodyData: JSON.stringify(libroPrincipalDtoAdapter( data, componentes))});
+    fetchData({
+      url: `${LIBRO_PRINCIPAL}/${id}`,
+      methodo: httpMethod.PATCH,
+      bodyData: JSON.stringify(libroPrincipalDtoAdapter(data, componentes)),
+    });
 
-  return { eliminarLibro, editarLibroPrincipal, responseLibro: response, loadingLibro: loading, errorFetchLibro: errorFetch };
+  return {
+    eliminarLibro,
+    editarLibroPrincipal,
+    responseLibro: response,
+    loadingLibro: loading,
+    errorFetchLibro: errorFetch,
+  };
+};
 
-}
-
-export default useLibroDeleteApi
+export default useLibroDeleteApi;

@@ -10,7 +10,9 @@
   background-color: #000000d3;
   box-sizing: border-box;
   transform: scale(0);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
   box-sizing: border-box;
 }
 
@@ -29,11 +31,11 @@
   min-width: 250px;
   max-height: 80vh;
   min-height: 200px;
-  
+
   margin: 2rem;
   padding: 1rem;
-  padding-right: .2rem;
-  gap:1rem;
+  padding-right: 0.2rem;
+  gap: 1rem;
   border-radius: 5px;
 
   background-color: var(--colorFondo);
@@ -41,7 +43,7 @@
   box-shadow: 1px 1px 1px var(--colorNegro);
 }
 
-.modal-interno{
+.modal-interno {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -49,28 +51,42 @@
   flex: 1;
 
   overflow-y: auto;
-  overflow-x: hidden;  
+  overflow-x: hidden;
   scrollbar-color: var(--colorSubmenu) var(--colorSombra);
-  scrollbar-width:thin;
+  scrollbar-width: thin;
   scrollbar-gutter: stable;
 }
 
-.modal-chico{
-  width:max-content;
+.modal-chico {
+  width: max-content;
 }
 
-.modal-sin-scroll{
+/* El modal ocupa el ancho de la ventana menos los margenes. El selector es
+   compuesto a proposito: `nuevoEstilo` tambien se aplica al `.modal` interno,
+   que debe seguir en width 100% o se desborda dentro de `.modal-interno`. */
+.modal-frente.modal-ancho {
+  width: calc(100vw - 4rem);
+  max-width: 1400px;
+}
+
+/* `.modal` centra a sus hijos, asi que el formulario quedaba con el ancho de su
+   contenido. En el modal ancho lo estiramos para que los campos lo llenen. */
+.modal.modal-ancho > .formulario {
+  width: 100%;
+}
+
+.modal-sin-scroll {
   overflow: hidden;
   height: 80vh;
 }
 
-.titulo-modal{
-  padding: .2rem;
+.titulo-modal {
+  padding: 0.2rem;
   box-sizing: border-box;
   padding-right: 3rem;
 }
 
-.modal{
+.modal {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

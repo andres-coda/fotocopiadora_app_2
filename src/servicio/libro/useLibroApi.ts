@@ -1,11 +1,19 @@
-import { libroAdapter } from "../../adaptadores/entrada/libro.adapter";
-import { libroDtoAdapter, libroEmpresaEditarDtoAdapter, libroExtraDtoAdapter } from "../../adaptadores/salida/libroDto.adapter";
-import { Especificaciones } from "../../modelo/Entidades/especificacion/especificacion.enum";
-import { formValuesLibro, formValuesLibroDatosExtras, formValuesLibroDatosLocales } from "../../modelo/Entidades/libro/esqLibro.esquema";
-import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
-import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
-import { LIBRO, LIBRO_EXTRA } from "../../utils/endpoint";
-import useApi from "../hooks/useApi";
+import { libroAdapter } from '../../adaptadores/entrada/libro.adapter';
+import {
+  libroDtoAdapter,
+  libroEmpresaEditarDtoAdapter,
+  libroExtraDtoAdapter,
+} from '../../adaptadores/salida/libroDto.adapter';
+import { Especificaciones } from '../../modelo/Entidades/especificacion/especificacion.enum';
+import {
+  formValuesLibro,
+  formValuesLibroDatosExtras,
+  formValuesLibroDatosLocales,
+} from '../../modelo/Entidades/libro/esqLibro.esquema';
+import { LibroProp } from '../../modelo/Entidades/libro/libro.interface';
+import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
+import { LIBRO, LIBRO_EXTRA } from '../../utils/endpoint';
+import useApi from '../hooks/useApi';
 
 export interface CrearLibroProp {
   data: formValuesLibro;
@@ -29,16 +37,38 @@ const useLibroApi = () => {
     fetchData({ url: `${LIBRO}/${id}`, methodo: httpMethod.GET, adapter: libroAdapter });
 
   const crearLibro = ({ data, especificaciones }: CrearLibroProp) =>
-    fetchData({ url: LIBRO, methodo: httpMethod.POST, bodyData: JSON.stringify(libroDtoAdapter({ data, especificaciones })), adapter: libroAdapter });
+    fetchData({
+      url: LIBRO,
+      methodo: httpMethod.POST,
+      bodyData: JSON.stringify(libroDtoAdapter({ data, especificaciones })),
+      adapter: libroAdapter,
+    });
 
   const editarLibroEmpresa = ({ data, id, especificaciones }: EditarLibroLocalProp) =>
-    fetchData({ url: `${LIBRO}/${id}`, methodo: httpMethod.PATCH, bodyData: JSON.stringify(libroEmpresaEditarDtoAdapter({ data, especificaciones })), adapter: libroAdapter });
+    fetchData({
+      url: `${LIBRO}/${id}`,
+      methodo: httpMethod.PATCH,
+      bodyData: JSON.stringify(libroEmpresaEditarDtoAdapter({ data, especificaciones })),
+      adapter: libroAdapter,
+    });
 
   const editarLibroExtra = ({ data, id }: EditarLibroExtraProp) =>
-    fetchData({ url: `${LIBRO_EXTRA}/${id}`, methodo: httpMethod.PATCH, bodyData: JSON.stringify(libroExtraDtoAdapter( data)), adapter: libroAdapter });
+    fetchData({
+      url: `${LIBRO_EXTRA}/${id}`,
+      methodo: httpMethod.PATCH,
+      bodyData: JSON.stringify(libroExtraDtoAdapter(data)),
+      adapter: libroAdapter,
+    });
 
-  return { editarLibroExtra, obtenerLibroById, editarLibroEmpresa, crearLibro, responseLibro: response, loadingLibro: loading, errorFetchLibro: errorFetch };
+  return {
+    editarLibroExtra,
+    obtenerLibroById,
+    editarLibroEmpresa,
+    crearLibro,
+    responseLibro: response,
+    loadingLibro: loading,
+    errorFetchLibro: errorFetch,
+  };
+};
 
-}
-
-export default useLibroApi
+export default useLibroApi;

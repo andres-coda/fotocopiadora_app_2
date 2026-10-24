@@ -1,6 +1,6 @@
-import useTexto from './hooks/useTexto'
-import { textoProps } from './modelo/texto.interface'
-import './texto.css'
+import useTexto from './hooks/useTexto';
+import { textoProps } from './modelo/texto.interface';
+import './texto.css';
 
 function Texto({
   texto,
@@ -21,26 +21,27 @@ function Texto({
   textoResaltado = undefined,
   inline = undefined,
 }: textoProps) {
-
-  const { clase } = useTexto({ 
-    chica, 
-    mediana, 
-    negrita, 
-    grande, 
-    muyGrande, 
-    sombra, 
-    error, 
+  const { clase } = useTexto({
+    chica,
+    mediana,
+    negrita,
+    grande,
+    muyGrande,
+    sombra,
+    error,
     inverso,
-    centrado, 
-    derecha, 
+    centrado,
+    derecha,
     ajustado,
     alCien,
     nuevoEstilo,
-    inline
-  })
+    inline,
+  });
   return (
-    <p className={`texto ${clase}`} title={etiqueta && etiqueta}><b>{textoResaltado}</b> {texto}</p>
-  )
+    <p className={`texto ${clase}`} title={etiqueta && etiqueta}>
+      <b>{textoResaltado}</b> {texto}
+    </p>
+  );
 }
 
-export default Texto
+export default Texto;

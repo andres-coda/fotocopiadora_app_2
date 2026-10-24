@@ -1,21 +1,25 @@
-import { BaseProp } from "../../modelo/Entidades/base/base.interface";
-import { ComponenteAdapterProp, ComponenteProp } from "../../modelo/Entidades/libro/componente.interface";
-import { baseAdapter } from "./base.adapter";
+import { BaseProp } from '../../modelo/Entidades/base/base.interface';
+import {
+  ComponenteAdapterProp,
+  ComponenteProp,
+} from '../../modelo/Entidades/libro/componente.interface';
+import { baseAdapter } from './base.adapter';
 
-export const componenteAdapter = (componente?: ComponenteAdapterProp): ComponenteProp | undefined => {
+export const componenteAdapter = (
+  componente?: ComponenteAdapterProp
+): ComponenteProp | undefined => {
   if (!componente) return undefined;
 
-  const base: BaseProp | undefined = baseAdapter<ComponenteAdapterProp>({ base: componente});
+  const base: BaseProp | undefined = baseAdapter<ComponenteAdapterProp>({ base: componente });
 
   if (!base) return undefined;
 
   const newComponente: ComponenteProp = {
     ...base,
     nombre: componente.nombre,
-
-  }
+  };
   return newComponente;
-}
+};
 
 export const componenteAdapterArray = (componentes?: ComponenteAdapterProp[]): ComponenteProp[] => {
   const newComponentes: ComponenteProp[] =
@@ -25,4 +29,4 @@ export const componenteAdapterArray = (componentes?: ComponenteAdapterProp[]): C
     }) ?? [];
 
   return newComponentes;
-}
+};

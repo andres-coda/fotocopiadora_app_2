@@ -1,20 +1,20 @@
-import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
-import { LibroAdapterProp, LibroProp } from "../libro/libro.interface";
+import { BaseAdapterProp, baseInicial, BaseProp } from '../base/base.interface';
+import { LibroAdapterProp, LibroProp } from '../libro/libro.interface';
 
 export interface PropuestaAdapterProp extends BaseAdapterProp {
-  nombre:string;
+  nombre: string;
   libros?: LibroAdapterProp[];
 }
 
-export interface PropuestaProp extends BaseProp{
+export interface PropuestaProp extends BaseProp {
   nombre: string;
   cantidadLibros: number;
-  libro?:LibroProp[];
+  libro?: LibroProp[];
 }
 
-export const PropuestaInicial:PropuestaProp = {
+export const PropuestaInicial: PropuestaProp = {
   ...baseInicial,
   nombre: '',
   cantidadLibros: 0,
   libro: [],
-} 
+};

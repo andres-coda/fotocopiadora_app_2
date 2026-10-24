@@ -1,4 +1,4 @@
-import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
+import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
 
 type Adapter<T> = (data: any) => T;
 
@@ -11,12 +11,12 @@ export interface FetchDataProps<T> {
 
 export interface UseApiProps<T> {
   urlGet?: string | null;
-  adapterGet?:  Adapter<T> | null;
+  adapterGet?: Adapter<T> | null;
   blob?: boolean | undefined;
 }
 
-export interface BusquedaApiProp{
-  query:string;
+export interface BusquedaApiProp {
+  query: string;
   limite?: number;
   pagina?: number;
 }

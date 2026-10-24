@@ -1,5 +1,5 @@
-import { UsuarioAltaDtoProp } from "../../modelo/usuario/dtoUsuario.interface";
-import { formValuesUsuarioAdmin } from "../../modelo/usuario/esqUsuario.esquema";
+import { UsuarioAltaDtoProp } from '../../modelo/usuario/dtoUsuario.interface';
+import { formValuesUsuarioAdmin } from '../../modelo/usuario/esqUsuario.esquema';
 
 // Alta de usuario desde el ABM: la password es obligatoria.
 export const usuarioAltaDtoAdapter = (p: formValuesUsuarioAdmin): UsuarioAltaDtoProp => {
@@ -8,7 +8,7 @@ export const usuarioAltaDtoAdapter = (p: formValuesUsuarioAdmin): UsuarioAltaDto
     email: p.email,
     password: p.password ?? '',
     role: p.role,
-  }
+  };
 
   return newUser;
-}
+};

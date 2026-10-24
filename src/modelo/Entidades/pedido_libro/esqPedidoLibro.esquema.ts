@@ -1,32 +1,31 @@
-import { z } from "zod";
-import { LibroProp } from "../libro/libro.interface";
-import { PedidoLibroConstruccionProp, PedidoLibroProp } from "./pedidoLibro.interface";
-import { SedeProp } from "../sede/sede.interface";
-
+import { z } from 'zod';
+import { LibroProp } from '../libro/libro.interface';
+import { PedidoLibroConstruccionProp, PedidoLibroProp } from './pedidoLibro.interface';
+import { SedeProp } from '../sede/sede.interface';
 
 export const pedidoLibro = z.object({
   cantidad: z.number().optional(),
   detalles: z.string().optional(),
-  sede: z.string().optional()
-})
+  sede: z.string().optional(),
+});
 
 export type formValuesPedidoLibro = z.infer<typeof pedidoLibro>;
 
 export const pedidoFormDefault: formValuesPedidoLibro = {
   cantidad: 1,
   detalles: '',
-  sede:'',
-}
+  sede: '',
+};
 
 interface FromValuesDefectoProp {
-  pedidoLibro?: PedidoLibroConstruccionProp,
-  libro?: LibroProp,
-  sede?:SedeProp
+  pedidoLibro?: PedidoLibroConstruccionProp;
+  libro?: LibroProp;
+  sede?: SedeProp;
 }
 
-export const normalizarPedidoLibro = (pl?:PedidoLibroProp[]):PedidoLibroConstruccionProp[] => {
-  if(!pl)return [];
-  return pl.map(p=> {
+export const normalizarPedidoLibro = (pl?: PedidoLibroProp[]): PedidoLibroConstruccionProp[] => {
+  if (!pl) return [];
+  return pl.map(p => {
     return {
       id: p.id,
       libro: p.libro,
@@ -34,16 +33,19 @@ export const normalizarPedidoLibro = (pl?:PedidoLibroProp[]):PedidoLibroConstruc
       cantidad: p.cantidad,
       especificaciones: p.especificaciones,
       sede: p.sede,
-      estado: p.estado
-    }
-  })
-}
+      estado: p.estado,
+    };
+  });
+};
 
-export const pedidoLibroFormEdit = ({ pedidoLibro, sede }: FromValuesDefectoProp): formValuesPedidoLibro => {
+export const pedidoLibroFormEdit = ({
+  pedidoLibro,
+  sede,
+}: FromValuesDefectoProp): formValuesPedidoLibro => {
   if (!pedidoLibro) return pedidoFormDefault;
   return {
     cantidad: pedidoLibro.cantidad ?? pedidoFormDefault.cantidad,
     detalles: pedidoLibro.detalles ?? pedidoFormDefault.detalles,
     sede: pedidoLibro.sede?.id ?? sede?.id ?? pedidoFormDefault.sede,
-  }
-}
+  };
+};

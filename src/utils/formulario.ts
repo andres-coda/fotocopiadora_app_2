@@ -1,6 +1,6 @@
-import { ZodObject, ZodRawShape, ZodOptional, ZodNullable } from "zod";
-import { BaseProp } from "../modelo/Entidades/base/base.interface";
-import { Opcion } from "../componente/formulario/modelo/input.interface";
+import { ZodObject, ZodRawShape, ZodOptional, ZodNullable } from 'zod';
+import { BaseProp } from '../modelo/Entidades/base/base.interface';
+import { Opcion } from '../componente/formulario/modelo/input.interface';
 
 export function esCampoRequerido<T extends ZodRawShape>(
   esquema: ZodObject<T>,
@@ -13,13 +13,13 @@ export function esCampoRequerido<T extends ZodRawShape>(
 }
 
 export const parseNumero = (value: unknown, maxLength = 50): string => {
-  const str = String(value ?? "");
-  return str.replace(/\D/g, "").slice(0, maxLength);
+  const str = String(value ?? '');
+  return str.replace(/\D/g, '').slice(0, maxLength);
 };
 
 export const parseOrden = (value: unknown, maxLength = 2): string => {
-  const str = String(value ?? "");
-  const digits = str.replace(/\D/g, "");
+  const str = String(value ?? '');
+  const digits = str.replace(/\D/g, '');
   return digits.slice(-maxLength);
 };
 
@@ -29,12 +29,11 @@ export const parseDecimal = (
   maxLength = 50,
   maxDecimals = 2
 ): string => {
-
   let resultado = String(value ?? '')
-    .replace(/[^\d.]/g, "")
-    .replace(/(\..*)\./g, "$1");
+    .replace(/[^\d.]/g, '')
+    .replace(/(\..*)\./g, '$1');
 
-  const partes = resultado.split(".");
+  const partes = resultado.split('.');
 
   if (partes.length > 1 && partes[1].length > maxDecimals) {
     resultado = `${partes[0]}.${partes[1].slice(0, maxDecimals)}`;
@@ -44,10 +43,10 @@ export const parseDecimal = (
 };
 
 export const parseTextoMayus = (value: string, maxLength = 50): string => {
-  if (!value) return "";
+  if (!value) return '';
 
   const resultado = value
-    .replace(/[^a-zA-Z\s]/g, "") // Solo letras y espacios
+    .replace(/[^a-zA-Z\s]/g, '') // Solo letras y espacios
     .toUpperCase()
     .slice(0, maxLength);
 
@@ -55,7 +54,6 @@ export const parseTextoMayus = (value: string, maxLength = 50): string => {
 };
 
 export const formatTelefono = (value: string = ''): string => {
-
   const numeros = value.replace(/\D/g, '');
 
   if (numeros.length <= 4) {
@@ -73,37 +71,48 @@ export const formatTelefono = (value: string = ''): string => {
   const medio3 = numeros.slice(-7, -4);
   const inicio = numeros.slice(0, -7);
 
-  return [inicio, medio3, ultimos4]
-    .filter(Boolean)
-    .join('-');
+  return [inicio, medio3, ultimos4].filter(Boolean).join('-');
 };
 
 interface Prop<T, K extends keyof T = keyof T> {
-  items: T[]
+  items: T[];
   clave?: K;
 }
 
 interface desplegableOrdenadoProp<T, K extends keyof T = keyof T> extends Prop<T, K> {
   selec?: T;
-  comparacion?: K
+  comparacion?: K;
 }
 
-export const pasarDesplegable = <T extends BaseProp, K extends keyof T = keyof T>({ items, clave }: Prop<T, K>): Opcion[] => {
-  const newClave: K = (clave || 'nombre') as K
+export const pasarDesplegable = <T extends BaseProp, K extends keyof T = keyof T>({
+  items,
+  clave,
+}: Prop<T, K>): Opcion[] => {
+  const newClave: K = (clave || 'nombre') as K;
   const opciones: Opcion[] = items.map(d => {
-    return { value: d.id, label: String(d[newClave]) }
+    return { value: d.id, label: String(d[newClave]) };
   });
-  return opciones
-}
+  return opciones;
+};
 
-export const pasarDesplegableOrdenado = <T extends BaseProp, K extends keyof T = keyof T>({ items, clave, comparacion, selec }: desplegableOrdenadoProp<T, K>): Opcion[] => {
-  const newClave:K = (clave ?? 'nombre') as K;
-  
-  const todasLosElementos = items ?? []
-  const elementoActual = selec
+export const pasarDesplegableOrdenado = <T extends BaseProp, K extends keyof T = keyof T>({
+  items,
+  clave,
+  comparacion,
+  selec,
+}: desplegableOrdenadoProp<T, K>): Opcion[] => {
+  const newClave: K = (clave ?? 'nombre') as K;
+
+  const todasLosElementos = items ?? [];
+  const elementoActual = selec;
   const elementosOrdenados = elementoActual
-    ? [elementoActual, ...todasLosElementos.filter(s => s[comparacion ?? newClave] !== elementoActual[comparacion ?? newClave])]
-    : todasLosElementos
-  
-  return pasarDesplegable({items: elementosOrdenados, clave:newClave})
-}
+    ? [
+        elementoActual,
+        ...todasLosElementos.filter(
+          s => s[comparacion ?? newClave] !== elementoActual[comparacion ?? newClave]
+        ),
+      ]
+    : todasLosElementos;
+
+  return pasarDesplegable({ items: elementosOrdenados, clave: newClave });
+};

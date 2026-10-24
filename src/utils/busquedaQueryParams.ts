@@ -10,7 +10,12 @@
  * Sin el `?` inicial.
  */
 export const busquedaQueryParams = (
-  filtros: { estado: (string | number)[]; especificaciones: (string | number)[]; entrega: string; tomado: string },
+  filtros: {
+    estado: (string | number)[];
+    especificaciones: (string | number)[];
+    entrega: string;
+    tomado: string;
+  },
   orden: { campo: string; direccion: string }[]
 ): string => {
   const params: string[] = [];

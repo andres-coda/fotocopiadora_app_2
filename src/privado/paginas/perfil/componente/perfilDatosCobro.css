@@ -1,7 +1,0 @@
-.perfil-datos-cobro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: .5rem;
-  width: 100%;
-}

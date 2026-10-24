@@ -1,6 +1,6 @@
-import { BaseProp } from "../../modelo/Entidades/base/base.interface";
-import { NivelAdapterProp, NivelProp } from "../../modelo/Entidades/libro/nivel.interface";
-import { baseAdapter } from "./base.adapter";
+import { BaseProp } from '../../modelo/Entidades/base/base.interface';
+import { NivelAdapterProp, NivelProp } from '../../modelo/Entidades/libro/nivel.interface';
+import { baseAdapter } from './base.adapter';
 
 export const nivelAdapter = (nivel?: NivelAdapterProp): NivelProp | undefined => {
   if (!nivel) return undefined;
@@ -12,10 +12,9 @@ export const nivelAdapter = (nivel?: NivelAdapterProp): NivelProp | undefined =>
   const newNivel: NivelProp = {
     ...base,
     nombre: nivel.nombre,
-
-  }
+  };
   return newNivel;
-}
+};
 
 export const nivelAdapterArray = (nivels?: NivelAdapterProp[]): NivelProp[] => {
   const newNivels: NivelProp[] =
@@ -25,4 +24,4 @@ export const nivelAdapterArray = (nivels?: NivelAdapterProp[]): NivelProp[] => {
     }) ?? [];
 
   return newNivels;
-}
+};

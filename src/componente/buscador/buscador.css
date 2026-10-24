@@ -8,32 +8,31 @@
 
 .botonera-buscador {
   width: fit-content;
-  margin-top: .6rem;
+  margin-top: 0.6rem;
 }
 
 .buscador-titulo {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .buscador-vertical {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding: .5rem;
+  padding: 0.5rem;
   margin: 0;
 }
 
 .buscador-desplegable {
   display: grid;
-  grid-template-columns: repeat(auto-fit,
-      minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   justify-content: center;
   align-items: start;
   max-height: 200px;
   overflow-y: auto;
   overflow-x: hidden;
-  gap: .5rem;
-  padding: .5rem;
+  gap: 0.5rem;
+  padding: 0.5rem;
   padding-left: 0;
 
   scrollbar-color: var(--colorSubmenu) var(--colorSombra);
@@ -41,16 +40,16 @@
   scrollbar-gutter: stable;
 }
 
-.buscador-libro{
+.buscador-libro {
   position: relative;
   margin: 0;
   padding: 0;
 }
 
-.buscador-libro .buscador-filtros-completo{
+.buscador-libro .buscador-filtros-completo {
   padding: 0;
 }
 
-.buscador-libro .desplegable{
+.buscador-libro .desplegable {
   top: 100px;
 }

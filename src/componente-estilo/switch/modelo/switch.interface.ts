@@ -5,6 +5,6 @@ export interface SwitchHookProp {
 
 export interface SwitchProp extends SwitchHookProp {
   onActivar: (nuevoActivo: boolean) => void;
-  titulo?:string;
-  texto?:string;
+  titulo?: string;
+  texto?: string;
 }

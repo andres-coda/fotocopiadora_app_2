@@ -1,41 +1,40 @@
-
 .texto {
-  font-size: .9em;
+  font-size: 0.9em;
   font-weight: 400;
   text-align: left;
   width: 100%;
   margin: 0;
-  color:var(--colorNegro);
+  color: var(--colorNegro);
 }
 
 .chica {
   font-size: 0.7em;
 }
 
-.mediana{
+.mediana {
   font-size: 1.1em;
   font-weight: 500;
-} 
+}
 
-.grande{
+.grande {
   font-size: 1.4em;
   font-weight: 600;
 }
 
-.muyGrande{
+.muyGrande {
   font-size: 2.1em;
   font-weight: 700;
 }
 
-.sombra{
+.sombra {
   color: var(--colorSombra);
 }
 
-.error{
+.error {
   color: var(--colorError);
 }
 
-.inverso{
+.inverso {
   color: var(--colorBlanco);
 }
 
@@ -47,12 +46,12 @@
   text-align: center;
 }
 
-.ajustado{
+.ajustado {
   width: max-content;
   padding: 0 0.1rem;
 }
 
-.alCien{
+.alCien {
   width: 100%;
   padding: 0 0.1rem;
   max-width: 120px;

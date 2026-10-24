@@ -16,4 +16,4 @@ export const datoCobroInicial: DatoCobroProp = {
   id: '',
   nombre: '',
   mensaje: undefined,
-}
+};

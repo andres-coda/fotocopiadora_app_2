@@ -1,15 +1,15 @@
-import { useDispatch } from "react-redux";
-import { useFieldArray, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import Formulario from "../../../../componente/formulario/formulario";
-import Desplegable from "../../../../componente/formulario/desplegable";
-import Boton from "../../../../componente-estilo/boton/boton";
-import Deleted from "../../../../assets/deleted.svg?react";
-import { useModalContext } from "../../../../contexto/contextoModal";
-import { cambiarOrdenPedidoLibroArreglo } from "../../../../redux/state/pedido_libro.state";
-import { ordenPedidoLibroInicial } from "../../../../modelo/Entidades/pedido_libro/pedidoLibroFiltro.interface";
-import { Opcion } from "../../../../componente/formulario/modelo/input.interface";
+import { useDispatch } from 'react-redux';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import Formulario from '../../../../componente/formulario/formulario';
+import Desplegable from '../../../../componente/formulario/desplegable';
+import Boton from '../../../../componente-estilo/boton/boton';
+import Deleted from '../../../../assets/deleted.svg?react';
+import { useModalContext } from '../../../../contexto/contextoModal';
+import { cambiarOrdenPedidoLibroArreglo } from '../../../../redux/state/pedido_libro.state';
+import { ordenPedidoLibroInicial } from '../../../../modelo/Entidades/pedido_libro/pedidoLibroFiltro.interface';
+import { Opcion } from '../../../../componente/formulario/modelo/input.interface';
 import './ordenItem.css';
 
 const esqOrdenItem = z.object({
@@ -64,19 +64,19 @@ const OrdenItem = () => {
 
   return (
     <Formulario
-      claseForm='orden-item__form'
+      claseForm="orden-item__form"
       onSubmit={handleSubmit(onSubmit)}
-      textBtnConfirmar='Aplicar orden'
+      textBtnConfirmar="Aplicar orden"
     >
-      <div className='orden-item'>
+      <div className="orden-item">
         {fields.map((fila, index) => (
-          <div className='orden-item__fila' key={fila.id}>
-            <span className='orden-item__prioridad'>{index + 1}°</span>
+          <div className="orden-item__fila" key={fila.id}>
+            <span className="orden-item__prioridad">{index + 1}°</span>
 
             <Desplegable<FormOrdenItem>
               name={`criterios.${index}.campo`}
               control={control}
-              label='Ordenar por'
+              label="Ordenar por"
               opciones={opcionesCampo}
               esquema={esqOrdenItem}
             />
@@ -84,7 +84,7 @@ const OrdenItem = () => {
             <Desplegable<FormOrdenItem>
               name={`criterios.${index}.direccion`}
               control={control}
-              label='Dirección'
+              label="Dirección"
               opciones={opcionesDireccion}
               esquema={esqOrdenItem}
             />
@@ -94,14 +94,14 @@ const OrdenItem = () => {
               terciario
               nuevoEstilo={`btn-icono-chico ${fields.length <= 1 ? 'orden-item__quitar-deshabilitado' : ''}`}
               onClick={() => quitarCriterio(index)}
-              titulo='Quitar criterio'
+              titulo="Quitar criterio"
             />
           </div>
         ))}
 
-        <div className='orden-item__agregar'>
+        <div className="orden-item__agregar">
           <Boton
-            texto='+ Agregar criterio'
+            texto="+ Agregar criterio"
             secundario
             onClick={() => append({ campo: 'fechaEntrega', direccion: 'asc' })}
           />

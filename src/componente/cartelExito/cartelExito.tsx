@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import Texto from "../../componente-estilo/texto/texto";
-import useRetardo from "../../hooks/tiempo/useRetardo";
+import { useEffect } from 'react';
+import Texto from '../../componente-estilo/texto/texto';
+import useRetardo from '../../hooks/tiempo/useRetardo';
 
 interface Props {
   mensaje: string;

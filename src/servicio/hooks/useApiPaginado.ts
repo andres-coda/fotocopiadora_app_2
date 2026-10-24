@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react";
-import { useAutenticacion } from "../../hooks/autenticacion/useAutenticacion";
-import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
-import useRetardo from "../../hooks/tiempo/useRetardo";
-import { paginadoAdapter, PaginadoAdapterProp, PaginadoProp } from "../../adaptadores/entrada/paginado.adapter";
+import { useEffect, useState } from 'react';
+import { useAutenticacion } from '../../hooks/autenticacion/useAutenticacion';
+import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
+import useRetardo from '../../hooks/tiempo/useRetardo';
+import {
+  paginadoAdapter,
+  PaginadoAdapterProp,
+  PaginadoProp,
+} from '../../adaptadores/entrada/paginado.adapter';
 
-type Adapter<T,R> = (data?: T) => R | undefined;
+type Adapter<T, R> = (data?: T) => R | undefined;
 
-interface UseApiPaginadoProp<T, R > {
+interface UseApiPaginadoProp<T, R> {
   urlGet?: string;
-  adapterGet: Adapter<T,R>;
+  adapterGet: Adapter<T, R>;
   blob?: boolean;
 }
 
@@ -19,24 +23,35 @@ interface FetchDataPaginadoProp<T, R> {
   adapter: Adapter<T, R>;
 }
 
-function useApiPaginado<T, R>({ urlGet = undefined, adapterGet, blob = undefined }: UseApiPaginadoProp<T, R>) {
-  const { token } = useAutenticacion()
+function useApiPaginado<T, R>({
+  urlGet = undefined,
+  adapterGet,
+  blob = undefined,
+}: UseApiPaginadoProp<T, R>) {
+  const { token } = useAutenticacion();
   const [response, setResponse] = useState<PaginadoProp<R> | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorFetch, setErrorFetch] = useState<string | null>(null);
   const [controlador, setControlador] = useState<boolean>(false);
 
-  const retardoRecetRetardo = useRetardo(() => { setResponse(null) }, 3000)
+  const retardoRecetRetardo = useRetardo(() => {
+    setResponse(null);
+  }, 3000);
 
   useEffect(() => {
     if (controlador && !blob) {
       retardoRecetRetardo();
     }
-  }, [controlador])
+  }, [controlador]);
 
-  const fetchData = async ({ url = undefined, bodyData = undefined, methodo = undefined, adapter }: FetchDataPaginadoProp<T, R>) => {
+  const fetchData = async ({
+    url = undefined,
+    bodyData = undefined,
+    methodo = undefined,
+    adapter,
+  }: FetchDataPaginadoProp<T, R>) => {
     const urlLocal = url || urlGet;
-    if (!urlLocal) throw new Error('No hay url en el pedido')
+    if (!urlLocal) throw new Error('No hay url en el pedido');
 
     const adapterLocal = adapter || adapterGet;
 
@@ -52,11 +67,11 @@ function useApiPaginado<T, R>({ urlGet = undefined, adapterGet, blob = undefined
         method: methodo || httpMethod.GET,
         headers: {
           'Content-Type': 'application/json',
-          ...(token && { 'Authorization': `Bearer ${token}` }),
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
         signal: controller.signal,
-        ...(bodyData && { 'body': bodyData })
-      })
+        ...(bodyData && { body: bodyData }),
+      });
 
       if (!res.ok) {
         let errorMsg = 'La petición falló';
@@ -68,9 +83,7 @@ function useApiPaginado<T, R>({ urlGet = undefined, adapterGet, blob = undefined
         }
         throw new Error(errorMsg);
       }
-      const result:PaginadoAdapterProp<T> = blob
-        ? await res.blob()
-        : await res.json();
+      const result: PaginadoAdapterProp<T> = blob ? await res.blob() : await res.json();
       const adapterData: PaginadoProp<R> = paginadoAdapter<T, R>(result, adapterLocal);
 
       setResponse(adapterData ?? null);
@@ -81,7 +94,9 @@ function useApiPaginado<T, R>({ urlGet = undefined, adapterGet, blob = undefined
         if (err.name === 'AbortError') {
           console.log('Petición abortada');
         } else {
-          setErrorFetch(`Error al intentar comunicarse con la base de datos: ${err.name}, ${err.stack},${err.message}`);
+          setErrorFetch(
+            `Error al intentar comunicarse con la base de datos: ${err.name}, ${err.stack},${err.message}`
+          );
           console.error(err);
         }
       } else setErrorFetch(`Ocurrió un error desconcido`);
@@ -91,7 +106,6 @@ function useApiPaginado<T, R>({ urlGet = undefined, adapterGet, blob = undefined
   };
 
   return { fetchData, response, loading, errorFetch };
-
 }
 
 export default useApiPaginado;

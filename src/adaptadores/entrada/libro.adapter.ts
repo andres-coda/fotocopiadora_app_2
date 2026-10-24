@@ -1,16 +1,25 @@
-import { BaseProp } from "../../modelo/Entidades/base/base.interface";
-import { ComponenteProp } from "../../modelo/Entidades/libro/componente.interface";
-import { LibroAdapterProp, LibroNombreAdapterProp, LibroNombreProp, LibroProp, EditorialNombreAdapterProp, EditorialNombreProp } from "../../modelo/Entidades/libro/libro.interface";
-import { materiaInicial, MateriaProp } from "../../modelo/Entidades/libro/materia.interface";
-import { StockProp } from "../../modelo/Entidades/libro/stock.interface";
-import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
-import { baseAdapter } from "./base.adapter";
-import { componenteAdapterArray } from "./componente.adapter";
-import { materiaAdapter } from "./materia.adapter";
-import { propuestaAdapterArray } from "./propuesta.adapter";
-import { stockAdapter } from "./stock.adapter";
+import { BaseProp } from '../../modelo/Entidades/base/base.interface';
+import { ComponenteProp } from '../../modelo/Entidades/libro/componente.interface';
+import {
+  LibroAdapterProp,
+  LibroNombreAdapterProp,
+  LibroNombreProp,
+  LibroProp,
+  EditorialNombreAdapterProp,
+  EditorialNombreProp,
+} from '../../modelo/Entidades/libro/libro.interface';
+import { materiaInicial, MateriaProp } from '../../modelo/Entidades/libro/materia.interface';
+import { StockProp } from '../../modelo/Entidades/libro/stock.interface';
+import { PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interface';
+import { baseAdapter } from './base.adapter';
+import { componenteAdapterArray } from './componente.adapter';
+import { materiaAdapter } from './materia.adapter';
+import { propuestaAdapterArray } from './propuesta.adapter';
+import { stockAdapter } from './stock.adapter';
 
-export const editorialNombreAdapter = (editorial?: EditorialNombreAdapterProp): EditorialNombreProp | undefined => {
+export const editorialNombreAdapter = (
+  editorial?: EditorialNombreAdapterProp
+): EditorialNombreProp | undefined => {
   if (!editorial) return undefined;
 
   const base: BaseProp | undefined = baseAdapter<EditorialNombreAdapterProp>({ base: editorial });
@@ -20,11 +29,13 @@ export const editorialNombreAdapter = (editorial?: EditorialNombreAdapterProp): 
   const newEditorial: EditorialNombreProp = {
     ...base,
     nombre: editorial.nombre,
-  }
+  };
   return newEditorial;
-}
+};
 
-export const editorialNombreAdapterArray = (editoriales?: EditorialNombreAdapterProp[]): EditorialNombreProp[] => {
+export const editorialNombreAdapterArray = (
+  editoriales?: EditorialNombreAdapterProp[]
+): EditorialNombreProp[] => {
   const newEditoriales: EditorialNombreProp[] =
     editoriales?.flatMap(e => {
       const editorial = editorialNombreAdapter(e);
@@ -32,25 +43,27 @@ export const editorialNombreAdapterArray = (editoriales?: EditorialNombreAdapter
     }) ?? [];
 
   return newEditoriales;
-}
+};
 
 export const libroNombreAdapter = (libro?: LibroNombreAdapterProp): LibroNombreProp | undefined => {
   if (!libro) return undefined;
 
-  const base: BaseProp | undefined = baseAdapter<LibroNombreAdapterProp>({ base: libro});
+  const base: BaseProp | undefined = baseAdapter<LibroNombreAdapterProp>({ base: libro });
 
   if (!base) return undefined;
 
-  const materia: MateriaProp | undefined = libro.materia ? materiaAdapter(libro.materia) : undefined;
+  const materia: MateriaProp | undefined = libro.materia
+    ? materiaAdapter(libro.materia)
+    : undefined;
 
   const newLibro: LibroNombreProp = {
     ...base,
     nombre: libro.nombre,
     editorial: libro.editorial,
     materia: materia ?? materiaInicial,
-  }
+  };
   return newLibro;
-}
+};
 
 export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined => {
   if (!libro) return undefined;
@@ -78,10 +91,10 @@ export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined =>
     especificacionesDefecto: libro.especificacionesDefecto,
     componentes,
     stock: stock,
-    propuesta: propuesta.length > 0 ? propuesta : undefined
-  }
+    propuesta: propuesta.length > 0 ? propuesta : undefined,
+  };
   return newLibro;
-}
+};
 
 export const libroAdapterArray = (libros?: LibroAdapterProp[]): LibroProp[] => {
   const newLibros: LibroProp[] =
@@ -91,4 +104,4 @@ export const libroAdapterArray = (libros?: LibroAdapterProp[]): LibroProp[] => {
     }) ?? [];
 
   return newLibros;
-}
+};

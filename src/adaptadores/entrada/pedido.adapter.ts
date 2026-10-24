@@ -1,28 +1,26 @@
-import { BaseProp } from "../../modelo/Entidades/base/base.interface";
-import { clienteInicial, ClienteProp } from "../../modelo/Entidades/cliente/cliente.interface";
-import { PedidoAdapterProp, PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
-import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import { formatoFecha, invertirFecha } from "../../utils/calendario";
-import { baseAdapter } from "./base.adapter";
-import { clienteAdapter } from "./cliente.adapter";
-import { pedidoLibroAdapterArray } from "./pedidoLibro.adapter";
+import { BaseProp } from '../../modelo/Entidades/base/base.interface';
+import { clienteInicial, ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
+import { PedidoAdapterProp, PedidoProp } from '../../modelo/Entidades/pedido/pedido.interface';
+import { PedidoLibroProp } from '../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
+import { formatoFecha, invertirFecha } from '../../utils/calendario';
+import { baseAdapter } from './base.adapter';
+import { clienteAdapter } from './cliente.adapter';
+import { pedidoLibroAdapterArray } from './pedidoLibro.adapter';
 
 export const pedidoAdapter = (pedido: PedidoAdapterProp | undefined): PedidoProp | undefined => {
   if (!pedido) return undefined;
 
-  const base: BaseProp | undefined = baseAdapter<PedidoAdapterProp>({ base: pedido});
+  const base: BaseProp | undefined = baseAdapter<PedidoAdapterProp>({ base: pedido });
 
   if (!base) return undefined;
 
-  
   const cliente: ClienteProp | undefined = clienteAdapter(pedido.cliente);
 
   const pedidoLibro: PedidoLibroProp[] = pedidoLibroAdapterArray(pedido.items);
 
-
   const newPedido: PedidoProp = {
     ...base,
-    fechaEntrega: invertirFecha(formatoFecha({fecha:pedido.fechaEntrega})),
+    fechaEntrega: invertirFecha(formatoFecha({ fecha: pedido.fechaEntrega })),
     fechaTomado: pedido.fechaCreacion,
     importeTotal: pedido.importeTotal,
     archivos: pedido.archivos,
@@ -31,10 +29,9 @@ export const pedidoAdapter = (pedido: PedidoAdapterProp | undefined): PedidoProp
     estado: pedido.estado,
     libroPedidos: pedidoLibro,
     cliente: cliente ?? clienteInicial,
-  }
+  };
   return newPedido;
-}
-
+};
 
 export const pedidoAdapterArray = (pedidos?: PedidoAdapterProp[]): PedidoProp[] => {
   const newPedidos: PedidoProp[] =
@@ -44,4 +41,4 @@ export const pedidoAdapterArray = (pedidos?: PedidoAdapterProp[]): PedidoProp[] 
     }) ?? [];
 
   return newPedidos;
-}
+};

@@ -1,9 +1,9 @@
-import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
-import { Especificaciones } from "../especificacion/especificacion.enum";
-import { PropuestaAdapterProp, PropuestaProp } from "../propuesta/propuesta.interface";
-import { ComponenteAdapterProp, ComponenteProp } from "./componente.interface";
-import { MateriaAdapterProp, materiaInicial, MateriaProp } from "./materia.interface";
-import { StockAdapterProp, stockInicial, StockProp } from "./stock.interface";
+import { BaseAdapterProp, baseInicial, BaseProp } from '../base/base.interface';
+import { Especificaciones } from '../especificacion/especificacion.enum';
+import { PropuestaAdapterProp, PropuestaProp } from '../propuesta/propuesta.interface';
+import { ComponenteAdapterProp, ComponenteProp } from './componente.interface';
+import { MateriaAdapterProp, materiaInicial, MateriaProp } from './materia.interface';
+import { StockAdapterProp, stockInicial, StockProp } from './stock.interface';
 
 export interface EditorialNombreAdapterProp extends BaseAdapterProp {
   nombre: string;
@@ -13,15 +13,15 @@ export interface EditorialNombreProp extends BaseProp {
   nombre: string;
 }
 
-export interface LibroNombreAdapterProp extends BaseAdapterProp{
-  nombre:string;
-  editorial?:string;
+export interface LibroNombreAdapterProp extends BaseAdapterProp {
+  nombre: string;
+  editorial?: string;
   materia: MateriaAdapterProp;
 }
 
-export interface LibroNombreProp extends BaseProp{
-  nombre:string;
-  editorial?:string;
+export interface LibroNombreProp extends BaseProp {
+  nombre: string;
+  editorial?: string;
   materia: MateriaProp;
 }
 
@@ -29,22 +29,22 @@ export interface LibroAdapterProp extends LibroNombreAdapterProp {
   especificacionesDefecto?: Especificaciones[];
   cantidadPg: number;
   adhesivos?: number;
-  detalleImpresion?:string;
+  detalleImpresion?: string;
 
   edicion?: number;
   nivel?: string;
   anio?: string;
   autor?: string;
   img?: string;
-  descripcion?: string;  
+  descripcion?: string;
   componentes_texto?: string;
   componentes: ComponenteAdapterProp[];
   resumen?: StockAdapterProp;
-  propuesta:PropuestaAdapterProp[]
+  propuesta: PropuestaAdapterProp[];
 }
 
 export interface LibroProp extends LibroNombreProp {
-  detalleImpresion?:string;
+  detalleImpresion?: string;
   componentes_texto?: string;
   descripcion?: string;
   edicion?: number;
@@ -57,7 +57,7 @@ export interface LibroProp extends LibroNombreProp {
   especificacionesDefecto?: Especificaciones[];
   componentes?: ComponenteProp[];
   stock?: StockProp;
-  propuesta?:PropuestaProp[]
+  propuesta?: PropuestaProp[];
 }
 
 export const libroInicial: LibroProp = {
@@ -76,45 +76,45 @@ export const libroInicial: LibroProp = {
   componentes: [],
   materia: materiaInicial,
   stock: stockInicial,
-}
+};
 
 export const libroPrueba: LibroProp = {
-  "id": "0d009053-c70a-48b3-a715-2939e930a224",
-  "deleted": false,
-  "ultAct": "No se conoce",
-  "nombre": "Learn whit us NOW",
-  "editorial": "OXFORD UNIVERSITY PRESS",
-  "nivel": "1",
-  "cantidadPg": 64,
-  "anio": "2025",
-  "img": "",
-  "especificacionesDefecto": [
+  id: '0d009053-c70a-48b3-a715-2939e930a224',
+  deleted: false,
+  ultAct: 'No se conoce',
+  nombre: 'Learn whit us NOW',
+  editorial: 'OXFORD UNIVERSITY PRESS',
+  nivel: '1',
+  cantidadPg: 64,
+  anio: '2025',
+  img: '',
+  especificacionesDefecto: [
     Especificaciones.COLOR,
     Especificaciones.DOBLE_FAZ,
-    Especificaciones.ANILLADO
+    Especificaciones.ANILLADO,
   ],
-  "componentes": [
+  componentes: [
     {
-      "id": "4a664b79-ff87-4942-b1fa-c0d4abec8db1",
-      "deleted": false,
-      "ultAct": "No se conoce",
-      "nombre": "Activity Book"
-    }
+      id: '4a664b79-ff87-4942-b1fa-c0d4abec8db1',
+      deleted: false,
+      ultAct: 'No se conoce',
+      nombre: 'Activity Book',
+    },
   ],
-  "materia": {
-    "id": "49236ca3-8a7d-4d88-b85e-4597219ef684",
-    "deleted": false,
-    "ultAct": "No se conoce",
-    "nombre": "Ingles"
+  materia: {
+    id: '49236ca3-8a7d-4d88-b85e-4597219ef684',
+    deleted: false,
+    ultAct: 'No se conoce',
+    nombre: 'Ingles',
   },
-  "stock": {
-    "id": "685bfdc1-56d2-4c5c-bf3a-860f61fa3d56",
-    "deleted": false,
-    "ultAct": "No se conoce",
-    "stock": 22,
-    "pendiente": 2,
-    "listo": 282,
-    "retirado": 2882,
-    "cancelado": 2
-  }
-}
+  stock: {
+    id: '685bfdc1-56d2-4c5c-bf3a-860f61fa3d56',
+    deleted: false,
+    ultAct: 'No se conoce',
+    stock: 22,
+    pendiente: 2,
+    listo: 282,
+    retirado: 2882,
+    cancelado: 2,
+  },
+};

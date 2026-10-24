@@ -1,5 +1,5 @@
-import { ConfiguracionDtoProp } from "../../modelo/Entidades/configuracion/dtoConfiguracion.interface";
-import { formValuesConfiguracion } from "../../modelo/Entidades/configuracion/esqConfiguracion.esquema";
+import { ConfiguracionDtoProp } from '../../modelo/Entidades/configuracion/dtoConfiguracion.interface';
+import { formValuesConfigEntrega, formValuesConfiguracion } from '../../modelo/Entidades/configuracion/esqConfiguracion.esquema';
 
 /**
  * Arma el body de PUT /configuracion omitiendo toda clave sin valor real.
@@ -19,4 +19,11 @@ export const configuracionDtoAdapter = (p: formValuesConfiguracion): Configuraci
   if (p.msjEnvio !== undefined) dto.msjEnvio = p.msjEnvio;
 
   return dto;
+};
+
+export const configEntregaDtoAdapter = (p: formValuesConfigEntrega): ConfiguracionDtoProp => {
+  const dto: ConfiguracionDtoProp = {};
+   if (p.fechaEntrega) dto.fechaEntrega = p.fechaEntrega;
+
+   return dto;
 }

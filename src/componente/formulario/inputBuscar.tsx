@@ -1,5 +1,5 @@
 import Boton from '../../componente-estilo/boton/boton';
-import './input.css'
+import './input.css';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Arrow from '../../assets/arrow-small.svg?react';
 import Lupa from '../../assets/lupa.svg?react';
@@ -11,7 +11,7 @@ interface InputBuscadorProps {
   setValor: Dispatch<SetStateAction<string>>;
 }
 
-const InputBuscar = ({ name, texto, valor = '', setValor}: InputBuscadorProps) => {
+const InputBuscar = ({ name, texto, valor = '', setValor }: InputBuscadorProps) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [tieneFoco, setTieneFoco] = useState<boolean>(false);
 
@@ -24,53 +24,49 @@ const InputBuscar = ({ name, texto, valor = '', setValor}: InputBuscadorProps) =
   }, [valor, tieneFoco]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setValor(e.target.value)
-  }
+    setValor(e.target.value);
+  };
 
   const handleBuscador = () => {
     setVisible(true);
-  }
+  };
 
   const handleAtras = () => {
-    setValor('')
-  }
+    setValor('');
+  };
 
   return (
-    <div className='input-buscador'>
+    <div className="input-buscador">
       <Boton
-        icono={ <Arrow/>}
+        icono={<Arrow />}
         terciario
-        nuevoEstilo={
-          `btn-icono-mediano btn-buscador ${!visible ? 'btn-oculto' : ''}`
-        }
+        nuevoEstilo={`btn-icono-mediano btn-buscador ${!visible ? 'btn-oculto' : ''}`}
         onClick={handleAtras}
       />
-      <div className={`inputs-span ${/*!visible ? 'btn-oculto' : */''}`}>
+      <div className={`inputs-span ${/*!visible ? 'btn-oculto' : */ ''}`}>
         <div className="inputs-entero buscador">
           <input
-            type='text'
+            type="text"
             id={name}
             name={name}
-            placeholder=' '
+            placeholder=" "
             onChange={handleChange}
             value={valor}
             onFocus={() => setTieneFoco(true)}
             onBlur={() => setTieneFoco(false)}
-            autoComplete='off'
+            autoComplete="off"
           />
           <label htmlFor={name}>{texto}</label>
         </div>
       </div>
       <Boton
-        icono={ <Lupa/>}
+        icono={<Lupa />}
         terciario
-        nuevoEstilo={
-          `btn-icono-mediano btn-buscador btn-lupa ${visible ? 'btn-oculto' : ''}`
-        }
+        nuevoEstilo={`btn-icono-mediano btn-buscador btn-lupa ${visible ? 'btn-oculto' : ''}`}
         onClick={handleBuscador}
       />
     </div>
-  )
-}
+  );
+};
 
-export default InputBuscar
+export default InputBuscar;

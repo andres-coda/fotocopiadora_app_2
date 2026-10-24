@@ -1,7 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
-import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
-import { agregarDatosBusquedaActual, crearBusqueda, crearDatoInicial, resetBusqueda, resetSeleccionDato, seleccionarDato, cambiarOrden } from "../utils/funcionesGenericasEmpresa";
+import { createSlice } from '@reduxjs/toolkit';
+import { PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interface';
+import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import {
+  agregarDatosBusquedaActual,
+  crearBusqueda,
+  crearDatoInicial,
+  resetBusqueda,
+  resetSeleccionDato,
+  seleccionarDato,
+  cambiarOrden,
+} from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 15;
 
@@ -12,15 +20,15 @@ export const busquedaPropuestaInicial: UltimaBusquedaProp<PropuestaProp> = {
   sortOrder: 'asc' as orden,
   pagina: 1,
   limite: 20,
-  total: 0
-}
+  total: 0,
+};
 
 const estadoPropuestaInicial: ReduxProp<PropuestaProp> = {
   datosIniciales: busquedaPropuestaInicial,
   busquedaActual: busquedaPropuestaInicial,
   ultimasBusqueda: [],
-  datoSeleccionado: undefined
-}
+  datoSeleccionado: undefined,
+};
 
 export const propuestaSlice = createSlice({
   name: 'propuesta_empresa',
@@ -32,10 +40,18 @@ export const propuestaSlice = createSlice({
     seleccionarPropuesta: seleccionarDato<PropuestaProp>,
     resetSeleccionarPropuesta: resetSeleccionDato<PropuestaProp>,
     agregarPropuestasBusquedaActual: agregarDatosBusquedaActual<PropuestaProp>,
-    cambiarOrdenPropuesta: cambiarOrden<PropuestaProp>
-  }
+    cambiarOrdenPropuesta: cambiarOrden<PropuestaProp>,
+  },
 });
 
-export const { crearPropuestas, crearBusquedaPropuesta, resetBusquedaPropuesta, resetSeleccionarPropuesta, seleccionarPropuesta, agregarPropuestasBusquedaActual, cambiarOrdenPropuesta } = propuestaSlice.actions;
+export const {
+  crearPropuestas,
+  crearBusquedaPropuesta,
+  resetBusquedaPropuesta,
+  resetSeleccionarPropuesta,
+  seleccionarPropuesta,
+  agregarPropuestasBusquedaActual,
+  cambiarOrdenPropuesta,
+} = propuestaSlice.actions;
 
 export default propuestaSlice.reducer;

@@ -1,14 +1,17 @@
-import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
-import { claseXestadoPedido, estadoPedidoXstring } from "../../utils/formatoDatos";
-import Precio from "../../assets/pesos.svg?react"
-import Texto from "../../componente-estilo/texto/texto";
+import { PedidoProp } from '../../modelo/Entidades/pedido/pedido.interface';
+import { claseXestadoPedido, estadoPedidoXstring } from '../../utils/formatoDatos';
+import Precio from '../../assets/pesos.svg?react';
+import Texto from '../../componente-estilo/texto/texto';
 
 interface Prop {
   pedido: PedidoProp;
 }
 const CardImporte = ({ pedido }: Prop) => {
   return (
-    <div className={`card-pedido-fechas ${claseXestadoPedido(pedido.estado)}`} title={estadoPedidoXstring(pedido.estado)}>
+    <div
+      className={`card-pedido-fechas ${claseXestadoPedido(pedido.estado)}`}
+      title={estadoPedidoXstring(pedido.estado)}
+    >
       <Precio className="icono-pedido" />
       <div className="pedido-fecha-interno">
         <Texto texto={'Total'} centrado chica />
@@ -23,7 +26,7 @@ const CardImporte = ({ pedido }: Prop) => {
         <Texto texto={`$${Number(pedido.importeTotal - pedido.sena)}`} centrado mediana />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default CardImporte;

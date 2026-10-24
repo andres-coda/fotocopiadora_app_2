@@ -1,15 +1,15 @@
-.empresa-dato{
+.empresa-dato {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   gap: 1rem;
   width: 100%;
-  overflow:none;
+  overflow: hidden;
   background-color: var(--colorCardGris);
 }
 
-.empresa-renglon{
+.empresa-renglon {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -24,11 +24,11 @@
   fill: var(--colorNegro);
 }
 
-.empresa-botonera{
-  padding: .5rem;
+.empresa-botonera {
+  padding: 0.5rem;
 }
 
-.renglon-desplegable{
+.renglon-desplegable {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -37,7 +37,7 @@
   position: relative;
   width: 100%;
   padding: 1rem;
-  margin: 0 1rem;
+  margin: 0;
   box-sizing: border-box;
   box-shadow: 1px 1px 1px var(--colorSombra);
   border-radius: 5px;
@@ -45,25 +45,80 @@
   overflow-x: hidden;
 }
 
-.configuracion{
+.configuracion {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: .5rem;
+  gap: 0.5rem;
   padding: 0 1rem;
-
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.empresa-desplegable, 
-.empresa-desplegable .inputs-span
-{
+.configuracion-seccion {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0 1rem;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--colorSombra);
+}
+
+.configuracion-seccion:last-of-type {
+  border-bottom: none;
+}
+
+.configuracion-campo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.configuracion-campo__datos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.configuracion-campo .configuracion-campo__fecha {
+  flex: 0 0 200px;
+  width: 200px;
+}
+
+.configuracion-estado {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.empresa-configuracion__acciones {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.empresa-desplegable,
+.empresa-desplegable .inputs-span {
   width: 100%;
 }
 
-
-.empresa-desplegable .inputs-entero label{
+.empresa-desplegable .inputs-entero label {
   background-color: transparent;
 }
-
-

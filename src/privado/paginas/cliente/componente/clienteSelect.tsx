@@ -1,57 +1,69 @@
-import { useDispatch, useSelector } from "react-redux";
-import { ClienteProp } from "../../../../modelo/Entidades/cliente/cliente.interface";
-import { appStore } from "../../../../redux/store";
-import { RefObject, useEffect, useRef, useState } from "react";
-import Centro from "../../../../componente-estilo/centro/centro";
-import ClienteDatos from "./clienteDatos";
-import './cliente-select.css'
-import Texto from "../../../../componente-estilo/texto/texto";
-import PedidoCard from "../../pedido/componente/pedidoCard";
-import Cargando from "../../../../componente/cargando/cargando";
-import { useModalContext } from "../../../../contexto/contextoModal";
-import Modal from "../../../../componente/modal/modal";
-import Boton from "../../../../componente-estilo/boton/boton";
-import Botonera from "../../../../componente-estilo/botonera/botonera";
-import Editar from "../../../../assets/edit.svg?react";
-import Eliminar from "../../../../assets/deleted.svg?react";
-import ClienteCargar from "../cargar/clienteCargar";
-import EliminarCliente from "./eliminarCliente";
-import { PedidoProp } from "../../../../modelo/Entidades/pedido/pedido.interface";
-import TextoVacio from "../../../../componente/Textos/textoVacio";
-import { estadoPedidoXstring, formatoTelefonoMostrar } from "../../../../utils/formatoDatos";
-import { ReduxProp, UltimaBusquedaProp } from "../../../../redux/modelo/reduxContext.interface";
-import usePedidosApi from "../../../../servicio/pedido/usePedidosApi";
-import { agregarItemsPedidoSeleccionadoRedux, agregarPedidosBusquedaActual, crearBusquedaPedido, resetSeleccionarPedido, seleccionarPedido } from "../../../../redux/state/pedido.state";
-import usePedidoLibrosApi from "../../../../servicio/pedido_libro/usePedidoLibrosApi";
-import { Estado } from "../../../../modelo/Entidades/pedido_libro/estado.enum";
-import EstadoPedidos from "../../../../componente/pedido/estadoPedidos";
+import { useDispatch, useSelector } from 'react-redux';
+import { ClienteProp } from '../../../../modelo/Entidades/cliente/cliente.interface';
+import { appStore } from '../../../../redux/store';
+import { RefObject, useEffect, useRef, useState } from 'react';
+import Centro from '../../../../componente-estilo/centro/centro';
+import ClienteDatos from './clienteDatos';
+import './cliente-select.css';
+import Texto from '../../../../componente-estilo/texto/texto';
+import PedidoCard from '../../pedido/componente/pedidoCard';
+import Cargando from '../../../../componente/cargando/cargando';
+import { useModalContext } from '../../../../contexto/contextoModal';
+import Modal from '../../../../componente/modal/modal';
+import Boton from '../../../../componente-estilo/boton/boton';
+import Botonera from '../../../../componente-estilo/botonera/botonera';
+import Editar from '../../../../assets/edit.svg?react';
+import Eliminar from '../../../../assets/deleted.svg?react';
+import ClienteCargar from '../cargar/clienteCargar';
+import EliminarCliente from './eliminarCliente';
+import { PedidoProp } from '../../../../modelo/Entidades/pedido/pedido.interface';
+import TextoVacio from '../../../../componente/Textos/textoVacio';
+import { estadoPedidoXstring, formatoTelefonoMostrar } from '../../../../utils/formatoDatos';
+import { ReduxProp, UltimaBusquedaProp } from '../../../../redux/modelo/reduxContext.interface';
+import usePedidosApi from '../../../../servicio/pedido/usePedidosApi';
+import {
+  agregarItemsPedidoSeleccionadoRedux,
+  agregarPedidosBusquedaActual,
+  crearBusquedaPedido,
+  resetSeleccionarPedido,
+  seleccionarPedido,
+} from '../../../../redux/state/pedido.state';
+import usePedidoLibrosApi from '../../../../servicio/pedido_libro/usePedidoLibrosApi';
+import { Estado } from '../../../../modelo/Entidades/pedido_libro/estado.enum';
+import EstadoPedidos from '../../../../componente/pedido/estadoPedidos';
 
 const ClienteSelect = () => {
   const clienteContexto: ReduxProp<ClienteProp> = useSelector((store: appStore) => store.cliente);
   const pedidosCliente: ReduxProp<PedidoProp> = useSelector((store: appStore) => store.pedido);
-  const { responsePedidos, loadingPedidos, errorFetchPedidos, obtenerPedidosByCienteId } = usePedidosApi();
-   const finListaRef = useRef<HTMLDivElement>(null);
+  const { responsePedidos, loadingPedidos, errorFetchPedidos, obtenerPedidosByCienteId } =
+    usePedidosApi();
+  const finListaRef = useRef<HTMLDivElement>(null);
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const [estadoSelec, setEstadoSelect] = useState<Estado | undefined>(undefined);
   const [accion, setAccion] = useState<'pedido' | 'editar' | 'eliminar'>('pedido');
 
   const { setModal, modal } = useModalContext();
-  const { obtenerPedidoLibrosByPedidoId, responsePedidoLibross, loadingPedidoLibross, errorFetchPedidoLibross } = usePedidoLibrosApi();
+  const {
+    obtenerPedidoLibrosByPedidoId,
+    responsePedidoLibross,
+    loadingPedidoLibross,
+    errorFetchPedidoLibross,
+  } = usePedidoLibrosApi();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (responsePedidoLibross) {
-      dispatch(agregarItemsPedidoSeleccionadoRedux(responsePedidoLibross.datos))
+      dispatch(agregarItemsPedidoSeleccionadoRedux(responsePedidoLibross.datos));
     }
   }, [responsePedidoLibross]);
 
-  useEffect(()=>{
-    if(!modal){
+  useEffect(() => {
+    if (!modal) {
       dispatch(resetSeleccionarPedido());
       setAccion('pedido');
     }
-  },[modal])
+  }, [modal]);
 
   useEffect(() => {
     if (responsePedidos) {
@@ -62,16 +74,15 @@ const ClienteSelect = () => {
         query: `${clienteContexto.datoSeleccionado?.id}+${estadoSelec}`,
         sortBy: pedidosCliente.busquedaActual.sortBy ?? 'estado',
         sortOrder: 'asc',
-        datosQuery: responsePedidos.datos
-      }
+        datosQuery: responsePedidos.datos,
+      };
       if (
-        responsePedidos.pagina != pedidosCliente.busquedaActual.pagina
-        && pedidosCliente.busquedaActual.query === pedidoPaginado.query
+        responsePedidos.pagina != pedidosCliente.busquedaActual.pagina &&
+        pedidosCliente.busquedaActual.query === pedidoPaginado.query
       ) {
-        dispatch(agregarPedidosBusquedaActual(pedidoPaginado))
-
+        dispatch(agregarPedidosBusquedaActual(pedidoPaginado));
       } else {
-        dispatch(crearBusquedaPedido(pedidoPaginado))
+        dispatch(crearBusquedaPedido(pedidoPaginado));
       }
     }
   }, [responsePedidos]);
@@ -81,68 +92,101 @@ const ClienteSelect = () => {
     dispatch(seleccionarPedido(pedido));
     setAccion('pedido');
     setModal(true);
-  }
+  };
 
-  const handleEditar = () => { setAccion('editar'); setModal(true); }
-  const handleEliminar = () => { setAccion('eliminar'); setModal(true); }
+  const handleEditar = () => {
+    setAccion('editar');
+    setModal(true);
+  };
+  const handleEliminar = () => {
+    setAccion('eliminar');
+    setModal(true);
+  };
 
-  if (!clienteContexto.datoSeleccionado) return <Texto texto={'No se encontro el cliente seleccionado'} />
+  if (!clienteContexto.datoSeleccionado)
+    return <Texto texto={'No se encontro el cliente seleccionado'} />;
 
-  const textoModal = accion === 'editar' ? 'Editar cliente'
-    : accion === 'eliminar' ? 'Eliminar cliente'
-    : `Pedido de ${clienteContexto.datoSeleccionado.telefono ? formatoTelefonoMostrar(clienteContexto.datoSeleccionado.telefono) : clienteContexto.datoSeleccionado.email ?? ''}`;
+  const textoModal =
+    accion === 'editar'
+      ? 'Editar cliente'
+      : accion === 'eliminar'
+        ? 'Eliminar cliente'
+        : `Pedido de ${clienteContexto.datoSeleccionado.telefono ? formatoTelefonoMostrar(clienteContexto.datoSeleccionado.telefono) : (clienteContexto.datoSeleccionado.email ?? '')}`;
 
   return (
-    <Centro
-      ref={contenedorRef} texto="Datos del cliente"
-      nuevoEstilo={'cliente-select'}>
+    <Centro ref={contenedorRef} texto="Datos del cliente" nuevoEstilo={'cliente-select'}>
       <div className="cliente-vertical">
         <div className="cliente-datos-acciones">
           <ClienteDatos cliente={clienteContexto.datoSeleccionado} />
           <Botonera nuevoEstilo="cliente-acciones">
-            <Boton icono={<Eliminar />} edit nuevoEstilo="btn-icono-chico" titulo="Eliminar cliente" onClick={handleEliminar} />
-            <Boton icono={<Editar />} secundario nuevoEstilo="btn-icono-chico" titulo="Editar cliente" onClick={handleEditar} />
+            <Boton
+              icono={<Eliminar />}
+              edit
+              nuevoEstilo="btn-icono-chico"
+              titulo="Eliminar cliente"
+              onClick={handleEliminar}
+            />
+            <Boton
+              icono={<Editar />}
+              secundario
+              nuevoEstilo="btn-icono-chico"
+              titulo="Editar cliente"
+              onClick={handleEditar}
+            />
           </Botonera>
         </div>
         <EstadoPedidos
-        stock={clienteContexto.datoSeleccionado.resumen}
-        finListaRef={finListaRef}
-        contenedorRef={contenedorRef}
-        obtenerPedidosElementoById={obtenerPedidosByCienteId}
-        loading={loadingPedidos}
-        busquedaRedux={pedidosCliente.busquedaActual}
-        estadoSelec={estadoSelec}
-        setEstadoSelect={setEstadoSelect}
+          stock={clienteContexto.datoSeleccionado.resumen}
+          finListaRef={finListaRef}
+          contenedorRef={contenedorRef}
+          obtenerPedidosElementoById={obtenerPedidosByCienteId}
+          loading={loadingPedidos}
+          busquedaRedux={pedidosCliente.busquedaActual}
+          estadoSelec={estadoSelec}
+          setEstadoSelect={setEstadoSelect}
         />
-
       </div>
-      <Texto texto={`Lista de pedidos ${estadoSelec ? `- ${estadoPedidoXstring(estadoSelec)}` : ''}`} mediana negrita centrado />
+      <Texto
+        texto={`Lista de pedidos ${estadoSelec ? `- ${estadoPedidoXstring(estadoSelec)}` : ''}`}
+        mediana
+        negrita
+        centrado
+      />
       <div className="cliente-pedido">
         {loadingPedidos && <Cargando />}
         {errorFetchPedidos && <Texto texto={errorFetchPedidos} />}
-        {
-          pedidosCliente.busquedaActual.datosQuery.length === 0 ? <TextoVacio entidad="pedidos" />
-            : pedidosCliente.busquedaActual.datosQuery.map(pedidoItem => (
-              <PedidoCard pedido={pedidoItem} key={pedidoItem.id} onClick={handlePedido} nuevoEstilo="pedido-cliente-card" cliente/>
-            ))}
-        <div ref={finListaRef}>
-        </div>
+        {pedidosCliente.busquedaActual.datosQuery.length === 0 ? (
+          <TextoVacio entidad="pedidos" />
+        ) : (
+          pedidosCliente.busquedaActual.datosQuery.map(pedidoItem => (
+            <PedidoCard
+              pedido={pedidoItem}
+              key={pedidoItem.id}
+              onClick={handlePedido}
+              nuevoEstilo="pedido-cliente-card"
+              cliente
+            />
+          ))
+        )}
+        <div ref={finListaRef}></div>
       </div>
       <Modal texto={textoModal}>
         {accion === 'editar' && <ClienteCargar />}
         {accion === 'eliminar' && <EliminarCliente />}
         {accion === 'pedido' && (
           <>
-            {pedidosCliente.datoSeleccionado
-              ? <PedidoCard pedido={pedidosCliente.datoSeleccionado} activo />
-              : <TextoVacio entidad="pedido" />}
+            {pedidosCliente.datoSeleccionado ? (
+              <PedidoCard pedido={pedidosCliente.datoSeleccionado} activo />
+            ) : (
+              <TextoVacio entidad="pedido" />
+            )}
             {loadingPedidoLibross && <Cargando />}
             {errorFetchPedidoLibross && <Texto texto={errorFetchPedidoLibross} error chica />}
           </>
         )}
       </Modal>
     </Centro>
-  )
-}
+  );
+};
 
-export default ClienteSelect
+export default ClienteSelect;

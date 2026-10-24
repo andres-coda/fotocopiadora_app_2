@@ -2,7 +2,7 @@
   display: flex;
   min-width: 100px;
   background-color: var(--colorCardEdit);
-  padding: .2rem .5rem;
+  padding: 0.2rem 0.5rem;
   border-radius: 5px;
 }
 
@@ -10,6 +10,6 @@
   background-color: var(--colorCardGris);
 }
 
-.seccion-card{
-  gap:.5rem;
+.seccion-card {
+  gap: 0.5rem;
 }

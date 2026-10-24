@@ -1,22 +1,18 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
-import { HasId } from "../../modelo/general/hasId.interface";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { HasId } from '../../modelo/general/hasId.interface';
 
 export const evaluarUltimasBusquedas = <T>(
   state: ReduxProp<T>,
   nueva: UltimaBusquedaProp<T>,
   cantidadBusquedas: number
 ): void => {
-
-  const indice = state.ultimasBusqueda.findIndex(
-    b => b.query === nueva.query
-  );
+  const indice = state.ultimasBusqueda.findIndex(b => b.query === nueva.query);
 
   if (indice !== -1) {
     const [busqueda] = state.ultimasBusqueda.splice(indice, 1);
     state.ultimasBusqueda.push(busqueda);
   } else {
-
     if (state.ultimasBusqueda.length === cantidadBusquedas) {
       state.ultimasBusqueda.shift();
     }
@@ -25,61 +21,37 @@ export const evaluarUltimasBusquedas = <T>(
   }
 };
 
-
 export const crearDatoInicial = <T>(
   state: ReduxProp<T>,
   action: PayloadAction<UltimaBusquedaProp<T>>
 ) => {
-
   state.datosIniciales = action.payload;
   state.busquedaActual = action.payload;
 };
 
+export const crearBusqueda =
+  <T>(cantidadBusqueda: number) =>
+  (state: ReduxProp<T>, action: PayloadAction<UltimaBusquedaProp<T>>) => {
+    evaluarUltimasBusquedas(state, action.payload, cantidadBusqueda);
 
-export const crearBusqueda = <T>(cantidadBusqueda: number) =>(
-  state: ReduxProp<T>,
-  action: PayloadAction<UltimaBusquedaProp<T>>
-) => {
+    state.busquedaActual = action.payload;
+  };
 
-  evaluarUltimasBusquedas(
-    state,
-    action.payload,
-    cantidadBusqueda
-  );
+export const resetBusqueda =
+  <T>(cantidadBusqueda: number) =>
+  (state: ReduxProp<T>) => {
+    if (!state.busquedaActual) return;
 
-  state.busquedaActual = action.payload;
-};
+    evaluarUltimasBusquedas(state, state.busquedaActual, cantidadBusqueda);
 
+    state.busquedaActual = state.datosIniciales;
+  };
 
-export const resetBusqueda = <T>(cantidadBusqueda:number)=>(
-  state: ReduxProp<T>,
-) => {
-
-  if (!state.busquedaActual) return;
-
-  evaluarUltimasBusquedas(
-    state,
-    state.busquedaActual,
-    cantidadBusqueda
-  );
-
-  state.busquedaActual = state.datosIniciales;
-};
-
-
-export const seleccionarDato = <T>(
-  state: ReduxProp<T>,
-  action: PayloadAction<T>
-) => {
-
+export const seleccionarDato = <T>(state: ReduxProp<T>, action: PayloadAction<T>) => {
   state.datoSeleccionado = action.payload;
 };
 
-
-export const resetSeleccionDato = <T>(
-  state: ReduxProp<T>
-) => {
-
+export const resetSeleccionDato = <T>(state: ReduxProp<T>) => {
   state.datoSeleccionado = undefined;
 };
 
@@ -91,9 +63,9 @@ export const agregarDatosBusquedaActual = <T>(
     ...state.busquedaActual,
     limite: action.payload.limite,
     total: action.payload.total,
-    pagina:action.payload.pagina,
-    datosQuery: [...state.busquedaActual.datosQuery, ...action.payload.datosQuery]
-  }
+    pagina: action.payload.pagina,
+    datosQuery: [...state.busquedaActual.datosQuery, ...action.payload.datosQuery],
+  };
 };
 
 export const agregarElementoInicio = <T extends HasId>(
@@ -121,21 +93,21 @@ export const eliminarElemento = <T extends HasId>(
   state: ReduxProp<T>,
   action: PayloadAction<string>
 ) => {
-  state.busquedaActual = eliminarElementoLista(state.busquedaActual, action.payload)
-  if(state.datoSeleccionado?.id === action.payload)
-    state.datoSeleccionado = undefined;
+  state.busquedaActual = eliminarElementoLista(state.busquedaActual, action.payload);
+  if (state.datoSeleccionado?.id === action.payload) state.datoSeleccionado = undefined;
   state.datosIniciales = eliminarElementoLista(state.datosIniciales, action.payload);
-  state.ultimasBusqueda = state.ultimasBusqueda.map(b=> eliminarElementoLista(b, action.payload));
-}
+  state.ultimasBusqueda = state.ultimasBusqueda.map(b => eliminarElementoLista(b, action.payload));
+};
 
-const eliminarElementoLista = <T extends HasId> (
-  elementos: UltimaBusquedaProp<T>, id:string
-):UltimaBusquedaProp<T> => {
+const eliminarElementoLista = <T extends HasId>(
+  elementos: UltimaBusquedaProp<T>,
+  id: string
+): UltimaBusquedaProp<T> => {
   return {
     ...elementos,
-    datosQuery: elementos.datosQuery.filter(e=> e.id != id)
-  }
-}
+    datosQuery: elementos.datosQuery.filter(e => e.id != id),
+  };
+};
 
 export const modificarElementoRedux = <T extends HasId>(
   state: ReduxProp<T>,
@@ -148,13 +120,14 @@ export const modificarElementoRedux = <T extends HasId>(
   const actual = state.datoSeleccionado;
   if (actual && actual.id === action.payload.id)
     state.datoSeleccionado = { ...actual, ...action.payload };
-}
+};
 
 const modificarElementoLista = <T extends HasId>(
-  elementos: UltimaBusquedaProp<T>, elemento: T
-):UltimaBusquedaProp<T> => {
+  elementos: UltimaBusquedaProp<T>,
+  elemento: T
+): UltimaBusquedaProp<T> => {
   return {
     ...elementos,
-    datosQuery: elementos.datosQuery.map(e => e.id != elemento.id ? e : { ...e, ...elemento })
-  }
-}
+    datosQuery: elementos.datosQuery.map(e => (e.id != elemento.id ? e : { ...e, ...elemento })),
+  };
+};

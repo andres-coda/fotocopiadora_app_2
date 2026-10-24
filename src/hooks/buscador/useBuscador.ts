@@ -1,10 +1,10 @@
-import { RefObject, useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useModalContext } from "../../contexto/contextoModal";
-import { useDispatch } from "react-redux";
-import { BuscadorProp } from "./useBuscadorProp.interface";
-import { BaseProp } from "../../modelo/Entidades/base/base.interface";
-import { PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
+import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useModalContext } from '../../contexto/contextoModal';
+import { useDispatch } from 'react-redux';
+import { BuscadorProp } from './useBuscadorProp.interface';
+import { BaseProp } from '../../modelo/Entidades/base/base.interface';
+import { PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interface';
 
 interface RetornoBusquedaProp<T extends BaseProp> {
   elementos: T[];
@@ -19,11 +19,10 @@ const useBuscador = <T extends BaseProp>({
   sortOrder,
   elementoSelect,
   resetSelectElemento,
-  propuestas = undefined
+  propuestas = undefined,
 }: BuscadorProp<T>) => {
-
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setModal } = useModalContext();
   const [valor, setValor] = useState<string>('');
@@ -70,7 +69,7 @@ const useBuscador = <T extends BaseProp>({
 
     return {
       elementos: elementosResultado,
-      propuestas: propuestas ?? []
+      propuestas: propuestas ?? [],
     };
   }, [elementosOrdenados, filtros, propuestas]);
 
@@ -82,9 +81,16 @@ const useBuscador = <T extends BaseProp>({
       setModal(true);
       setModalLocal(true);
     }
-  }
+  };
 
-  return { contenedorRef, valor, setValor, nuevoElemento, elementosFiltrados: elementosFiltrados.elementos, retornoPropuestas: elementosFiltrados.propuestas }
-}
+  return {
+    contenedorRef,
+    valor,
+    setValor,
+    nuevoElemento,
+    elementosFiltrados: elementosFiltrados.elementos,
+    retornoPropuestas: elementosFiltrados.propuestas,
+  };
+};
 
-export default useBuscador
+export default useBuscador;

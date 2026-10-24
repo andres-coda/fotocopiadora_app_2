@@ -1,12 +1,12 @@
-import { clienteSlice } from "../state/cliente.state";
-import { especificacionSlice } from "../state/especificacion.state";
-import { materiaSlice } from "../state/materia.state";
-import { pedidoSlice } from "../state/pedido.state";
-import { pedidoLibroSlice } from "../state/pedido_libro.state";
-import { precioSlice } from "../state/precio.state";
-import { sedeSlice } from "../state/sede.state";
-import { propuestaSlice } from "../state/propuesta.state";
-import { libroSlice } from "../state/libro.state";
+import { clienteSlice } from '../state/cliente.state';
+import { especificacionSlice } from '../state/especificacion.state';
+import { materiaSlice } from '../state/materia.state';
+import { pedidoSlice } from '../state/pedido.state';
+import { pedidoLibroSlice } from '../state/pedido_libro.state';
+import { precioSlice } from '../state/precio.state';
+import { sedeSlice } from '../state/sede.state';
+import { propuestaSlice } from '../state/propuesta.state';
+import { libroSlice } from '../state/libro.state';
 
 export const reducerRegistro = {
   cliente: clienteSlice.reducer,

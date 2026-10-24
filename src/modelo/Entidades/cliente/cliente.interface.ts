@@ -1,6 +1,6 @@
-import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
-import { PedidoAdapterProp, PedidoProp } from "../pedido/pedido.interface";
-import { ResumenAdapterProp, resumenInicial, ResumenProp } from "./resumen.interface";
+import { BaseAdapterProp, baseInicial, BaseProp } from '../base/base.interface';
+import { PedidoAdapterProp, PedidoProp } from '../pedido/pedido.interface';
+import { ResumenAdapterProp, resumenInicial, ResumenProp } from './resumen.interface';
 
 export interface ClienteAdapterProp extends BaseAdapterProp {
   nombre?: string;
@@ -24,5 +24,5 @@ export const clienteInicial: ClienteProp = {
   telefono: '',
   email: '',
   resumen: resumenInicial,
-  pedidos: []
-}
+  pedidos: [],
+};

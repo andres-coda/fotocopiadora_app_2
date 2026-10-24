@@ -1,10 +1,10 @@
-import { BrowserRouter } from "react-router-dom";
-import ErrorBoundary from "./ErrorBoundary";
-import App from "./App";
-import AppRouter from "./AppRouter";
-import { Provider } from "react-redux";
-import store from "./redux/store";
-import { ProveiderModalContext } from "./contexto/contextoModal";
+import { BrowserRouter } from 'react-router-dom';
+import ErrorBoundary from './ErrorBoundary';
+import App from './App';
+import AppRouter from './AppRouter';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import { ProveiderModalContext } from './contexto/contextoModal';
 
 const AppHookConteiner = () => {
   return (
@@ -19,7 +19,7 @@ const AppHookConteiner = () => {
         </BrowserRouter>
       </ErrorBoundary>
     </ProveiderModalContext>
-  )
-}
+  );
+};
 
 export default AppHookConteiner;

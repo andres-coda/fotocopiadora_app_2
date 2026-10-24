@@ -1,11 +1,27 @@
-import { createSlice, PayloadAction, WritableDraft } from "@reduxjs/toolkit";
-import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import { PedidoLibroFiltrosProp, PedidoLibroOrdenProp, filtrosPedidoLibroInicial, ordenPedidoLibroInicial } from "../../modelo/Entidades/pedido_libro/pedidoLibroFiltro.interface";
-import { CambiarEstadoPedidoCompletoProp } from "../../modelo/Entidades/pedido_libro/cambioEstado.interface";
-import { ActionProp, ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
-import {crearDatoInicial, crearBusqueda, resetBusqueda, seleccionarDato, resetSeleccionDato, agregarDatosBusquedaActual, cambiarOrden} from "../utils/funcionesGenericasEmpresa";
-import { limiteDefecto } from "../../utils/constantes";
-import { cambiarSedePedidoLibroRedux as cambiarSedePedidoLibroFn, modificarEstadoPedidoLibroFn } from "../utils/funcionesPedido";
+import { createSlice, PayloadAction, WritableDraft } from '@reduxjs/toolkit';
+import { PedidoLibroProp } from '../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
+import {
+  PedidoLibroFiltrosProp,
+  PedidoLibroOrdenProp,
+  filtrosPedidoLibroInicial,
+  ordenPedidoLibroInicial,
+} from '../../modelo/Entidades/pedido_libro/pedidoLibroFiltro.interface';
+import { CambiarEstadoPedidoCompletoProp } from '../../modelo/Entidades/pedido_libro/cambioEstado.interface';
+import { ActionProp, ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import {
+  crearDatoInicial,
+  crearBusqueda,
+  resetBusqueda,
+  seleccionarDato,
+  resetSeleccionDato,
+  agregarDatosBusquedaActual,
+  cambiarOrden,
+} from '../utils/funcionesGenericasEmpresa';
+import { limiteDefecto } from '../../utils/constantes';
+import {
+  cambiarSedePedidoLibroRedux as cambiarSedePedidoLibroFn,
+  modificarEstadoPedidoLibroFn,
+} from '../utils/funcionesPedido';
 
 const cantidadBusquedas: number = 5;
 
@@ -16,8 +32,8 @@ export const busquedaPedidoLibroInicial: UltimaBusquedaProp<PedidoLibroProp> = {
   sortOrder: 'asc' as orden,
   pagina: 1,
   limite: limiteDefecto,
-  total: 0
-}
+  total: 0,
+};
 
 // Estado del slice: los filtros y el orden viven en la raíz para que sobrevivan
 // a cada respuesta (busquedaActual se reemplaza en cada fetch).
@@ -33,7 +49,7 @@ const estadoPedidoLibroInicial: PedidoLibroStateProp = {
   datoSeleccionado: undefined,
   filtrosPedidoLibro: filtrosPedidoLibroInicial,
   ordenPedidoLibro: ordenPedidoLibroInicial,
-}
+};
 
 export const pedidoLibroSlice = createSlice({
   name: 'pedidoLibro',
@@ -47,10 +63,16 @@ export const pedidoLibroSlice = createSlice({
     agregarPedidoLibrosBusquedaActual: agregarDatosBusquedaActual<PedidoLibroProp>,
     // Se reescribe el resultado como mutación del draft para que el reducer
     // conserve el tipo completo del slice (incluye filtrosPedidoLibro y ordenPedidoLibro).
-    cambiarSedePedidoLibroRedux: (state: WritableDraft<PedidoLibroStateProp>, action: ActionProp<PedidoLibroProp>) => {
+    cambiarSedePedidoLibroRedux: (
+      state: WritableDraft<PedidoLibroStateProp>,
+      action: ActionProp<PedidoLibroProp>
+    ) => {
       state.datoSeleccionado = cambiarSedePedidoLibroFn(state, action).datoSeleccionado;
     },
-    cambiarEstadoPedidoLibroRedux: (state: WritableDraft<PedidoLibroStateProp>, action: ActionProp<CambiarEstadoPedidoCompletoProp>) => {
+    cambiarEstadoPedidoLibroRedux: (
+      state: WritableDraft<PedidoLibroStateProp>,
+      action: ActionProp<CambiarEstadoPedidoCompletoProp>
+    ) => {
       const actualizado = modificarEstadoPedidoLibroFn(state, action);
       state.datosIniciales = actualizado.datosIniciales;
       state.busquedaActual = actualizado.busquedaActual;
@@ -63,22 +85,22 @@ export const pedidoLibroSlice = createSlice({
     },
     cambiarOrdenPedidoLibroArreglo: (state, action: PayloadAction<PedidoLibroOrdenProp[]>) => {
       state.ordenPedidoLibro = action.payload;
-    }
-  }
+    },
+  },
 });
 
-export const { 
-  crearPedidoLibros, 
-  crearBusquedaPedidoLibro, 
-  resetBusquedaPedidoLibro, 
-  resetSeleccionarPedidoLibro, 
-  seleccionarPedidoLibro, 
+export const {
+  crearPedidoLibros,
+  crearBusquedaPedidoLibro,
+  resetBusquedaPedidoLibro,
+  resetSeleccionarPedidoLibro,
+  seleccionarPedidoLibro,
   agregarPedidoLibrosBusquedaActual,
   cambiarOrdenPedidoLibro,
   cambiarSedePedidoLibroRedux,
   cambiarEstadoPedidoLibroRedux,
   cambiarFiltrosPedidoLibro,
-  cambiarOrdenPedidoLibroArreglo
+  cambiarOrdenPedidoLibroArreglo,
 } = pedidoLibroSlice.actions;
 
 export default pedidoLibroSlice.reducer;

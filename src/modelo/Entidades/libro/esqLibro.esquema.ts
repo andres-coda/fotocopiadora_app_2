@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { LibroProp } from "./libro.interface";
-import { transformarComponente } from "../../../utils/componente";
+import { z } from 'zod';
+import { LibroProp } from './libro.interface';
+import { transformarComponente } from '../../../utils/componente';
 
 const libroNombre = z.object({
   nombre: z.string().min(1, 'El libro debe tener un nombre'),
@@ -22,17 +22,18 @@ export const libroDatosExtras = z.object({
   edicion: z.string().optional(),
   anio: z.string().optional(),
   autor: z.string().optional(),
-  img: z.string().optional()
+  img: z.string().optional(),
 });
-
 
 export type formValuesLibroDatosExtras = z.infer<typeof libroDatosExtras>;
 
 export const libroDatosLocal = z.object({
-  cantidadPg: z.string().min(1, 'El libro debe tener cantidad de páginas, para poder calcular los precios'),
+  cantidadPg: z
+    .string()
+    .min(1, 'El libro debe tener cantidad de páginas, para poder calcular los precios'),
   adhesivos: z.string().optional(),
-  detalles_impresion: z.string().optional()
-})
+  detalles_impresion: z.string().optional(),
+});
 
 export type formValuesLibroDatosLocales = z.infer<typeof libroDatosLocal>;
 
@@ -41,11 +42,10 @@ export const libro = libroNombre
   .extend(libroDatosExtras.shape)
   .extend(libroDatosLocal.shape);
 
-export type formValuesLibro = 
-  formValuesLibroNombre
-  & formValuesLibroComponentes
-  & formValuesLibroDatosExtras
-  & formValuesLibroDatosLocales;
+export type formValuesLibro = formValuesLibroNombre &
+  formValuesLibroComponentes &
+  formValuesLibroDatosExtras &
+  formValuesLibroDatosLocales;
 
 export const libroFormDefault: formValuesLibro = {
   nombre: '',
@@ -60,7 +60,7 @@ export const libroFormDefault: formValuesLibro = {
   img: '',
   materia: '',
   componentes: '',
-}
+};
 
 export const libroFormEdit = (libro?: LibroProp | null): formValuesLibro => {
   if (!libro) return libroFormDefault;
@@ -77,6 +77,5 @@ export const libroFormEdit = (libro?: LibroProp | null): formValuesLibro => {
     img: libro?.img || libroFormDefault.img,
     materia: libro?.materia.nombre || libroFormDefault.materia,
     componentes: transformarComponente(libro?.componentes),
-  }
-}
-
+  };
+};

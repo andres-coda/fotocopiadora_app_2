@@ -1,12 +1,17 @@
-import { UsuarioEditarDtoProp } from "../../modelo/usuario/dtoUsuario.interface";
-import { formValuesUsuarioAdmin, formValuesUsuarioEditar } from "../../modelo/usuario/esqUsuario.esquema";
+import { UsuarioEditarDtoProp } from '../../modelo/usuario/dtoUsuario.interface';
+import {
+  formValuesUsuarioAdmin,
+  formValuesUsuarioEditar,
+} from '../../modelo/usuario/esqUsuario.esquema';
 
 // Sirve para las dos ediciones: la propia (sin rol) y la del ABM de admin (con rol).
-export const usuarioEditarDtoAdapter = (p: formValuesUsuarioEditar | formValuesUsuarioAdmin): UsuarioEditarDtoProp => {
+export const usuarioEditarDtoAdapter = (
+  p: formValuesUsuarioEditar | formValuesUsuarioAdmin
+): UsuarioEditarDtoProp => {
   const newUser: UsuarioEditarDtoProp = {
     nombre: p.nombre,
     email: p.email,
-  }
+  };
 
   // Si la password viene vacia no se envia.
   if (p.password) {
@@ -19,4 +24,4 @@ export const usuarioEditarDtoAdapter = (p: formValuesUsuarioEditar | formValuesU
   }
 
   return newUser;
-}
+};

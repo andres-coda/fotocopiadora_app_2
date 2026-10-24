@@ -1,36 +1,44 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Centro from "../../../componente-estilo/centro/centro";
-import Formulario from "../../../componente/formulario/formulario";
-import Input from "../../../componente/formulario/input";
-import { rutaPrivadaBase } from "../../../privado/rutas/rutasPrivadas";
-import { formValuesRegistro, registro, registroFormDefault } from "../../../modelo/usuario/esqUsuario.esquema";
-import useUsuarioTokens from "../../../servicio/usuario/useUsuarioTokens";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Centro from '../../../componente-estilo/centro/centro';
+import Formulario from '../../../componente/formulario/formulario';
+import Input from '../../../componente/formulario/input';
+import { rutaPrivadaBase } from '../../../privado/rutas/rutasPrivadas';
+import {
+  formValuesRegistro,
+  registro,
+  registroFormDefault,
+} from '../../../modelo/usuario/esqUsuario.esquema';
+import useUsuarioTokens from '../../../servicio/usuario/useUsuarioTokens';
 
 const Registro = () => {
-  const navigate = useNavigate()
-  const { control, handleSubmit, formState: { errors } } = useForm<formValuesRegistro>({
+  const navigate = useNavigate();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<formValuesRegistro>({
     resolver: zodResolver(registro),
-    defaultValues: registroFormDefault
+    defaultValues: registroFormDefault,
   });
-  const { crearUsuario, userLoading, userError, user } = useUsuarioTokens()
+  const { crearUsuario, userLoading, userError, user } = useUsuarioTokens();
 
   useEffect(() => {
     if (user) {
       localStorage.setItem('token', user.access_token);
-      navigate(`/${rutaPrivadaBase.PRIVADO}`)
+      navigate(`/${rutaPrivadaBase.PRIVADO}`);
     }
-  }, [user])
+  }, [user]);
 
   const onSubmit = (data: formValuesRegistro) => {
-    crearUsuario(data)
-  }
+    crearUsuario(data);
+  };
 
   const handleBack = () => {
-    navigate('/')
-  }
+    navigate('/');
+  };
 
   return (
     <Centro>
@@ -44,15 +52,42 @@ const Registro = () => {
         errorFetch={userError}
       >
         <>
-          <Input<formValuesRegistro> name='nombre' control={control} label='Nombre' tipo='text' error={errors.nombre} esquema={registro} />
-          <Input<formValuesRegistro> name='email' control={control} label='Email' tipo='email' error={errors.email} esquema={registro} />
-          <Input<formValuesRegistro> name='password' control={control} label='Contraseña' tipo='password' error={errors.password} esquema={registro} />
-          <Input<formValuesRegistro> name='confirPassword' control={control} label='Confirmar contraseña' tipo='password' error={errors.confirPassword} esquema={registro} />
+          <Input<formValuesRegistro>
+            name="nombre"
+            control={control}
+            label="Nombre"
+            tipo="text"
+            error={errors.nombre}
+            esquema={registro}
+          />
+          <Input<formValuesRegistro>
+            name="email"
+            control={control}
+            label="Email"
+            tipo="email"
+            error={errors.email}
+            esquema={registro}
+          />
+          <Input<formValuesRegistro>
+            name="password"
+            control={control}
+            label="Contraseña"
+            tipo="password"
+            error={errors.password}
+            esquema={registro}
+          />
+          <Input<formValuesRegistro>
+            name="confirPassword"
+            control={control}
+            label="Confirmar contraseña"
+            tipo="password"
+            error={errors.confirPassword}
+            esquema={registro}
+          />
         </>
       </Formulario>
     </Centro>
+  );
+};
 
-  )
-}
-
-export default Registro;   
+export default Registro;

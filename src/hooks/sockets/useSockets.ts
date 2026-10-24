@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import socket from "../../socket";
+import { useEffect } from 'react';
+import socket from '../../socket';
 
 interface Prop {
   libro?: boolean | undefined;
@@ -8,7 +8,7 @@ interface Prop {
   materia?: boolean | undefined;
   pedido?: boolean | undefined;
   pedidoLibro?: boolean | undefined;
-  precio?: boolean | undefined;  
+  precio?: boolean | undefined;
   propuesta?: boolean | undefined;
   sede?: boolean | undefined;
   componente?: boolean | undefined;
@@ -65,7 +65,7 @@ const useSockets = ({}: Prop) => {
     /* responseObraSocial, responseConstante, responseConvenio, responseAntiguedadIndividual, responseGrupo, responseClasificacion,
     responseConcepto, responseSeccion, responseCargo, responseEmpleador, responseEmpleado, responseLiquidacion, responseLiquidacionInd,
     responseLicencia, responseSindicato, */
-  }
-}
+  };
+};
 
 export default useSockets;

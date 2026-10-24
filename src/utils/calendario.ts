@@ -1,5 +1,5 @@
 interface FechaProp {
-  fecha?: Date
+  fecha?: Date;
 }
 
 interface RestarFechasProp {
@@ -22,23 +22,22 @@ export interface ultActProp {
   fechaActualizacion?: Date;
 }
 
-
 export const formatoFecha = ({ fecha }: FechaProp): string => {
-  if(!fecha) return '';
+  if (!fecha) return '';
   const date = new Date(fecha);
   const dia = date.getDay() + 1;
   const mes = date.getMonth() + 1;
   const año = date.getFullYear();
   return `${dia}-${mes}-${año}`;
-}
+};
 
 export const formatoHora = ({ fecha }: FechaProp): string => {
-  if(!fecha) return '';
+  if (!fecha) return '';
   const date = new Date(fecha);
   const horas = date.getHours();
   const minutos = date.getMinutes();
-  return `${horas} : ${minutos} hs`
-}
+  return `${horas} : ${minutos} hs`;
+};
 
 export const formatearFechaParaDB = (fechaString: string): string => {
   if (!fechaString) {
@@ -71,9 +70,7 @@ export const RestarFechasAnos = ({ desde, hasta }: RestarFechasProp): number => 
 
   const diffAnios = añoHasta - añoDesde;
 
-  const mesNoCumplido =
-    mesHasta < mesDesde ||
-    (mesHasta === mesDesde && diaHasta < diaDesde);
+  const mesNoCumplido = mesHasta < mesDesde || (mesHasta === mesDesde && diaHasta < diaDesde);
 
   return mesNoCumplido ? diffAnios - 1 : diffAnios;
 };
@@ -84,9 +81,9 @@ export const invertirFecha = (fechaIngreso: string): string => {
 };
 
 export const ultFechaAdapter = ({ fechaActualizacion, fechaCreacion }: ultActProp): string => {
-  if (!fechaCreacion) return 'No se conoce'
+  if (!fechaCreacion) return 'No se conoce';
   const fecha = fechaActualizacion || fechaCreacion;
-  const ultAct: string = `${formatoFecha({ fecha })} - ${formatoHora({ fecha })}`
+  const ultAct: string = `${formatoFecha({ fecha })} - ${formatoHora({ fecha })}`;
 
-  return ultAct
-}
+  return ultAct;
+};

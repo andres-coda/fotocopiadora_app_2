@@ -6,14 +6,14 @@
   flex-direction: column;
   justify-content: space-around;
   border-radius: 4px;
-  gap: .1rem;
+  gap: 0.1rem;
 }
 
 .especificaciones-container li {
   border-radius: 4px;
   background-color: var(--colorCardEdit);
   padding: 0.1rem 0.3rem;
-  border: 1px solid var(--colorNegro)
+  border: 1px solid var(--colorNegro);
 }
 
 .especificaciones-horizontal {
@@ -27,17 +27,17 @@
 }
 
 .especificaciones-horizontal li {
-  flex-grow: 1 ;
+  flex-grow: 1;
   margin: 0.2rem;
-  text-align: center ;
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.esp-select{
+.esp-select {
   box-shadow: 1px 1px 1px var(--colorSombra);
   border-radius: 5px;
-  padding: .5rem;
+  padding: 0.5rem;
   box-sizing: border-box;
 }

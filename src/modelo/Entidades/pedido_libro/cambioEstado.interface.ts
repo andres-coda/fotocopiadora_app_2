@@ -1,6 +1,6 @@
-import { ResumenProp } from "../cliente/resumen.interface";
-import { StockProp } from "../libro/stock.interface";
-import { Estado } from "./estado.enum";
+import { ResumenProp } from '../cliente/resumen.interface';
+import { StockProp } from '../libro/stock.interface';
+import { Estado } from './estado.enum';
 
 export interface ResumenGeneralAdapterProp {
   id: string;
@@ -27,21 +27,21 @@ export interface CambiarEstadoPedidoAdapterProp {
   estado: Estado;
   fechaActualizacion?: string;
   cliente?: {
-    id: string,
-    resumen: ResumenGeneralAdapterProp
-  }
+    id: string;
+    resumen: ResumenGeneralAdapterProp;
+  };
   items?: CambioEstadoPedidoItemAdapterProp[];
 }
 
 export interface CambiarEstadoPedidoProp {
-  id:string,
-  estado:Estado,
-  ultAct?: string,
+  id: string;
+  estado: Estado;
+  ultAct?: string;
   items?: CambiarEstadoItemProp[];
 }
 
 export interface CambiarEstadoItemProp {
-  ultAct?: string,
+  ultAct?: string;
   idPedido: string;
   id: string;
   estado: Estado;
@@ -53,4 +53,3 @@ export interface CambiarEstadoPedidoCompletoProp {
   pedido: CambiarEstadoPedidoProp;
   resumenCliente: ResumenProp;
 }
-

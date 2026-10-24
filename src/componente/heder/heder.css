@@ -32,30 +32,28 @@
   box-sizing: border-box;
 }
 
-.heder ul li a:focus{
+.heder ul li a:focus {
   background-color: var(--colorBoton);
 }
 
-.heder ul li a:focus:hover{
+.heder ul li a:focus:hover {
   color: var(--colorCardVerde);
   background-color: var(--colorBoton);
   box-shadow: 2px 2px 4px var(--colorNegro);
 }
 
-.heder ul li:hover{
+.heder ul li:hover {
   background-color: var(--colorBoton);
   box-shadow: 2px 2px 4px var(--colorNegro);
 }
-
 
 .heder ul li:hover .txt-heder {
   color: var(--colorCardVerde);
 }
 
-.heder ul li a:active{
+.heder ul li a:active {
   background-color: var(--colorBlanco);
 }
-
 
 .heder ul li a {
   color: var(--colorNegro);
@@ -68,25 +66,26 @@
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 }
-.heder-convenio{
-  padding: 0 .5rem;
+.heder-convenio {
+  padding: 0 0.5rem;
 }
-.heder-convenio ul, .heder-empleador ul{
-  border-top: 1px solid var(--colorSombra);  
+.heder-convenio ul,
+.heder-empleador ul {
+  border-top: 1px solid var(--colorSombra);
   border-left: 1px solid var(--colorSombra);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
 
-.heder-convenio ul li{  
+.heder-convenio ul li {
   box-shadow: 1px 1px 1px var(--colorSombra);
   min-height: 40px;
 }
 
-.heder-empleador ul li{  
+.heder-empleador ul li {
   box-shadow: 1px 1px 1px var(--colorSombra);
 }
 
-.heder-empleador{
+.heder-empleador {
   height: 30px;
 }

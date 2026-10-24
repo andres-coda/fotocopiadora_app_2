@@ -1,7 +1,7 @@
-import { PedidoLibroProp } from "../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import Card from "../../../../componente-estilo/card/card";
-import { claseXestado, nombreLibroXstring } from "../../../../utils/formatoDatos";
-import ItemInternoCard from "./itemInternoCard";
+import { PedidoLibroProp } from '../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
+import Card from '../../../../componente-estilo/card/card';
+import { claseXestado, nombreLibroXstring } from '../../../../utils/formatoDatos';
+import ItemInternoCard from './itemInternoCard';
 import './itemCard.css';
 
 interface Prop {
@@ -11,11 +11,9 @@ interface Prop {
 }
 
 const ItemCard = ({ item, idPedido, onClick }: Prop) => {
-
   const handleItem = () => {
-    if (onClick)
-      onClick(item);
-  }
+    if (onClick) onClick(item);
+  };
 
   return (
     <Card
@@ -25,7 +23,7 @@ const ItemCard = ({ item, idPedido, onClick }: Prop) => {
     >
       <ItemInternoCard idPedido={idPedido} item={item} />
     </Card>
-  )
-}
+  );
+};
 
-export default ItemCard
+export default ItemCard;

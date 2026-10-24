@@ -1,10 +1,10 @@
-import { BaseSyntheticEvent, ReactNode } from "react";
-import './formulario.css'
-import Boton from "../../componente-estilo/boton/boton";
-import Titulo from "../../componente-estilo/texto/titulo";
-import Texto from "../../componente-estilo/texto/texto";
-import Botonera from "../../componente-estilo/botonera/botonera";
-import Arrow from "../../assets/arrow.svg?react"
+import { BaseSyntheticEvent, ReactNode } from 'react';
+import './formulario.css';
+import Boton from '../../componente-estilo/boton/boton';
+import Titulo from '../../componente-estilo/texto/titulo';
+import Texto from '../../componente-estilo/texto/texto';
+import Botonera from '../../componente-estilo/botonera/botonera';
+import Arrow from '../../assets/arrow.svg?react';
 
 interface FormularioProps {
   children: ReactNode;
@@ -22,54 +22,54 @@ interface FormularioProps {
   errorFetch?: string | null;
 }
 
-function Formulario({ 
-  children, 
-  onSubmit, 
-  titulo, 
-  onReset, 
-  textBtnConfirmar = undefined, 
-  textBtnSecundario = undefined, 
-  onClickSecundario, 
-  estiloBoton = undefined, 
+function Formulario({
+  children,
+  onSubmit,
+  titulo,
+  onReset,
+  textBtnConfirmar = undefined,
+  textBtnSecundario = undefined,
+  onClickSecundario,
+  estiloBoton = undefined,
   claseForm = '',
   etiquetaPrimaria = undefined,
   etiquetaSecundaria = undefined,
   loading = undefined,
-  errorFetch =null,
+  errorFetch = null,
 }: FormularioProps) {
   return (
-    <div className={`formulario ${claseForm}`} >
-      {titulo ? (<Titulo
-        titulo={titulo}
-      />) : (null)}
-      <form onSubmit={(e) =>onSubmit(e)} onReset={onReset}>
+    <div className={`formulario ${claseForm}`}>
+      {titulo ? <Titulo titulo={titulo} /> : null}
+      <form onSubmit={e => onSubmit(e)} onReset={onReset}>
         {children}
         <Botonera
           children={
             <>
-              {onReset ? <Boton icono={ <p>Reset</p>} reset secundario nuevoEstilo="btn-icono-chico"/> : null}
-              {onClickSecundario
-                ? <Boton
+              {onReset ? (
+                <Boton icono={<p>Reset</p>} reset secundario nuevoEstilo="btn-icono-chico" />
+              ) : null}
+              {onClickSecundario ? (
+                <Boton
                   texto={textBtnSecundario && textBtnSecundario}
-                  icono={!textBtnSecundario &&  <Arrow/>}
+                  icono={!textBtnSecundario && <Arrow />}
                   secundario
                   titulo={etiquetaSecundaria}
                   onClick={onClickSecundario}
                 />
-                : null}
-              <Boton 
-              texto={loading ? 'Procesando...' : textBtnConfirmar && textBtnConfirmar} 
-              icono={!textBtnConfirmar && !loading && <Arrow/>}
-              submit={loading ? false : true}
-              nuevoEstilo={!textBtnConfirmar ? `btn-icono-derecha ${estiloBoton}` : estiloBoton} 
-              titulo={etiquetaPrimaria}
+              ) : null}
+              <Boton
+                texto={loading ? 'Procesando...' : textBtnConfirmar && textBtnConfirmar}
+                icono={!textBtnConfirmar && !loading && <Arrow />}
+                submit={loading ? false : true}
+                nuevoEstilo={!textBtnConfirmar ? `btn-icono-derecha ${estiloBoton}` : estiloBoton}
+                titulo={etiquetaPrimaria}
               />
             </>
           }
         />
-        {errorFetch && <Texto texto={errorFetch} error chica/>}
+        {errorFetch && <Texto texto={errorFetch} error chica />}
       </form>
     </div>
-  )
+  );
 }
 export default Formulario;

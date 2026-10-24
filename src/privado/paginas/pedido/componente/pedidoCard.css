@@ -1,22 +1,19 @@
 .card-pedido {
   background-color: var(--colorFondo);
-  gap: .2rem;
+  gap: 0.2rem;
   box-shadow: none;
   padding: 0;
   overflow: hidden;
   min-height: 200px;
-  
 }
 
 .card-pedido-activo {
   overflow-y: auto;
 }
 
-.pedido-cliente-card{
+.pedido-cliente-card {
   min-height: 115px;
 }
-
-
 
 .cliente-pedidos {
   display: flex;
@@ -46,13 +43,12 @@
   padding: 0.2rem;
 }
 
-
 .especificaciones-horizontal {
   width: 100%;
 }
 
-.pedido-cliente-card{
-  cursor:auto;
+.pedido-cliente-card {
+  cursor: auto;
 }
 
 .pedido-libro-card {
@@ -64,14 +60,12 @@
 
 .pedidos-internos {
   display: grid;
-  grid-template-columns: repeat(auto-fit,
-      minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 
-  gap: .5rem;
-  padding: .5rem 1rem;
-  margin: 0 .5rem;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
   border-radius: 5px;
-
 
   background-color: var(--colorSombra);
   min-height: 80px;
@@ -79,36 +73,36 @@
   box-sizing: border-box;
 }
 
-.pedido-card-botonera{
-  padding: .5rem;
+.pedido-card-botonera {
+  padding: 0.5rem;
   justify-content: space-around;
   box-sizing: border-box;
 }
 
-.lista-estados{
+.lista-estados {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 
   list-style: none;
-  padding: .1rem;
-  gap: .2rem;
+  padding: 0.1rem;
+  gap: 0.2rem;
   margin: 0;
 }
 
-.lista-estados li{
+.lista-estados li {
   border-radius: 4px;
   border: 1px solid var(--colorNegro);
-  padding: .1rem;
+  padding: 0.1rem;
   background-color: var(--colorCardEdit);
 }
 
-.lista-estados li:hover{
+.lista-estados li:hover {
   box-shadow: 1px 1px 1px var(--colorSombra);
   scale: (1.1);
 }
 
-.desplegable-estado{
+.desplegable-estado {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -117,18 +111,17 @@
   padding: 0;
 }
 
-.desplegable-estado div{
+.desplegable-estado div {
   margin: 0;
   width: fit-content;
   padding: 0;
 }
 
-.desplegable-estado div select
- {
-  padding: .1rem .5rem;
+.desplegable-estado div select {
+  padding: 0.1rem 0.5rem;
   padding-right: 1.5rem;
   margin: 0;
-  min-height:none ;
+  min-height: none;
   height: fit-content;
   background-color: var(--colorFondo);
   width: fit-content;
@@ -137,12 +130,11 @@
   font-size: 0.7em;
 }
 
-.estado-contenedor p
- {
-  padding: .1rem .5rem;
+.estado-contenedor p {
+  padding: 0.1rem 0.5rem;
   padding-right: 1.5rem;
   margin: 0;
-  min-height:none ;
+  min-height: none;
   height: fit-content;
   background-color: var(--colorFondo);
   width: fit-content;
@@ -157,28 +149,27 @@
   cursor: pointer;
 }
 
-
 .desplegable-estado div label {
   display: none;
 }
 
-.desplegable-estado span{
-  display:none;
+.desplegable-estado span {
+  display: none;
 }
 
-.desplegable-estado-pedido div select{
+.desplegable-estado-pedido div select {
   font-size: 1em;
   width: fit-content;
 }
 
-.desplegable-estado-pedido{
+.desplegable-estado-pedido {
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: fit-content;
 }
 
-.estado-contenedor{
+.estado-contenedor {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

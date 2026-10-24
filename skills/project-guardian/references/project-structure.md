@@ -137,18 +137,18 @@ src-tauri/
 
 ## Convenciones Detectadas
 
-| Aspecto | Convención |
-|---------|------------|
-| **Naming** | PascalCase para componentes, camelCase para hooks/utils, kebab-case para CSS |
-| **Adaptadores** | `*.adapter.ts` (entrada) / `*Dto.adapter.ts` (salida) |
-| **Servicios** | `use*Api.ts` para hooks, `use*DeleteApi.ts`, `use*NombreApi.ts` variantes |
-| **Entidades** | `*.interface.ts`, `*.enum.ts`, `esq*.esquema.ts` (Zod), `dto*.interface.ts` |
-| **Redux** | `*.state.tsx` para slices, `store.tsx` para store, `registro.ts` para combineReducers |
-| **Componentes** | `.tsx` + `.css` lado a lado, hooks en subcarpeta `hooks/`, tipos en `modelo/` |
-| **Páginas** | Estructura: `cargar/`, `componente/`, `contexto/` (opcional), `hook/` (opcional), `util/` (opcional) |
-| **Filtros** | `*.filtro.ts` + `filtro.interface.ts` base |
-| **Rutas** | `rutasPrivadas.ts` / `rutasPublicas.ts` exportan arrays de rutas |
-| **Params método** | Interface única (`NombreMetodoParams`) si >1 parámetro; 1 parámetro permitido directo |
+| Aspecto           | Convención                                                                                           |
+| ----------------- | ---------------------------------------------------------------------------------------------------- |
+| **Naming**        | PascalCase para componentes, camelCase para hooks/utils, kebab-case para CSS                         |
+| **Adaptadores**   | `*.adapter.ts` (entrada) / `*Dto.adapter.ts` (salida)                                                |
+| **Servicios**     | `use*Api.ts` para hooks, `use*DeleteApi.ts`, `use*NombreApi.ts` variantes                            |
+| **Entidades**     | `*.interface.ts`, `*.enum.ts`, `esq*.esquema.ts` (Zod), `dto*.interface.ts`                          |
+| **Redux**         | `*.state.tsx` para slices, `store.tsx` para store, `registro.ts` para combineReducers                |
+| **Componentes**   | `.tsx` + `.css` lado a lado, hooks en subcarpeta `hooks/`, tipos en `modelo/`                        |
+| **Páginas**       | Estructura: `cargar/`, `componente/`, `contexto/` (opcional), `hook/` (opcional), `util/` (opcional) |
+| **Filtros**       | `*.filtro.ts` + `filtro.interface.ts` base                                                           |
+| **Rutas**         | `rutasPrivadas.ts` / `rutasPublicas.ts` exportan arrays de rutas                                     |
+| **Params método** | Interface única (`NombreMetodoParams`) si >1 parámetro; 1 parámetro permitido directo                |
 
 ---
 

@@ -1,27 +1,27 @@
-import { Navigate, Route } from "react-router-dom"
-import RutaInvalida from "../componente/ruta_invalida/rutaInvalida";
-import { RutasPrivadas } from "./rutas/rutasPrivadas";
-import PrivadoContenedor from "../componente-estilo/Contenedor/privadoContenedor";
-import CargarDatosIniciales from "../redux/cargadatos/cargarDatosIniciales";
-import LibroSelect from "./paginas/libro/componente/libroSelect";
-import ClienteSelect from "./paginas/cliente/componente/clienteSelect";
-import Precios from "./paginas/precio/precio";
-import PrecioCargar from "./paginas/precio/cargar/precioCargar";
-import Sedes from "./paginas/sede/sede";
-import Pedidos from "./paginas/pedido/pedidos";
-import PedidoCargar from "./paginas/pedido/cargar/pedidoCargar";
-import PropuestaCargar from "./paginas/propuesta/cargar/propuestaCargar";
-import { ProveiderPedidoContext } from "../contexto/contextoPedido";
-import Libros_lista from "./paginas/libro/libro_lista";
-import Cliente_lista from "./paginas/cliente/cliente_lista";
-import ItemsLista from "./paginas/item/item_lista";
-import LibroEditar from "./paginas/libro/cargar/libro_editar";
-import PedidoSelect from "./paginas/pedido/componente/pedidoSelect";
-import Perfil from "./paginas/perfil/perfil";
+import { Navigate, Route } from 'react-router-dom';
+import RutaInvalida from '../componente/ruta_invalida/rutaInvalida';
+import { RutasPrivadas } from './rutas/rutasPrivadas';
+import PrivadoContenedor from '../componente-estilo/Contenedor/privadoContenedor';
+import CargarDatosIniciales from '../redux/cargadatos/cargarDatosIniciales';
+import LibroSelect from './paginas/libro/componente/libroSelect';
+import ClienteSelect from './paginas/cliente/componente/clienteSelect';
+import Precios from './paginas/precio/precio';
+import PrecioCargar from './paginas/precio/cargar/precioCargar';
+import Sedes from './paginas/sede/sede';
+import Pedidos from './paginas/pedido/pedidos';
+import PedidoCargar from './paginas/pedido/cargar/pedidoCargar';
+import PropuestaCargar from './paginas/propuesta/cargar/propuestaCargar';
+import { ProveiderPedidoContext } from '../contexto/contextoPedido';
+import Libros_lista from './paginas/libro/libro_lista';
+import Cliente_lista from './paginas/cliente/cliente_lista';
+import ItemsLista from './paginas/item/item_lista';
+import LibroEditar from './paginas/libro/cargar/libro_editar';
+import PedidoSelect from './paginas/pedido/componente/pedidoSelect';
+import Perfil from './paginas/perfil/perfil';
+import Mensajes from './paginas/mensaje/mensajes';
 
 const PrivadoRuta = () => {
   return (
-
     <CargarDatosIniciales>
       <PrivadoContenedor>
         <ProveiderPedidoContext>
@@ -36,6 +36,7 @@ const PrivadoRuta = () => {
             <Route path={RutasPrivadas.PRECIO_LISTO} element={<Precios />}></Route>
             <Route path={RutasPrivadas.PRECIO_CARGAR} element={<PrecioCargar />}></Route>
             <Route path={RutasPrivadas.SEDE_LISTA} element={<Sedes />}></Route>
+            <Route path={RutasPrivadas.MENSAJE_LISTA} element={<Mensajes />}></Route>
             <Route path={RutasPrivadas.PEDIDO_LISTA} element={<Pedidos />}></Route>
             <Route path={RutasPrivadas.PEDIDO_CARGAR} element={<PedidoCargar />}></Route>
             <Route path={RutasPrivadas.PEDIDO} element={<PedidoSelect />}></Route>
@@ -45,7 +46,7 @@ const PrivadoRuta = () => {
         </ProveiderPedidoContext>
       </PrivadoContenedor>
     </CargarDatosIniciales>
-  )
-}
+  );
+};
 
 export default PrivadoRuta;

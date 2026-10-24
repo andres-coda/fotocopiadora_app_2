@@ -1,45 +1,45 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { usuarioProps } from "../modelo/usuario/Usuario.interface";
-import { userSlice } from "./state/user.state";
-import { ReduxProp } from "./modelo/reduxContext.interface";
-import { LibroProp } from "../modelo/Entidades/libro/libro.interface";
-import { ClienteProp } from "../modelo/Entidades/cliente/cliente.interface";
-import { clienteSlice } from "./state/cliente.state";
-import { EspecificacionProp } from "../modelo/Entidades/especificacion/especificacion.interface";
-import { especificacionSlice } from "./state/especificacion.state";
-import { MateriaProp } from "../modelo/Entidades/libro/materia.interface";
-import { materiaSlice } from "./state/materia.state";
-import { PedidoProp } from "../modelo/Entidades/pedido/pedido.interface";
-import { pedidoSlice } from "./state/pedido.state";
-import { pedidoLibroSlice, PedidoLibroStateProp } from "./state/pedido_libro.state";
-import { PrecioProp } from "../modelo/Entidades/precio/precio.interface";
-import { precioSlice } from "./state/precio.state";
-import { SedeProp } from "../modelo/Entidades/sede/sede.interface";
-import { sedeSlice } from "./state/sede.state";
-import { MensajeProp } from "../modelo/Entidades/mensaje/mensaje.interface";
-import { mensajeSlice } from "./state/mensaje.state";
-import { SesionStateProp, sesionSlice } from "./state/sesion.state";
-import { usuariosSlice } from "./state/usuarios.state";
-import { PropuestaProp } from "../modelo/Entidades/propuesta/propuesta.interface";
-import { libroSlice } from "./state/libro.state";
-import { propuestaSlice } from "./state/propuesta.state";
-import { EmpresaStateProp, empresaSlice } from "./state/empresa.state";
+import { configureStore } from '@reduxjs/toolkit';
+import { usuarioProps } from '../modelo/usuario/Usuario.interface';
+import { userSlice } from './state/user.state';
+import { ReduxProp } from './modelo/reduxContext.interface';
+import { LibroProp } from '../modelo/Entidades/libro/libro.interface';
+import { ClienteProp } from '../modelo/Entidades/cliente/cliente.interface';
+import { clienteSlice } from './state/cliente.state';
+import { EspecificacionProp } from '../modelo/Entidades/especificacion/especificacion.interface';
+import { especificacionSlice } from './state/especificacion.state';
+import { MateriaProp } from '../modelo/Entidades/libro/materia.interface';
+import { materiaSlice } from './state/materia.state';
+import { PedidoProp } from '../modelo/Entidades/pedido/pedido.interface';
+import { pedidoSlice } from './state/pedido.state';
+import { pedidoLibroSlice, PedidoLibroStateProp } from './state/pedido_libro.state';
+import { PrecioProp } from '../modelo/Entidades/precio/precio.interface';
+import { precioSlice } from './state/precio.state';
+import { SedeProp } from '../modelo/Entidades/sede/sede.interface';
+import { sedeSlice } from './state/sede.state';
+import { MensajeProp } from '../modelo/Entidades/mensaje/mensaje.interface';
+import { mensajeSlice } from './state/mensaje.state';
+import { SesionStateProp, sesionSlice } from './state/sesion.state';
+import { usuariosSlice } from './state/usuarios.state';
+import { PropuestaProp } from '../modelo/Entidades/propuesta/propuesta.interface';
+import { libroSlice } from './state/libro.state';
+import { propuestaSlice } from './state/propuesta.state';
+import { EmpresaStateProp, empresaSlice } from './state/empresa.state';
 
 export interface appStore {
-  cliente:  ReduxProp<ClienteProp>,
-  especificacion: ReduxProp<EspecificacionProp>,
-  materia: ReduxProp<MateriaProp>,
-  pedido: ReduxProp<PedidoProp>,
-  pedidoLibro: PedidoLibroStateProp,
-  precio: ReduxProp<PrecioProp>,
-  sede: ReduxProp<SedeProp>,
-  mensaje: ReduxProp<MensajeProp>,
-  propuesta: ReduxProp<PropuestaProp>,
-  usuario: usuarioProps,
-  usuarios: ReduxProp<usuarioProps>,
-  libro: ReduxProp<LibroProp>,
-  sesion: SesionStateProp,
-  empresa: EmpresaStateProp,
+  cliente: ReduxProp<ClienteProp>;
+  especificacion: ReduxProp<EspecificacionProp>;
+  materia: ReduxProp<MateriaProp>;
+  pedido: ReduxProp<PedidoProp>;
+  pedidoLibro: PedidoLibroStateProp;
+  precio: ReduxProp<PrecioProp>;
+  sede: ReduxProp<SedeProp>;
+  mensaje: ReduxProp<MensajeProp>;
+  propuesta: ReduxProp<PropuestaProp>;
+  usuario: usuarioProps;
+  usuarios: ReduxProp<usuarioProps>;
+  libro: ReduxProp<LibroProp>;
+  sesion: SesionStateProp;
+  empresa: EmpresaStateProp;
 }
 
 export default configureStore<appStore>({
@@ -57,6 +57,6 @@ export default configureStore<appStore>({
     libro: libroSlice.reducer,
     usuarios: usuariosSlice.reducer,
     sesion: sesionSlice.reducer,
-    empresa: empresaSlice.reducer
-  }
-})
+    empresa: empresaSlice.reducer,
+  },
+});

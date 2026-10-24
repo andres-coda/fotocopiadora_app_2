@@ -1,21 +1,21 @@
-import { estilosTextoProps } from "../modelo/texto.interface";
+import { estilosTextoProps } from '../modelo/texto.interface';
 
-function useTexto({ 
-    chica, 
-    mediana, 
-    negrita, 
-    grande, 
-    muyGrande, 
-    sombra, 
-    error, 
-    inverso,
-    centrado, 
-    derecha, 
-    ajustado,
-    alCien,
-    inline,
-    nuevoEstilo 
-  }: estilosTextoProps) {
+function useTexto({
+  chica,
+  mediana,
+  negrita,
+  grande,
+  muyGrande,
+  sombra,
+  error,
+  inverso,
+  centrado,
+  derecha,
+  ajustado,
+  alCien,
+  inline,
+  nuevoEstilo,
+}: estilosTextoProps) {
   const clase = [
     centrado && !derecha && 'centrado',
     derecha && 'derecha',
@@ -33,9 +33,9 @@ function useTexto({
     nuevoEstilo,
   ]
     .filter(Boolean)
-    .join(' ')
+    .join(' ');
 
-  return { clase }
+  return { clase };
 }
 
 export default useTexto;

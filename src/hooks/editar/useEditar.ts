@@ -1,14 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import { useModalContext } from "../../contexto/contextoModal";
-import { HandleSelectProp, PropEditar, PropEditarCompleto } from "./useEditar.interface";
-import { useDispatch } from "react-redux";
-import { seleccionarLibro } from "../../redux/state/libro.state";
-import { seleccionarPrecio } from "../../redux/state/precio.state";
-import { seleccionarCliente } from "../../redux/state/cliente.state";
-import { seleccionarPropuesta } from "../../redux/state/propuesta.state";
-import { seleccionarSede } from "../../redux/state/sede.state";
-import { seleccionarPedido } from "../../redux/state/pedido.state";
-import { seleccionarUsuario } from "../../redux/state/usuarios.state";
+import { useNavigate } from 'react-router-dom';
+import { useModalContext } from '../../contexto/contextoModal';
+import { HandleSelectProp, PropEditar, PropEditarCompleto } from './useEditar.interface';
+import { useDispatch } from 'react-redux';
+import { seleccionarLibro } from '../../redux/state/libro.state';
+import { seleccionarPrecio } from '../../redux/state/precio.state';
+import { seleccionarCliente } from '../../redux/state/cliente.state';
+import { seleccionarPropuesta } from '../../redux/state/propuesta.state';
+import { seleccionarSede } from '../../redux/state/sede.state';
+import { seleccionarPedido } from '../../redux/state/pedido.state';
+import { seleccionarMensaje } from '../../redux/state/mensaje.state';
+import { seleccionarUsuario } from '../../redux/state/usuarios.state';
 
 const useEditar = ({
   ruta,
@@ -19,19 +20,30 @@ const useEditar = ({
   sede,
   precio,
   propuesta,
+  mensaje,
   usuario,
 }: PropEditarCompleto) => {
   const { setModal } = useModalContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const select = ({ cliente: cl, libro: l, pedido: p, sede: s, precio: pr, propuesta: prta, usuario: usr }: PropEditar) => {
+  const select = ({
+    cliente: cl,
+    libro: l,
+    pedido: p,
+    sede: s,
+    precio: pr,
+    propuesta: prta,
+    mensaje: msj,
+    usuario: usr,
+  }: PropEditar) => {
     const newCliente = cl || cliente;
     const newLibro = l || libro;
     const newPedido = p || pedido;
     const newSede = s || sede;
     const newPrecio = pr || precio;
     const newPropuesta = prta || propuesta;
+    const newMensaje = msj || mensaje;
     const newUsuario = usr || usuario;
     if (newCliente) dispatch(seleccionarCliente(newCliente));
     if (newLibro) dispatch(seleccionarLibro(newLibro));
@@ -39,27 +51,62 @@ const useEditar = ({
     if (newSede) dispatch(seleccionarSede(newSede));
     if (newPrecio) dispatch(seleccionarPrecio(newPrecio));
     if (newPropuesta) dispatch(seleccionarPropuesta(newPropuesta));
+    if (newMensaje) dispatch(seleccionarMensaje(newMensaje));
     if (newUsuario) dispatch(seleccionarUsuario(newUsuario));
-  }
+  };
 
-
-
-  const handleEdit = ({ cliente: cl, libro: l, pedido: p, sede: s, precio: pr, propuesta: prta, usuario: usr }: PropEditar) => {
-    select({ cliente: cl, libro: l, pedido: p, sede: s, precio: pr, propuesta: prta, usuario: usr });
+  const handleEdit = ({
+    cliente: cl,
+    libro: l,
+    pedido: p,
+    sede: s,
+    precio: pr,
+    propuesta: prta,
+    mensaje: msj,
+    usuario: usr,
+  }: PropEditar) => {
+    select({
+      cliente: cl,
+      libro: l,
+      pedido: p,
+      sede: s,
+      precio: pr,
+      propuesta: prta,
+      mensaje: msj,
+      usuario: usr,
+    });
 
     ruta && navigate(ruta);
     if (setModalLocal) {
       setModal(true);
     }
-  }
+  };
 
-  const handleSelect = ({ rutaLocal, cliente: cl, libro: l, pedido: p, sede: s, precio: pr, propuesta: prta, usuario: usr }: HandleSelectProp) => {
-    select({ cliente: cl, libro: l, pedido: p, sede: s, precio: pr, propuesta: prta, usuario: usr });
+  const handleSelect = ({
+    rutaLocal,
+    cliente: cl,
+    libro: l,
+    pedido: p,
+    sede: s,
+    precio: pr,
+    propuesta: prta,
+    mensaje: msj,
+    usuario: usr,
+  }: HandleSelectProp) => {
+    select({
+      cliente: cl,
+      libro: l,
+      pedido: p,
+      sede: s,
+      precio: pr,
+      propuesta: prta,
+      mensaje: msj,
+      usuario: usr,
+    });
     rutaLocal && navigate(rutaLocal);
-  }
+  };
 
+  return { handleEdit, handleSelect };
+};
 
-  return { handleEdit, handleSelect }
-}
-
-export default useEditar
+export default useEditar;

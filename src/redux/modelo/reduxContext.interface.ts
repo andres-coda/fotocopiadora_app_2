@@ -1,32 +1,32 @@
-export interface filtroLlamada{
-  id:string;
-  estado:boolean;
-  xor?:boolean;
+export interface filtroLlamada {
+  id: string;
+  estado: boolean;
+  xor?: boolean;
 }
 
-export type orden = 'asc' | 'desc' | undefined
+export type orden = 'asc' | 'desc' | undefined;
 
 export interface BusquedaRedux {
   query?: string;
   sortOrder: orden;
   pagina: number;
-  limite:number;
-  total:number;
+  limite: number;
+  total: number;
   sortBy: string;
 }
 
-export interface UltimaBusquedaProp<T> extends Omit<BusquedaRedux, 'sortBy'>{
+export interface UltimaBusquedaProp<T> extends Omit<BusquedaRedux, 'sortBy'> {
   datosQuery: T[];
   sortBy: keyof T;
   // Identifica una búsqueda alterada por filtros/orden, además del texto buscado.
   clave?: string;
 }
 
-export interface ReduxProp<T>{
+export interface ReduxProp<T> {
   datosIniciales: UltimaBusquedaProp<T>;
-  busquedaActual:UltimaBusquedaProp<T>;
+  busquedaActual: UltimaBusquedaProp<T>;
   ultimasBusqueda: UltimaBusquedaProp<T>[];
-  datoSeleccionado?:T
+  datoSeleccionado?: T;
 }
 
 export interface ActionProp<T> {

@@ -1,4 +1,4 @@
-.card-precio{
+.card-precio {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -8,10 +8,10 @@
   min-height: 68px;
 }
 
-.botonera-precio{
+.botonera-precio {
   width: fit-content;
-  margin-left: .5rem;
-  gap: .2rem;
+  margin-left: 0.5rem;
+  gap: 0.2rem;
 }
 
 .btn-apagado {
@@ -20,12 +20,11 @@
   cursor: default;
 }
 
-.btn-apagado:hover{
+.btn-apagado:hover {
   scale: none;
   box-shadow: none;
 }
 
-.card-precio-nombre{
+.card-precio-nombre {
   background-color: var(--colorCardGris);
-
 }

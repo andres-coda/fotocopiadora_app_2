@@ -6,10 +6,10 @@
   align-items: center;
 }
 
-.cargando-texto{
+.cargando-texto {
   text-align: end;
 }
-.cargando-puntos{
+.cargando-puntos {
   text-align: start;
 }
 
@@ -30,7 +30,7 @@
   50% {
     content: '...';
   }
-   75% {
+  75% {
     content: '....';
   }
 }

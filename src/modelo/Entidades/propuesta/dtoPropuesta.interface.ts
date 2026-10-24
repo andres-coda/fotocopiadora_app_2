@@ -1,4 +1,4 @@
-export interface PropuestaDtoProp{
+export interface PropuestaDtoProp {
   nombre: string;
   libros: string[];
 }

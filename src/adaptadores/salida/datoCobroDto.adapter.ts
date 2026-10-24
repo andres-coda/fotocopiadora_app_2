@@ -1,5 +1,5 @@
-import { DatoCobroDtoProp } from "../../modelo/Entidades/dato_cobro/dtoDatoCobro.interface";
-import { formValuesDatoCobro } from "../../modelo/Entidades/dato_cobro/esqDatoCobro.esquema";
+import { DatoCobroDtoProp } from '../../modelo/Entidades/dato_cobro/dtoDatoCobro.interface';
+import { formValuesDatoCobro } from '../../modelo/Entidades/dato_cobro/esqDatoCobro.esquema';
 
 /**
  * Arma el body de POST/PUT /dato-cobro.
@@ -11,4 +11,4 @@ export const datoCobroDtoAdapter = (p: formValuesDatoCobro): DatoCobroDtoProp =>
   };
   if (p.mensaje) dto.mensaje = p.mensaje;
   return dto;
-}
+};

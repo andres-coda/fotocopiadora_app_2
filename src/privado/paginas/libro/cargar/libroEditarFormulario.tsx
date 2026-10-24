@@ -2,7 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Formulario from '../../../../componente/formulario/formulario';
 import { LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
 import './libro_cargar.css';
-import { formValuesLibro, libro, libroFormEdit } from '../../../../modelo/Entidades/libro/esqLibro.esquema';
+import {
+  formValuesLibro,
+  libro,
+  libroFormEdit,
+} from '../../../../modelo/Entidades/libro/esqLibro.esquema';
 import useLibroApi from '../../../../servicio/libro/useLibroApi';
 import useLibroDeleteApi from '../../../../servicio/libro/useLibroDeleteApi';
 import { useForm } from 'react-hook-form';
@@ -27,44 +31,62 @@ interface Prop {
   libroSelect: LibroProp;
 }
 
-const LibroEditarFormulario = ({ libroSelect, local = false, extra = false, stock = false, datos = false }: Prop) => {
-  const { editarLibroExtra, editarLibroEmpresa, responseLibro, errorFetchLibro, loadingLibro } = useLibroApi()
-  const { editarLibroPrincipal, responseLibro:response, errorFetchLibro:error, loadingLibro:loading } = useLibroDeleteApi()
+const LibroEditarFormulario = ({
+  libroSelect,
+  local = false,
+  extra = false,
+  stock = false,
+  datos = false,
+}: Prop) => {
+  const { editarLibroExtra, editarLibroEmpresa, responseLibro, errorFetchLibro, loadingLibro } =
+    useLibroApi();
+  const {
+    editarLibroPrincipal,
+    responseLibro: response,
+    errorFetchLibro: error,
+    loadingLibro: loading,
+  } = useLibroDeleteApi();
 
-  const { control, handleSubmit, formState: { errors }, reset, watch } = useForm<formValuesLibro>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    watch,
+  } = useForm<formValuesLibro>({
     resolver: zodResolver(libro),
-    defaultValues: libroFormEdit(libroSelect)
+    defaultValues: libroFormEdit(libroSelect),
   });
 
+  const { setModal } = useModalContext();
 
-  const { setModal } = useModalContext()
-
-
-  const { especificaciones, setEspecificaciones } = useEspecificacionesSelect(libroSelect.especificacionesDefecto ?? []);
+  const { especificaciones, setEspecificaciones } = useEspecificacionesSelect(
+    libroSelect.especificacionesDefecto ?? []
+  );
 
   useFormulario<LibroProp, formValuesLibro, LibroProp>({
     response: responseLibro,
     resetSelect: resetSeleccionarLibro,
     selectElemento: seleccionarLibro,
     reset,
-  })
+  });
 
   const onSubmit = (data: formValuesLibro) => {
     if (local) {
       editarLibroEmpresa({ data, id: libroSelect.id, especificaciones });
     }
     if (extra) {
-      editarLibroExtra({ data, id: libroSelect.id })
+      editarLibroExtra({ data, id: libroSelect.id });
     }
     if (datos) {
-      editarLibroPrincipal({ data, id: libroSelect.id, componentes: data })
+      editarLibroPrincipal({ data, id: libroSelect.id, componentes: data });
     }
-  }
+  };
 
   const retroceder = () => {
     reset(libroFormEdit());
     setModal(false);
-  }
+  };
 
   useEffect(() => {
     if (responseLibro || response) {
@@ -73,72 +95,85 @@ const LibroEditarFormulario = ({ libroSelect, local = false, extra = false, stoc
     }
   }, [responseLibro, response]);
 
-  if (local) return (
-    <Formulario
-      titulo={`Editar ${nombreLibroXstring(libroSelect)}`}
-      onSubmit={handleSubmit(onSubmit)}
-      onClickSecundario={() => retroceder()}
-      etiquetaPrimaria="Editar"
-      etiquetaSecundaria="Atras"
-      loading={loadingLibro}
-      errorFetch={errorFetchLibro}
-      claseForm={'cargar-libro'}
-      textBtnConfirmar="Guardar"
-      textBtnSecundario="Atras"
-    >
-      <>
-        <CargarLibroDatosLocal<formValuesLibro> control={control} errors={errors} especificaciones={especificaciones} setEspecificaciones={setEspecificaciones} />
-      </>
-    </Formulario>
-  );
+  if (local)
+    return (
+      <Formulario
+        titulo={`Editar ${nombreLibroXstring(libroSelect)}`}
+        onSubmit={handleSubmit(onSubmit)}
+        onClickSecundario={() => retroceder()}
+        etiquetaPrimaria="Editar"
+        etiquetaSecundaria="Atras"
+        loading={loadingLibro}
+        errorFetch={errorFetchLibro}
+        claseForm={'cargar-libro'}
+        textBtnConfirmar="Guardar"
+        textBtnSecundario="Atras"
+      >
+        <>
+          <CargarLibroDatosLocal<formValuesLibro>
+            control={control}
+            errors={errors}
+            especificaciones={especificaciones}
+            setEspecificaciones={setEspecificaciones}
+          />
+        </>
+      </Formulario>
+    );
 
-  if (extra) return (
-    <Formulario
-      titulo={`Editar ${nombreLibroXstring(libroSelect)}`}
-      onSubmit={handleSubmit(onSubmit)}
-      onClickSecundario={() => retroceder()}
-      etiquetaPrimaria="Editar"
-      etiquetaSecundaria="Atras"
-      loading={loadingLibro}
-      errorFetch={errorFetchLibro}
-      claseForm={'cargar-libro'}
-      textBtnConfirmar="Guardar"
-      textBtnSecundario="Atras"
-    >
-      <>
-        <CargarLibroDatosExtras<formValuesLibro> control={control} errors={errors} />
-      </>
-    </Formulario>
-  );
+  if (extra)
+    return (
+      <Formulario
+        titulo={`Editar ${nombreLibroXstring(libroSelect)}`}
+        onSubmit={handleSubmit(onSubmit)}
+        onClickSecundario={() => retroceder()}
+        etiquetaPrimaria="Editar"
+        etiquetaSecundaria="Atras"
+        loading={loadingLibro}
+        errorFetch={errorFetchLibro}
+        claseForm={'cargar-libro'}
+        textBtnConfirmar="Guardar"
+        textBtnSecundario="Atras"
+      >
+        <>
+          <CargarLibroDatosExtras<formValuesLibro> control={control} errors={errors} />
+        </>
+      </Formulario>
+    );
 
-  if (datos) return (
-    <Formulario
-      titulo={`Editar ${nombreLibroXstring(libroSelect)}`}
-      onSubmit={handleSubmit(onSubmit)}
-      onClickSecundario={() => retroceder()}
-      etiquetaPrimaria="Editar"
-      etiquetaSecundaria="Atras"
-      loading={loading}
-      errorFetch={error}
-      claseForm={'cargar-libro'}
-      textBtnConfirmar="Guardar"
-      textBtnSecundario="Atras"
-    >
-      <>
-        <CargarLibroNombre<formValuesLibro> control={control} errors={errors} watch={watch} reset={reset} />
-        <CargarComponentes<formValuesLibro> control={control} errors={errors} watch={watch} reset={reset} />
+  if (datos)
+    return (
+      <Formulario
+        titulo={`Editar ${nombreLibroXstring(libroSelect)}`}
+        onSubmit={handleSubmit(onSubmit)}
+        onClickSecundario={() => retroceder()}
+        etiquetaPrimaria="Editar"
+        etiquetaSecundaria="Atras"
+        loading={loading}
+        errorFetch={error}
+        claseForm={'cargar-libro'}
+        textBtnConfirmar="Guardar"
+        textBtnSecundario="Atras"
+      >
+        <>
+          <CargarLibroNombre<formValuesLibro>
+            control={control}
+            errors={errors}
+            watch={watch}
+            reset={reset}
+          />
+          <CargarComponentes<formValuesLibro>
+            control={control}
+            errors={errors}
+            watch={watch}
+            reset={reset}
+          />
+        </>
+      </Formulario>
+    );
 
-      </>
-    </Formulario>
-  );
+  if (stock) return <CargarStock libroSelect={libroSelect} />;
 
-  if (stock) return (
-    <CargarStock libroSelect={libroSelect}/>
-  )
+  return <Texto texto={'Todavia no esta desarrollada esta opción'} />;
+};
 
-  return (
-    <Texto texto={'Todavia no esta desarrollada esta opción'} />
-  )
-}
-
-export default LibroEditarFormulario
+export default LibroEditarFormulario;

@@ -1,6 +1,6 @@
-import { BaseProp } from "../../modelo/Entidades/base/base.interface";
-import { SedeAdapterProp, SedeProp } from "../../modelo/Entidades/sede/sede.interface";
-import { baseAdapter } from "./base.adapter";
+import { BaseProp } from '../../modelo/Entidades/base/base.interface';
+import { SedeAdapterProp, SedeProp } from '../../modelo/Entidades/sede/sede.interface';
+import { baseAdapter } from './base.adapter';
 
 export const sedeAdapter = (sede?: SedeAdapterProp): SedeProp | undefined => {
   if (!sede) return undefined;
@@ -12,10 +12,9 @@ export const sedeAdapter = (sede?: SedeAdapterProp): SedeProp | undefined => {
   const newSede: SedeProp = {
     ...base,
     nombre: sede.nombre,
-
-  }
+  };
   return newSede;
-}
+};
 
 export const sedeAdapterArray = (datos?: SedeAdapterProp[]): SedeProp[] => {
   const newSedes: SedeProp[] =
@@ -25,4 +24,4 @@ export const sedeAdapterArray = (datos?: SedeAdapterProp[]): SedeProp[] => {
     }) ?? [];
 
   return newSedes;
-}
+};

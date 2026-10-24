@@ -1,8 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ReduxProp, UltimaBusquedaProp, orden } from "../modelo/reduxContext.interface";
-import { PedidoProp } from "../../modelo/Entidades/pedido/pedido.interface";
-import { agregarDatosBusquedaActual, crearBusqueda, crearDatoInicial, resetBusqueda, resetSeleccionDato, seleccionarDato, cambiarOrden } from "../utils/funcionesGenericasEmpresa";
-import { agregarItemsPedidoSeleccionadoRedux as agregarItemsPedidoSeleccionadoFn, modificarEstadoPedidoRedux as modificarEstadoPedidoFn } from "../utils/funcionesPedido";
+import { createSlice } from '@reduxjs/toolkit';
+import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { PedidoProp } from '../../modelo/Entidades/pedido/pedido.interface';
+import {
+  agregarDatosBusquedaActual,
+  crearBusqueda,
+  crearDatoInicial,
+  resetBusqueda,
+  resetSeleccionDato,
+  seleccionarDato,
+  cambiarOrden,
+} from '../utils/funcionesGenericasEmpresa';
+import {
+  agregarItemsPedidoSeleccionadoRedux as agregarItemsPedidoSeleccionadoFn,
+  modificarEstadoPedidoRedux as modificarEstadoPedidoFn,
+} from '../utils/funcionesPedido';
 
 const cantidadBusquedas: number = 1;
 
@@ -13,15 +24,15 @@ export const busquedaPedidoInicial: UltimaBusquedaProp<PedidoProp> = {
   sortOrder: 'asc' as orden,
   pagina: 1,
   limite: 20,
-  total: 0
-}
+  total: 0,
+};
 
 const estadoPedidoInicial: ReduxProp<PedidoProp> = {
   datosIniciales: busquedaPedidoInicial,
   busquedaActual: busquedaPedidoInicial,
   ultimasBusqueda: [],
-  datoSeleccionado: undefined
-}
+  datoSeleccionado: undefined,
+};
 
 export const pedidoSlice = createSlice({
   name: 'pedido',
@@ -35,10 +46,20 @@ export const pedidoSlice = createSlice({
     agregarPedidosBusquedaActual: agregarDatosBusquedaActual<PedidoProp>,
     agregarItemsPedidoSeleccionadoRedux: agregarItemsPedidoSeleccionadoFn,
     cambiarEstadoPedidoRedux: modificarEstadoPedidoFn,
-    cambiarOrdenPedido: cambiarOrden<PedidoProp>
-  }
+    cambiarOrdenPedido: cambiarOrden<PedidoProp>,
+  },
 });
 
-export const { crearPedidos, crearBusquedaPedido, resetBusquedaPedido, resetSeleccionarPedido, seleccionarPedido, agregarPedidosBusquedaActual, cambiarOrdenPedido, cambiarEstadoPedidoRedux, agregarItemsPedidoSeleccionadoRedux } = pedidoSlice.actions;
+export const {
+  crearPedidos,
+  crearBusquedaPedido,
+  resetBusquedaPedido,
+  resetSeleccionarPedido,
+  seleccionarPedido,
+  agregarPedidosBusquedaActual,
+  cambiarOrdenPedido,
+  cambiarEstadoPedidoRedux,
+  agregarItemsPedidoSeleccionadoRedux,
+} = pedidoSlice.actions;
 
 export default pedidoSlice.reducer;

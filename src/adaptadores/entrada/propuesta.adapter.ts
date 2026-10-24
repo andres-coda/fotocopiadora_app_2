@@ -1,13 +1,16 @@
-import { BaseProp } from "../../modelo/Entidades/base/base.interface";
-import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
-import { PropuestaAdapterProp, PropuestaProp } from "../../modelo/Entidades/propuesta/propuesta.interface";
-import { baseAdapter } from "./base.adapter";
-import { libroAdapterArray } from "./libro.adapter";
+import { BaseProp } from '../../modelo/Entidades/base/base.interface';
+import { LibroProp } from '../../modelo/Entidades/libro/libro.interface';
+import {
+  PropuestaAdapterProp,
+  PropuestaProp,
+} from '../../modelo/Entidades/propuesta/propuesta.interface';
+import { baseAdapter } from './base.adapter';
+import { libroAdapterArray } from './libro.adapter';
 
 export const propuestaAdapter = (propuesta?: PropuestaAdapterProp): PropuestaProp | undefined => {
   if (!propuesta) return undefined;
 
-  const base: BaseProp | undefined = baseAdapter<PropuestaAdapterProp>({ base: propuesta});
+  const base: BaseProp | undefined = baseAdapter<PropuestaAdapterProp>({ base: propuesta });
 
   if (!base) return undefined;
 
@@ -18,9 +21,9 @@ export const propuestaAdapter = (propuesta?: PropuestaAdapterProp): PropuestaPro
     cantidadLibros: propuesta.libros?.length ?? 0,
     nombre: propuesta.nombre,
     libro: libros,
-  }
+  };
   return newPropuesta;
-}
+};
 
 export const propuestaAdapterArray = (propuestas?: PropuestaAdapterProp[]): PropuestaProp[] => {
   const newPropuestas: PropuestaProp[] =
@@ -30,4 +33,4 @@ export const propuestaAdapterArray = (propuestas?: PropuestaAdapterProp[]): Prop
     }) ?? [];
 
   return newPropuestas;
-}
+};

@@ -1,0 +1,14 @@
+.card.card-mensaje-nombre {
+  background-color: var(--colorCardGris);
+  cursor: pointer;
+}
+
+.texto.card-mensaje-nombre__texto {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.3;
+}

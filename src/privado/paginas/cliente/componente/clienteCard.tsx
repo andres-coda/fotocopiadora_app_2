@@ -1,45 +1,49 @@
-import useEditar from "../../../../hooks/editar/useEditar";
-import Card from "../../../../componente-estilo/card/card";
-import { ClienteProp } from "../../../../modelo/Entidades/cliente/cliente.interface";
-import { rutaPrivadaBase, RutasPrivadas } from "../../../rutas/rutasPrivadas";
-import ClienteDatos from "./clienteDatos";
-import './clienteCard.css'
+import useEditar from '../../../../hooks/editar/useEditar';
+import Card from '../../../../componente-estilo/card/card';
+import { ClienteProp } from '../../../../modelo/Entidades/cliente/cliente.interface';
+import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import ClienteDatos from './clienteDatos';
+import './clienteCard.css';
 
 interface Props {
-  cliente: ClienteProp
+  cliente: ClienteProp;
   onClick?: (cliente: ClienteProp) => void;
 }
 
 const ClienteCard = ({ cliente, onClick }: Props) => {
   const { handleSelect } = useEditar({
     ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`,
-    cliente
+    cliente,
   });
 
   const handleCliente = () => {
     if (onClick) {
-      onClick(cliente)
+      onClick(cliente);
     } else {
-      console.log('hace click')
-      handleSelect({rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`})
+      console.log('hace click');
+      handleSelect({ rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}` });
     }
-  }
+  };
 
   return (
-    <Card
-      onClick={() => handleCliente()}
-      nuevoEstilo={'card-cliente'}
-    >
+    <Card onClick={() => handleCliente()} nuevoEstilo={'card-cliente'}>
       <ClienteDatos cliente={cliente} />
       <ul>
-        <li className='pendiente' title='Pedidos pendientes'>{cliente.resumen.pendiente}</li>
-        <li className='terminado' title='Pedidos listos para entregar'>{cliente.resumen.listo}</li>
-        <li className='retirado' title='Pedidos retirados'>{cliente.resumen.retirado}</li>
-        <li className='cancelado' title='Pedidos cancelados'>{cliente.resumen.cancelado}</li>
+        <li className="pendiente" title="Pedidos pendientes">
+          {cliente.resumen.pendiente}
+        </li>
+        <li className="terminado" title="Pedidos listos para entregar">
+          {cliente.resumen.listo}
+        </li>
+        <li className="retirado" title="Pedidos retirados">
+          {cliente.resumen.retirado}
+        </li>
+        <li className="cancelado" title="Pedidos cancelados">
+          {cliente.resumen.cancelado}
+        </li>
       </ul>
-
     </Card>
-  )
-}
+  );
+};
 
-export default ClienteCard
+export default ClienteCard;

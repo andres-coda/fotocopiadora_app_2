@@ -1,6 +1,6 @@
-import { DatoCobroAdapterProp, DatoCobroProp } from "../dato_cobro/datoCobro.interface";
-import { MensajeAdapterProp, MensajeProp } from "../mensaje/mensaje.interface";
-import { SedeAdapterProp, SedeProp } from "../sede/sede.interface";
+import { DatoCobroAdapterProp, DatoCobroProp } from '../dato_cobro/datoCobro.interface';
+import { MensajeAdapterProp, MensajeProp } from '../mensaje/mensaje.interface';
+import { SedeAdapterProp, SedeProp } from '../sede/sede.interface';
 
 // La tabla configuraciones no tiene id (su PK es id_empresa), ni deleted,
 // ni fecha_creacion: por eso no extiende BaseAdapterProp/BaseProp.

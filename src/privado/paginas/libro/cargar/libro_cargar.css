@@ -1,9 +1,8 @@
-.cargar-libro form div span{
+.cargar-libro form div span {
   min-height: 10px;
-  
 }
 
-.crear-libro-menu{
+.crear-libro-menu {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -12,6 +11,6 @@
   padding: 1rem;
 }
 
-.libro-edit img{
+.libro-edit img {
   max-width: 300px;
 }

@@ -1,14 +1,14 @@
-import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
+import { BaseAdapterProp, baseInicial, BaseProp } from '../base/base.interface';
 
-export interface NivelAdapterProp extends BaseAdapterProp{
+export interface NivelAdapterProp extends BaseAdapterProp {
   nombre: string;
 }
 
-export interface NivelProp extends BaseProp{
+export interface NivelProp extends BaseProp {
   nombre: string;
 }
 
-export const nivelInicial :NivelProp= {
+export const nivelInicial: NivelProp = {
   ...baseInicial,
   nombre: '',
-}
+};

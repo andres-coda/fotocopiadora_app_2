@@ -15,14 +15,14 @@
 .cliente-vertical ul {
   list-style: none;
   padding: 0;
-  flex:1;
+  flex: 1;
 }
 
 .cliente-vertical li {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: .5rem 0;
+  margin: 0.5rem 0;
   padding: 0.1rem 1rem;
   border: 1px solid var(--colorSombra);
   border-radius: 4px;
@@ -30,27 +30,26 @@
   cursor: pointer;
 }
 
-.cliente-pedido{
+.cliente-pedido {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit,
-      minmax(320px, 1fr));
-      
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+
   gap: 1rem;
-  padding: .5rem;
+  padding: 0.5rem;
   margin: 0;
-  
+
   background-color: var(--colorFondo);
-  
+
   border-radius: 5px;
   box-sizing: border-box;
-  
+
   scrollbar-color: var(--colorSubmenu) var(--colorSombra);
   scrollbar-width: thin;
   scrollbar-gutter: stable;
 }
 
-@media(width >600px) {
+@media (width >600px) {
   .cliente-vertical {
     display: flex;
     flex-direction: row;
@@ -62,10 +61,10 @@
 .cliente-datos-acciones {
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .cliente-acciones {
   display: flex;
-  gap: .5rem;
+  gap: 0.5rem;
 }

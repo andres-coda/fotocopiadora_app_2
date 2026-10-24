@@ -1,15 +1,18 @@
-import { Especificaciones } from "../modelo/Entidades/especificacion/especificacion.enum";
-import { LibroProp } from "../modelo/Entidades/libro/libro.interface";
-import { PrecioAbareviatura } from "../modelo/Entidades/precio/precio.enum";
-import { PrecioProp } from "../modelo/Entidades/precio/precio.interface";
-import { CalcularPresupuestoProp, CalcularPresupuestoRetorno } from "../modelo/presupuesto/presupuesto.interface";
-import { transformarComponente } from "./componente";
-import { transformarEspecificacinesATexto } from "./especificaciones";
+import { Especificaciones } from '../modelo/Entidades/especificacion/especificacion.enum';
+import { LibroProp } from '../modelo/Entidades/libro/libro.interface';
+import { PrecioAbareviatura } from '../modelo/Entidades/precio/precio.enum';
+import { PrecioProp } from '../modelo/Entidades/precio/precio.interface';
+import {
+  CalcularPresupuestoProp,
+  CalcularPresupuestoRetorno,
+} from '../modelo/presupuesto/presupuesto.interface';
+import { transformarComponente } from './componente';
+import { transformarEspecificacinesATexto } from './especificaciones';
 
 interface EstimarPrecioProp {
-  libro: LibroProp,
-  precios: PrecioProp[],
-  especificaciones?: Especificaciones[],
+  libro: LibroProp;
+  precios: PrecioProp[];
+  especificaciones?: Especificaciones[];
   cantidad?: number;
 }
 
@@ -38,13 +41,17 @@ const obtenerEspecificaciones = (
 };
 
 const tieneAdhesivos = (libro: LibroProp, esp: Especificaciones[]): boolean => {
-  return (esp.includes(Especificaciones.ADHESIVO) ||
-    esp.includes(Especificaciones.TROKELADO)) &&
-    (libro.adhesivos ?? 0) > 0;
-}
+  return (
+    (esp.includes(Especificaciones.ADHESIVO) || esp.includes(Especificaciones.TROKELADO)) &&
+    (libro.adhesivos ?? 0) > 0
+  );
+};
 
-const calcularPrecioAdhesivos = (esp: Especificaciones[], libro: LibroProp, precios: PrecioProp[]): number => {
-
+const calcularPrecioAdhesivos = (
+  esp: Especificaciones[],
+  libro: LibroProp,
+  precios: PrecioProp[]
+): number => {
   if (tieneAdhesivos(libro, esp)) {
     const abreviatura = esp.includes(Especificaciones.ADHESIVO)
       ? PrecioAbareviatura.ADHESIVO
@@ -53,19 +60,14 @@ const calcularPrecioAdhesivos = (esp: Especificaciones[], libro: LibroProp, prec
     return libro.adhesivos! * buscarPrecio(precios, abreviatura);
   }
   return 0;
-}
+};
 
-const calcularHojas = (
-  libro: LibroProp,
-  esp: Especificaciones[]
-): PgProp => {
+const calcularHojas = (libro: LibroProp, esp: Especificaciones[]): PgProp => {
   const doble = esp.includes(Especificaciones.DOBLE_FAZ);
 
-  let pg = doble
-    ? Math.ceil(libro.cantidadPg / 2)
-    : libro.cantidadPg;
+  let pg = doble ? Math.ceil(libro.cantidadPg / 2) : libro.cantidadPg;
 
-  if (libro.adhesivos && !tieneAdhesivos(libro, esp)) pg += libro.adhesivos
+  if (libro.adhesivos && !tieneAdhesivos(libro, esp)) pg += libro.adhesivos;
 
   return {
     pg,
@@ -73,15 +75,8 @@ const calcularHojas = (
   };
 };
 
-const buscarPrecio = (
-  precios: PrecioProp[],
-  abreviatura: PrecioAbareviatura
-): number => {
-  const precio: number = Number(
-    precios?.find(
-      p => p.abreviatura == abreviatura
-    )?.importe ?? 0
-  );
+const buscarPrecio = (precios: PrecioProp[], abreviatura: PrecioAbareviatura): number => {
+  const precio: number = Number(precios?.find(p => p.abreviatura == abreviatura)?.importe ?? 0);
   return precio;
 };
 
@@ -107,42 +102,44 @@ export const calcularPrecio = ({
   especificaciones,
   cantidad = 1,
 }: EstimarPrecioProp): number => {
-  const esp = obtenerEspecificaciones(
-    libro,
-    especificaciones
-  );
+  const esp = obtenerEspecificaciones(libro, especificaciones);
 
   const hojas: PgProp = calcularHojas(libro, esp);
 
   const esColor = esp.includes(Especificaciones.COLOR);
   const dobleFaz = hojas.doble;
 
-  const abreviatura: PrecioAbareviatura = 
-    esColor 
-      ? dobleFaz
-        ? PrecioAbareviatura.COLOR_D_F 
-        : PrecioAbareviatura.COLOR_S_F
-      : dobleFaz
-        ? PrecioAbareviatura.BLANCO_Y_NEGRO_D_F
-        : PrecioAbareviatura.BLANCO_Y_NEGRO_S_F;
+  const abreviatura: PrecioAbareviatura = esColor
+    ? dobleFaz
+      ? PrecioAbareviatura.COLOR_D_F
+      : PrecioAbareviatura.COLOR_S_F
+    : dobleFaz
+      ? PrecioAbareviatura.BLANCO_Y_NEGRO_D_F
+      : PrecioAbareviatura.BLANCO_Y_NEGRO_S_F;
 
-  const precioBase = buscarPrecio(
-    precios,
-    abreviatura
-  );
+  const precioBase = buscarPrecio(precios, abreviatura);
 
   const adhesivos = calcularPrecioAdhesivos(esp, libro, precios);
 
-  const anillado = calcularPrecioAnillado(hojas.pg + (tieneAdhesivos(libro, esp) ? libro.adhesivos ?? 0 : 0), precios, esp);
+  const anillado = calcularPrecioAnillado(
+    hojas.pg + (tieneAdhesivos(libro, esp) ? (libro.adhesivos ?? 0) : 0),
+    precios,
+    esp
+  );
 
-  return Math.ceil(
-    ((precioBase * hojas.pg + anillado + adhesivos) * cantidad) / 100
-  ) * 100;
+  return Math.ceil(((precioBase * hojas.pg + anillado + adhesivos) * cantidad) / 100) * 100;
 };
 
-export const presupuestoFallido: CalcularPresupuestoRetorno = { texto: 'No hay libro para presupuestar', valor: 0 };
+export const presupuestoFallido: CalcularPresupuestoRetorno = {
+  texto: 'No hay libro para presupuestar',
+  valor: 0,
+};
 
-export const calcularPresupuesto = ({ libro, nuevasEsp, precios }: CalcularPresupuestoProp): CalcularPresupuestoRetorno => {
+export const calcularPresupuesto = ({
+  libro,
+  nuevasEsp,
+  precios,
+}: CalcularPresupuestoProp): CalcularPresupuestoRetorno => {
   if (!libro) return presupuestoFallido;
 
   const esp: Especificaciones[] = nuevasEsp ?? libro?.especificacionesDefecto ?? [];
@@ -152,4 +149,4 @@ export const calcularPresupuesto = ({ libro, nuevasEsp, precios }: CalcularPresu
   const pres: string = `El libro ${libro.nombre} ${libro.nivel} ${transformarComponente(libro.componentes)}, ${transformarEspecificacinesATexto(esp, libro)}
         te sale *$${precio}*`;
   return { texto: pres, valor: precio };
-}
+};

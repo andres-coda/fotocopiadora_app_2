@@ -1,17 +1,16 @@
-import { PedidoLibroProp } from "../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import { LibroProp } from "../../modelo/Entidades/libro/libro.interface";
+import { PedidoLibroProp } from '../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
+import { LibroProp } from '../../modelo/Entidades/libro/libro.interface';
 
-
-interface Prop{
-  libro:LibroProp; 
-  item: PedidoLibroProp
+interface Prop {
+  libro: LibroProp;
+  item: PedidoLibroProp;
 }
-export const recrearItemLibro = ({libro, item}:Prop):PedidoLibroProp => {
+export const recrearItemLibro = ({ libro, item }: Prop): PedidoLibroProp => {
   return {
     ...item,
-    libro:libro
-  }
-}
+    libro: libro,
+  };
+};
 
 /* import { useDispatch, useSelector } from "react-redux";
 import { RefObject, useRef, useState } from "react";

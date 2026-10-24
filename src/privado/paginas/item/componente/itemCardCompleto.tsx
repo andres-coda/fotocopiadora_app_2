@@ -1,10 +1,10 @@
-import { PedidoLibroProp } from "../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface";
-import Card from "../../../../componente-estilo/card/card";
-import { nombreLibroXstring } from "../../../../utils/formatoDatos";
-import ItemInternoCard from "./itemInternoCard";
-import CardArchivos from "../../../../componente/pedido/cardArchivos";
-import CardFechas from "../../../../componente/pedido/cardFechas";
-import CardDatosCliente from "../../../../componente/pedido/cardDatosCliente";
+import { PedidoLibroProp } from '../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
+import Card from '../../../../componente-estilo/card/card';
+import { nombreLibroXstring } from '../../../../utils/formatoDatos';
+import ItemInternoCard from './itemInternoCard';
+import CardArchivos from '../../../../componente/pedido/cardArchivos';
+import CardFechas from '../../../../componente/pedido/cardFechas';
+import CardDatosCliente from '../../../../componente/pedido/cardDatosCliente';
 
 interface Prop {
   item: PedidoLibroProp;
@@ -12,11 +12,10 @@ interface Prop {
   onClick?: (item: PedidoLibroProp) => void;
 }
 
-const ItemCardCompleto = ({ item, idPedido,  onClick}: Prop) => {
+const ItemCardCompleto = ({ item, idPedido, onClick }: Prop) => {
   const handleItem = () => {
-    if (onClick)
-      onClick(item);
-  }
+    if (onClick) onClick(item);
+  };
 
   return (
     <Card
@@ -24,17 +23,14 @@ const ItemCardCompleto = ({ item, idPedido,  onClick}: Prop) => {
       tituloCard={`${item.detalles || nombreLibroXstring(item.libro)}`}
       onClick={handleItem}
     >
-
-        {item.pedido && <CardFechas pedido={item.pedido} />}
-        {item.pedido && <CardArchivos pedido={item.pedido} />}
-        <div className="card-horizontal">
+      {item.pedido && <CardFechas pedido={item.pedido} />}
+      {item.pedido && <CardArchivos pedido={item.pedido} />}
+      <div className="card-horizontal">
         <ItemInternoCard idPedido={idPedido} item={item} />
-        </div>
-        {item?.pedido?.cliente && <CardDatosCliente pedido={item.pedido} />}
-     
-
+      </div>
+      {item?.pedido?.cliente && <CardDatosCliente pedido={item.pedido} />}
     </Card>
-  )
-}
+  );
+};
 
-export default ItemCardCompleto
+export default ItemCardCompleto;

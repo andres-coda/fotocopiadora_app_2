@@ -24,14 +24,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: .1rem 0.2rem;
+  padding: 0.1rem 0.2rem;
   margin: 0;
   white-space: nowrap;
   height: 100%;
 }
 
 .card-vertical.datos-cliente {
-  padding: .5rem;
+  padding: 0.5rem;
   margin: 0;
 }
 
@@ -48,15 +48,15 @@
   fill: var(--colorNegro);
 }
 
-.card-vertical.datos-cliente.cliente-seleccionar{
+.card-vertical.datos-cliente.cliente-seleccionar {
   cursor: pointer;
-  gap: .1rem;
+  gap: 0.1rem;
   background-color: var(--colorCardGris);
   border-radius: 4px;
   min-width: 250px;
 }
 
-.card-vertical.datos-cliente.cliente-seleccionar:hover{
+.card-vertical.datos-cliente.cliente-seleccionar:hover {
   box-shadow: 1px 1px var(--colorSombra);
   scale: 1.01;
 }

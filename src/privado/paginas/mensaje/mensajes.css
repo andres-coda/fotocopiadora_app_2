@@ -1,0 +1,15 @@
+.centro-mensaje {
+  /* Es el root del IntersectionObserver: necesita altura propia y scroll
+     interno, si no el observer dispara todas las paginas de golpe. */
+  flex: 1;
+  min-height: 0;
+  grid-auto-rows: max-content;
+  align-content: start;
+}
+
+.mensajes-pie {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 48px;
+}

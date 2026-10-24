@@ -1,6 +1,6 @@
-export enum Mens{
-  CREAR = "create",
-  EDITAR = "updeate",
-  ELIMINAR = "deleted",
-  REHACER = "rehacer"
+export enum Mens {
+  CREAR = 'create',
+  EDITAR = 'updeate',
+  ELIMINAR = 'deleted',
+  REHACER = 'rehacer',
 }

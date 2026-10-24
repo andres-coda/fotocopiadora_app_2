@@ -1,5 +1,8 @@
-import { BaseAdapterProp, baseInicial, BaseProp } from "../base/base.interface";
-import { ConfiguracionAdapterProp, ConfiguracionProp } from "../configuracion/configuracion.interface";
+import { BaseAdapterProp, baseInicial, BaseProp } from '../base/base.interface';
+import {
+  ConfiguracionAdapterProp,
+  ConfiguracionProp,
+} from '../configuracion/configuracion.interface';
 
 export interface EmpresaAdapterProp extends BaseAdapterProp {
   nombre: string;
@@ -20,4 +23,4 @@ export const empresaInicial: EmpresaProp = {
   nombre: '',
   email: '',
   telefono: '',
-}
+};

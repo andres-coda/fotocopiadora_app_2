@@ -1,15 +1,16 @@
-import './heder.css'
+import './heder.css';
 import { useSelector } from 'react-redux';
 import { appStore } from '../../redux/store';
 import { Link } from 'react-router-dom';
 import { rutaPrivadaBase, RutasPrivadas } from '../../privado/rutas/rutasPrivadas';
-import Libro from './../../assets/books.svg?react'
-import Cliente from './../../assets/buscar.svg?react'
-import Pesos from './../../assets/pesos.svg?react'
-import Pedido from './../../assets/pedidos.svg?react'
-import Sedes from './../../assets/direccion.svg?react'
-import UserCheck from './../../assets/userCheck.svg?react'
-import User from './../../assets/user.svg?react'
+import Libro from './../../assets/books.svg?react';
+import Cliente from './../../assets/buscar.svg?react';
+import Pesos from './../../assets/pesos.svg?react';
+import Pedido from './../../assets/pedidos.svg?react';
+import Sedes from './../../assets/direccion.svg?react';
+import UserCheck from './../../assets/userCheck.svg?react';
+import User from './../../assets/user.svg?react';
+import Mensaje from './../../assets/email.svg?react';
 
 function Heder() {
   // El perfil ya lo carga CargarDatosIniciales en el slice `sesion`.
@@ -18,20 +19,51 @@ function Heder() {
   return (
     <nav className="heder">
       <ul>
-        <li title='Libros'><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_LISTA}`} ><Libro /></Link></li>
-        <li title='Clientes'><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE_LISTA}`} ><Cliente/></Link></li>
-        <li title={'Precios'}><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PRECIO_LISTO}`} ><Pesos/></Link></li>
-        <li title={'Pedidos'}><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_LIBRO_LISTA}`} ><Pedido/></Link></li>
-        <li title={'Sedes'}><Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SEDE_LISTA}`} ><Sedes /></Link></li>
-         
-        <li title={'Usuario'}>{userActual
-          ? <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PERFIL}`} ><UserCheck/></Link>
-          : <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PERFIL}`} ><User/></Link>
-        }
+        <li title="Libros">
+          <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_LISTA}`}>
+            <Libro />
+          </Link>
+        </li>
+        <li title="Clientes">
+          <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE_LISTA}`}>
+            <Cliente />
+          </Link>
+        </li>
+        <li title={'Precios'}>
+          <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PRECIO_LISTO}`}>
+            <Pesos />
+          </Link>
+        </li>
+        <li title={'Pedidos'}>
+          <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_LIBRO_LISTA}`}>
+            <Pedido />
+          </Link>
+        </li>
+        <li title={'Sedes'}>
+          <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SEDE_LISTA}`}>
+            <Sedes />
+          </Link>
+        </li>
+
+        <li title={'Mensajes'}>
+          <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.MENSAJE_LISTA}`}>
+            <Mensaje />
+          </Link>
+        </li>
+        <li title={'Usuario'}>
+          {userActual ? (
+            <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PERFIL}`}>
+              <UserCheck />
+            </Link>
+          ) : (
+            <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PERFIL}`}>
+              <User />
+            </Link>
+          )}
         </li>
       </ul>
     </nav>
-  )
+  );
 }
 /*
 function Heder() {

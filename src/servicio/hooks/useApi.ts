@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useAutenticacion } from "../../hooks/autenticacion/useAutenticacion";
-import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
-import { UseApiProps, FetchDataProps } from "../../modelo/HTTP/peticiones.interface";
-import useRetardo from "../../hooks/tiempo/useRetardo";
+import { useEffect, useState } from 'react';
+import { useAutenticacion } from '../../hooks/autenticacion/useAutenticacion';
+import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
+import { UseApiProps, FetchDataProps } from '../../modelo/HTTP/peticiones.interface';
+import useRetardo from '../../hooks/tiempo/useRetardo';
 
 /** Error de una respuesta HTTP no exitosa del backend: conserva status y statusText reales. */
 export class HttpApiError extends Error {
@@ -18,43 +18,50 @@ export class HttpApiError extends Error {
 }
 
 function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseApiProps<T>) {
-  const {token} = useAutenticacion()
+  const { token } = useAutenticacion();
   const [response, setResponse] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorFetch, setErrorFetch] = useState<string | null>(null);
   const [controlador, setControlador] = useState<boolean>(false);
 
-  const retardoRecetRetardo = useRetardo(() => { setResponse(null) }, 3000)
+  const retardoRecetRetardo = useRetardo(() => {
+    setResponse(null);
+  }, 3000);
 
   useEffect(() => {
     if (controlador && !blob) {
       retardoRecetRetardo();
     }
-  }, [controlador])
+  }, [controlador]);
 
-  const fetchData = async ({ url = null, bodyData = null, methodo = null, adapter = null }: FetchDataProps<T>) => {
+  const fetchData = async ({
+    url = null,
+    bodyData = null,
+    methodo = null,
+    adapter = null,
+  }: FetchDataProps<T>) => {
     const urlLocal = url || urlGet;
-    if (!urlLocal) throw new Error('No hay url en el pedido')
+    if (!urlLocal) throw new Error('No hay url en el pedido');
 
     const adapterLocal = adapter || adapterGet;
 
     setErrorFetch(null);
     setResponse(null);
     setLoading(true);
-    const controller:AbortController = new AbortController();
+    const controller: AbortController = new AbortController();
     try {
       //Diley artificial desarrollo
-     // await delay(5000);
+      // await delay(5000);
 
-      const res:Response = await fetch(urlLocal, {
+      const res: Response = await fetch(urlLocal, {
         method: methodo || httpMethod.GET,
         headers: {
           'Content-Type': 'application/json',
-          ...(token && { 'Authorization': `Bearer ${token}` }),
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
         signal: controller.signal,
-        ...(bodyData && { 'body': bodyData })
-      })
+        ...(bodyData && { body: bodyData }),
+      });
 
       if (!res.ok) {
         let errorMsg = 'La petición falló';
@@ -66,11 +73,9 @@ function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseAp
         }
         throw new HttpApiError(res.status, res.statusText, errorMsg);
       }
-      const result = blob
-      ? await res.blob()
-      : await res.json();
-      const adapterData: T|null = adapterLocal ? adapterLocal(result) : result as T;
-      
+      const result = blob ? await res.blob() : await res.json();
+      const adapterData: T | null = adapterLocal ? adapterLocal(result) : (result as T);
+
       setResponse(adapterData);
       setControlador(true);
       setErrorFetch(null);
@@ -82,7 +87,9 @@ function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseAp
         if (err.name === 'AbortError') {
           console.log('Petición abortada');
         } else {
-          setErrorFetch(`Error al intentar comunicarse con la base de datos: ${err.name}, ${err.stack},${err.message}`);
+          setErrorFetch(
+            `Error al intentar comunicarse con la base de datos: ${err.name}, ${err.stack},${err.message}`
+          );
           console.error(err);
         }
       } else setErrorFetch(`Ocurrió un error desconcido`);
@@ -92,7 +99,6 @@ function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseAp
   };
 
   return { fetchData, response, loading, errorFetch };
-
 }
 
 export default useApi;

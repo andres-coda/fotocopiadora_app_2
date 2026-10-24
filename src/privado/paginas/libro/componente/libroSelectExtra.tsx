@@ -1,5 +1,5 @@
-import Texto from "../../../../componente-estilo/texto/texto";
-import { LibroProp } from "../../../../modelo/Entidades/libro/libro.interface";
+import Texto from '../../../../componente-estilo/texto/texto';
+import { LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
 import './libroSelect.css';
 
 interface Prop {
@@ -14,7 +14,7 @@ const LibroSelectExtra = ({ libro, nuevoEstilo = '' }: Prop) => {
       <Texto textoResaltado={'Número de edición:  '} texto={`${libro.edicion}`} chica />
       <Texto textoResaltado={'Autor:  '} texto={`${libro.autor ?? ''}`} chica />
     </div>
-  )
-}
+  );
+};
 
-export default LibroSelectExtra
+export default LibroSelectExtra;

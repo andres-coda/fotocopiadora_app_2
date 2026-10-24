@@ -17,7 +17,7 @@ const InputBuscarFiltro = ({
   valor = '',
   setValor,
   boton = undefined,
-  setBuscador = undefined
+  setBuscador = undefined,
 }: InputBuscadorProps) => {
   const [expandido, setExpandido] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -54,10 +54,10 @@ const InputBuscarFiltro = ({
   };
 
   return (
-    <div className='input-buscador'>
+    <div className="input-buscador">
       {/* Botón de volver - solo visible cuando está expandido */}
       <Boton
-        icono={ <p>Flecha</p>}
+        icono={<p>Flecha</p>}
         terciario
         nuevoEstilo={`btn-icono-chico btn-buscador ${!expandido ? 'btn-oculto' : ''}`}
         onClick={handleContraer}
@@ -68,14 +68,14 @@ const InputBuscarFiltro = ({
         <div className="inputs-entero buscador">
           <input
             ref={inputRef}
-            type='text'
+            type="text"
             id={name}
             name={name}
-            placeholder=' '
+            placeholder=" "
             onChange={handleChange}
             value={valor}
             onBlur={handleBlur}
-            autoComplete='off'
+            autoComplete="off"
           />
           <label htmlFor={name}>{texto}</label>
         </div>

@@ -45,13 +45,14 @@
   --colorCardVerde: #beec8f;
   --colorCardRosa: #f5a79f;
   --colorCardCancelado: #6e6c6c;
-  --colorCardEdit: #F5EFB7;
+  --colorCardEdit: #f5efb7;
   --colorError: #df3232;
   --colorSombra: #242422ce;
   --colorStock: #737dba;
   --colorBlanco: #f2f2f3;
   --colorNegro: #000000;
   --colorPropuesta: #fdc78d;
+  --colorLateral: #889a90;
 
   /* Alto del contenedor grid con scroll (pedidos, clientes, etc.) */
   --grid-alto: calc(100vh - 220px);
@@ -85,7 +86,7 @@ body {
   background-color: var(--colorFondo);
   color: var(--colorNegro);
   overflow: hidden;
-  gap: 1rem
+  gap: 1rem;
 }
 
 @media (prefers-color-scheme: light) {
