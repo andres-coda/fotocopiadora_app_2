@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { appStore } from '../../redux/store';
 import Texto from '../../componente-estilo/texto/texto';
 import './lateralIzquierdo.css';
+import './lateralDerecho.css';
+import MensajesFavoritosLateral from './mensajesFavoritosLateral';
 import Card from '../../componente-estilo/card/card';
 import { resetSesion, SesionStateProp } from '../../redux/state/sesion.state';
 import Monigote from '../../assets/user.svg?react';
@@ -24,7 +26,7 @@ const LateralDerecho = () => {
   if (!sesion.usuario) return <Texto texto={'No hay sesion'} mediana negrita />;
 
   return (
-    <>
+    <div className="lateral-derecho">
       <Card nuevoEstilo="sesion">
         <Monigote />
         <Texto texto={sesion.usuario?.nombre} mediana negrita />
@@ -36,7 +38,8 @@ const LateralDerecho = () => {
           edit
         />
       </Card>
-    </>
+      <MensajesFavoritosLateral />
+    </div>
   );
 };
 

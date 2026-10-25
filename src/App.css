@@ -17,7 +17,7 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  max-height: calc(100vh - 80px);
+  height: calc(100vh - 80px);
   gap: .5rem;
   box-sizing: border-box;
 }
