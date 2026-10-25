@@ -115,21 +115,29 @@
   margin-top: 0.5rem;
 }
 
-.input-buscador input:placeholder-shown:not(:focus) {
-  border-right: none;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
+.buscador-filtros-completo .input-buscador {
+  margin-top: 0;
 }
 
-.btn-buscador {
+.input-buscador .inputs-entero label {
+  font-size: 1rem;
+  font-weight: 300;
+  transition: all 0.3s ease;
+}
+
+.input-buscador .inputs-entero input:focus + label,
+.input-buscador .inputs-entero input:not(:placeholder-shown) + label {
+  font-size: 0.8em;
+  font-weight: 400;
+  background-color: var(--colorBlanco);
+}
+
+.btn-general.btn-buscador {
   border-radius: 5px;
   margin-top: 3px;
   border: 0.5px solid var(--colorSombra);
   box-shadow: none;
   color: var(--colorNegro);
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
   transition:
     opacity 0.2s ease,
     transform 0.2s ease,
@@ -138,7 +146,6 @@
     visibility 0.2s ease;
   width: 36px;
   margin-right: 3px;
-  visibility: visible;
 }
 
 .btn-oculto {
@@ -151,10 +158,9 @@
   transition: all 0.2s ease; /* Suavizar transición */
 }
 
-.btn-lupa {
-  border-left: none;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
+.btn-general.btn-lupa {
+  margin-right: 0;
+  margin-left: 3px;
   pointer-events: none;
 }
 
