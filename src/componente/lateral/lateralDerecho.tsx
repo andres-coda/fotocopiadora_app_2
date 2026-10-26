@@ -12,6 +12,7 @@ import Boton from '../../componente-estilo/boton/boton';
 import { useNavigate } from 'react-router-dom';
 import { rutaPublica } from '../../publico/rutas/rutasPublicas';
 import { useAuth } from '../../contexto/contextoAutenticacion';
+import Lateral from '../../componente-estilo/lateral/lateral';
 
 const LateralDerecho = () => {
   const sesion: SesionStateProp | undefined = useSelector((store: appStore) => store.sesion);
@@ -23,10 +24,15 @@ const LateralDerecho = () => {
     dispatch(resetSesion());
     navigate(`/${rutaPublica.LOGIN}`);
   };
-  if (!sesion.usuario) return <Texto texto={'No hay sesion'} mediana negrita />;
+  if (!sesion.usuario)
+    return (
+      <Lateral nuevoEstilo="lateral-derecho">
+        <Texto texto={'No hay sesion'} mediana negrita />;
+      </Lateral>
+    );
 
   return (
-    <div className="lateral-derecho">
+    <Lateral nuevoEstilo="lateral-derecho">
       <Card nuevoEstilo="sesion">
         <Monigote />
         <Texto texto={sesion.usuario?.nombre} mediana negrita />
@@ -39,7 +45,7 @@ const LateralDerecho = () => {
         />
       </Card>
       <MensajesFavoritosLateral />
-    </div>
+    </Lateral>
   );
 };
 

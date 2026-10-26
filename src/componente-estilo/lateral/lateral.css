@@ -1,0 +1,20 @@
+.lateral {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-radius: 5px;
+  background-color: var(--colorLateral);
+  padding: 1rem;
+  width: 20vw;
+  height: 100%;
+  box-shadow: 1px 1px 1px var(--colorSombra);
+  box-sizing: border-box;
+}
+
+@media (width < 800px) {
+  .lateral {
+    max-width: 1px;
+    visibility: hidden;
+  }
+}

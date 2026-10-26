@@ -12,13 +12,9 @@ function App({ children }: AppProp) {
     <>
       <Heder />
       <div className="contenedor-general">
-        <div className="lateral">
-          <LateralIzquierdo />
-        </div>
+        <LateralIzquierdo />
         <div className="general">{children}</div>
-        <div className="lateral">
-          <LateralDerecho />
-        </div>
+        <LateralDerecho />
       </div>
     </>
   );

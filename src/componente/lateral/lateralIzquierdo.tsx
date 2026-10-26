@@ -13,8 +13,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import useConfiguracionApi from '../../servicio/configuracion/useConfiguracionApi';
 import { setConfiguracionEmpresa } from '../../redux/state/empresa.state';
-import './lateralIzquierdo.css'
+import './lateralIzquierdo.css';
 import Card from '../../componente-estilo/card/card';
+import Lateral from '../../componente-estilo/lateral/lateral';
 
 const LateralIzquierdo = () => {
   const configuracion: ConfiguracionProp | undefined = useSelector(
@@ -54,8 +55,8 @@ const LateralIzquierdo = () => {
   }, [responseConfiguracion]);
 
   return (
-    <>
-      <Card nuevoEstilo='fecha-entrega'>
+    <Lateral>
+      <Card nuevoEstilo="fecha-entrega">
         <Texto texto={`Entrega`} mediana negrita />
         <Input<formValuesConfigEntrega>
           name="fechaEntrega"
@@ -66,9 +67,9 @@ const LateralIzquierdo = () => {
           esquema={configEntrega}
         />
         {errorFetchConfiguracion && <Texto texto={errorFetchConfiguracion} error chica />}
-        <Texto textoResaltado='Hora: ' texto={`${configuracion?.horaEntrega ?? '00'}:00`} />
+        <Texto textoResaltado="Hora: " texto={`${configuracion?.horaEntrega ?? '00'}:00`} />
       </Card>
-    </>
+    </Lateral>
   );
 };
 
