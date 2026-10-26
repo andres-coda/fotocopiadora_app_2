@@ -19,4 +19,5 @@ export const listaEspecificaciones: { nombre: Especificaciones; texto: string }[
   { nombre: Especificaciones.DOBLE_FAZ, texto: 'D/Faz' },
   { nombre: Especificaciones.SIMPLE_FAZ, texto: 'S/Faz' },
   { nombre: Especificaciones.ADHESIVO, texto: 'Adhesivos' },
+  { nombre: Especificaciones.TROKELADO, texto: 'Trokelado' },
 ];
