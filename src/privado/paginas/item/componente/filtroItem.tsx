@@ -15,7 +15,7 @@ import {
   filtrosPedidoLibroInicial,
   PedidoLibroFiltrosProp,
 } from '../../../../modelo/Entidades/pedido_libro/pedidoLibroFiltro.interface';
-import { normalizarEspecificaciones } from '../../../../utils/especificaciones';
+import { normalizarEspecificacionesFiltro } from '../../../../utils/especificaciones';
 import { listaEspecificaciones, listaEstados } from './filtroItemOpciones';
 import './filtroItem.css';
 
@@ -133,7 +133,7 @@ const FiltroItem = () => {
               lista={listaEspecificaciones}
               elementosSelect={especificaciones}
               setelementosSelect={setEspecificaciones}
-              normalizar={normalizarEspecificaciones}
+              normalizar={normalizarEspecificacionesFiltro}
               nuevoEstilo="filtro-item__lista"
             />
           )}
