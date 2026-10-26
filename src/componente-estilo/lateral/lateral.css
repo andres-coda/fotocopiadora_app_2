@@ -10,6 +10,7 @@
   height: 100%;
   box-shadow: 1px 1px 1px var(--colorSombra);
   box-sizing: border-box;
+  gap: 1rem;
 }
 
 @media (width < 900px) {

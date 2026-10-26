@@ -33,6 +33,7 @@ const FilaConfiguracion = ({ etiqueta, valor, onEditar }: FilaProps) => (
     </div>
     <Boton
       icono={<Editar />}
+      terciario
       nuevoEstilo="btn-icono-chico"
       titulo={`Editar ${etiqueta.toLowerCase()}`}
       onClick={onEditar}

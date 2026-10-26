@@ -4,7 +4,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: .5rem;
   background-color: var(--colorCardGris);
   min-height: 68px;
 }
@@ -15,8 +15,8 @@
    que una sola clase, y el ganador depende del orden en que se emita el CSS. */
 .card-precio .card-precio__categoria {
   position: absolute;
-  top: 0.15rem;
-  left: 0.35rem;
+  top: 0.5rem;
+  left: 0.5rem;
   width: auto;
   max-width: calc(100% - 0.7rem);
   font-size: 0.55rem;

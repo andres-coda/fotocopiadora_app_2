@@ -1,0 +1,39 @@
+.categorias-lateral{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  box-shadow: 1px 1px 1px var(--colorSombra);
+  border-radius: 5px;
+  padding: 1rem .5rem ;
+  box-sizing: border-box;
+}
+
+.btn-copiar-flotante{
+  right: 45px;
+}
+
+.categoria-precio{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: .5rem;
+  padding-top: 1rem;
+  gap: .3rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.categoria-precio-interno{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.categoria-texto{
+  max-width: 60%;
+}

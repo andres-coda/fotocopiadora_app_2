@@ -15,16 +15,18 @@ export interface PrecioNombreProp {
   descripcion?: string;
 }
 
+export interface CategoriaProp {
+    id: string;
+    nombre: string;
+}
+
 export interface PrecioAdapterProp extends BaseAdapterProp {
   descripcion?: string;
   importe: number;
   detalles?: string;
   nombre: string;
   abreviatura?: PrecioAbareviatura;
-  categoria?: {
-    id: string;
-    nombre: string;
-  }
+  categoria?: CategoriaProp;
 }
 
 export interface PrecioProp {
@@ -33,10 +35,7 @@ export interface PrecioProp {
   detalles?: string;
   nombre: string;
   importe: number;
-  categoria?: {
-    id: string;
-    nombre: string;
-  }
+  categoria?:CategoriaProp;
   ultAct: string;
   deleted: boolean;
   abreviatura?: PrecioAbareviatura;

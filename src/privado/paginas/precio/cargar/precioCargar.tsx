@@ -138,6 +138,14 @@ const PrecioCargar = () => {
         formatValue={v => parseDecimal(v, 9, 2)}
         parseValue={v => parseDecimal(v, 9, 2)}
       />
+      <Input<formValuesPrecio>
+        name="categoria"
+        control={control}
+        label="Categoría"
+        tipo="text"
+        error={errors.categoria}
+        esquema={precio}
+      />
     </Formulario>
   );
 };

@@ -8,10 +8,11 @@ import Copiar from '../../assets/copiar.svg?react';
 import Check from '../../assets/check.svg?react';
 import Flecha from '../../assets/arrow-small.svg?react';
 import './preciosCategoria.css';
+import CategoriaLateral from '../../privado/paginas/precio/componente/categoriaLateral';
 
 const SIN_CATEGORIA = 'Sin categoría';
 
-interface PrecioGrupoProp {
+export interface PrecioGrupoProp {
   nombre: string;
   precios: PrecioProp[];
 }
@@ -59,7 +60,7 @@ const PreciosCategoria = () => {
   useEffect(() => {
     if (!copiada) return;
 
-    const timer = setTimeout(() => setCopiada(null), 1500);
+    const timer = setTimeout(() => setCopiada(null), 1000);
     return () => clearTimeout(timer);
   }, [copiada]);
 
@@ -76,7 +77,22 @@ const PreciosCategoria = () => {
   if (grupos.length === 0) return null;
 
   return (
-    <section className="precios-categoria">
+    <div className="precios-categoria" >
+       <Texto texto="Precios" mediana negrita />
+       {grupos.map((g)=> {
+        return (
+          <CategoriaLateral key={g.nombre} grupo={g} copiarGrupo={copiarGrupo}/>
+        )
+       })}
+
+    </div>
+    
+  );
+};
+
+export default PreciosCategoria;
+
+{/* <section className="precios-categoria">
       <Texto texto="Precios" mediana negrita />
       <div className="precios-categoria__lista">
         {grupos.map((grupo) => {
@@ -127,8 +143,4 @@ const PreciosCategoria = () => {
           );
         })}
       </div>
-    </section>
-  );
-};
-
-export default PreciosCategoria;
+    </section> */}

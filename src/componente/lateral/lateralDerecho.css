@@ -1,7 +1,3 @@
-.lateral-derecho {
-  gap: 0.5rem;
-}
-
 .lateral-derecho > .card.sesion {
   flex-shrink: 0;
 }

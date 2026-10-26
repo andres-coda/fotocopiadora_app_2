@@ -12,6 +12,13 @@ import EmpresaEditar from './cargar/empresaEditar';
 import ConfiguracionEditar from './cargar/configuracionEditar';
 import { CampoConfig } from '../../../modelo/Entidades/configuracion/configuracionCampo.interface';
 import './perfil.css';
+import Botonera from '../../../componente-estilo/botonera/botonera';
+import Boton from '../../../componente-estilo/boton/boton';
+import { useAuth } from '../../../contexto/contextoAutenticacion';
+import { resetSesion } from '../../../redux/state/sesion.state';
+import { rutaPublica } from '../../../publico/rutas/rutasPublicas';
+import { useNavigate } from 'react-router-dom';
+import Editar from '../../../assets/edit.svg?react';
 
 const Perfil = () => {
   // El perfil y la empresa ya vienen cargados por CargarDatosIniciales.
@@ -26,6 +33,8 @@ const Perfil = () => {
   const [modalEmpresa, setModalEmpresa] = useState<boolean>(false);
   const [campoConfig, setCampoConfig] = useState<CampoConfig | null>(null);
   const dispatch = useDispatch();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Al cerrarse el modal se descarta cualquier contenido pendiente.
@@ -65,6 +74,12 @@ const Perfil = () => {
       </Centro>
     );
 
+  const cerrarSesion = () => {
+    logout();
+    dispatch(resetSesion());
+    navigate(`/${rutaPublica.LOGIN}`);
+  };
+
   return (
     <>
       <Centro nuevoEstilo="perfil-centro">
@@ -74,12 +89,23 @@ const Perfil = () => {
           <Texto texto={errorEmpresa} error chica />
         )}
         {!cargandoEmpresa && !sinEmpresa && !errorEmpresa && empresa && (
-          <PerfilDatosEmpresa
-            empresa={empresa}
-            onEditar={abrirEmpresa}
-            onEditarConfiguracion={abrirConfiguracion}
-            usuario={usuarioSesion}
-          />
+          <>
+            <PerfilDatosEmpresa
+              empresa={empresa}
+              onEditarConfiguracion={abrirConfiguracion}
+              usuario={usuarioSesion}
+            />
+            <Botonera nuevoEstilo="empresa-botonera">
+              <Boton secundario onClick={cerrarSesion} texto="Cerrar sesión" />
+              <Boton
+                secundario
+                nuevoEstilo="btn-icono-chico"
+                onClick={abrirEmpresa}
+                icono={<Editar />}
+                titulo="Editar empresa"
+              />
+            </Botonera>
+          </>
         )}
       </Centro>
 

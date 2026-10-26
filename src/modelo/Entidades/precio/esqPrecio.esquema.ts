@@ -3,6 +3,7 @@ import { PrecioProp } from './precio.interface';
 
 export const precio = z.object({
   nombre: z.string().min(1, { message: 'El precio debe tener un nombre' }),
+  categoria: z.string().optional(),
   importe: z.string().min(1, { message: 'El precio debe tener un valor numerico' }),
 });
 
@@ -11,6 +12,7 @@ export type formValuesPrecio = z.infer<typeof precio>;
 export const precioFormDefault: formValuesPrecio = {
   nombre: '',
   importe: '0',
+  categoria: ''
 };
 
 export const precioFormEdit = (precio?: PrecioProp | null): formValuesPrecio => {
@@ -18,5 +20,6 @@ export const precioFormEdit = (precio?: PrecioProp | null): formValuesPrecio => 
   return {
     nombre: precio?.nombre || precioFormDefault.nombre,
     importe: `${precio?.importe}` || precioFormDefault.importe,
+    categoria: precio.categoria?.nombre || precioFormDefault.categoria
   };
 };

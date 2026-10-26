@@ -5,6 +5,7 @@ export const precioDtoAdapter = (p: formValuesPrecio): PrecioDtoProp => {
   const newPrecio: PrecioDtoProp = {
     nombre: p.nombre,
     importe: Number(p.importe),
+    categoria: p.categoria ?? ''
   };
   return newPrecio;
 };
