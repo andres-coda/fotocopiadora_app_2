@@ -1,4 +1,5 @@
 .card-precio {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -6,6 +7,28 @@
   padding: 1rem;
   background-color: var(--colorCardGris);
   min-height: 68px;
+}
+
+/* La categoría va como etiqueta chica en la esquina superior izquierda: posicionada en
+   absoluto para no correr el contenido de la card. El selector es compuesto por la misma
+   razón que `.card.fecha-entrega`: `.texto` declara width: 100% con la misma especificidad
+   que una sola clase, y el ganador depende del orden en que se emita el CSS. */
+.card-precio .card-precio__categoria {
+  position: absolute;
+  top: 0.15rem;
+  left: 0.35rem;
+  width: auto;
+  max-width: calc(100% - 0.7rem);
+  font-size: 0.55rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--colorSombra);
+  opacity: 0.85;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 .botonera-precio {
