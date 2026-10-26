@@ -145,20 +145,3 @@
   }
 }
 
-@media (width > 900px) {
-  .libro-select-superior {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .libro-select-superior .libro-select {
-    flex: 1;
-  }
-
-  .libro-select-superior .copiado-presupuesto {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    min-height: 349px;
-  }
-}
