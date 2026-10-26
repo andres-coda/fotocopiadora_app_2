@@ -13,6 +13,7 @@ import {
 } from '../../../modelo/usuario/esqUsuario.esquema';
 import useUsuarioTokens from '../../../servicio/usuario/useUsuarioTokens';
 import { useAuth } from '../../../contexto/contextoAutenticacion';
+import '../login/login.css';
 
 const Registro = () => {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const Registro = () => {
   };
 
   return (
-    <Centro>
+    <Centro nuevoEstilo="login">
       <Formulario
         titulo={`${userLoading ? 'En proceso' : 'Registrarse'}`}
         onSubmit={handleSubmit(onSubmit)}

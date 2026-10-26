@@ -18,6 +18,7 @@ import {
 } from '../../../modelo/usuario/esqUsuario.esquema';
 import useApi from '../../../servicio/hooks/useApi';
 import { useAuth } from '../../../contexto/contextoAutenticacion';
+import './login.css';
 
 export interface LoginResponseProp {
   access_token: string;
@@ -57,7 +58,9 @@ const Login = () => {
   };
 
   return (
-    <Centro>
+    <Centro
+    nuevoEstilo='login'
+    >
       <Formulario
         titulo={`${loading ? 'En proceso' : 'Iniciar sesión'}`}
         onSubmit={handleSubmit(onSubmit)}

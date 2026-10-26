@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import './lateral.css'
+import { useAutenticacion } from "../../hooks/autenticacion/useAutenticacion";
 
 interface Prop {
   children: ReactNode;
@@ -7,9 +8,11 @@ interface Prop {
 }
 
 const Lateral = ({nuevoEstilo = '', children}:Prop) => {
+  const { token } = useAutenticacion();
+ 
   return (
     <div className={`lateral ${nuevoEstilo}`}>
-      {children}
+      {token && children}
     </div>
   )
 }
