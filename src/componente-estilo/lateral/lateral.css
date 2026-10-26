@@ -12,9 +12,8 @@
   box-sizing: border-box;
 }
 
-@media (width < 800px) {
+@media (width < 900px) {
   .lateral {
-    max-width: 1px;
     visibility: hidden;
   }
 }
