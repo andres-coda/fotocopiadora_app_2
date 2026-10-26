@@ -1,0 +1,35 @@
+.filtros-activos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.filtro-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.55rem;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--colorNegro);
+  background-color: var(--colorSubmenu);
+  border: 1px solid var(--colorSombra);
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.filtro-chip:hover,
+.filtro-chip:focus-visible {
+  background-color: var(--colorBoton);
+  color: var(--colorBlanco);
+}
+
+.filtro-chip__quitar {
+  font-weight: 700;
+  line-height: 1;
+}

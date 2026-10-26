@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { appStore } from '../../../../redux/store';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -15,7 +16,7 @@ import {
   PedidoLibroFiltrosProp,
 } from '../../../../modelo/Entidades/pedido_libro/pedidoLibroFiltro.interface';
 import { normalizarEspecificaciones } from '../../../../utils/especificaciones';
-import { estadoXstring } from '../../../../utils/formatoDatos';
+import { listaEspecificaciones, listaEstados } from './filtroItemOpciones';
 import './filtroItem.css';
 
 type CategoriaFiltro = 'estado' | 'especificaciones' | 'entrega' | 'tomado';
@@ -35,32 +36,22 @@ const categorias: { clave: CategoriaFiltro; label: string }[] = [
   { clave: 'tomado', label: 'Tomado' },
 ];
 
-// Solo los 6 estados filtrables: se excluyen STOCK, CONSTRUCCION y POR_CONFIRMAR.
-const listaEstados: { nombre: Estado; texto: string }[] = [
-  { nombre: Estado.PENDIENTE, texto: estadoXstring(Estado.PENDIENTE) },
-  { nombre: Estado.IMPRESO_MITAD, texto: estadoXstring(Estado.IMPRESO_MITAD) },
-  { nombre: Estado.IMPRESO_COMPLETO, texto: estadoXstring(Estado.IMPRESO_COMPLETO) },
-  { nombre: Estado.LISTO, texto: estadoXstring(Estado.LISTO) },
-  { nombre: Estado.RETIRADO, texto: estadoXstring(Estado.RETIRADO) },
-  { nombre: Estado.CANCELADO, texto: estadoXstring(Estado.CANCELADO) },
-];
-
-const listaEspecificaciones: { nombre: Especificaciones; texto: string }[] = [
-  { nombre: Especificaciones.BLANCO_Y_NEGRO, texto: 'B y N' },
-  { nombre: Especificaciones.COLOR, texto: 'Color' },
-  { nombre: Especificaciones.ANILLADO, texto: 'Anillado' },
-  { nombre: Especificaciones.DOBLE_FAZ, texto: 'D/Faz' },
-  { nombre: Especificaciones.SIMPLE_FAZ, texto: 'S/Faz' },
-  { nombre: Especificaciones.ADHESIVO, texto: 'Adhesivos' },
-];
-
 const FiltroItem = () => {
   const dispatch = useDispatch();
   const { setModal } = useModalContext();
 
-  const [categoria, setCategoria] = useState<CategoriaFiltro>('estado');
-  const [estados, setEstados] = useState<Estado[]>([]);
-  const [especificaciones, setEspecificaciones] = useState<Especificaciones[]>([]);
+  const filtrosActuales = useSelector((store: appStore) => store.pedidoLibro.filtrosPedidoLibro);
+  const [categoria, setCategoria] = useState<CategoriaFiltro>(() => {
+    if (filtrosActuales.estado.length > 0) return 'estado';
+    if (filtrosActuales.especificaciones.length > 0) return 'especificaciones';
+    if (filtrosActuales.entrega) return 'entrega';
+    if (filtrosActuales.tomado) return 'tomado';
+    return 'estado';
+  });
+  const [estados, setEstados] = useState<Estado[]>(filtrosActuales.estado);
+  const [especificaciones, setEspecificaciones] = useState<Especificaciones[]>(
+    filtrosActuales.especificaciones
+  );
 
   const {
     control,
@@ -70,7 +61,7 @@ const FiltroItem = () => {
     formState: { errors },
   } = useForm<FormFiltroItem>({
     resolver: zodResolver(esqFiltroItem),
-    defaultValues: { entrega: '', tomado: '' },
+    defaultValues: { entrega: filtrosActuales.entrega, tomado: filtrosActuales.tomado },
   });
 
   const entrega = watch('entrega');

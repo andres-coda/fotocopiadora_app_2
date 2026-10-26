@@ -23,6 +23,7 @@ import useBuscadorPedido from '../../../hooks/buscador/useBuscadorPedido';
 import { useModalContext } from '../../../contexto/contextoModal';
 import { busquedaQueryParams } from '../../../utils/busquedaQueryParams';
 import FiltroItem from './componente/filtroItem';
+import FiltrosActivos from './componente/filtrosActivos';
 import OrdenItem from './componente/ordenItem';
 
 const ItemsLista = () => {
@@ -114,6 +115,7 @@ const ItemsLista = () => {
         etiquetaArriba="Al comienzo de la lista"
         etiquetaMas={'Nuevo pedido'}
       />
+      <FiltrosActivos />
       <Centro ref={contenedorRef}>
         {!items.busquedaActual || items.busquedaActual.datosQuery.length === 0 ? (
           <TextoVacio entidad="clientes" />
