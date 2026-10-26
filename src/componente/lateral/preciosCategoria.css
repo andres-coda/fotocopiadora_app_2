@@ -14,7 +14,7 @@
 .precios-categoria__lista {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.5rem;
   min-height: 0;
   overflow-y: auto;
   padding-right: 0.15rem;
@@ -23,7 +23,60 @@
 .precios-categoria__grupo {
   display: flex;
   flex-direction: column;
+  gap: 0.2rem;
+}
+
+.precios-categoria__cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.3rem;
+  width: 100%;
+}
+
+/* La flecha arranca apuntando a la izquierda en el svg: girada 180 queda hacia la derecha
+   (cerrado) y girada -90 apunta hacia abajo (abierto). */
+.precios-categoria__flecha {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  width: 0.8rem;
+  height: 0.8rem;
+  transform: rotate(180deg);
+  transition: transform 0.15s ease;
+}
+
+.precios-categoria__flecha--abierta {
+  transform: rotate(-90deg);
+}
+
+.precios-categoria__toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.precios-categoria__nombre {
+  font-size: 0.7em;
+  font-weight: 700;
+  color: var(--colorNegro);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.precios-categoria__filas {
+  display: flex;
+  flex-direction: column;
   gap: 0.15rem;
+  padding-left: 1rem;
 }
 
 /* `.texto` de la fila trae width:100% y rompe el grid: se neutraliza acá. */
