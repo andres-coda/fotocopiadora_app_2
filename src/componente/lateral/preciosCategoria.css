@@ -1,0 +1,46 @@
+/* El `.lateral` base mide height:100% y no tiene overflow. Para que la lista de precios
+   scrollee sola sin estirar el sidebar, el bloque toma el alto restante con flex:1 y
+   min-height:0, y el scroll queda en la lista interna. */
+.precios-categoria {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.precios-categoria__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 0.15rem;
+}
+
+.precios-categoria__grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+/* `.texto` de la fila trae width:100% y rompe el grid: se neutraliza acá. */
+.precios-categoria__fila {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.precios-categoria__fila .texto {
+  width: auto;
+}
+
+.precios-categoria__fila .texto:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ConfiguracionProp } from '../../modelo/Entidades/configuracion/configuracion.interface';
 import { appStore } from '../../redux/store';
 import Texto from '../../componente-estilo/texto/texto';
-import Precios from '../../privado/paginas/precio/precio';
 import Input from '../formulario/input';
 import { useForm } from 'react-hook-form';
 import {
@@ -16,6 +15,7 @@ import { setConfiguracionEmpresa } from '../../redux/state/empresa.state';
 import './lateralIzquierdo.css';
 import Card from '../../componente-estilo/card/card';
 import Lateral from '../../componente-estilo/lateral/lateral';
+import PreciosCategoria from './preciosCategoria';
 
 const LateralIzquierdo = () => {
   const configuracion: ConfiguracionProp | undefined = useSelector(
@@ -69,6 +69,7 @@ const LateralIzquierdo = () => {
         {errorFetchConfiguracion && <Texto texto={errorFetchConfiguracion} error chica />}
         <Texto textoResaltado="Hora: " texto={`${configuracion?.horaEntrega ?? '00'}:00`} />
       </Card>
+      <PreciosCategoria />
     </Lateral>
   );
 };
