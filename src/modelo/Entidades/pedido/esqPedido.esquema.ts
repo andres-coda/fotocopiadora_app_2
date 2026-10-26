@@ -60,10 +60,20 @@ export const pedidoFormDefault: formValuesPedido = {
 interface FromValuesDefectoProp {
   pedido?: PedidoProp;
   cliente?: ClienteProp;
+  fechaEntregaDefecto?: string;
 }
 
-export const pedidoFormEdit = ({ pedido, cliente }: FromValuesDefectoProp): formValuesPedido => {
-  if (!pedido) return pedidoFormDefault;
+export const pedidoFormEdit = ({
+  pedido,
+  cliente,
+  fechaEntregaDefecto,
+}: FromValuesDefectoProp): formValuesPedido => {
+  if (!pedido) {
+    return {
+      ...pedidoFormDefault,
+      fechaEntrega: fechaEntregaDefecto || pedidoFormDefault.fechaEntrega,
+    };
+  }
   return {
     archivos: pedido?.archivos.toString() || pedidoFormDefault.archivos,
     anillados: pedido?.anillados.toString() || pedidoFormDefault.anillados,

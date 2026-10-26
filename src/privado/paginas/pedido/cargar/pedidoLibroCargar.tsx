@@ -27,6 +27,7 @@ const crearLibropedido = (
   libro: LibroProp,
   pedidoParcial: formValuesPedidoLibro,
   sedes: SedeProp[],
+  sedeDefecto: SedeProp | undefined,
   estado?: Estado
 ): PedidoLibroConstruccionProp => {
   return {
@@ -34,7 +35,7 @@ const crearLibropedido = (
     libro: libro,
     cantidad: Number(pedidoParcial.cantidad) === 0 ? 1 : Number(pedidoParcial.cantidad),
     detalles: pedidoParcial.detalles ?? '',
-    sede: sedes.find(s => s.id === pedidoParcial.sede),
+    sede: sedes.find(s => s.id === pedidoParcial.sede) ?? sedeDefecto,
     especificaciones: libro.especificacionesDefecto ?? [],
     estado: estado ?? Estado.POR_CONFIRMAR,
   };
@@ -42,20 +43,28 @@ const crearLibropedido = (
 
 const PedidoLibroCargar = () => {
   const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.busquedaActual.datosQuery);
+  const configuracion = useSelector((store: appStore) => store.empresa.empresa?.configuracion);
+  const sedeDefecto = sedes.find(s => s.id === configuracion?.sede?.id) ?? sedes[0];
   const { datos, setDatos } = usePedidoContext();
   const {
     control,
     formState: { errors },
     watch,
+    setValue,
   } = useForm<formValuesPedidoLibro>({
     resolver: zodResolver(pedidoLibro),
     defaultValues: pedidoLibroFormEdit({
       pedidoLibro: datos?.pedidoActual || undefined,
       libro: datos?.pedidoActual?.libro,
-      sede: sedes[0],
+      sede: sedeDefecto,
     }),
   });
   const pedidoParcial = watch();
+
+  useEffect(() => {
+    if (datos?.pedidoActual || !sedeDefecto?.id || watch('sede')) return;
+    setValue('sede', sedeDefecto.id);
+  }, [datos?.pedidoActual, sedeDefecto?.id, setValue, watch]);
 
   const handleLibro = (libro: LibroProp) => {
     setDatos(prev => {
@@ -63,6 +72,7 @@ const PedidoLibroCargar = () => {
         libro,
         pedidoParcial,
         sedes,
+        sedeDefecto,
         Estado.CONSTRUCCION
       );
 
@@ -83,7 +93,7 @@ const PedidoLibroCargar = () => {
     if (propuesta.libro && propuesta.libro.length > 0) {
       setDatos(prev => {
         const pedidos: PedidoLibroConstruccionProp[] =
-          propuesta.libro?.map(l => crearLibropedido(l, pedidoParcial, sedes)) ?? [];
+          propuesta.libro?.map(l => crearLibropedido(l, pedidoParcial, sedes, sedeDefecto)) ?? [];
         console.log('Pedidos: ', pedidos);
         const newDatos = {
           ...prev,
@@ -116,7 +126,7 @@ const PedidoLibroCargar = () => {
             ...prev?.pedidoActual,
             cantidad: Number(pedidoParcial.cantidad) === 0 ? 1 : Number(pedidoParcial.cantidad),
             detalles: pedidoParcial.detalles ?? '',
-            sede: sedes.find(s => s.id === pedidoParcial.sede),
+            sede: sedes.find(s => s.id === pedidoParcial.sede) ?? sedeDefecto,
           },
         };
       });

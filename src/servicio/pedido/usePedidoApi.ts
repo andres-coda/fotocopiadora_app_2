@@ -14,6 +14,8 @@ import { ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
 const usePedidoApi = () => {
   const { fetchData, response, loading, errorFetch } = useApi<PedidoProp | undefined>({});
   const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.datosIniciales.datosQuery);
+  const configuracion = useSelector((store: appStore) => store.empresa.empresa?.configuracion);
+  const sedeDefecto = sedes.find(s => s.id === configuracion?.sede?.id) ?? sedes[0];
 
   const obtenerPedidoById = (id: string) =>
     fetchData({ url: `${PEDIDO}/${id}`, methodo: httpMethod.GET, adapter: pedidoAdapter });
@@ -27,7 +29,7 @@ const usePedidoApi = () => {
       url: PEDIDO,
       methodo: httpMethod.POST,
       bodyData: JSON.stringify(
-        pedidoDtoAdapter({ p: data, librosPedidos: libros, sede: sedes[0], cliente })
+        pedidoDtoAdapter({ p: data, librosPedidos: libros, sede: sedeDefecto, cliente })
       ),
       adapter: pedidoAdapter,
     });
@@ -41,7 +43,7 @@ const usePedidoApi = () => {
       url: `${PEDIDO}/${id}`,
       methodo: httpMethod.PUT,
       bodyData: JSON.stringify(
-        pedidoDtoAdapter({ p: data, librosPedidos: libros, sede: sedes[0] })
+        pedidoDtoAdapter({ p: data, librosPedidos: libros, sede: sedeDefecto })
       ),
       adapter: pedidoAdapter,
     });

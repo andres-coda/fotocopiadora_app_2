@@ -55,6 +55,7 @@ const PedidoCargar = () => {
   const precios: PrecioProp[] = useSelector(
     (store: appStore) => store.precio.datosIniciales.datosQuery
   );
+  const configuracion = useSelector((store: appStore) => store.empresa.empresa?.configuracion);
 
   const {
     control,
@@ -68,8 +69,14 @@ const PedidoCargar = () => {
     defaultValues: pedidoFormEdit({
       pedido: pedidoSelect || undefined,
       cliente: pedidoSelect?.cliente,
+      fechaEntregaDefecto: configuracion?.fechaEntrega,
     }),
   });
+
+  useEffect(() => {
+    if (pedidoSelect?.id || !configuracion?.fechaEntrega || watch('fechaEntrega')) return;
+    setValue('fechaEntrega', configuracion.fechaEntrega);
+  }, [configuracion?.fechaEntrega, pedidoSelect?.id, setValue, watch]);
 
   const { editarPedido, crearPedido, responsePedido, errorFetchPedido, loadingPedido } =
     usePedidoApi();
@@ -160,7 +167,8 @@ const PedidoCargar = () => {
     }
   }, [errorFetchClientes]);
 
-  const [enviarWapp, setEnviarWap] = useState<boolean>(false);
+  const [enviarWappManual, setEnviarWappManual] = useState<boolean | undefined>(undefined);
+  const enviarWapp = enviarWappManual ?? configuracion?.msjEnvio ?? false;
   return (
     <Centro nuevoEstilo="pedido-cargar">
       <Formulario
@@ -212,7 +220,7 @@ const PedidoCargar = () => {
           <Botonera nuevoEstilo="switch-pedido-cargar">
             <Switch
               activo={enviarWapp}
-              onActivar={setEnviarWap}
+              onActivar={setEnviarWappManual}
               titulo="Enviar mensaje de pedido tomado"
               texto="whatsapp: "
             />

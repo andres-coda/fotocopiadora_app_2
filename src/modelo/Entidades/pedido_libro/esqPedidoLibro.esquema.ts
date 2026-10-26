@@ -42,7 +42,9 @@ export const pedidoLibroFormEdit = ({
   pedidoLibro,
   sede,
 }: FromValuesDefectoProp): formValuesPedidoLibro => {
-  if (!pedidoLibro) return pedidoFormDefault;
+  if (!pedidoLibro) {
+    return { ...pedidoFormDefault, sede: sede?.id ?? pedidoFormDefault.sede };
+  }
   return {
     cantidad: pedidoLibro.cantidad ?? pedidoFormDefault.cantidad,
     detalles: pedidoLibro.detalles ?? pedidoFormDefault.detalles,
