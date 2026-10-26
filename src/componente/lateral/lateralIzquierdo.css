@@ -1,4 +1,7 @@
-.fecha-entrega {
+/* `.card` y `.fecha-entrega` tienen la misma especificidad (una clase cada uno), así que
+   ganaba `.card` porque `card.css` se evalúa después: el archivo se importa al final desde
+   `card.tsx`. Con el selector compuesto esta regla gana siempre, sin depender del orden. */
+.card.fecha-entrega {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -7,6 +10,7 @@
   box-sizing: border-box;
   width: 100%;
   cursor: default;
+  box-shadow: none;
 }
 
 .card.sesion {
