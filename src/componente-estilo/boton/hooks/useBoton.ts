@@ -9,16 +9,18 @@ function useBoton({
   terciario,
   edit,
   cerrar,
-  nuevoEstilo,
+  nuevoEstilo = '',
   submit,
   reset,
+  btnFiltro,
 }: BotonEstilosProp) {
   const clase = [
-    cerrar && 'cerrar terciario',
-    !cerrar && terciario && 'terciario',
-    !cerrar && !terciario && secundario && 'secundario',
-    !cerrar && !terciario && !secundario && edit && 'edit',
-    !cerrar && !terciario && !secundario && !edit && 'primario', // Caso por defecto
+    btnFiltro && 'btn-filtro',
+    !btnFiltro && cerrar && 'cerrar terciario',
+    !btnFiltro && !cerrar && terciario && 'terciario',
+    !btnFiltro && !cerrar && !terciario && secundario && 'secundario',
+    !btnFiltro && !cerrar && !terciario && !secundario && edit && 'edit',
+    !btnFiltro && !cerrar && !terciario && !secundario && !edit && 'primario', // Caso por defecto
     nuevoEstilo,
   ]
     .filter(Boolean)
@@ -27,7 +29,7 @@ function useBoton({
   const tipo: BtnTipo = submit ? 'submit' : reset ? 'reset' : 'button';
 
   const colorTexto: textoBtnTipo =
-    !cerrar && !terciario && !secundario && !edit ? 'inverso' : 'nuevoEstilo';
+    !btnFiltro && !cerrar && !terciario && !secundario && !edit ? 'inverso' : 'nuevoEstilo';
 
   return { clase, tipo, colorTexto };
 }

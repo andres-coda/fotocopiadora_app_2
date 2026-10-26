@@ -8,6 +8,7 @@ export interface BotonEstilosProp {
   nuevoEstilo?: string | undefined;
   submit?: boolean | undefined;
   reset?: boolean | undefined;
+  btnFiltro?: boolean;
 }
 
 export interface BotonProp extends BotonEstilosProp {

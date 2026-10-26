@@ -86,6 +86,20 @@
   border: 2px solid transparent;
 }
 
+.btn-filtro {
+  padding: .2rem;
+  margin: 0;
+  color: var(--colorBoton);
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.btn-filtro:hover {
+  text-decoration: underline;
+  color: var(--colorBoton);
+  box-shadow: none;
+}
+
 .terciario,
 .edit {
   padding: 0;

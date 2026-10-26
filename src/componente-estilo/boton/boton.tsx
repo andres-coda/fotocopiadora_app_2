@@ -12,12 +12,14 @@ function Boton({
   secundario = undefined,
   terciario = undefined,
   edit = undefined,
+  btnFiltro = undefined,
   cerrar = undefined,
   nuevoEstilo = undefined,
   submit = undefined,
   reset = undefined,
 }: BotonProp) {
   const { clase, tipo, colorTexto } = useBoton({
+    btnFiltro,
     secundario,
     terciario,
     cerrar,
@@ -48,6 +50,7 @@ function Boton({
           centrado
           inverso={colorTexto == 'inverso'}
           nuevoEstilo={colorTexto == 'nuevoEstilo' ? 'btn-texto' : undefined}
+          chica={btnFiltro}
         />
       )}
     </button>
