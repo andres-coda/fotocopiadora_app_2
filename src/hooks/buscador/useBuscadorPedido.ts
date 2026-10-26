@@ -79,43 +79,33 @@ const useBuscadorPedido = ({
   }, [query, claveBusqueda]);
 
   useEffect(() => {
-    if (response && modal) {
+    if (!response) return;
+
+    if (modal) {
       dispatch(agregarItemsPedidoSeleccionadoRedux(response.datos));
+      return;
     }
-    if (response && !modal) {
-      console.log('ACTUALIZO REDUX', response.pagina);
-      const claveCambio = claveBusqueda !== datosRedux.busquedaActual.clave;
-      if (
-        (query.length >= limiteLetrasBusqueda && query != datosRedux.busquedaActual.query) ||
-        claveCambio
-      ) {
-        dispatch(
-          crearBusqueda({
-            query: query,
-            datosQuery: response.datos,
-            total: response.total,
-            pagina: response.pagina,
-            limite: response.limite,
-            sortBy,
-            sortOrder,
-            clave: claveBusqueda,
-          })
-        );
-      } else {
-        dispatch(
-          agregarBusqueda({
-            query: query,
-            datosQuery: response.datos,
-            total: response.total,
-            pagina: response.pagina,
-            limite: response.limite,
-            sortBy,
-            sortOrder,
-            clave: claveBusqueda,
-          })
-        );
-      }
-    }
+
+    const queryActual = datosRedux.busquedaActual.query ?? '';
+    const mismaQuery = queryActual === query;
+    const mismaClave = datosRedux.busquedaActual.clave === claveBusqueda;
+    // Solo la página 2 o posterior de la MISMA búsqueda se acumula. Cualquier
+    // página 1, o una respuesta de otra búsqueda, reemplaza la lista: así un
+    // filtro nuevo pisa lo anterior en lugar de sumarse a lo que había.
+    const acumular = response.pagina > 1 && mismaQuery && mismaClave;
+
+    const busqueda: UltimaBusquedaProp<PedidoLibroProp> = {
+      query,
+      datosQuery: response.datos,
+      total: response.total,
+      pagina: response.pagina,
+      limite: response.limite,
+      sortBy,
+      sortOrder,
+      clave: claveBusqueda,
+    };
+
+    dispatch(acumular ? agregarBusqueda(busqueda) : crearBusqueda(busqueda));
   }, [response]);
 
   useEffect(() => {
@@ -139,35 +129,27 @@ const useBuscadorPedido = ({
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        console.log('observer detecta:', entry.isIntersecting);
-
         if (!entry.isIntersecting) {
           return;
         }
-        if (query.length > limiteLetrasBusqueda && datosRedux.busquedaActual.query != query) {
-          console.log('Corta porque no es la query actual: ', query);
-          return;
-        }
         if (loading) {
-          console.log('CORTO POR LOADING');
           return;
         }
+
+        // No se pide otra página hasta que busquedaActual refleje el texto y los
+        // filtros vigentes: el observer se reengancha con datos de la búsqueda
+        // anterior y, si no, mezcla páginas de dos búsquedas distintas.
+        const queryActual = datosRedux.busquedaActual.query ?? '';
+        if (queryActual !== query || datosRedux.busquedaActual.clave !== claveBusqueda) {
+          return;
+        }
+
         if (
           datosRedux.busquedaActual.pagina * datosRedux.busquedaActual.limite >=
           datosRedux.busquedaActual.total
         ) {
-          console.log('que datosRedux estoy pasando: ', datosRedux);
-          console.log('limite: ', datosRedux.busquedaActual.limite);
-          console.log('pagina: ', datosRedux.busquedaActual.pagina);
-          console.log('total: ', datosRedux.busquedaActual.total);
-
-          console.log('CORTO PORQUE NO HAY MAS PAGINAS');
           return;
         }
-        console.log('PIDO', {
-          paginaRedux: datosRedux.busquedaActual.pagina,
-          loading,
-        });
 
         obtenerBusqueda({
           pagina: datosRedux.busquedaActual.pagina + 1,
@@ -183,12 +165,17 @@ const useBuscadorPedido = ({
 
     if (finListaRef.current) {
       observer.observe(finListaRef.current);
-    } else {
-      console.log('NO HAY ELEMENTO PARA OBSERVAR');
     }
 
     return () => observer.disconnect();
-  }, [datosRedux.busquedaActual.query, datosRedux.busquedaActual.pagina, claveBusqueda]);
+  }, [
+    datosRedux.busquedaActual.query,
+    datosRedux.busquedaActual.pagina,
+    datosRedux.busquedaActual.clave,
+    claveBusqueda,
+    query,
+    loading,
+  ]);
 
   return { contenedorRef, nuevoElemento, finListaRef, handleSeleccionarItem };
 };

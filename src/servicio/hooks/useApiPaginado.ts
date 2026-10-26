@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAutenticacion } from '../../hooks/autenticacion/useAutenticacion';
 import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
 import useRetardo from '../../hooks/tiempo/useRetardo';
@@ -33,6 +33,10 @@ function useApiPaginado<T, R>({
   const [loading, setLoading] = useState<boolean>(false);
   const [errorFetch, setErrorFetch] = useState<string | null>(null);
   const [controlador, setControlador] = useState<boolean>(false);
+  // Cada petición invalida a la anterior: una respuesta vieja no puede pisar ni
+  // agregarse al resultado de la búsqueda vigente.
+  const peticionRef = useRef<number>(0);
+  const abortRef = useRef<AbortController | null>(null);
 
   const retardoRecetRetardo = useRetardo(() => {
     setResponse(null);
@@ -55,10 +59,14 @@ function useApiPaginado<T, R>({
 
     const adapterLocal = adapter || adapterGet;
 
+    const peticion = ++peticionRef.current;
+    abortRef.current?.abort();
+    const controller: AbortController = new AbortController();
+    abortRef.current = controller;
+
     setErrorFetch(null);
     setResponse(null);
     setLoading(true);
-    const controller: AbortController = new AbortController();
     try {
       //Diley artificial desarrollo
       // await delay(5000);
@@ -73,6 +81,8 @@ function useApiPaginado<T, R>({
         ...(bodyData && { body: bodyData }),
       });
 
+      if (peticion !== peticionRef.current) return;
+
       if (!res.ok) {
         let errorMsg = 'La petición falló';
         try {
@@ -84,12 +94,17 @@ function useApiPaginado<T, R>({
         throw new Error(errorMsg);
       }
       const result: PaginadoAdapterProp<T> = blob ? await res.blob() : await res.json();
+      if (peticion !== peticionRef.current) return;
+
       const adapterData: PaginadoProp<R> = paginadoAdapter<T, R>(result, adapterLocal);
 
       setResponse(adapterData ?? null);
       setControlador(true);
       setErrorFetch(null);
     } catch (err) {
+      // Una petición ya superada no toca el estado: manda la última.
+      if (peticion !== peticionRef.current) return;
+
       if (err instanceof Error) {
         if (err.name === 'AbortError') {
           console.log('Petición abortada');
@@ -101,7 +116,7 @@ function useApiPaginado<T, R>({
         }
       } else setErrorFetch(`Ocurrió un error desconcido`);
     } finally {
-      setLoading(false);
+      if (peticion === peticionRef.current) setLoading(false);
     }
   };
 
