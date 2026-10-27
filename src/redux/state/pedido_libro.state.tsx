@@ -16,6 +16,7 @@ import {
   resetSeleccionDato,
   agregarDatosBusquedaActual,
   cambiarOrden,
+  resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 import { limiteDefecto } from '../../utils/constantes';
 import {
@@ -86,6 +87,7 @@ export const pedidoLibroSlice = createSlice({
     cambiarOrdenPedidoLibroArreglo: (state, action: PayloadAction<PedidoLibroOrdenProp[]>) => {
       state.ordenPedidoLibro = action.payload;
     },
+    resetReduxItem: resetRedux<PedidoLibroProp>,
   },
 });
 
@@ -101,6 +103,7 @@ export const {
   cambiarEstadoPedidoLibroRedux,
   cambiarFiltrosPedidoLibro,
   cambiarOrdenPedidoLibroArreglo,
+  resetReduxItem,
 } = pedidoLibroSlice.actions;
 
 export default pedidoLibroSlice.reducer;

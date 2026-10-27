@@ -9,6 +9,7 @@ import {
   resetSeleccionDato,
   seleccionarDato,
   cambiarOrden,
+  resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 import {
   agregarItemsPedidoSeleccionadoRedux as agregarItemsPedidoSeleccionadoFn,
@@ -47,6 +48,7 @@ export const pedidoSlice = createSlice({
     agregarItemsPedidoSeleccionadoRedux: agregarItemsPedidoSeleccionadoFn,
     cambiarEstadoPedidoRedux: modificarEstadoPedidoFn,
     cambiarOrdenPedido: cambiarOrden<PedidoProp>,
+    resetReduxPedido: resetRedux<PedidoProp>,
   },
 });
 
@@ -60,6 +62,7 @@ export const {
   cambiarOrdenPedido,
   cambiarEstadoPedidoRedux,
   agregarItemsPedidoSeleccionadoRedux,
+  resetReduxPedido,
 } = pedidoSlice.actions;
 
 export default pedidoSlice.reducer;

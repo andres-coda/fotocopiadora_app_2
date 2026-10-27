@@ -12,6 +12,7 @@ import {
   eliminarElemento,
   modificarElementoRedux,
   agregarElementoInicio,
+  resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 1;
@@ -47,6 +48,7 @@ export const sedeSlice = createSlice({
     eliminarSedeRedux: eliminarElemento<SedeProp>,
     actualizarSedeRedux: modificarElementoRedux<SedeProp>,
     agregarSedeInicioRedux: agregarElementoInicio<SedeProp>,
+    resetReduxSede: resetRedux<SedeProp>,
   },
 });
 
@@ -61,6 +63,7 @@ export const {
   eliminarSedeRedux,
   actualizarSedeRedux,
   agregarSedeInicioRedux,
+  resetReduxSede,
 } = sedeSlice.actions;
 
 export default sedeSlice.reducer;

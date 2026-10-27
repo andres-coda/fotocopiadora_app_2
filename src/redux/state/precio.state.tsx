@@ -12,6 +12,7 @@ import {
   eliminarElemento,
   modificarElementoRedux,
   agregarElementoInicio,
+  resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 1;
@@ -47,6 +48,7 @@ export const precioSlice = createSlice({
     cambiarOrdenPrecio: cambiarOrden<PrecioProp>,
     actualizarPrecioRedux: modificarElementoRedux<PrecioProp>,
     agregarPrecioInicioRedux: agregarElementoInicio<PrecioProp>,
+    resetReduxPrecio: resetRedux<PrecioProp>,
   },
 });
 
@@ -61,6 +63,7 @@ export const {
   eliminarPrecioRedux,
   actualizarPrecioRedux,
   agregarPrecioInicioRedux,
+  resetReduxPrecio,
 } = precioSlice.actions;
 
 export default precioSlice.reducer;

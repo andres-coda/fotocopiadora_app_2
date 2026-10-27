@@ -10,6 +10,7 @@ import {
   agregarDatosBusquedaActual,
   cambiarOrden,
   eliminarElemento,
+  resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 import {
   actualizarMuchosStockFn,
@@ -51,6 +52,7 @@ export const libroSlice = createSlice({
     cambiarOrdenLibro: cambiarOrden<LibroProp>,
     actualizarStockLocal: actualizarStockLocalFn,
     eliminarLibroRedux: eliminarElemento<LibroProp>,
+    resetReduxLibro: resetRedux<LibroProp>,
   },
 });
 
@@ -66,6 +68,7 @@ export const {
   cambiarOrdenLibro,
   actualizarStockLocal,
   eliminarLibroRedux,
+  resetReduxLibro,
 } = libroSlice.actions;
 
 export default libroSlice.reducer;

@@ -9,6 +9,7 @@ import {
   resetSeleccionDato,
   agregarDatosBusquedaActual,
   cambiarOrden,
+  resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 1;
@@ -41,6 +42,7 @@ export const materiaSlice = createSlice({
     resetSeleccionarMateria: resetSeleccionDato,
     agregarMateriasBusquedaActual: agregarDatosBusquedaActual<MateriaProp>,
     cambiarOrdenMateria: cambiarOrden<MateriaProp>,
+    resetReduxMateria: resetRedux<MateriaProp>,
   },
 });
 
@@ -52,6 +54,7 @@ export const {
   seleccionarMateria,
   agregarMateriasBusquedaActual,
   cambiarOrdenMateria,
+  resetReduxMateria,
 } = materiaSlice.actions;
 
 export default materiaSlice.reducer;

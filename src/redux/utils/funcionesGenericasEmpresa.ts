@@ -131,3 +131,12 @@ const modificarElementoLista = <T extends HasId>(
     datosQuery: elementos.datosQuery.map(e => (e.id != elemento.id ? e : { ...e, ...elemento })),
   };
 };
+
+export const resetRedux = <T extends HasId>(
+  state: ReduxProp<T>,
+) => {
+  resetSeleccionDato<T>(state);
+  state.datosIniciales = {...state.datosIniciales, query: undefined, datosQuery: [], pagina:1};
+  state.busquedaActual = state.datosIniciales;
+  state.ultimasBusqueda = [];
+}

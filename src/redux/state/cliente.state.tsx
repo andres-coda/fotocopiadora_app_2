@@ -12,6 +12,7 @@ import {
   eliminarElemento,
   modificarElementoRedux,
   agregarElementoInicio,
+  resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 import { modificarResumenClienteRedux as modificarResumenClienteFn } from '../utils/funcionesCliente';
 
@@ -49,6 +50,7 @@ export const clienteSlice = createSlice({
     eliminarClienteRedux: eliminarElemento<ClienteProp>,
     actualizarClienteRedux: modificarElementoRedux<ClienteProp>,
     agregarClienteInicioRedux: agregarElementoInicio<ClienteProp>,
+    resetReduxCliente: resetRedux<ClienteProp>,
   },
 });
 
@@ -64,6 +66,7 @@ export const {
   eliminarClienteRedux,
   actualizarClienteRedux,
   agregarClienteInicioRedux,
+  resetReduxCliente,
 } = clienteSlice.actions;
 
 export default clienteSlice.reducer;

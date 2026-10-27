@@ -1,4 +1,19 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { useDispatch } from 'react-redux';
+import { resetReduxCliente } from '../redux/state/cliente.state';
+import { resetReduxEspecificaciones } from '../redux/state/especificacion.state';
+import { resetReduxLibro } from '../redux/state/libro.state';
+import { resetReduxMateria } from '../redux/state/materia.state';
+import { resetReduxMensaje } from '../redux/state/mensaje.state';
+import { resetReduxItem } from '../redux/state/pedido_libro.state';
+import { resetReduxPedido } from '../redux/state/pedido.state';
+import { resetReduxPrecio } from '../redux/state/precio.state';
+import { resetReduxPropuesta } from '../redux/state/propuesta.state';
+import { resetReduxSede } from '../redux/state/sede.state';
+import { resetReduxUsuario } from '../redux/state/usuarios.state';
+import { resetEmpresa } from '../redux/state/empresa.state';
+import { resetSesion } from '../redux/state/sesion.state';
+import { resetUser } from '../redux/state/user.state';
 
 interface AuthContextType {
   token: string | null;
@@ -11,6 +26,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (token) {
@@ -26,6 +42,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     setToken(null);
+    dispatch(resetReduxCliente());
+    dispatch(resetReduxEspecificaciones());
+    dispatch(resetReduxLibro());
+    dispatch(resetReduxMateria());
+    dispatch(resetReduxMensaje());
+    dispatch(resetReduxItem());
+    dispatch(resetReduxPedido());
+    dispatch(resetReduxPrecio());
+    dispatch(resetReduxPropuesta());
+    dispatch(resetReduxSede());
+    dispatch(resetReduxUsuario());
+    dispatch(resetEmpresa());
+    dispatch(resetSesion());
+    dispatch(resetUser());
   };
 
   const value: AuthContextType = {

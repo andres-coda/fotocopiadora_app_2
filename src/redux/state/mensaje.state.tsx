@@ -12,6 +12,7 @@ import {
   eliminarElemento,
   modificarElementoRedux,
   agregarElementoInicio,
+  resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 1;
@@ -47,6 +48,7 @@ export const mensajeSlice = createSlice({
     eliminarMensajeRedux: eliminarElemento<MensajeProp>,
     actualizarMensajeRedux: modificarElementoRedux<MensajeProp>,
     agregarMensajeInicioRedux: agregarElementoInicio<MensajeProp>,
+    resetReduxMensaje: resetRedux<MensajeProp>,
   },
 });
 
@@ -61,6 +63,7 @@ export const {
   eliminarMensajeRedux,
   actualizarMensajeRedux,
   agregarMensajeInicioRedux,
+  resetReduxMensaje,
 } = mensajeSlice.actions;
 
 export default mensajeSlice.reducer;

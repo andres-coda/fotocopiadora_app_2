@@ -12,6 +12,7 @@ import {
   eliminarElemento,
   modificarElementoRedux,
   agregarElementoInicio,
+  resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 1;
@@ -48,6 +49,7 @@ export const usuariosSlice = createSlice({
     eliminarUsuarioRedux: eliminarElemento<usuarioProps>,
     actualizarUsuarioRedux: modificarElementoRedux<usuarioProps>,
     agregarUsuarioInicioRedux: agregarElementoInicio<usuarioProps>,
+    resetReduxUsuario: resetRedux<usuarioProps>,
   },
 });
 
@@ -62,6 +64,7 @@ export const {
   eliminarUsuarioRedux,
   actualizarUsuarioRedux,
   agregarUsuarioInicioRedux,
+  resetReduxUsuario,
 } = usuariosSlice.actions;
 
 export default usuariosSlice.reducer;

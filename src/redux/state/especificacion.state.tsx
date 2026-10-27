@@ -9,6 +9,7 @@ import {
   resetSeleccionDato,
   agregarDatosBusquedaActual,
   cambiarOrden,
+  resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 1;
@@ -41,6 +42,7 @@ export const especificacionSlice = createSlice({
     resetSeleccionarEspecificacion: resetSeleccionDato,
     agregarEspecificacionesBusquedaActual: agregarDatosBusquedaActual<EspecificacionProp>,
     cambiarOrdenEspecificacion: cambiarOrden<EspecificacionProp>,
+    resetReduxEspecificaciones: resetRedux<EspecificacionProp>,
   },
 });
 
@@ -52,6 +54,7 @@ export const {
   seleccionarEspecificacion,
   agregarEspecificacionesBusquedaActual,
   cambiarOrdenEspecificacion,
+  resetReduxEspecificaciones,
 } = especificacionSlice.actions;
 
 export default especificacionSlice.reducer;

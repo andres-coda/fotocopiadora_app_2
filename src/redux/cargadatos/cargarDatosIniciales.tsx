@@ -32,8 +32,10 @@ import {
   setErrorEmpresa,
   setSolicitadaEmpresa,
 } from '../state/empresa.state';
+import { useAutenticacion } from '../../hooks/autenticacion/useAutenticacion';
 
 const CargarDatosIniciales = ({ children }: AppProp) => {
+  const {token} = useAutenticacion();
   const { obtenerLibros, responseLibros } = useLibrosApi();
   const { obtenerClientes, responseClientes } = useClientesApi();
   const { obtenerEspecificaciones, responseEspecificaciones } = useEspecificacionesApi();
@@ -153,6 +155,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   ]);
 
   useEffect(() => {
+    if(!token) return
     if (pedidoItems.length === 0) obtenerPedidos();
     if (librosIniciales.length === 0) obtenerLibros();
     if (clienteItems.length === 0) obtenerClientes();
@@ -163,7 +166,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     if (sedeItems.length === 0) obtenerSedes();
     if (mensajeItems.length === 0) obtenerMensajes();
     if (propuestasItems.length === 0) obtenerPropuestas();
-  }, []);
+  }, [token]);
 
   return <>{children}</>;
 };
