@@ -30,6 +30,25 @@ Enforces four hard rules:
 
 ---
 
+### db-guardian
+
+**Path**: `skills/db-guardian/SKILL.md`
+**Trigger**: Any work touching the database (`DB/` repo, schema, RLS, policies, functions, data, migrations)
+**Scope**: Project-local (not global)
+
+Applies to the sibling `DB` repo. Enforces four hard rules:
+
+1. **Never execute** — No `psql -f`, no DDL/DML, no "test" inside a rolled-back transaction. Reads are fine.
+2. **Suggest in a new file** — Every change is a new numbered file in `DB/`. Never edit an existing script.
+3. **PL/pgSQL only** — One `do $nombre$ ... $nombre$;` block with preconditions, numbered steps and self-verification. Functions are `language plpgsql`.
+4. **Deliver and stop** — Hand over the command with the owner role, state it was not run, list the manual checks.
+
+**Reference example**: `../DB/27_usuarios_password.sql`
+
+**Activation**: Automatic on any request that would alter the database, or any file inside `DB/`.
+
+---
+
 ## Project Conventions
 
 - **Language**: TypeScript strict, React 18, functional components + hooks
