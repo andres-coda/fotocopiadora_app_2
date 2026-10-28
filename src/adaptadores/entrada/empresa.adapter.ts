@@ -4,6 +4,7 @@ import {
   ConfiguracionProp,
 } from '../../modelo/Entidades/configuracion/configuracion.interface';
 import { EmpresaAdapterProp, EmpresaProp } from '../../modelo/Entidades/empresa/empresa.interface';
+import { fechaParaInput } from '../../utils/calendario';
 import { baseAdapter } from './base.adapter';
 import { datoCobroAdapter } from './datoCobro.adapter';
 import { mensajeAdapter } from './mensaje.adapter';
@@ -16,7 +17,7 @@ export const configuracionAdapter = (
 
   const newConfiguracion: ConfiguracionProp = {
     fechaActualizacion: configuracion.fechaActualizacion,
-    fechaEntrega: configuracion.fechaEntrega,
+    fechaEntrega: fechaParaInput(configuracion.fechaEntrega),
     horaEntrega: configuracion.horaEntrega,
     msjRetiro: configuracion.msjRetiro ?? false,
     msjEnvio: configuracion.msjEnvio ?? false,

@@ -54,6 +54,29 @@ export const formatearFechaParaDB = (fechaString: string): string => {
   return `${año}-${mes}-${dia}`;
 };
 
+/**
+ * input type="date" exige YYYY-MM-DD. La API manda una columna `date`
+ * serializada como ISO completo (2026-10-30T03:00:00.000Z), asi que se toma la
+ * parte de fecha del string: es la fecha real guardada, sin corrimientos por
+ * zona horaria. Si el valor ya viene como YYYY-MM-DD, devuelve lo mismo.
+ */
+export const fechaParaInput = (fecha?: string | Date): string => {
+  if (!fecha) return '';
+
+  if (typeof fecha === 'string') {
+    const soloFecha = /^(\d{4}-\d{2}-\d{2})/.exec(fecha);
+    if (soloFecha) return soloFecha[1];
+  }
+
+  const date = fecha instanceof Date ? fecha : new Date(fecha);
+  if (Number.isNaN(date.getTime())) return '';
+
+  const anio = date.getFullYear();
+  const mes = String(date.getMonth() + 1).padStart(2, '0');
+  const dia = String(date.getDate()).padStart(2, '0');
+  return `${anio}-${mes}-${dia}`;
+};
+
 export const esMayorQueHoy = (fechaParametro?: string): boolean => {
   if (!fechaParametro) return false;
   const hoy = new Date().toISOString().split('T')[0];
