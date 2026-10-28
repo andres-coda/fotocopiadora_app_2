@@ -1,26 +1,27 @@
 import { UsuarioEditarDtoProp } from '../../modelo/usuario/dtoUsuario.interface';
-import {
-  formValuesUsuarioAdmin,
-  formValuesUsuarioEditar,
-} from '../../modelo/usuario/esqUsuario.esquema';
+import { formValuesPerfilEditar } from '../../modelo/usuario/esqUsuario.esquema';
 
-// Sirve para las dos ediciones: la propia (sin rol) y la del ABM de admin (con rol).
+// Edicion del propio perfil. Si los campos de contrasena vienen vacios no se
+// envian: el back interpreta "sin passwordNueva" como "no cambiar la clave" y
+// no exige la actual.
+//
+// El rol no se envia nunca. El `with check` de pc_usuario_update exige que el
+// rol quede igual, asi que mandarlo seria un rechazo garantizado.
 export const usuarioEditarDtoAdapter = (
-  p: formValuesUsuarioEditar | formValuesUsuarioAdmin
+  p: formValuesPerfilEditar,
+  id: string
 ): UsuarioEditarDtoProp => {
   const newUser: UsuarioEditarDtoProp = {
-    nombre: p.nombre,
-    email: p.email,
+    id,
+    datos: {
+      nombre: p.nombre,
+      email: p.email,
+    },
   };
 
-  // Si la password viene vacia no se envia.
-  if (p.password) {
-    newUser.password = p.password;
-  }
-
-  // El ABM de admin manda tambien el rol; la edicion propia no lo setea.
-  if ('role' in p && p.role) {
-    newUser.role = p.role;
+  if (p.passwordNueva.length > 0) {
+    newUser.datos.passwordActual = p.passwordActual;
+    newUser.datos.passwordNueva = p.passwordNueva;
   }
 
   return newUser;

@@ -1,27 +1,32 @@
 import { usuarioAdapter } from '../../adaptadores/entrada/usuario.adapter';
 import { usuarioAdapterProps, usuarioProps } from '../../modelo/usuario/Usuario.interface';
 import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
-import { BusquedaApiProp } from '../../modelo/HTTP/peticiones.interface';
-import { USUARIO } from '../../utils/endpoint';
+import { USER } from '../../utils/endpoint';
 import useApiPaginado from '../hooks/useApiPaginado';
 
+/**
+ * Listado de usuarios de la empresa del usuario logueado.
+ *
+ * `GET /user` esta detras de AdminGuard y no acepta `q`: el back solo pagina.
+ * La empresa la deriva del token y el RLS la vuelve a filtrar, asi que no hace
+ * falta mandarla.
+ */
 const useUsuariosApi = () => {
   const { fetchData, response, loading, errorFetch } = useApiPaginado<
     usuarioAdapterProps,
     usuarioProps
   >({ adapterGet: usuarioAdapter });
 
-  // El back deduce la empresa del token y excluye los usuarios con deleted = true.
-  const obtenerUsuariosBusqueda = ({ query, limite, pagina }: BusquedaApiProp) => {
+  const obtenerUsuarios = (p?: { limite?: number; pagina?: number }) => {
     fetchData({
-      url: `${USUARIO}?q=${query.trimEnd()}&limite=${limite ?? 20}&pagina=${pagina ?? 1}`,
+      url: `${USER}?limite=${p?.limite ?? 100}&pagina=${p?.pagina ?? 1}`,
       methodo: httpMethod.GET,
       adapter: usuarioAdapter,
     });
   };
 
   return {
-    obtenerUsuariosBusqueda,
+    obtenerUsuarios,
     responseUsuarios: response,
     loadingUsuarios: loading,
     errorFetchUsuarios: errorFetch,

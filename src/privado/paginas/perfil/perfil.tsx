@@ -10,6 +10,8 @@ import { useModalContext } from '../../../contexto/contextoModal';
 import PerfilDatosEmpresa from './componente/perfilDatosEmpresa';
 import EmpresaEditar from './cargar/empresaEditar';
 import ConfiguracionEditar from './cargar/configuracionEditar';
+import PerfilEditar from './cargar/perfilEditar';
+import UsuarioCrear from './cargar/usuarioCrear';
 import { CampoConfig } from '../../../modelo/Entidades/configuracion/configuracionCampo.interface';
 import './perfil.css';
 import Botonera from '../../../componente-estilo/botonera/botonera';
@@ -31,7 +33,11 @@ const Perfil = () => {
   const solicitadaEmpresa = useSelector((store: appStore) => store.empresa.solicitada);
   const { modal, setModal } = useModalContext();
   const [modalEmpresa, setModalEmpresa] = useState<boolean>(false);
+  const [modalPerfil, setModalPerfil] = useState<boolean>(false);
+  const [modalUsuario, setModalUsuario] = useState<boolean>(false);
   const [campoConfig, setCampoConfig] = useState<CampoConfig | null>(null);
+  // Sube cuando el alta de usuario confirma: obliga a refrescar el listado.
+  const [usuariosVersion, setUsuariosVersion] = useState<number>(0);
   const dispatch = useDispatch();
   const { logout } = useAuth();
   const navigate = useNavigate();
@@ -40,20 +46,42 @@ const Perfil = () => {
     // Al cerrarse el modal se descarta cualquier contenido pendiente.
     if (!modal) {
       setModalEmpresa(false);
+      setModalPerfil(false);
+      setModalUsuario(false);
       setCampoConfig(null);
     }
   }, [modal]);
 
-  // Un solo modal por página: se elige el contenido antes de abrirlo.
+  // Un solo modal por pagina: se elige el contenido antes de abrirlo.
   const abrirEmpresa = () => {
     setCampoConfig(null);
+    setModalPerfil(false);
+    setModalUsuario(false);
     setModalEmpresa(true);
     setModal(true);
   };
 
   const abrirConfiguracion = (campo: CampoConfig) => {
     setModalEmpresa(false);
+    setModalPerfil(false);
+    setModalUsuario(false);
     setCampoConfig(campo);
+    setModal(true);
+  };
+
+  const abrirPerfil = () => {
+    setModalEmpresa(false);
+    setCampoConfig(null);
+    setModalUsuario(false);
+    setModalPerfil(true);
+    setModal(true);
+  };
+
+  const abrirUsuario = () => {
+    setModalEmpresa(false);
+    setCampoConfig(null);
+    setModalPerfil(false);
+    setModalUsuario(true);
     setModal(true);
   };
 
@@ -93,6 +121,13 @@ const Perfil = () => {
             <PerfilDatosEmpresa
               empresa={empresa}
               onEditarConfiguracion={abrirConfiguracion}
+              onEditarPerfil={abrirPerfil}
+              onAgregarUsuario={
+                usuarioSesion.role === 'admin' || usuarioSesion.role === 'super_admin'
+                  ? abrirUsuario
+                  : undefined
+              }
+              usuariosVersion={usuariosVersion}
               usuario={usuarioSesion}
             />
             <Botonera nuevoEstilo="empresa-botonera">
@@ -126,6 +161,10 @@ const Perfil = () => {
             configuracion={empresa.configuracion}
             onCerrar={() => setModal(false)}
           />
+        )}
+        {!modalEmpresa && !campoConfig && modalPerfil && <PerfilEditar />}
+        {!modalEmpresa && !campoConfig && !modalPerfil && modalUsuario && (
+          <UsuarioCrear onCreado={() => setUsuariosVersion(v => v + 1)} />
         )}
       </Modal>
     </>

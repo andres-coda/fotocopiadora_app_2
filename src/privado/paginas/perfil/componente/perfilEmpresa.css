@@ -123,3 +123,38 @@
 .empresa-desplegable .inputs-entero label {
   background-color: transparent;
 }
+
+/* Listado de usuarios de la empresa (solo admin). */
+.usuarios-lista {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 1rem;
+}
+
+.usuarios-fila {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--colorSombra);
+}
+
+.usuarios-fila:last-of-type {
+  border-bottom: none;
+}
+
+.usuarios-fila__datos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
