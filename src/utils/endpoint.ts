@@ -25,6 +25,7 @@ export const PEDIDO_LIBRO_CAMBIO_ESTADO = `${PEDIDO_LIBRO}/estado`;
 export const PEDIDO_LIBRO_CAMBIO_SEDE = `${PEDIDO_LIBRO}/sede`;
 export const PRECIO: string = `${BASE}/precio-empresa`;
 export const PRECIO_NOMBRE: string = `${BASE}/precio`;
+export const PRECIO_CATEGORIA: string = `${BASE}/precio-categoria`;
 export const SEDE: string = `${BASE}/sede`;
 export const MENSAJE: string = `${BASE}/mensaje`;
 export const MENSAJE_NOMBRE: string = `${MENSAJE}/nombre`;

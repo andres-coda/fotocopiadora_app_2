@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { PrecioNombreProp, PrecioProp } from '../../../../modelo/Entidades/precio/precio.interface';
+import {
+  CategoriaProp,
+  PrecioNombreProp,
+  PrecioProp,
+} from '../../../../modelo/Entidades/precio/precio.interface';
 import { appStore } from '../../../../redux/store';
 import usePrecioApi from '../../../../servicio/precio/usePrecioApi';
 import { useForm } from 'react-hook-form';
@@ -20,6 +24,8 @@ import usePreciosNombreApi from '../../../../servicio/precio/usePrecioNombreApi'
 import useBusquedaSimple from '../../../../hooks/buscador/useBuscadorSimple';
 import DesplegablePredictivo from '../../../../componente-estilo/predictivo/desplegablePredictivo';
 import PrecioNombreCard from '../componente/precioNombreCard';
+import CategoriaCard from '../componente/categoriaCard';
+import useCategoriaNombreApi from '../../../../servicio/precio/useCategoriaNombreApi';
 import { parseDecimal } from '../../../../utils/formulario';
 import { useModalContext } from '../../../../contexto/contextoModal';
 import CartelExito from '../../../../componente/cartelExito/cartelExito';
@@ -68,6 +74,35 @@ const PrecioCargar = () => {
     limiteLetrasBusqueda: limiteBusquedaPrecioNombre,
     obtenerBusqueda: obtenerPreciosBusqueda,
   });
+
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<string | undefined>(undefined);
+
+  const { obtenerCategoriasBusqueda, responseCategorias, loadingCategorias } =
+    useCategoriaNombreApi();
+  const {
+    finListaRef: finCategorias,
+    datos: categorias,
+    setDatos: setCategorias,
+  } = useBusquedaSimple<CategoriaProp>({
+    valor:
+      categoriaSeleccionada != watch().categoria &&
+      precioSelect?.categoria?.nombre != watch().categoria
+        ? (watch().categoria ?? '')
+        : '',
+    response: responseCategorias,
+    loading: loadingCategorias,
+    limiteLetrasBusqueda: limiteBusquedaPrecioNombre,
+    obtenerBusqueda: obtenerCategoriasBusqueda,
+  });
+
+  const handleSelectCategoria = (c: CategoriaProp) => {
+    setCategorias(undefined);
+    reset({
+      ...watch(),
+      categoria: c.nombre,
+    });
+    setCategoriaSeleccionada(c.nombre);
+  };
 
   const finalizar = () => {
     if (responsePrecio) {
@@ -138,14 +173,24 @@ const PrecioCargar = () => {
         formatValue={v => parseDecimal(v, 9, 2)}
         parseValue={v => parseDecimal(v, 9, 2)}
       />
-      <Input<formValuesPrecio>
-        name="categoria"
-        control={control}
-        label="Categoría"
-        tipo="text"
-        error={errors.categoria}
-        esquema={precio}
-      />
+      <div>
+        <Input<formValuesPrecio>
+          name="categoria"
+          control={control}
+          label="Categoría"
+          tipo="text"
+          error={errors.categoria}
+          esquema={precio}
+        />
+        {categorias && categorias.datosQuery.length > 0 && (
+          <DesplegablePredictivo
+            children={categorias.datosQuery.map(c => (
+              <CategoriaCard categoria={c} selectCategoria={handleSelectCategoria} key={c.id} />
+            ))}
+            finRegistros={finCategorias}
+          />
+        )}
+      </div>
     </Formulario>
   );
 };

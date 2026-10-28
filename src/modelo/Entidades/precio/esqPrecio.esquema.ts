@@ -3,7 +3,10 @@ import { PrecioProp } from './precio.interface';
 
 export const precio = z.object({
   nombre: z.string().min(1, { message: 'El precio debe tener un nombre' }),
-  categoria: z.string().optional(),
+  categoria: z
+    .string()
+    .max(30, { message: 'La categoría no puede superar los 30 caracteres' })
+    .optional(),
   importe: z.string().min(1, { message: 'El precio debe tener un valor numerico' }),
 });
 

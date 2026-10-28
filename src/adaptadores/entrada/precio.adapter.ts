@@ -1,5 +1,6 @@
 import { BaseProp } from '../../modelo/Entidades/base/base.interface';
 import {
+  CategoriaProp,
   PrecioAdapterProp,
   PrecioNombreAdapterProp,
   PrecioNombreProp,
@@ -37,6 +38,11 @@ export const precioAdapterArray = (precios?: PrecioAdapterProp[]): PrecioProp[] 
     }) ?? [];
 
   return newPrecios;
+};
+
+export const categoriaAdapter = (categoria?: CategoriaProp): CategoriaProp | undefined => {
+  if (!categoria) return undefined;
+  return { id: categoria.id, nombre: categoria.nombre };
 };
 
 export const precioNombreAdapter = (
