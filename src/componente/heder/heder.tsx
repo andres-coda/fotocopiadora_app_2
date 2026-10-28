@@ -11,6 +11,7 @@ import Sedes from './../../assets/direccion.svg?react';
 import UserCheck from './../../assets/userCheck.svg?react';
 import User from './../../assets/user.svg?react';
 import Mensaje from './../../assets/email.svg?react';
+import Nuevo from './../../assets/nuevo.svg?react';
 
 function Heder() {
   // El perfil ya lo carga CargarDatosIniciales en el slice `sesion`.
@@ -19,6 +20,11 @@ function Heder() {
   return (
     <nav className="heder">
       <ul>
+        <li title="Nuevo pedido">
+          <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}`}>
+            <Nuevo />
+          </Link>
+        </li>
         <li title="Libros">
           <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_LISTA}`}>
             <Libro />
