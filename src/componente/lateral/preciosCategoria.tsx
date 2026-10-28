@@ -3,10 +3,6 @@ import { useSelector } from 'react-redux';
 import { appStore } from '../../redux/store';
 import { PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
 import Texto from '../../componente-estilo/texto/texto';
-import Boton from '../../componente-estilo/boton/boton';
-import Copiar from '../../assets/copiar.svg?react';
-import Check from '../../assets/check.svg?react';
-import Flecha from '../../assets/arrow-small.svg?react';
 import './preciosCategoria.css';
 import CategoriaLateral from '../../privado/paginas/precio/componente/categoriaLateral';
 
@@ -51,7 +47,6 @@ const PreciosCategoria = () => {
     (store: appStore) => store.precio.datosIniciales.datosQuery
   );
 
-  const [abiertas, setAbiertas] = useState<string[]>([]);
   const [copiada, setCopiada] = useState<string | null>(null);
 
   const grupos = useMemo(() => agruparPorCategoria(precios ?? []), [precios]);
@@ -63,11 +58,6 @@ const PreciosCategoria = () => {
     const timer = setTimeout(() => setCopiada(null), 1000);
     return () => clearTimeout(timer);
   }, [copiada]);
-
-  const alternar = (nombre: string) =>
-    setAbiertas((prev) =>
-      prev.includes(nombre) ? prev.filter((n) => n !== nombre) : [...prev, nombre]
-    );
 
   const copiarGrupo = (grupo: PrecioGrupoProp) => {
     navigator.clipboard.writeText(textoDeGrupo(grupo));
