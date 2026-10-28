@@ -9,7 +9,6 @@ import { seleccionarPropuesta } from '../../redux/state/propuesta.state';
 import { seleccionarSede } from '../../redux/state/sede.state';
 import { seleccionarPedido } from '../../redux/state/pedido.state';
 import { seleccionarMensaje } from '../../redux/state/mensaje.state';
-import { seleccionarUsuario } from '../../redux/state/usuarios.state';
 
 const useEditar = ({
   ruta,
@@ -21,7 +20,6 @@ const useEditar = ({
   precio,
   propuesta,
   mensaje,
-  usuario,
 }: PropEditarCompleto) => {
   const { setModal } = useModalContext();
   const navigate = useNavigate();
@@ -35,7 +33,6 @@ const useEditar = ({
     precio: pr,
     propuesta: prta,
     mensaje: msj,
-    usuario: usr,
   }: PropEditar) => {
     const newCliente = cl || cliente;
     const newLibro = l || libro;
@@ -44,7 +41,6 @@ const useEditar = ({
     const newPrecio = pr || precio;
     const newPropuesta = prta || propuesta;
     const newMensaje = msj || mensaje;
-    const newUsuario = usr || usuario;
     if (newCliente) dispatch(seleccionarCliente(newCliente));
     if (newLibro) dispatch(seleccionarLibro(newLibro));
     if (newPedido) dispatch(seleccionarPedido(newPedido));
@@ -52,7 +48,6 @@ const useEditar = ({
     if (newPrecio) dispatch(seleccionarPrecio(newPrecio));
     if (newPropuesta) dispatch(seleccionarPropuesta(newPropuesta));
     if (newMensaje) dispatch(seleccionarMensaje(newMensaje));
-    if (newUsuario) dispatch(seleccionarUsuario(newUsuario));
   };
 
   const handleEdit = ({
@@ -63,7 +58,6 @@ const useEditar = ({
     precio: pr,
     propuesta: prta,
     mensaje: msj,
-    usuario: usr,
   }: PropEditar) => {
     select({
       cliente: cl,
@@ -73,7 +67,6 @@ const useEditar = ({
       precio: pr,
       propuesta: prta,
       mensaje: msj,
-      usuario: usr,
     });
 
     ruta && navigate(ruta);
@@ -91,7 +84,6 @@ const useEditar = ({
     precio: pr,
     propuesta: prta,
     mensaje: msj,
-    usuario: usr,
   }: HandleSelectProp) => {
     select({
       cliente: cl,
@@ -101,7 +93,6 @@ const useEditar = ({
       precio: pr,
       propuesta: prta,
       mensaje: msj,
-      usuario: usr,
     });
     rutaLocal && navigate(rutaLocal);
   };

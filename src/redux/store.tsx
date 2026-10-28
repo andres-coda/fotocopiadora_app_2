@@ -1,6 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { usuarioProps } from '../modelo/usuario/Usuario.interface';
-import { userSlice } from './state/user.state';
 import { ReduxProp } from './modelo/reduxContext.interface';
 import { LibroProp } from '../modelo/Entidades/libro/libro.interface';
 import { ClienteProp } from '../modelo/Entidades/cliente/cliente.interface';
@@ -19,7 +17,6 @@ import { sedeSlice } from './state/sede.state';
 import { MensajeProp } from '../modelo/Entidades/mensaje/mensaje.interface';
 import { mensajeSlice } from './state/mensaje.state';
 import { SesionStateProp, sesionSlice } from './state/sesion.state';
-import { usuariosSlice } from './state/usuarios.state';
 import { PropuestaProp } from '../modelo/Entidades/propuesta/propuesta.interface';
 import { libroSlice } from './state/libro.state';
 import { propuestaSlice } from './state/propuesta.state';
@@ -35,8 +32,6 @@ export interface appStore {
   sede: ReduxProp<SedeProp>;
   mensaje: ReduxProp<MensajeProp>;
   propuesta: ReduxProp<PropuestaProp>;
-  usuario: usuarioProps;
-  usuarios: ReduxProp<usuarioProps>;
   libro: ReduxProp<LibroProp>;
   sesion: SesionStateProp;
   empresa: EmpresaStateProp;
@@ -44,7 +39,6 @@ export interface appStore {
 
 export default configureStore<appStore>({
   reducer: {
-    usuario: userSlice.reducer,
     cliente: clienteSlice.reducer,
     especificacion: especificacionSlice.reducer,
     materia: materiaSlice.reducer,
@@ -55,7 +49,6 @@ export default configureStore<appStore>({
     sede: sedeSlice.reducer,
     mensaje: mensajeSlice.reducer,
     libro: libroSlice.reducer,
-    usuarios: usuariosSlice.reducer,
     sesion: sesionSlice.reducer,
     empresa: empresaSlice.reducer,
   },
