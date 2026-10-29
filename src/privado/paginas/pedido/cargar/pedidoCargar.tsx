@@ -31,6 +31,8 @@ import ClienteDatos from '../../cliente/componente/clienteDatos';
 import { resetSeleccionarPedido, seleccionarPedido } from '../../../../redux/state/pedido.state';
 import Switch from '../../../../componente-estilo/switch/switch';
 import Botonera from '../../../../componente-estilo/botonera/botonera';
+import useWhatsapp from '../../../../hooks/whatsapp/useWhatsapp';
+import { armarMensaje } from '../../../../utils/whatsapp';
 
 const calcularTotal = (precios: PrecioProp[], libros?: PedidoLibroConstruccionProp[]): number => {
   return (
@@ -82,6 +84,12 @@ const PedidoCargar = () => {
     usePedidoApi();
   const { datos, setDatos } = usePedidoContext();
   const [error, setError] = useState<string>('');
+
+  // El switch arranca con lo configurado en la empresa y se puede pisar por pedido.
+  const [enviarWappManual, setEnviarWappManual] = useState<boolean | undefined>(undefined);
+  const enviarWapp = enviarWappManual ?? configuracion?.msjEnvio ?? false;
+
+  const { abrirWhatsapp } = useWhatsapp();
 
   const [clienteSeleccionado, setClienteSeleccionado] = useState<ClienteProp | undefined>(
     undefined
@@ -139,6 +147,20 @@ const PedidoCargar = () => {
     setValue('importeTotal', total.toString());
   }, [datos?.pedidos, precios, setValue]);
 
+  // Solo en creacion: editar un pedido no manda el mensaje de pedido tomado.
+  // Va antes de useFormulario para abrirse antes de que la navegacion desmonte.
+  useEffect(() => {
+    if (!responsePedido || pedidoSelect?.id || !enviarWapp) return;
+
+    abrirWhatsapp({
+      telefono:
+        clienteSeleccionado?.telefono ?? responsePedido.cliente?.telefono ?? watch('telefono'),
+      mensaje: armarMensaje(configuracion?.msjTomado?.mensaje, responsePedido),
+    });
+    // Se dispara una vez por alta confirmada por el back, no por cada render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [responsePedido]);
+
   const { retroceder } = useFormulario<PedidoProp, formValuesPedido, PedidoProp>({
     response: responsePedido,
     resetSelect: resetSeleccionarPedido,
@@ -167,8 +189,6 @@ const PedidoCargar = () => {
     }
   }, [errorFetchClientes]);
 
-  const [enviarWappManual, setEnviarWappManual] = useState<boolean | undefined>(undefined);
-  const enviarWapp = enviarWappManual ?? configuracion?.msjEnvio ?? false;
   return (
     <Centro nuevoEstilo="pedido-cargar">
       <Formulario

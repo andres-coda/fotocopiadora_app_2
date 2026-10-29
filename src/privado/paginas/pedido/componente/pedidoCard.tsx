@@ -25,7 +25,7 @@ import CardDatosCliente from '../../../../componente/pedido/cardDatosCliente';
 import Cargando from '../../../../componente/cargando/cargando';
 import useCambiarEstadoPedidoApi from '../../../../servicio/pedido/useCambiarEstadoPedidoApi';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { actualizarMuchosStockRedux } from '../../../../redux/state/libro.state';
 import { StockProp } from '../../../../modelo/Entidades/libro/stock.interface';
 import { actualizarResumenClienteRedux } from '../../../../redux/state/cliente.state';
@@ -33,6 +33,10 @@ import { cambiarEstadoPedidoRedux } from '../../../../redux/state/pedido.state';
 import Texto from '../../../../componente-estilo/texto/texto';
 import ItemCard from '../../item/componente/itemCard';
 import { cambiarEstadoPedidoLibroRedux } from '../../../../redux/state/pedido_libro.state';
+import { appStore } from '../../../../redux/store';
+import { Estado } from '../../../../modelo/Entidades/pedido_libro/estado.enum';
+import useWhatsapp from '../../../../hooks/whatsapp/useWhatsapp';
+import { armarMensaje } from '../../../../utils/whatsapp';
 
 interface Props {
   pedido: PedidoProp;
@@ -62,7 +66,13 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
     pedido,
   });
 
-  const [enviarWapp, setEnviarWap] = useState<boolean>(false);
+  const configuracion = useSelector((store: appStore) => store.empresa.empresa?.configuracion);
+
+  // Arranca con lo configurado por la empresa y se puede pisar por pedido.
+  const [enviarWappManual, setEnviarWappManual] = useState<boolean | undefined>(undefined);
+  const enviarWapp = enviarWappManual ?? configuracion?.msjRetiro ?? false;
+
+  const { abrirWhatsapp } = useWhatsapp();
 
   const dispatch = useDispatch();
 
@@ -82,6 +92,20 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
       dispatch(cambiarEstadoPedidoRedux(responseCambioEstadoPedido));
       dispatch(cambiarEstadoPedidoLibroRedux(responseCambioEstadoPedido));
     }
+  }, [responseCambioEstadoPedido]);
+
+  // El mensaje de retiro sale cuando el pedido completo pasa a RETIRADO.
+  useEffect(() => {
+    if (!responseCambioEstadoPedido) return;
+    if (responseCambioEstadoPedido.pedido.estado !== Estado.RETIRADO) return;
+    if (!enviarWapp) return;
+
+    abrirWhatsapp({
+      telefono: pedido.cliente?.telefono,
+      mensaje: armarMensaje(configuracion?.msjRetirado?.mensaje, pedido),
+    });
+    // Se dispara una vez por respuesta del back, no por cada render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responseCambioEstadoPedido]);
 
   return (
@@ -105,8 +129,8 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
         <Botonera nuevoEstilo={`pedido-card-botonera ${claseXestadoPedido(pedido.estado)}`}>
           <Switch
             activo={enviarWapp}
-            onActivar={setEnviarWap}
-            titulo="Enviar solo al retirar"
+            onActivar={setEnviarWappManual}
+            titulo="Enviar mensaje al retirar"
             texto="whatsapp: "
           />
           {errorFetchCambioEstadoPedido ? (
