@@ -12,6 +12,14 @@
   gap: 1rem;
 }
 
+.cliente-datos-acciones{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex: 1;
+  
+}
+
 .cliente-vertical ul {
   list-style: none;
   padding: 0;

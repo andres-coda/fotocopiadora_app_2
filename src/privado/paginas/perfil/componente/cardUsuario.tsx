@@ -22,8 +22,8 @@ const CardUsuario = ({usuario, setEliminarUsuario}:Prop) => {
   return (
     <Card nuevoEstilo='card-usuario'>
       <div className='card-usuario-interno'>
-        <Texto texto={etiquetaRol(usuario.role)} chica />
-        <Texto texto={usuario.nombre} negrita />
+        <Texto texto={etiquetaRol(usuario.role)} chica/>
+        <Texto texto={usuario.nombre} negrita inline/>
         <Texto texto={usuario.email || 'Sin email'} chica />
       </div>
       <Botonera derecha>

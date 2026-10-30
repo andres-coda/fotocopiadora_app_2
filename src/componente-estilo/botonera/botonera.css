@@ -10,3 +10,7 @@
 .botonera-derecha{
   justify-content: flex-end;
 }
+
+.botonera-ajustada{
+  width: fit-content;
+}

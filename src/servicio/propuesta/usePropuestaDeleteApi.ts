@@ -1,19 +1,19 @@
 import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
-import { LIBRO } from '../../utils/endpoint';
+import { PROPUESTA } from '../../utils/endpoint';
 import useApi from '../hooks/useApi';
 
-const useLibroDeleteApi = () => {
+const usePropuestaDeleteApi = () => {
   const { fetchData, response, loading, errorFetch } = useApi<boolean>({});
 
-  const eliminarLibro = (id: string) =>
-    fetchData({ url: `${LIBRO}/${id}`, methodo: httpMethod.DELETE });
+  const eliminarPropuesta = (id: string) =>
+    fetchData({ url: `${PROPUESTA}/${id}`, methodo: httpMethod.DELETE });
 
   return {
-    eliminarLibro,
-    responseLibro: response,
-    loadingLibro: loading,
-    errorFetchLibro: errorFetch,
+    eliminarPropuesta,
+    responsePropuesta: response,
+    loadingPropuesta: loading,
+    errorFetchPropuesta: errorFetch,
   };
 };
 
-export default useLibroDeleteApi;
+export default usePropuestaDeleteApi;

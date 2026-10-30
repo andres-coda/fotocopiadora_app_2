@@ -4,7 +4,6 @@ import { appStore } from '../../../../redux/store';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import Centro from '../../../../componente-estilo/centro/centro';
 import ClienteDatos from './clienteDatos';
-import './cliente-select.css';
 import Texto from '../../../../componente-estilo/texto/texto';
 import PedidoCard from '../../pedido/componente/pedidoCard';
 import Cargando from '../../../../componente/cargando/cargando';
@@ -31,6 +30,7 @@ import {
 import usePedidoLibrosApi from '../../../../servicio/pedido_libro/usePedidoLibrosApi';
 import { Estado } from '../../../../modelo/Entidades/pedido_libro/estado.enum';
 import EstadoPedidos from '../../../../componente/pedido/estadoPedidos';
+import './cliente-select.css';
 
 const ClienteSelect = () => {
   const clienteContexto: ReduxProp<ClienteProp> = useSelector((store: appStore) => store.cliente);
@@ -118,7 +118,7 @@ const ClienteSelect = () => {
       <div className="cliente-vertical">
         <div className="cliente-datos-acciones">
           <ClienteDatos cliente={clienteContexto.datoSeleccionado} />
-          <Botonera nuevoEstilo="cliente-acciones">
+          <Botonera nuevoEstilo="cliente-acciones" derecha>
             <Boton
               icono={<Eliminar />}
               edit

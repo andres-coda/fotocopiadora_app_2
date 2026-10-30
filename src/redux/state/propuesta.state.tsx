@@ -10,6 +10,7 @@ import {
   seleccionarDato,
   cambiarOrden,
   resetRedux,
+  eliminarElemento,
 } from '../utils/funcionesGenericasEmpresa';
 
 const cantidadBusquedas: number = 15;
@@ -43,6 +44,7 @@ export const propuestaSlice = createSlice({
     agregarPropuestasBusquedaActual: agregarDatosBusquedaActual<PropuestaProp>,
     cambiarOrdenPropuesta: cambiarOrden<PropuestaProp>,
     resetReduxPropuesta: resetRedux<PropuestaProp>,
+    eliminarPropuestaRedux: eliminarElemento<PropuestaProp>,
   },
 });
 
@@ -55,6 +57,7 @@ export const {
   agregarPropuestasBusquedaActual,
   cambiarOrdenPropuesta,
   resetReduxPropuesta,
+  eliminarPropuestaRedux,
 } = propuestaSlice.actions;
 
 export default propuestaSlice.reducer;

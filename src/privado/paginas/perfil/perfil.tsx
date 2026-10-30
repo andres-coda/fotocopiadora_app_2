@@ -18,6 +18,8 @@ import DesplegableArrow from '../../../componente-estilo/desplegable/desplegable
 import Configuracion from './componente/configuracion';
 import UsuariosEmpresa from './componente/usuariosEmpresa';
 import './perfil.css';
+import EliminarPrecio from '../precio/componente/eliminarPrecio';
+import EliminarElemento from '../../../componente-estilo/eliminar/eliminarElemento';
 
 const Perfil = () => {
   // El perfil y la empresa ya vienen cargados por CargarDatosIniciales.
@@ -130,6 +132,16 @@ const Perfil = () => {
       </Centro>
 
       <Modal>
+        {eliminarUsuario && (
+          <>
+          {/* <EliminarElemento 
+            texto={`usuario`}
+            articulo='El'
+            entidad='trabajador'
+            eliminarElemento={}
+            /> */}
+            </>
+        )}
         {modalEmpresa && empresa && (
           <EmpresaEditar
             empresa={empresa}

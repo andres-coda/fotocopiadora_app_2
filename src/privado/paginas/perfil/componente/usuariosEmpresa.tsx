@@ -6,6 +6,8 @@ import CardUsuario from './cardUsuario';
 import Boton from '../../../../componente-estilo/boton/boton';
 import Mas from '../../../../assets/mas.svg?react';
 import Cargando from '../../../../componente/cargando/cargando';
+import { useSelector } from 'react-redux';
+import { appStore } from '../../../../redux/store';
 
 interface Props {
   /** Sube cuando el alta confirma: obliga a volver a pedir la lista. */
@@ -20,6 +22,7 @@ interface Props {
  * no expone un endpoint para que un admin edite a otro usuario.
  */
 const UsuariosEmpresa = ({ version, onAgregarUsuario, setEliminarUsuario }: Props) => {
+  const sesion = useSelector((store: appStore) => store.sesion.usuario);
   const { obtenerUsuarios, responseUsuarios, loadingUsuarios, errorFetchUsuarios } =
     useUsuariosApi();
 
@@ -44,9 +47,11 @@ const UsuariosEmpresa = ({ version, onAgregarUsuario, setEliminarUsuario }: Prop
 
   return (
     <div className="usuarios-lista">
-      {usuarios.map(u => (
-        <CardUsuario usuario={u} setEliminarUsuario={setEliminarUsuario}/>
-      ))}
+      {usuarios
+        .filter(u => u.id != sesion?.id)
+        .map(u => (
+          <CardUsuario usuario={u} setEliminarUsuario={setEliminarUsuario} />
+        ))}
       <Boton nuevoEstilo={` btn-usuario-mas`} onClick={() => onAgregarUsuario()} icono={<Mas />} />
     </div>
   );

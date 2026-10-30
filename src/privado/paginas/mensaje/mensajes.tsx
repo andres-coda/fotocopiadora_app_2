@@ -23,6 +23,7 @@ import {
 import MensajeCard from './componente/mensajeCard';
 import MensajeCargar from './cargar/mensajeCargar';
 import './mensajes.css';
+import EliminarMensaje from './componente/eliminarMensaje';
 
 const Mensajes = () => {
   const mensajeDatos: ReduxProp<MensajeProp> = useSelector((store: appStore) => store.mensaje);
@@ -33,6 +34,7 @@ const Mensajes = () => {
   const { modal } = useModalContext();
   const dispatch = useDispatch();
   const [valor, setValor] = useState<string>('');
+  const [eliminarMsj, setEliminarMsj] = useState<boolean>(false);
 
   // El alta y la edicion siguen detras de AdminGuard. El favorito es por
   // usuario, asi que esta disponible para cualquier usuario autenticado.
@@ -41,7 +43,10 @@ const Mensajes = () => {
   // Al cerrar el modal se limpia la seleccion, si no el formulario reabre en
   // modo edicion.
   useEffect(() => {
-    if (!modal) dispatch(resetSeleccionarMensaje());
+    if (!modal) {
+      dispatch(resetSeleccionarMensaje())
+      setEliminarMsj(false)
+    };
   }, [modal]);
 
   // Igual que en el modal: la lista se actualiza apenas el back confirma.
@@ -88,6 +93,7 @@ const Mensajes = () => {
               key={mensaje.id}
               puedeEditar={esAdmin}
               onToggleFavorito={handleToggleFavorito}
+              eliminarMensaje={setEliminarMsj}
             />
           ))
         ) : loadingMensajes ? (
@@ -103,7 +109,8 @@ const Mensajes = () => {
         </div>
       </Centro>
       <Modal nuevoEstilo="modal-ancho">
-        <MensajeCargar />
+        {eliminarMsj && <EliminarMensaje/>}
+        {!eliminarMsj && <MensajeCargar />}
       </Modal>
     </>
   );
