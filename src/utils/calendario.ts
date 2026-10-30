@@ -25,8 +25,11 @@ export interface ultActProp {
 export const formatoFecha = ({ fecha }: FechaProp): string => {
   if (!fecha) return '';
   const date = new Date(fecha);
-  const dia = date.getDay() + 1;
-  const mes = date.getMonth() + 1;
+  // getDay() devuelve el dia de la semana (0 = domingo), no el del mes.
+  // Con dos digitos la fecha queda `DD-MM-YYYY`, y al invertirla da un
+  // `YYYY-MM-DD` que los regex de `fechaParaInput` y `fechaVisible` entienden.
+  const dia = String(date.getDate()).padStart(2, '0');
+  const mes = String(date.getMonth() + 1).padStart(2, '0');
   const año = date.getFullYear();
   return `${dia}-${mes}-${año}`;
 };

@@ -39,7 +39,12 @@ const abrirPorProtocolo = (url: string): void => {
 const useWhatsapp = () => {
   const abrirWhatsapp = async ({ telefono, mensaje }: AbrirWhatsappProp): Promise<boolean> => {
     const url = urlWhatsapp({ telefono, mensaje });
-    if (!url) return false;
+    if (!url) {
+      // Sin este aviso el fallo es invisible: el operador ve que no pasa nada y
+      // no hay forma de saber si fue el telefono, el switch o el canal.
+      console.warn('WhatsApp: no se pudo armar el numero del chat', { telefono });
+      return false;
+    }
 
     try {
       if (isTauri()) await openUrl(url);

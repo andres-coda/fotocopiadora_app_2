@@ -24,7 +24,7 @@ import Desplegable from '../../../../componente/formulario/desplegable';
 import CardDatosCliente from '../../../../componente/pedido/cardDatosCliente';
 import Cargando from '../../../../componente/cargando/cargando';
 import useCambiarEstadoPedidoApi from '../../../../servicio/pedido/useCambiarEstadoPedidoApi';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actualizarMuchosStockRedux } from '../../../../redux/state/libro.state';
 import { StockProp } from '../../../../modelo/Entidades/libro/stock.interface';
@@ -74,6 +74,12 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
 
   const { abrirWhatsapp } = useWhatsapp();
 
+  // Un cambio de estado sobre un libro suelto de un pedido ya retirado vuelve a
+  // producir respuesta con el pedido en RETIRADO; sin este registro el mensaje
+  // se abriria otra vez. Se guarda el id avisado, no un booleano, para que el
+  // mismo componente sirva a otro pedido sin arrastrar el estado anterior.
+  const retiroAvisado = useRef<string | undefined>(undefined);
+
   const dispatch = useDispatch();
 
   const estadoActual = watch('estado');
@@ -99,6 +105,9 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
     if (!responseCambioEstadoPedido) return;
     if (responseCambioEstadoPedido.pedido.estado !== Estado.RETIRADO) return;
     if (!enviarWapp) return;
+    if (retiroAvisado.current === responseCambioEstadoPedido.pedido.id) return;
+
+    retiroAvisado.current = responseCambioEstadoPedido.pedido.id;
 
     abrirWhatsapp({
       telefono: pedido.cliente?.telefono,
