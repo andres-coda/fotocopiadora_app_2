@@ -34,6 +34,7 @@ const LateralIzquierdo = () => {
   const {
     control,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<formValuesConfigEntrega>({
     resolver: zodResolver(configEntrega),
@@ -41,6 +42,21 @@ const LateralIzquierdo = () => {
   });
 
   const fecha = watch().fechaEntrega;
+
+  // `defaultValues` se lee una sola vez, en el primer render, y en ese momento
+  // la empresa todavia no llego: la trae `cargarDatosIniciales` despues del
+  // login. React Hook Form no vuelve a aplicar `defaultValues`, asi que el
+  // input quedaba vacio aunque hubiera una fecha configurada.
+  //
+  // Las dependencias son solo la fecha de la configuracion, nunca `fecha`: si
+  // dependiera de `fecha`, cada tecla que escribe el operador le revertiria lo
+  // escrito al valor guardado. Al abrir, el valor copiado es igual al de la
+  // configuracion, asi que el efecto de guardado de abajo no dispara nada.
+  useEffect(() => {
+    const configurada = configuracion?.fechaEntrega;
+    if (!configurada) return;
+    setValue('fechaEntrega', configurada);
+  }, [configuracion?.fechaEntrega, setValue]);
 
   useEffect(() => {
     if (fecha && fecha != configuracion?.fechaEntrega) {
