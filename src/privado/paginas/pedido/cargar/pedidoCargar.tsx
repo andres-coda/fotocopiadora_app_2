@@ -160,12 +160,13 @@ const PedidoCargar = () => {
         encabezado: configuracion?.msjTomado?.mensaje,
         // La fecha de configuracion es la que se pide en el pie; la del pedido
         // queda de respaldo porque hoy el adapter la devuelve mal formateada.
-        fechaEntrega: configuracion?.fechaEntrega || responsePedido.fechaEntrega,
+        fechaEntrega: responsePedido.fechaEntrega,
         horaEntrega: configuracion?.horaEntrega,
       }),
     });
     // Se dispara una vez por alta confirmada por el back, no por cada render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    reset
   }, [responsePedido]);
 
   const { retroceder } = useFormulario<PedidoProp, formValuesPedido, PedidoProp>({
@@ -244,7 +245,7 @@ const PedidoCargar = () => {
               finRegistros={finClientes}
             />
           )}
-          <Botonera nuevoEstilo="switch-pedido-cargar">
+          <Botonera nuevoEstilo="switch-pedido-cargar" derecha>
             <Switch
               activo={enviarWapp}
               onActivar={setEnviarWappManual}

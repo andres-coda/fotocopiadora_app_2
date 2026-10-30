@@ -10,6 +10,8 @@ import { setConfiguracionEmpresa } from '../../../../redux/state/empresa.state';
 import useConfiguracionApi from '../../../../servicio/configuracion/useConfiguracionApi';
 import Editar from '../../../../assets/edit.svg?react';
 
+import './configuracion.css'
+
 interface Props {
   configuracion?: ConfiguracionProp;
   onEditarCampo: (campo: CampoConfig) => void;

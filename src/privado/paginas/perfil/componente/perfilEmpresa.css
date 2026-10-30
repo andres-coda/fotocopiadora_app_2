@@ -45,65 +45,6 @@
   height: 100%;
 }
 
-.configuracion {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 0.5rem;
-  padding: 0 1rem;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.configuracion-seccion {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 0.5rem 0 1rem;
-  box-sizing: border-box;
-  border-bottom: 1px solid var(--colorSombra);
-}
-
-.configuracion-seccion:last-of-type {
-  border-bottom: none;
-}
-
-.configuracion-campo {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.configuracion-campo__datos {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  min-width: 0;
-}
-
-.configuracion-campo .configuracion-campo__fecha {
-  flex: 0 0 200px;
-  width: 200px;
-}
-
-.configuracion-estado {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  min-height: 20px;
-  width: 100%;
-  box-sizing: border-box;
-}
 
 .empresa-configuracion__acciones {
   display: flex;
@@ -126,35 +67,55 @@
 
 /* Listado de usuarios de la empresa (solo admin). */
 .usuarios-lista {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  position:relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
   align-items: flex-start;
+
   gap: 0.5rem;
-  width: 100%;
+  padding: 0.5rem;
+  padding-bottom: 5rem; 
+  margin: 0;
+
+  border-radius: 5px;
   box-sizing: border-box;
-  padding: 0 1rem;
+
+  width: 100%;
 }
 
-.usuarios-fila {
-  display: flex;
+.card-usuario{
+  display:flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
+  justify-content:flex-start;
+  align-items: flex-end;
+  background-color: var(--colorCardGris);
+  flex:1;
+  
+}
+
+.btn-usuario-mas{
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+
+.perfil-empresa, .perfil-usuario{
+  position: relative;
+  max-width: none;
   width: 100%;
-  box-sizing: border-box;
-  padding: 0.4rem 0;
-  border-bottom: 1px solid var(--colorSombra);
+  min-height: fit-content;
+  gap: 1rem;
+  background-color: var(--colorCardGris);
 }
 
-.usuarios-fila:last-of-type {
-  border-bottom: none;
+
+.perfil-usuario{
+  gap: .5rem;
 }
 
-.usuarios-fila__datos {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  min-width: 0;
+.btn-edit-flotante{
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
 }

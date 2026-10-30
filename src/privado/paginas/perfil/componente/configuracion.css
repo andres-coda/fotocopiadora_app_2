@@ -1,0 +1,59 @@
+.configuracion {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.configuracion-seccion {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0 1rem;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--colorSombra);
+}
+
+.configuracion-seccion:last-of-type {
+  border-bottom: none;
+}
+
+.configuracion-campo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.configuracion-campo__datos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.configuracion-campo .configuracion-campo__fecha {
+  flex: 0 0 200px;
+  width: 200px;
+}
+
+.configuracion-estado {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}

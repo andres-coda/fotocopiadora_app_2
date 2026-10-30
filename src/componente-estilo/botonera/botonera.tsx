@@ -4,10 +4,11 @@ import './botonera.css';
 interface Props {
   children: ReactNode;
   nuevoEstilo?: string | undefined;
+  derecha?: boolean;
 }
 
-function Botonera({ children, nuevoEstilo = undefined }: Props) {
-  return <div className={`botonera ${nuevoEstilo || ''}`}>{children}</div>;
+function Botonera({ children, nuevoEstilo = '', derecha = false }: Props) {
+  return <div className={`botonera ${nuevoEstilo} ${derecha ? 'botonera-derecha' : ''}`}>{children}</div>;
 }
 
 export default Botonera;

@@ -7,20 +7,17 @@ import Texto from '../../../componente-estilo/texto/texto';
 import Cargando from '../../../componente/cargando/cargando';
 import Modal from '../../../componente/modal/modal';
 import { useModalContext } from '../../../contexto/contextoModal';
-import PerfilDatosEmpresa from './componente/perfilDatosEmpresa';
 import EmpresaEditar from './cargar/empresaEditar';
 import ConfiguracionEditar from './cargar/configuracionEditar';
 import PerfilEditar from './cargar/perfilEditar';
 import UsuarioCrear from './cargar/usuarioCrear';
 import { CampoConfig } from '../../../modelo/Entidades/configuracion/configuracionCampo.interface';
+import PerfilEmpresa from './componente/perfilEmpresa';
+import CardPerfil from './componente/cardPerfil';
+import DesplegableArrow from '../../../componente-estilo/desplegable/desplegableArrow';
+import Configuracion from './componente/configuracion';
+import UsuariosEmpresa from './componente/usuariosEmpresa';
 import './perfil.css';
-import Botonera from '../../../componente-estilo/botonera/botonera';
-import Boton from '../../../componente-estilo/boton/boton';
-import { useAuth } from '../../../contexto/contextoAutenticacion';
-import { resetSesion } from '../../../redux/state/sesion.state';
-import { rutaPublica } from '../../../publico/rutas/rutasPublicas';
-import { useNavigate } from 'react-router-dom';
-import Editar from '../../../assets/edit.svg?react';
 
 const Perfil = () => {
   // El perfil y la empresa ya vienen cargados por CargarDatosIniciales.
@@ -35,12 +32,11 @@ const Perfil = () => {
   const [modalEmpresa, setModalEmpresa] = useState<boolean>(false);
   const [modalPerfil, setModalPerfil] = useState<boolean>(false);
   const [modalUsuario, setModalUsuario] = useState<boolean>(false);
+  const [eliminarUsuario, setEliminarUsuario] = useState<string | undefined>(undefined);
   const [campoConfig, setCampoConfig] = useState<CampoConfig | null>(null);
   // Sube cuando el alta de usuario confirma: obliga a refrescar el listado.
   const [usuariosVersion, setUsuariosVersion] = useState<number>(0);
   const dispatch = useDispatch();
-  const { logout } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Al cerrarse el modal se descarta cualquier contenido pendiente.
@@ -48,6 +44,7 @@ const Perfil = () => {
       setModalEmpresa(false);
       setModalPerfil(false);
       setModalUsuario(false);
+      setEliminarUsuario(undefined);
       setCampoConfig(null);
     }
   }, [modal]);
@@ -102,44 +99,32 @@ const Perfil = () => {
       </Centro>
     );
 
-  const cerrarSesion = () => {
-    logout();
-    dispatch(resetSesion());
-    navigate(`/${rutaPublica.LOGIN}`);
-  };
+  const esAdmin = usuarioSesion.role === 'admin' || usuarioSesion.role === 'super_admin';
 
   return (
     <>
       <Centro nuevoEstilo="perfil-centro">
         {cargandoEmpresa && <Cargando />}
-        {!cargandoEmpresa && sinEmpresa && <Texto texto="Sin empresa asociada" mediana centrado />}
         {!cargandoEmpresa && !sinEmpresa && errorEmpresa && (
           <Texto texto={errorEmpresa} error chica />
         )}
         {!cargandoEmpresa && !sinEmpresa && !errorEmpresa && empresa && (
           <>
-            <PerfilDatosEmpresa
-              empresa={empresa}
-              onEditarConfiguracion={abrirConfiguracion}
-              onEditarPerfil={abrirPerfil}
-              onAgregarUsuario={
-                usuarioSesion.role === 'admin' || usuarioSesion.role === 'super_admin'
-                  ? abrirUsuario
-                  : undefined
-              }
-              usuariosVersion={usuariosVersion}
-              usuario={usuarioSesion}
-            />
-            <Botonera nuevoEstilo="empresa-botonera">
-              <Boton secundario onClick={cerrarSesion} texto="Cerrar sesión" />
-              <Boton
-                secundario
-                nuevoEstilo="btn-icono-chico"
-                onClick={abrirEmpresa}
-                icono={<Editar />}
-                titulo="Editar empresa"
+            <PerfilEmpresa empresa={empresa} onEditarEmpresa={abrirEmpresa} />
+            <Texto texto="Sesión actual" mediana negrita />
+            <CardPerfil usuario={usuarioSesion} onEditarPerfil={abrirPerfil} />
+
+            <DesplegableArrow titulo="Configuraciones" verde>
+              <Configuracion
+                configuracion={empresa.configuracion}
+                onEditarCampo={abrirConfiguracion}
               />
-            </Botonera>
+            </DesplegableArrow>
+            {esAdmin && (
+              <DesplegableArrow titulo="Listas de trabajadores" verde>
+                <UsuariosEmpresa version={usuariosVersion} onAgregarUsuario={abrirUsuario} setEliminarUsuario={setEliminarUsuario}/>
+              </DesplegableArrow>
+            )}
           </>
         )}
       </Centro>

@@ -21,3 +21,28 @@
   scrollbar-width: thin;
   scrollbar-gutter: stable;
 }
+
+.desplegable-arrow {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1rem;
+  position: relative;
+  width: 100%;
+  padding: 1rem;
+  margin: 0;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 1px var(--colorSombra);
+  border-radius: 5px;
+  background-color: transparent;
+  height: 100%;
+}
+
+.desplegable-verde {
+  background-color: var(--colorSubmenu);
+}
+
+.desplegable-gris {
+  background-color: var(--colorCardGris);
+}

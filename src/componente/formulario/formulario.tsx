@@ -43,6 +43,7 @@ function Formulario({
       <form onSubmit={e => onSubmit(e)} onReset={onReset}>
         {children}
         <Botonera
+          derecha
           children={
             <>
               {onReset ? (

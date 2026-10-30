@@ -22,6 +22,7 @@ import { Estado } from '../../../../modelo/Entidades/pedido_libro/estado.enum';
 import PedidoLibroCard from '../componente/pedidoLibroCard';
 import Boton from '../../../../componente-estilo/boton/boton';
 import { useEffect } from 'react';
+import Botonera from '../../../../componente-estilo/botonera/botonera';
 
 const crearLibropedido = (
   libro: LibroProp,
@@ -168,7 +169,9 @@ const PedidoLibroCargar = () => {
       {datos?.pedidoActual && (
         <>
           <PedidoLibroCard pL={datos.pedidoActual} estadoClas={Estado.CONSTRUCCION} />
-          <Boton texto="Agregar libro" onClick={handleClick} />
+          <Botonera derecha>
+            <Boton texto="Agregar libro" onClick={handleClick} />
+          </Botonera>
         </>
       )}
       {datos?.pedidos?.map(p => (

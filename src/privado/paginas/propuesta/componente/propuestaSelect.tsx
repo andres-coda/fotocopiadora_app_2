@@ -31,7 +31,7 @@ const PropuestaSelect = ({ propuesta }: Prop) => {
       {propuesta.libro?.map(l => (
         <LibroCard libro={l} key={l.id} selecLibro={() => setModal(false)} />
       ))}
-      <Botonera>
+      <Botonera derecha>
         <Boton
           icono={<Arrow />}
           terciario
