@@ -147,27 +147,28 @@ export const armarMensajeTomado = ({
   return bloques.join('\n\n');
 };
 
+export interface MensajeRetiroProp {
+  pedido: PedidoProp;
+  /** Texto configurado en Ajustes como mensaje de pedido retirado. */
+  encabezado?: string;
+}
+
 /**
- * Variables disponibles en el texto del mensaje. Si la plantilla no usa
- * ninguna, el texto viaja tal cual se cargo en la pagina de mensajes.
+ * Arma el mensaje de "pedido retirado": el encabezado configurado y el detalle
+ * de los libros que se retiran con sus especificaciones.
+ *
+ * Mismo criterio que `armarMensajeTomado`: la app arma el cuerpo para que el
+ * texto salga siempre igual. Por eso la plantilla es solo el encabezado y no
+ * lleva variables que haya que completar a mano.
  */
-export const variablesMensaje = (pedido: PedidoProp): Record<string, string> => ({
-  cliente: pedido.cliente?.nombre ?? '',
-  fechaEntrega: pedido.fechaEntrega ?? '',
-  importe: formatoImporte(pedido.importeTotal ?? 0),
-  saldo: formatoImporte((pedido.importeTotal ?? 0) - (pedido.sena ?? 0)),
-  libros:
-    pedido.libroPedidos?.map(lp => `${lp.cantidad}x ${nombreLibroXstring(lp.libro)}`).join(', ') ??
-    '',
-});
+export const armarMensajeRetiro = ({ pedido, encabezado }: MensajeRetiroProp): string => {
+  const bloques: string[] = [];
 
-export const armarMensaje = (plantilla: string | undefined, pedido: PedidoProp): string => {
-  if (!plantilla) return '';
+  const titulo = encabezado?.trim();
+  if (titulo) bloques.push(titulo);
 
-  const variables = variablesMensaje(pedido);
+  const libros = resumenLibros(pedido);
+  if (libros) bloques.push(`Pedido:\n${libros}`);
 
-  return plantilla.replace(
-    /\{(\w+)\}/g,
-    (coincidencia, clave: string) => variables[clave] ?? coincidencia
-  );
+  return bloques.join('\n\n');
 };

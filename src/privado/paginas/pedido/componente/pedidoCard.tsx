@@ -36,7 +36,7 @@ import { cambiarEstadoPedidoLibroRedux } from '../../../../redux/state/pedido_li
 import { appStore } from '../../../../redux/store';
 import { Estado } from '../../../../modelo/Entidades/pedido_libro/estado.enum';
 import useWhatsapp from '../../../../hooks/whatsapp/useWhatsapp';
-import { armarMensaje } from '../../../../utils/whatsapp';
+import { armarMensajeRetiro } from '../../../../utils/whatsapp';
 
 interface Props {
   pedido: PedidoProp;
@@ -111,7 +111,10 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
 
     abrirWhatsapp({
       telefono: pedido.cliente?.telefono,
-      mensaje: armarMensaje(configuracion?.msjRetirado?.mensaje, pedido),
+      mensaje: armarMensajeRetiro({
+        pedido,
+        encabezado: configuracion?.msjRetirado?.mensaje,
+      }),
     });
     // Se dispara una vez por respuesta del back, no por cada render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
