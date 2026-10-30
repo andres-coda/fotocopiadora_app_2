@@ -1,6 +1,6 @@
 import { isTauri } from '@tauri-apps/api/core';
 import { openUrl } from '@tauri-apps/plugin-opener';
-import { BASE_WHATSAPP_WEB, urlWhatsapp } from '../../utils/whatsapp';
+import { urlWhatsapp } from '../../utils/whatsapp';
 
 interface AbrirWhatsappProp {
   telefono?: string;
@@ -8,36 +8,42 @@ interface AbrirWhatsappProp {
 }
 
 /**
- * Abre el chat de WhatsApp sin acumular pestanas:
+ * Entrega el protocolo `whatsapp:` desde el navegador.
  *
- * 1. `whatsapp://` reusa la ventana de la app de escritorio que ya esta abierta
- *    (si no lo esta, el sistema la levanta). Chrome no ofrece forma de enfocar
- *    una pestana existente, asi que este es el unico camino sin pestanas nuevas.
- * 2. Si no hay handler registrado para el protocolo, cae a WhatsApp Web.
+ * No se usa `window.open`: ese camino abre una pestana nueva y ademas un
+ * protocolo externo no se carga en una pestana, se le entrega al sistema. Un
+ * `<a>` real hace la entrega sin crear pestana, y si el manejador no existe la
+ * pagina se queda como esta.
+ */
+const abrirPorProtocolo = (url: string): void => {
+  const enlace = document.createElement('a');
+  enlace.href = url;
+  enlace.rel = 'noopener noreferrer';
+  enlace.style.display = 'none';
+
+  document.body.appendChild(enlace);
+  enlace.click();
+  enlace.remove();
+};
+
+/**
+ * Abre el chat del cliente en la app de escritorio de WhatsApp con el mensaje ya
+ * cargado; el operador decide si lo envia.
  *
- * En `npm run dev` sin Tauri el opener nativo no existe: se va directo a la web
- * con `window.open` para no romper el flujo durante el desarrollo.
+ * El destino es `whatsapp://send`, que el manejador del sistema resuelve sobre
+ * la ventana que ya esta abierta: no aparece una pestana nueva. La app armada
+ * con Tauri entrega la URL directo al sistema; en `npm run dev` la entrega hace
+ * el navegador, con el mismo protocolo, asi que lo que se prueba en desarrollo
+ * es el mismo camino que en la app empaquetada.
  */
 const useWhatsapp = () => {
   const abrirWhatsapp = async ({ telefono, mensaje }: AbrirWhatsappProp): Promise<boolean> => {
-    const urlApp = urlWhatsapp({ telefono, mensaje });
-    if (!urlApp) return false;
-
-    if (isTauri()) {
-      try {
-        await openUrl(urlApp);
-        return true;
-      } catch {
-        // Sin app registrada para `whatsapp:`: se intenta la version web.
-      }
-    }
-
-    const urlWeb = urlWhatsapp({ telefono, mensaje, base: BASE_WHATSAPP_WEB });
-    if (!urlWeb) return false;
+    const url = urlWhatsapp({ telefono, mensaje });
+    if (!url) return false;
 
     try {
-      if (isTauri()) await openUrl(urlWeb);
-      else window.open(urlWeb, '_blank', 'noopener,noreferrer');
+      if (isTauri()) await openUrl(url);
+      else abrirPorProtocolo(url);
       return true;
     } catch (error) {
       console.error('No se pudo abrir WhatsApp', error);

@@ -11,7 +11,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import Formulario from '../../../../componente/formulario/formulario';
 import Input from '../../../../componente/formulario/input';
-import { formatTelefono, parseDecimal } from '../../../../utils/formulario';
+import { formatTelefono, parseTelefono } from '../../../../utils/formulario';
 import { formatoTelefonoMostrar } from '../../../../utils/formatoDatos';
 import {
   actualizarClienteRedux,
@@ -95,7 +95,7 @@ const ClienteCargar = () => {
           error={errors.telefono}
           esquema={cliente}
           formatValue={v => formatTelefono(v)}
-          parseValue={v => parseDecimal(v, 12, 2)}
+          parseValue={v => parseTelefono(v)}
         />
         <Input<formValuesCliente>
           name="email"

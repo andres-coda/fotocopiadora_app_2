@@ -54,10 +54,11 @@ export const parseTextoMayus = (value: string, maxLength = 50): string => {
 };
 
 export const formatTelefono = (value: string = ''): string => {
+  const prefijo = value.trim().startsWith('+') ? '+' : '';
   const numeros = value.replace(/\D/g, '');
 
   if (numeros.length <= 4) {
-    return numeros;
+    return `${prefijo}${numeros}`;
   }
 
   const ultimos4 = numeros.slice(-4);
@@ -65,13 +66,28 @@ export const formatTelefono = (value: string = ''): string => {
   if (numeros.length <= 7) {
     const medio = numeros.slice(0, -4);
 
-    return `${medio} ${ultimos4}`;
+    return `${prefijo}${medio} ${ultimos4}`;
   }
 
   const medio3 = numeros.slice(-7, -4);
   const inicio = numeros.slice(0, -7);
 
-  return [inicio, medio3, ultimos4].filter(Boolean).join('-');
+  return `${prefijo}${[inicio, medio3, ultimos4].filter(Boolean).join('-')}`;
+};
+
+/**
+ * El `+` del codigo de pais se conserva: `parseDecimal` lo borra, y sin el un
+ * `+34 612 345 678` se lee como numero argentino. El resto se limpia igual que
+ * en un importe, solo digitos.
+ */
+export const parseTelefono = (
+  value: string | number | undefined | null,
+  maxLength = 20
+): string => {
+  const texto = String(value ?? '').trim();
+  const digitos = texto.replace(/\D/g, '');
+
+  return (texto.startsWith('+') ? `+${digitos}` : digitos).slice(0, maxLength);
 };
 
 interface Prop<T, K extends keyof T = keyof T> {

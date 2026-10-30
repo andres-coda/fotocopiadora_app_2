@@ -14,7 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useFormulario from '../../../../hooks/formulario/useFormulario';
 import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import Input from '../../../../componente/formulario/input';
-import { formatTelefono, parseDecimal } from '../../../../utils/formulario';
+import { formatTelefono, parseDecimal, parseTelefono } from '../../../../utils/formulario';
 import PedidoLibroCargar from './pedidoLibroCargar';
 import { usePedidoContext } from '../../../../contexto/contextoPedido';
 import { useEffect, useState } from 'react';
@@ -32,7 +32,7 @@ import { resetSeleccionarPedido, seleccionarPedido } from '../../../../redux/sta
 import Switch from '../../../../componente-estilo/switch/switch';
 import Botonera from '../../../../componente-estilo/botonera/botonera';
 import useWhatsapp from '../../../../hooks/whatsapp/useWhatsapp';
-import { armarMensaje } from '../../../../utils/whatsapp';
+import { armarMensajeTomado } from '../../../../utils/whatsapp';
 
 const calcularTotal = (precios: PrecioProp[], libros?: PedidoLibroConstruccionProp[]): number => {
   return (
@@ -155,7 +155,14 @@ const PedidoCargar = () => {
     abrirWhatsapp({
       telefono:
         clienteSeleccionado?.telefono ?? responsePedido.cliente?.telefono ?? watch('telefono'),
-      mensaje: armarMensaje(configuracion?.msjTomado?.mensaje, responsePedido),
+      mensaje: armarMensajeTomado({
+        pedido: responsePedido,
+        encabezado: configuracion?.msjTomado?.mensaje,
+        // La fecha de configuracion es la que se pide en el pie; la del pedido
+        // queda de respaldo porque hoy el adapter la devuelve mal formateada.
+        fechaEntrega: configuracion?.fechaEntrega || responsePedido.fechaEntrega,
+        horaEntrega: configuracion?.horaEntrega,
+      }),
     });
     // Se dispara una vez por alta confirmada por el back, no por cada render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -218,7 +225,7 @@ const PedidoCargar = () => {
               error={errors.telefono}
               esquema={pedido}
               formatValue={v => formatTelefono(v)}
-              parseValue={v => parseDecimal(v, 12, 2)}
+              parseValue={v => parseTelefono(v)}
             />
             <Input<formValuesPedido>
               name="email"

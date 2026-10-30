@@ -1,5 +1,6 @@
 import { ClienteProp } from '../cliente/cliente.interface';
 import { PedidoProp } from './pedido.interface';
+import { normalizarTelefono } from '../../../utils/telefono';
 import { z } from 'zod';
 
 export const pedido = z.object({
@@ -10,29 +11,10 @@ export const pedido = z.object({
       z
         .string()
         .min(1)
-        .refine(
-          val => {
-            const cleaned = val.replace(/\D/g, '');
-
-            return cleaned.length >= 8 && cleaned.length <= 15;
-          },
-          {
-            message: 'Debe ser un teléfono válido',
-          }
-        )
-        .transform(val => {
-          let cleaned = val.replace(/[^\d+]/g, '');
-
-          // sacar espacios y símbolos
-          cleaned = cleaned.replace(/(?!^\+)\D/g, '');
-
-          // quitar 0 inicial si no tiene código internacional
-          if (!cleaned.startsWith('+') && cleaned.startsWith('0')) {
-            cleaned = cleaned.slice(1);
-          }
-
-          return cleaned;
-        }),
+        .refine(val => normalizarTelefono(val) !== undefined, {
+          message: 'Debe ser un teléfono válido',
+        })
+        .transform(val => normalizarTelefono(val) ?? val),
 
       z.literal(''),
     ])

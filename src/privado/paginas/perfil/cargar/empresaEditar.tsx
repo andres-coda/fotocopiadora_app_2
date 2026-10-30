@@ -11,7 +11,7 @@ import Input from '../../../../componente/formulario/input';
 import { useModalContext } from '../../../../contexto/contextoModal';
 import CartelExito from '../../../../componente/cartelExito/cartelExito';
 import useEmpresaApi from '../../../../servicio/empresa/useEmpresaApi';
-import { formatTelefono, parseDecimal } from '../../../../utils/formulario';
+import { formatTelefono, parseTelefono } from '../../../../utils/formulario';
 
 interface Props {
   empresa: EmpresaProp;
@@ -82,7 +82,7 @@ const EmpresaEditar = ({ empresa: empresaActual, onActualizar }: Props) => {
         error={errors.telefono}
         esquema={empresa}
         formatValue={v => formatTelefono(v)}
-        parseValue={v => parseDecimal(v, 12, 2)}
+        parseValue={v => parseTelefono(v)}
       />
     </Formulario>
   );
