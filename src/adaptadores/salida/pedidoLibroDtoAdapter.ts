@@ -4,7 +4,7 @@ import { SedeProp } from '../../modelo/Entidades/sede/sede.interface';
 
 interface Prop {
   pl: PedidoLibroConstruccionProp;
-  sede: SedeProp;
+  sede?: SedeProp;
 }
 
 export const pedidoLibroDtoAdapter = ({ pl, sede }: Prop): PedidoLibroDtoProp => {
@@ -13,7 +13,9 @@ export const pedidoLibroDtoAdapter = ({ pl, sede }: Prop): PedidoLibroDtoProp =>
     detalles: pl.detalles ?? undefined,
     especificaciones: pl.especificaciones,
     id_libro: pl.libro.id,
-    id_sede: pl.sede?.id ?? sede.id,
+    // Se usa `||` y no `??` a proposito: sedeInicial.id es '' y '' no es nullish.
+    // Con `??` se mandaba id_sede: '' y el backend respondia 400 al editar.
+    id_sede: pl.sede?.id || sede?.id,
   };
 };
 

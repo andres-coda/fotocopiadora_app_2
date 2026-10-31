@@ -5,5 +5,5 @@ export interface PedidoLibroDtoProp {
   detalles?: string;
   especificaciones: Especificaciones[];
   id_libro: string;
-  id_sede: string;
+  id_sede?: string;
 }

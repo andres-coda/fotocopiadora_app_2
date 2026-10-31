@@ -18,11 +18,22 @@ interface EditarLibroLocalAdapterProp {
   especificaciones: Especificaciones[];
 }
 
+/**
+ * Los campos opcionales del formulario no deben viajar como null: Number(undefined)
+ * devuelve NaN y JSON.stringify lo serializa como null. Con undefined la clave
+ * desaparece del body y el backend aplica su valor por defecto.
+ */
+const numeroOpcional = (valor?: string): number | undefined => {
+  if (valor === undefined || valor.trim() === '') return undefined;
+  const numero = Number(valor);
+  return Number.isNaN(numero) ? undefined : numero;
+};
+
 export const libroExtraDtoAdapter = (data: formValuesLibroDatosExtras): LibroExtraDtoProp => {
   const newGrupo: LibroExtraDtoProp = {
     descripcion: data.descripcion,
     autor: data.autor,
-    edicion: Number(data.edicion),
+    edicion: numeroOpcional(data.edicion),
     anio: data.anio,
     img: data.img,
   };
@@ -35,7 +46,7 @@ export const libroEmpresaEditarDtoAdapter = ({
 }: EditarLibroLocalAdapterProp): LibroEmresaDtoProp => {
   const newGrupo: LibroEmresaDtoProp = {
     cantidadPg: Number(data.cantidadPg),
-    adhesivos: Number(data.adhesivos),
+    adhesivos: numeroOpcional(data.adhesivos),
     especificacionesDefecto: especificaciones,
     detalle_impresion: data.detalles_impresion,
   };

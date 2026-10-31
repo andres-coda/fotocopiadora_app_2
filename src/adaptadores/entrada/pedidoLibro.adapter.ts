@@ -32,7 +32,7 @@ export const pedidoLibroAdapter = (
     estado: pedidoLibro.estado,
     libro: libro || libroInicial,
     sede: sede || sedeInicial,
-    especificaciones: pedidoLibro.especificaciones,
+    especificaciones: pedidoLibro.especificaciones ?? [],
     pedido,
   };
   return newPedidoLibro;

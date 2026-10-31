@@ -51,7 +51,9 @@ const PedidoLibroCard = ({ pL, estadoClas }: Prop) => {
         </div>
       </div>
       <EspecificacionCard
-        listaEspecificaciones={pL.especificaciones || pL.libro.especificacionesDefecto}
+        listaEspecificaciones={
+          pL.especificaciones.length ? pL.especificaciones : pL.libro.especificacionesDefecto
+        }
       />
     </Card>
   );

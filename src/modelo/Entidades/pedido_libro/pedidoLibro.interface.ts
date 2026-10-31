@@ -12,7 +12,7 @@ export interface PedidoLibroAdapterProp extends BaseAdapterProp {
   estado: Estado;
   libro: LibroAdapterProp;
   sede: SedeAdapterProp;
-  especificaciones: Especificaciones[];
+  especificaciones?: Especificaciones[];
   pedido?: PedidoAdapterProp;
 }
 

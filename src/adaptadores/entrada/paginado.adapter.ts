@@ -19,7 +19,7 @@ export const paginadoAdapter = <T, K>(
   const datos =
     pg.datos.flatMap(d => {
       const dato = adapter(d);
-      return dato ? [dato] : [];
+      return dato === undefined || dato === null ? [] : [dato];
     }) ?? [];
 
   // El back devuelve pagina y limite como string (vienen de @Query), y

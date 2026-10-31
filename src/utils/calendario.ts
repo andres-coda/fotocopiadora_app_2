@@ -102,6 +102,7 @@ export const RestarFechasAnos = ({ desde, hasta }: RestarFechasProp): number => 
 };
 
 export const invertirFecha = (fechaIngreso: string): string => {
+  if (!fechaIngreso) return '';
   const [anio, mes, dia] = fechaIngreso.split('-');
   return `${dia}-${mes}-${anio}`;
 };
