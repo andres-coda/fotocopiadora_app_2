@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { ReduxProp } from '../modelo/reduxContext.interface';
 import { MensajeProp } from '../../modelo/Entidades/mensaje/mensaje.interface';
 import {
   crearDatoInicial,
@@ -14,25 +14,11 @@ import {
   agregarElementoInicio,
   resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
+import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 1;
 
-export const busquedaMensajeInicial: UltimaBusquedaProp<MensajeProp> = {
-  query: undefined,
-  datosQuery: [],
-  sortBy: 'nombre' as keyof MensajeProp,
-  sortOrder: 'asc' as orden,
-  pagina: 1,
-  limite: 20,
-  total: 0,
-};
-
-const estadoMensajeInicial: ReduxProp<MensajeProp> = {
-  datosIniciales: busquedaMensajeInicial,
-  busquedaActual: busquedaMensajeInicial,
-  ultimasBusqueda: [],
-  datoSeleccionado: undefined,
-};
+const estadoMensajeInicial: ReduxProp<MensajeProp> = estadoInicialRedux<MensajeProp>('nombre', 15);
 
 export const mensajeSlice = createSlice({
   name: 'mensaje',

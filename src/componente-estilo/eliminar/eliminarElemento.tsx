@@ -11,11 +11,14 @@ import { useDispatch } from "react-redux";
 import {  UnknownAction } from "@reduxjs/toolkit";
 import './eliminarElemento.css'
 import { useNavigate } from "react-router-dom";
+import Titulo from "../texto/titulo";
 
 interface Prop<T> {
-  articulo?: string;
+  volanta?:string;
+  msjExito?:string;
+  titulo?: string;
+  texto?:string;
   entidad?: string;
-  texto: string;
   eliminarElemento: (id:string) => void;
   loading?: boolean;
   errorFetch?: string | null;
@@ -29,8 +32,9 @@ interface Prop<T> {
 const tiempoCartelExito = 1500;
 
 const EliminarElemento=<T extends HasId>({
-  texto, articulo = '', eliminarElemento, entidad = '', ruta = undefined,
-  loading, errorFetch, response, elemento, eliminarElementoRedux, retroceder = undefined
+  texto = undefined, eliminarElemento, entidad = undefined, ruta = undefined,
+  loading, errorFetch, response, elemento, eliminarElementoRedux, retroceder = undefined,
+  titulo = undefined, volanta = undefined, msjExito = undefined
 }:Prop<T>) => {
   const {setModal} = useModalContext();
   const dispatch = useDispatch();
@@ -47,7 +51,7 @@ const EliminarElemento=<T extends HasId>({
   if (response)
     return (
       <CartelExito
-        mensaje={`${articulo} ${entidad} ---[ ${texto} ]--- fue eliminado con exito`}
+        mensaje={`${msjExito ? msjExito : `El elemento ---[ ${elemento.id} ]--- fue eliminado con exito`}`}
         onCerrar={finalizar}
         delay={tiempoCartelExito}
       />
@@ -55,8 +59,9 @@ const EliminarElemento=<T extends HasId>({
 
   return (
     <div className="eliminar-elemento">
-      <Texto texto={`Seguro que desea eliminar ${articulo} ${entidad}`} centrado mediana />
-      <Texto texto={`---[ ${texto} ]---`} chica centrado />
+      <Titulo titulo={`${titulo ? titulo : 'Eliminar elemento'}`} />
+      <Texto texto={`${volanta ? volanta : '¿Desea confirmar la eliminación del elemento?'}`} centrado mediana />
+      {texto && <Texto texto={texto} chica/>}
       <Botonera derecha>
           <Boton
             icono={<Atras />}
@@ -69,7 +74,7 @@ const EliminarElemento=<T extends HasId>({
             icono={<Eliminar />}
             onClick={()=>eliminarElemento(elemento.id)}
             nuevoEstilo="btn-icono-mediano"
-            titulo={`Eliminar ${entidad}`}
+            titulo={`Eliminar ${entidad ? entidad : 'elemento'}`}
           />
         </Botonera>
     </div>

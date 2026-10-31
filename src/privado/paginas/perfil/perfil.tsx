@@ -18,8 +18,7 @@ import DesplegableArrow from '../../../componente-estilo/desplegable/desplegable
 import Configuracion from './componente/configuracion';
 import UsuariosEmpresa from './componente/usuariosEmpresa';
 import './perfil.css';
-import EliminarPrecio from '../precio/componente/eliminarPrecio';
-import EliminarElemento from '../../../componente-estilo/eliminar/eliminarElemento';
+import EliminarUsuario from './componente/eliminarUsuario';
 
 const Perfil = () => {
   // El perfil y la empresa ya vienen cargados por CargarDatosIniciales.
@@ -34,7 +33,7 @@ const Perfil = () => {
   const [modalEmpresa, setModalEmpresa] = useState<boolean>(false);
   const [modalPerfil, setModalPerfil] = useState<boolean>(false);
   const [modalUsuario, setModalUsuario] = useState<boolean>(false);
-  const [eliminarUsuario, setEliminarUsuario] = useState<string | undefined>(undefined);
+  const [eliminarUsuario, setEliminarUsuario] = useState<boolean>(false);
   const [campoConfig, setCampoConfig] = useState<CampoConfig | null>(null);
   // Sube cuando el alta de usuario confirma: obliga a refrescar el listado.
   const [usuariosVersion, setUsuariosVersion] = useState<number>(0);
@@ -46,7 +45,7 @@ const Perfil = () => {
       setModalEmpresa(false);
       setModalPerfil(false);
       setModalUsuario(false);
-      setEliminarUsuario(undefined);
+      setEliminarUsuario(false);
       setCampoConfig(null);
     }
   }, [modal]);
@@ -124,7 +123,7 @@ const Perfil = () => {
             </DesplegableArrow>
             {esAdmin && (
               <DesplegableArrow titulo="Listas de trabajadores" verde>
-                <UsuariosEmpresa version={usuariosVersion} onAgregarUsuario={abrirUsuario} setEliminarUsuario={setEliminarUsuario}/>
+                <UsuariosEmpresa onAgregarUsuario={abrirUsuario} onEliminarUsuario={setEliminarUsuario}/>
               </DesplegableArrow>
             )}
           </>
@@ -132,16 +131,7 @@ const Perfil = () => {
       </Centro>
 
       <Modal>
-        {eliminarUsuario && (
-          <>
-          {/* <EliminarElemento 
-            texto={`usuario`}
-            articulo='El'
-            entidad='trabajador'
-            eliminarElemento={}
-            /> */}
-            </>
-        )}
+        {eliminarUsuario && <EliminarUsuario />}
         {modalEmpresa && empresa && (
           <EmpresaEditar
             empresa={empresa}

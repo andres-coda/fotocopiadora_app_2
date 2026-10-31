@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { EspecificacionProp } from '../../modelo/Entidades/especificacion/especificacion.interface';
-import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { ReduxProp } from '../modelo/reduxContext.interface';
 import {
   crearDatoInicial,
   crearBusqueda,
@@ -11,25 +11,11 @@ import {
   cambiarOrden,
   resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
+import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 1;
 
-export const busquedaEspecificacionInicial: UltimaBusquedaProp<EspecificacionProp> = {
-  query: undefined,
-  datosQuery: [],
-  sortBy: 'ultAct' as keyof EspecificacionProp,
-  sortOrder: 'asc' as orden,
-  pagina: 1,
-  limite: 20,
-  total: 0,
-};
-
-const estadoEspecificacionInicial: ReduxProp<EspecificacionProp> = {
-  datosIniciales: busquedaEspecificacionInicial,
-  busquedaActual: busquedaEspecificacionInicial,
-  ultimasBusqueda: [],
-  datoSeleccionado: undefined,
-};
+const estadoEspecificacionInicial: ReduxProp<EspecificacionProp> = estadoInicialRedux<EspecificacionProp>('nombre', 20);
 
 export const especificacionSlice = createSlice({
   name: 'especificacion',

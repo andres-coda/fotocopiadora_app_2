@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { MateriaProp } from '../../modelo/Entidades/libro/materia.interface';
-import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { ReduxProp } from '../modelo/reduxContext.interface';
 import {
   crearDatoInicial,
   crearBusqueda,
@@ -11,25 +11,11 @@ import {
   cambiarOrden,
   resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
+import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 1;
 
-export const busquedaMateriaInicial: UltimaBusquedaProp<MateriaProp> = {
-  query: undefined,
-  datosQuery: [],
-  sortBy: 'ultAct' as keyof MateriaProp,
-  sortOrder: 'asc' as orden,
-  pagina: 1,
-  limite: 20,
-  total: 0,
-};
-
-const estadoMateriaInicial: ReduxProp<MateriaProp> = {
-  datosIniciales: busquedaMateriaInicial,
-  busquedaActual: busquedaMateriaInicial,
-  ultimasBusqueda: [],
-  datoSeleccionado: undefined,
-};
+const estadoMateriaInicial: ReduxProp<MateriaProp> = estadoInicialRedux<MateriaProp>('nombre');
 
 export const materiaSlice = createSlice({
   name: 'materia',

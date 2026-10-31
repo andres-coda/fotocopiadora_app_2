@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { ReduxProp } from '../modelo/reduxContext.interface';
 import { ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
 import {
   crearDatoInicial,
@@ -15,25 +15,11 @@ import {
   resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 import { modificarResumenClienteRedux as modificarResumenClienteFn } from '../utils/funcionesCliente';
+import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 1;
 
-export const busquedaClienteInicial: UltimaBusquedaProp<ClienteProp> = {
-  query: undefined,
-  datosQuery: [],
-  sortBy: 'ultAct' as keyof ClienteProp,
-  sortOrder: 'asc' as orden,
-  pagina: 0,
-  limite: 3,
-  total: 0,
-};
-
-const estadoClienteInicial: ReduxProp<ClienteProp> = {
-  datosIniciales: busquedaClienteInicial,
-  busquedaActual: busquedaClienteInicial,
-  ultimasBusqueda: [],
-  datoSeleccionado: undefined,
-};
+const estadoClienteInicial: ReduxProp<ClienteProp> = estadoInicialRedux<ClienteProp>('ultAct');
 
 export const clienteSlice = createSlice({
   name: 'cliente',

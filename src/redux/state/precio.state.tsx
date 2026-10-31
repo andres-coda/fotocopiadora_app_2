@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
-import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { ReduxProp } from '../modelo/reduxContext.interface';
 import {
   crearDatoInicial,
   crearBusqueda,
@@ -14,25 +14,11 @@ import {
   agregarElementoInicio,
   resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
+import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 1;
 
-export const busquedaPrecioInicial: UltimaBusquedaProp<PrecioProp> = {
-  query: undefined,
-  datosQuery: [],
-  sortBy: 'ultAct' as keyof PrecioProp,
-  sortOrder: 'asc' as orden,
-  pagina: 1,
-  limite: 20,
-  total: 0,
-};
-
-const estadoPrecioInicial: ReduxProp<PrecioProp> = {
-  datosIniciales: busquedaPrecioInicial,
-  busquedaActual: busquedaPrecioInicial,
-  ultimasBusqueda: [],
-  datoSeleccionado: undefined,
-};
+const estadoPrecioInicial: ReduxProp<PrecioProp> = estadoInicialRedux<PrecioProp>('ultAct', 20);
 
 export const precioSlice = createSlice({
   name: 'precio_empresa',

@@ -2,6 +2,7 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 import { PaginadoProp } from '../../adaptadores/entrada/paginado.adapter';
 import { BusquedaApiProp } from '../../modelo/HTTP/peticiones.interface';
 import { UltimaBusquedaProp } from '../../redux/modelo/reduxContext.interface';
+import useFinPagina from '../finPagina/useFinPagina';
 
 interface UseBuscadorSimpleProp<T> {
   valor: string;
@@ -19,9 +20,6 @@ const useBusquedaSimple = <T>({
   loading = false,
 }: UseBuscadorSimpleProp<T>) => {
   const [datos, setDatos] = useState<UltimaBusquedaProp<T> | undefined>(undefined);
-
-  const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-  const finListaRef = useRef<HTMLDivElement>(null);
 
   const [query, setQuery] = useState<string>('');
 
@@ -71,48 +69,7 @@ const useBusquedaSimple = <T>({
     }
   }, [response]);
 
-  useEffect(() => {
-    if (!datos) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        console.log('observer detecta:', entry.isIntersecting);
-
-        if (!entry.isIntersecting) {
-          return;
-        }
-        if (query.length >= limiteLetrasBusqueda && datos?.query != query) {
-          console.log('Corta porque no es la query actual: ', query);
-          return;
-        }
-        if (loading) {
-          console.log('CORTO POR LOADING');
-          return;
-        }
-        if (Number(datos.pagina) * Number(datos.limite) >= Number(datos.total)) {
-          console.log('CORTO PORQUE NO HAY MAS PAGINAS');
-          return;
-        }
-
-        obtenerBusqueda({
-          pagina: Number(datos.pagina) + 1,
-          limite: Number(datos.limite),
-          query,
-        });
-      },
-      {
-        root: contenedorRef.current,
-        threshold: 0.2,
-      }
-    );
-
-    if (finListaRef.current) {
-      observer.observe(finListaRef.current);
-    } else {
-      console.log('NO HAY ELEMENTO PARA OBSERVAR');
-    }
-
-    return () => observer.disconnect();
-  }, [datos?.query, datos?.pagina]);
+  const { finListaRef, contenedorRef } = useFinPagina({ datos, loading, limiteLetrasBusqueda, query, obtenerBusqueda })
 
   return { contenedorRef, finListaRef, datos, setDatos };
 };

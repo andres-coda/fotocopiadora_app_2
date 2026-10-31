@@ -21,6 +21,8 @@ import { PropuestaProp } from '../modelo/Entidades/propuesta/propuesta.interface
 import { libroSlice } from './state/libro.state';
 import { propuestaSlice } from './state/propuesta.state';
 import { EmpresaStateProp, empresaSlice } from './state/empresa.state';
+import { usuarioProps } from '../modelo/usuario/Usuario.interface';
+import { usuarioSlice } from './state/usuarios.state';
 
 export interface appStore {
   cliente: ReduxProp<ClienteProp>;
@@ -33,6 +35,7 @@ export interface appStore {
   mensaje: ReduxProp<MensajeProp>;
   propuesta: ReduxProp<PropuestaProp>;
   libro: ReduxProp<LibroProp>;
+  usuario: ReduxProp<usuarioProps>;
   sesion: SesionStateProp;
   empresa: EmpresaStateProp;
 }
@@ -49,6 +52,7 @@ export default configureStore<appStore>({
     sede: sedeSlice.reducer,
     mensaje: mensajeSlice.reducer,
     libro: libroSlice.reducer,
+    usuario: usuarioSlice.reducer,
     sesion: sesionSlice.reducer,
     empresa: empresaSlice.reducer,
   },

@@ -6,6 +6,8 @@ import Botonera from '../../../../componente-estilo/botonera/botonera';
 import Eliminar from '../../../../assets/deleted.svg?react';
 import { Dispatch, SetStateAction } from 'react';
 import './perfilEmpresa.css'
+import { useDispatch } from 'react-redux';
+import { seleccionarUsuario } from '../../../../redux/state/usuarios.state';
 
 const etiquetaRol = (rol: RolUsuario): string => {
   if (rol === 'admin') return 'Administrador';
@@ -15,10 +17,12 @@ const etiquetaRol = (rol: RolUsuario): string => {
 
 interface Prop{
   usuario:usuarioProps;
-  setEliminarUsuario: Dispatch<SetStateAction<string | undefined>>;
+  onEliminarUsuario: Dispatch<SetStateAction<boolean>>;
 }
 
-const CardUsuario = ({usuario, setEliminarUsuario}:Prop) => {
+const CardUsuario = ({usuario, onEliminarUsuario}:Prop) => {
+  const dispatch = useDispatch();
+
   return (
     <Card nuevoEstilo='card-usuario'>
       <div className='card-usuario-interno'>
@@ -30,7 +34,7 @@ const CardUsuario = ({usuario, setEliminarUsuario}:Prop) => {
         <Boton
           edit
           nuevoEstilo={`btn-icono-chico`}
-          onClick={() => setEliminarUsuario(usuario.id)}
+          onClick={() => {onEliminarUsuario(true), dispatch(seleccionarUsuario(usuario))}}
           icono={<Eliminar />}
         />
       </Botonera>

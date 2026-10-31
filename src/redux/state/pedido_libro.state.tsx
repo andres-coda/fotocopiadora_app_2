@@ -7,7 +7,7 @@ import {
   ordenPedidoLibroInicial,
 } from '../../modelo/Entidades/pedido_libro/pedidoLibroFiltro.interface';
 import { CambiarEstadoPedidoCompletoProp } from '../../modelo/Entidades/pedido_libro/cambioEstado.interface';
-import { ActionProp, ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { ActionProp, ReduxProp } from '../modelo/reduxContext.interface';
 import {
   crearDatoInicial,
   crearBusqueda,
@@ -18,23 +18,13 @@ import {
   cambiarOrden,
   resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
-import { limiteDefecto } from '../../utils/constantes';
 import {
   cambiarSedePedidoLibroRedux as cambiarSedePedidoLibroFn,
   modificarEstadoPedidoLibroFn,
 } from '../utils/funcionesPedido';
+import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 5;
-
-export const busquedaPedidoLibroInicial: UltimaBusquedaProp<PedidoLibroProp> = {
-  query: undefined,
-  datosQuery: [],
-  sortBy: 'ultAct' as keyof PedidoLibroProp,
-  sortOrder: 'asc' as orden,
-  pagina: 1,
-  limite: limiteDefecto,
-  total: 0,
-};
 
 // Estado del slice: los filtros y el orden viven en la raíz para que sobrevivan
 // a cada respuesta (busquedaActual se reemplaza en cada fetch).
@@ -44,10 +34,7 @@ export type PedidoLibroStateProp = ReduxProp<PedidoLibroProp> & {
 };
 
 const estadoPedidoLibroInicial: PedidoLibroStateProp = {
-  datosIniciales: busquedaPedidoLibroInicial,
-  busquedaActual: busquedaPedidoLibroInicial,
-  ultimasBusqueda: [],
-  datoSeleccionado: undefined,
+  ...estadoInicialRedux<PedidoLibroProp>('ultAct'),
   filtrosPedidoLibro: filtrosPedidoLibroInicial,
   ordenPedidoLibro: ordenPedidoLibroInicial,
 };

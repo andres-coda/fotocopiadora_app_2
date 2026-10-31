@@ -33,7 +33,7 @@ import EstadoPedidos from '../../../../componente/pedido/estadoPedidos';
 import './cliente-select.css';
 
 const ClienteSelect = () => {
-  const clienteContexto: ReduxProp<ClienteProp> = useSelector((store: appStore) => store.cliente);
+  const cliente: ClienteProp | undefined = useSelector((store: appStore) => store.cliente.datoSeleccionado);
   const pedidosCliente: ReduxProp<PedidoProp> = useSelector((store: appStore) => store.pedido);
   const { responsePedidos, loadingPedidos, errorFetchPedidos, obtenerPedidosByCienteId } =
     usePedidosApi();
@@ -71,7 +71,7 @@ const ClienteSelect = () => {
         pagina: responsePedidos.pagina,
         limite: responsePedidos.limite,
         total: responsePedidos.total,
-        query: `${clienteContexto.datoSeleccionado?.id}+${estadoSelec}`,
+        query: `${cliente?.id}+${estadoSelec}`,
         sortBy: pedidosCliente.busquedaActual.sortBy ?? 'estado',
         sortOrder: 'asc',
         datosQuery: responsePedidos.datos,
@@ -103,21 +103,21 @@ const ClienteSelect = () => {
     setModal(true);
   };
 
-  if (!clienteContexto.datoSeleccionado)
+  if (!cliente)
     return <Texto texto={'No se encontro el cliente seleccionado'} />;
 
   const textoModal =
     accion === 'editar'
       ? 'Editar cliente'
       : accion === 'eliminar'
-        ? 'Eliminar cliente'
-        : `Pedido de ${clienteContexto.datoSeleccionado.telefono ? formatoTelefonoMostrar(clienteContexto.datoSeleccionado.telefono) : (clienteContexto.datoSeleccionado.email ?? '')}`;
+        ? undefined
+        : `Pedido de ${cliente.telefono ? formatoTelefonoMostrar(cliente.telefono) : (cliente.email ?? '')}`;
 
   return (
     <Centro ref={contenedorRef} texto="Datos del cliente" nuevoEstilo={'cliente-select'}>
       <div className="cliente-vertical">
         <div className="cliente-datos-acciones">
-          <ClienteDatos cliente={clienteContexto.datoSeleccionado} />
+          <ClienteDatos cliente={cliente} />
           <Botonera nuevoEstilo="cliente-acciones" derecha>
             <Boton
               icono={<Eliminar />}
@@ -136,7 +136,7 @@ const ClienteSelect = () => {
           </Botonera>
         </div>
         <EstadoPedidos
-          stock={clienteContexto.datoSeleccionado.resumen}
+          stock={cliente.resumen}
           finListaRef={finListaRef}
           contenedorRef={contenedorRef}
           obtenerPedidosElementoById={obtenerPedidosByCienteId}
@@ -172,7 +172,7 @@ const ClienteSelect = () => {
       </div>
       <Modal texto={textoModal}>
         {accion === 'editar' && <ClienteCargar />}
-        {accion === 'eliminar' && <EliminarCliente />}
+        {accion === 'eliminar' && <EliminarCliente cliente={cliente}/>}
         {accion === 'pedido' && (
           <>
             {pedidosCliente.datoSeleccionado ? (

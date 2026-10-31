@@ -19,7 +19,7 @@ const useUsuariosApi = () => {
 
   const obtenerUsuarios = (p?: { limite?: number; pagina?: number }) => {
     fetchData({
-      url: `${USER}?limite=${p?.limite ?? 100}&pagina=${p?.pagina ?? 1}`,
+      url: `${USER}?limite=${p?.limite ?? 10}&pagina=${p?.pagina ?? 1}`,
       methodo: httpMethod.GET,
       adapter: usuarioAdapter,
     });

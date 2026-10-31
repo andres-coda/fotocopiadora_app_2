@@ -28,7 +28,7 @@ const PropuestaSelect = ({ propuesta }: Prop) => {
     propuesta,
   });
 
-  if(eliminarProp) return <EliminarPropuesta retroceder={()=>setEliminarProp(false)}/>
+  if(eliminarProp) return <EliminarPropuesta retroceder={()=>setEliminarProp(false)} propuesta={propuesta}/>
 
   return (
     <div className="propuesta-select propuesta-select-color">

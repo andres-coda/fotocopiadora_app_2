@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import Texto from '../../../../componente-estilo/texto/texto';
 import { usuarioProps } from '../../../../modelo/usuario/Usuario.interface';
 import useUsuariosApi from '../../../../servicio/usuario/useUsuariosApi';
@@ -8,12 +8,16 @@ import Mas from '../../../../assets/mas.svg?react';
 import Cargando from '../../../../componente/cargando/cargando';
 import { useSelector } from 'react-redux';
 import { appStore } from '../../../../redux/store';
+import {
+  agregarUsuariosBusquedaActual,
+  crearBusquedaUsuario,
+} from '../../../../redux/state/usuarios.state';
+import { UltimaBusquedaProp } from '../../../../redux/modelo/reduxContext.interface';
+import useFinPaginaRedux from '../../../../hooks/finPagina/useFinPaginaRedux';
 
 interface Props {
-  /** Sube cuando el alta confirma: obliga a volver a pedir la lista. */
-  version: number;
   onAgregarUsuario: () => void;
-  setEliminarUsuario: Dispatch<SetStateAction<string | undefined>>;
+  onEliminarUsuario: Dispatch<SetStateAction<boolean>>;
 }
 
 /**
@@ -21,37 +25,39 @@ interface Props {
  * El alta vive en el modal (`UsuarioCrear`); aca no hay edicion porque el back
  * no expone un endpoint para que un admin edite a otro usuario.
  */
-const UsuariosEmpresa = ({ version, onAgregarUsuario, setEliminarUsuario }: Props) => {
-  const sesion = useSelector((store: appStore) => store.sesion.usuario);
+const UsuariosEmpresa = ({ onAgregarUsuario, onEliminarUsuario }: Props) => {
+  const sesion: usuarioProps | null = useSelector((store: appStore) => store.sesion.usuario);
+  const usuarioRedux: UltimaBusquedaProp<usuarioProps> = useSelector(
+    (store: appStore) => store.usuario.busquedaActual
+  );
   const { obtenerUsuarios, responseUsuarios, loadingUsuarios, errorFetchUsuarios } =
     useUsuariosApi();
 
-  // `useApiPaginado` limpia su `response` a los 3 segundos: si se leyera
-  // directo, la lista desapareceria sola. Se copia a estado propio.
-  const [usuarios, setUsuarios] = useState<usuarioProps[]>([]);
+  const { finListaRef, contenedorRef } = useFinPaginaRedux<usuarioProps>({
+    datos: usuarioRedux,
+    loading: loadingUsuarios,
+    cargaInicial: true,
+    obtenerBusqueda: obtenerUsuarios,
+    response:responseUsuarios,
+    crearBusquedaRedux: crearBusquedaUsuario,
+    actualizarBusquedaRedux:agregarUsuariosBusquedaActual
+  });
 
-  useEffect(() => {
-    obtenerUsuarios({ limite: 100, pagina: 1 });
-    // `obtenerUsuarios` se recrea en cada render, asi que no va en las
-    // dependencias: el disparador real es la version que sube el padre.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [version]);
-
-  useEffect(() => {
-    if (responseUsuarios) setUsuarios(responseUsuarios.datos);
-  }, [responseUsuarios]);
+  if (!sesion || sesion.role === 'operador')
+    return <Texto texto="no tiene acceso a los trabajadores" error chica />;
 
   if (errorFetchUsuarios) return <Texto texto={errorFetchUsuarios} error chica />;
-  if (loadingUsuarios && usuarios.length === 0) return <Cargando />;
-  if (usuarios.length === 0) return <Texto texto="Todavia no hay usuarios cargados" chica />;
+  if (loadingUsuarios && usuarioRedux.datosQuery.length === 0) return <Cargando />;
 
   return (
-    <div className="usuarios-lista">
-      {usuarios
+    <div className="usuarios-lista" ref={contenedorRef}>
+      {usuarioRedux.datosQuery.length === 0 && <Texto texto="Todavia no hay usuarios cargados" chica />}
+      {usuarioRedux.datosQuery.length != 0 && usuarioRedux.datosQuery
         .filter(u => u.id != sesion?.id)
         .map(u => (
-          <CardUsuario usuario={u} setEliminarUsuario={setEliminarUsuario} />
+          <CardUsuario usuario={u} onEliminarUsuario={onEliminarUsuario} />
         ))}
+      <div ref={finListaRef}></div>
       <Boton nuevoEstilo={` btn-usuario-mas`} onClick={() => onAgregarUsuario()} icono={<Mas />} />
     </div>
   );

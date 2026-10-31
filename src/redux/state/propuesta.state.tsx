@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interface';
-import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { ReduxProp } from '../modelo/reduxContext.interface';
 import {
   agregarDatosBusquedaActual,
   crearBusqueda,
@@ -12,25 +12,11 @@ import {
   resetRedux,
   eliminarElemento,
 } from '../utils/funcionesGenericasEmpresa';
+import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 15;
 
-export const busquedaPropuestaInicial: UltimaBusquedaProp<PropuestaProp> = {
-  query: undefined,
-  datosQuery: [],
-  sortBy: 'ultAct' as keyof PropuestaProp,
-  sortOrder: 'asc' as orden,
-  pagina: 1,
-  limite: 20,
-  total: 0,
-};
-
-const estadoPropuestaInicial: ReduxProp<PropuestaProp> = {
-  datosIniciales: busquedaPropuestaInicial,
-  busquedaActual: busquedaPropuestaInicial,
-  ultimasBusqueda: [],
-  datoSeleccionado: undefined,
-};
+const estadoPropuestaInicial: ReduxProp<PropuestaProp> = estadoInicialRedux<PropuestaProp>('ultAct')
 
 export const propuestaSlice = createSlice({
   name: 'propuesta_empresa',

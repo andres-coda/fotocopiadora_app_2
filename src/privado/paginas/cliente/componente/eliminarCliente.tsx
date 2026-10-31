@@ -1,16 +1,32 @@
-import { useSelector } from 'react-redux';
 import useClienteDeleteApi from '../../../../servicio/cliente/useClienteDeleteApi';
 import { ClienteProp } from '../../../../modelo/Entidades/cliente/cliente.interface';
-import { appStore } from '../../../../redux/store';
 import { eliminarClienteRedux } from '../../../../redux/state/cliente.state';
 import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import { formatoTelefonoMostrar } from '../../../../utils/formatoDatos';
 import EliminarElemento from '../../../../componente-estilo/eliminar/eliminarElemento';
 
-const EliminarCliente = () => {
-  const cliente: ClienteProp | undefined = useSelector(
-    (store: appStore) => store.cliente.datoSeleccionado
-  );
+const tituloEliminarCliente = 'Eliminar cliente';
+
+const volantaEliminarCliente = (cliente:string | undefined):string| undefined => {
+  if(!cliente || cliente === '') return undefined;
+  return `¿Desea confirmar la eliminación del cliente ---[ ${cliente} ]--- ?`
+}
+
+const textoEliminarCliente = (cliente:string | undefined):string| undefined => {
+  if(!cliente || cliente === '') return undefined;
+  return `Al eliminar el cliente ---[ ${cliente} ]--- también se eliminaran todos sus pedidos.`
+}
+
+const msjExitoEliminarCliente = (cliente:string | undefined):string| undefined => {
+  if(!cliente || cliente === '') return undefined;
+  return `El cliente ---[ ${cliente} ]--- fue eliminado con exito.`
+}
+
+interface Prop{
+  cliente?:ClienteProp;
+}
+
+const EliminarCliente = ({cliente}:Prop) => {
   const { eliminarCliente:eliminar, responseCliente, errorFetchCliente, loadingCliente } =
     useClienteDeleteApi();
 
@@ -20,9 +36,11 @@ const EliminarCliente = () => {
 
   return (
     <EliminarElemento
-      articulo="el"
+      titulo={tituloEliminarCliente}
+      volanta={volantaEliminarCliente(clienteMostrar)}
       entidad="cliente"
-      texto={`${clienteMostrar}`}
+      texto={textoEliminarCliente(clienteMostrar)}
+      msjExito={msjExitoEliminarCliente(clienteMostrar)}
       eliminarElemento={eliminar}
       loading={loadingCliente}
       errorFetch={errorFetchCliente}

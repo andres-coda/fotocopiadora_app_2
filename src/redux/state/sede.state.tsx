@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { ReduxProp } from '../modelo/reduxContext.interface';
 import { SedeProp } from '../../modelo/Entidades/sede/sede.interface';
 import {
   crearDatoInicial,
@@ -14,25 +14,11 @@ import {
   agregarElementoInicio,
   resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
+import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 1;
 
-export const busquedaSedeInicial: UltimaBusquedaProp<SedeProp> = {
-  query: undefined,
-  datosQuery: [],
-  sortBy: 'ultAct' as keyof SedeProp,
-  sortOrder: 'asc' as orden,
-  pagina: 1,
-  limite: 20,
-  total: 0,
-};
-
-const estadoSedeInicial: ReduxProp<SedeProp> = {
-  datosIniciales: busquedaSedeInicial,
-  busquedaActual: busquedaSedeInicial,
-  ultimasBusqueda: [],
-  datoSeleccionado: undefined,
-};
+const estadoSedeInicial: ReduxProp<SedeProp> = estadoInicialRedux<SedeProp>('ultAct', 20);
 
 export const sedeSlice = createSlice({
   name: 'sede',

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ReduxProp, UltimaBusquedaProp, orden } from '../modelo/reduxContext.interface';
+import { ReduxProp } from '../modelo/reduxContext.interface';
 import { PedidoProp } from '../../modelo/Entidades/pedido/pedido.interface';
 import {
   agregarDatosBusquedaActual,
@@ -15,25 +15,11 @@ import {
   agregarItemsPedidoSeleccionadoRedux as agregarItemsPedidoSeleccionadoFn,
   modificarEstadoPedidoRedux as modificarEstadoPedidoFn,
 } from '../utils/funcionesPedido';
+import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 1;
 
-export const busquedaPedidoInicial: UltimaBusquedaProp<PedidoProp> = {
-  query: undefined,
-  datosQuery: [],
-  sortBy: 'ultAct' as keyof PedidoProp,
-  sortOrder: 'asc' as orden,
-  pagina: 1,
-  limite: 20,
-  total: 0,
-};
-
-const estadoPedidoInicial: ReduxProp<PedidoProp> = {
-  datosIniciales: busquedaPedidoInicial,
-  busquedaActual: busquedaPedidoInicial,
-  ultimasBusqueda: [],
-  datoSeleccionado: undefined,
-};
+const estadoPedidoInicial: ReduxProp<PedidoProp> = estadoInicialRedux<PedidoProp>('ultAct');
 
 export const pedidoSlice = createSlice({
   name: 'pedido',
