@@ -16,6 +16,7 @@ vi.mock('./socket', () => ({
     on: vi.fn(),
     off: vi.fn(),
     onAny: vi.fn(),
+    offAny: vi.fn(),
     emit: vi.fn(),
     disconnect: vi.fn(),
     connect: vi.fn(),
