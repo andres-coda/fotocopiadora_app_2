@@ -15,6 +15,7 @@ import {
   resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 import { estadoInicialRedux } from '../utils/reduxInicial';
+import { agregarPrecioSocket } from '../utils/funcionesPrecio';
 
 const cantidadBusquedas: number = 1;
 
@@ -34,6 +35,7 @@ export const precioSlice = createSlice({
     cambiarOrdenPrecio: cambiarOrden<PrecioProp>,
     actualizarPrecioRedux: modificarElementoRedux<PrecioProp>,
     agregarPrecioInicioRedux: agregarElementoInicio<PrecioProp>,
+    agregarPrecioSocketRedux: agregarPrecioSocket,
     resetReduxPrecio: resetRedux<PrecioProp>,
   },
 });
@@ -49,6 +51,7 @@ export const {
   eliminarPrecioRedux,
   actualizarPrecioRedux,
   agregarPrecioInicioRedux,
+  agregarPrecioSocketRedux,
   resetReduxPrecio,
 } = precioSlice.actions;
 
