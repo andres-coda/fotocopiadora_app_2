@@ -15,13 +15,13 @@ import {
   configuracion,
   formValuesConfiguracion,
 } from '../../../../modelo/Entidades/configuracion/esqConfiguracion.esquema';
-import { setConfiguracionEmpresa } from '../../../../redux/state/empresa.state';
 import useBusquedaSimple from '../../../../hooks/buscador/useBuscadorSimple';
 import useConfiguracionApi from '../../../../servicio/configuracion/useConfiguracionApi';
 import useDatosCobroApi from '../../../../servicio/dato_cobro/useDatosCobroApi';
 import useMensajesApi from '../../../../servicio/mensaje/useMensajesApi';
 import useSedesApi from '../../../../servicio/sede/useSedesApi';
 import MensajeNombreCard from '../../mensaje/componente/mensajeNombreCard';
+import { setConfiguracionEmpresa } from '../../../../redux/state/empresa.state';
 
 interface Props {
   campo: CampoConfig;

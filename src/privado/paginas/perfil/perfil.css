@@ -1,6 +1,6 @@
 .perfil-centro {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  overflow-y: auto;
+  scrollbar-color: var(--colorSubmenu) var(--colorSombra);
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
 }

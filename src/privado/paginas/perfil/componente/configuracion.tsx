@@ -6,11 +6,11 @@ import Texto from '../../../../componente-estilo/texto/texto';
 import { ConfiguracionProp } from '../../../../modelo/Entidades/configuracion/configuracion.interface';
 import { CampoConfig } from '../../../../modelo/Entidades/configuracion/configuracionCampo.interface';
 import { formValuesConfiguracion } from '../../../../modelo/Entidades/configuracion/esqConfiguracion.esquema';
-import { setConfiguracionEmpresa } from '../../../../redux/state/empresa.state';
 import useConfiguracionApi from '../../../../servicio/configuracion/useConfiguracionApi';
 import Editar from '../../../../assets/edit.svg?react';
 
 import './configuracion.css'
+import { setConfiguracionEmpresa } from '../../../../redux/state/empresa.state';
 
 interface Props {
   configuracion?: ConfiguracionProp;

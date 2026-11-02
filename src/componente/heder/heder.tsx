@@ -12,6 +12,8 @@ import UserCheck from './../../assets/userCheck.svg?react';
 import User from './../../assets/user.svg?react';
 import Mensaje from './../../assets/email.svg?react';
 import Nuevo from './../../assets/nuevo.svg?react';
+import { RutasSupers, rutaSuperBase } from '../../super/ruta/rutaSupers';
+import { rutaPublica } from '../../publico/rutas/rutasPublicas';
 
 function Heder() {
   // El perfil ya lo carga CargarDatosIniciales en el slice `sesion`.
@@ -45,28 +47,47 @@ function Heder() {
             <Pedido />
           </Link>
         </li>
-        <li title={'Sedes'}>
-          <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SEDE_LISTA}`}>
-            <Sedes />
-          </Link>
-        </li>
+        {userActual?.role != 'super_admin' && (
+          <li title={'Sedes'}>
+            <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SEDE_LISTA}`}>
+              <Sedes />
+            </Link>
+          </li>
+        )}
+        {userActual?.role === 'super_admin' && (
+          <li title={'Empresas'}>
+            <Link to={`/${rutaSuperBase.SUPER}/${RutasSupers.EMPRESA_LISTA}`}>
+              <Sedes />
+            </Link>
+          </li>
+        )}
 
         <li title={'Mensajes'}>
           <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.MENSAJE_LISTA}`}>
             <Mensaje />
           </Link>
         </li>
-        <li title={'Usuario'}>
-          {userActual ? (
+        {userActual?.role === 'super_admin' && (
+          <li title={'Usuario'}>
+            <Link to={`/${rutaSuperBase.SUPER}/${RutasSupers.PERFIL}`}>
+              <UserCheck />
+            </Link>
+          </li>
+        )}
+        {userActual && userActual?.role != 'super_admin' && (
+          <li title={'Usuario'}>
             <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PERFIL}`}>
               <UserCheck />
             </Link>
-          ) : (
-            <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PERFIL}`}>
+          </li>
+        )}
+        {!userActual && (
+          <li title={'Usuario'}>
+            <Link to={`/${rutaPublica.LOGIN}`}>
               <User />
             </Link>
-          )}
-        </li>
+          </li>
+        )}
       </ul>
     </nav>
   );

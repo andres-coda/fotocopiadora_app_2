@@ -27,6 +27,7 @@ export interface ReduxProp<T> {
   busquedaActual: UltimaBusquedaProp<T>;
   ultimasBusqueda: UltimaBusquedaProp<T>[];
   datoSeleccionado?: T;
+  cargaInicial:boolean;
 }
 
 export interface ActionProp<T> {

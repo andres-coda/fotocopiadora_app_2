@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { appStore } from '../../../redux/store';
-import { setEmpresa } from '../../../redux/state/empresa.state';
-import CentroExterior from '../../../componente-estilo/centro/centro';
 import Texto from '../../../componente-estilo/texto/texto';
-import Cargando from '../../../componente/cargando/cargando';
 import Modal from '../../../componente/modal/modal';
 import { useModalContext } from '../../../contexto/contextoModal';
 import EmpresaEditar from './cargar/empresaEditar';
@@ -17,18 +14,15 @@ import CardPerfil from './componente/cardPerfil';
 import DesplegableArrow from '../../../componente-estilo/desplegable/desplegableArrow';
 import Configuracion from './componente/configuracion';
 import UsuariosEmpresa from './componente/usuariosEmpresa';
-import './perfil.css';
 import EliminarUsuario from './componente/eliminarUsuario';
+import { empresaActual } from '../../../redux/state/empresa.state';
+import './perfil.css';
+import { ContenedorCentro } from '../../../componente-estilo/centro/centroExterior';
 
 const Perfil = () => {
   // El perfil y la empresa ya vienen cargados por CargarDatosIniciales.
-  const usuarioSesion = useSelector((store: appStore) => store.sesion.usuario);
-  const cargando = useSelector((store: appStore) => store.sesion.cargando);
-  const error = useSelector((store: appStore) => store.sesion.error);
-  const empresa = useSelector((store: appStore) => store.empresa.empresa);
-  const cargandoEmpresa = useSelector((store: appStore) => store.empresa.cargando);
-  const errorEmpresa = useSelector((store: appStore) => store.empresa.error);
-  const solicitadaEmpresa = useSelector((store: appStore) => store.empresa.solicitada);
+  const usuarioSesion = useSelector((store: appStore) => store.sesion);
+  const empresa = useSelector((store: appStore) => store.empresa);
   const { modal, setModal } = useModalContext();
   const [modalEmpresa, setModalEmpresa] = useState<boolean>(false);
   const [modalPerfil, setModalPerfil] = useState<boolean>(false);
@@ -36,7 +30,6 @@ const Perfil = () => {
   const [eliminarUsuario, setEliminarUsuario] = useState<boolean>(false);
   const [campoConfig, setCampoConfig] = useState<CampoConfig | null>(null);
   // Sube cuando el alta de usuario confirma: obliga a refrescar el listado.
-  const [usuariosVersion, setUsuariosVersion] = useState<number>(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -85,59 +78,42 @@ const Perfil = () => {
 
   // Sin empresa: la peticion ya se disparo, termino y no hay empresa ni error.
   // Cubre tanto a un super_admin como al 404 de GET /empresa/mia.
-  const sinEmpresa = solicitadaEmpresa && !cargandoEmpresa && !errorEmpresa && empresa === null;
-
-  if (error)
-    return (
-      <CentroExterior>
-        <Texto texto={error} error />
-      </CentroExterior>
-    );
-  if (cargando || !usuarioSesion)
-    return (
-      <CentroExterior>
-        <Cargando />
-      </CentroExterior>
-    );
-
-  const esAdmin = usuarioSesion.role === 'admin' || usuarioSesion.role === 'super_admin';
-
   return (
     <>
-      <CentroExterior nuevoEstilo="perfil-centro">
-        {cargandoEmpresa && <Cargando />}
-        {!cargandoEmpresa && !sinEmpresa && errorEmpresa && (
-          <Texto texto={errorEmpresa} error chica />
-        )}
-        {!cargandoEmpresa && !sinEmpresa && !errorEmpresa && empresa && (
+      <ContenedorCentro
+        loading={usuarioSesion.cargando || empresa.miEmpresa.cargando}
+        error={usuarioSesion.error || empresa.miEmpresa.error}
+        nuevoEstilo='perfil-centro'
+      >
+        {!empresa.miEmpresa.cargando && empresa.miEmpresa.empresa && !empresa.miEmpresa.error && usuarioSesion.usuario &&(
           <>
-            <PerfilEmpresa empresa={empresa} onEditarEmpresa={abrirEmpresa} />
+            <PerfilEmpresa empresa={empresa.miEmpresa.empresa} onEditarEmpresa={abrirEmpresa} />
             <Texto texto="Sesión actual" mediana negrita />
-            <CardPerfil usuario={usuarioSesion} onEditarPerfil={abrirPerfil} />
+            <CardPerfil usuario={usuarioSesion.usuario} onEditarPerfil={abrirPerfil} />
 
             <DesplegableArrow titulo="Configuraciones" verde>
               <Configuracion
-                configuracion={empresa.configuracion}
+                configuracion={empresa.miEmpresa.empresa.configuracion}
                 onEditarCampo={abrirConfiguracion}
               />
             </DesplegableArrow>
-            {esAdmin && (
+            {usuarioSesion.usuario.role === 'admin' && (
               <DesplegableArrow titulo="Listas de trabajadores" verde>
                 <UsuariosEmpresa onAgregarUsuario={abrirUsuario} onEliminarUsuario={setEliminarUsuario}/>
               </DesplegableArrow>
             )}
           </>
         )}
-      </CentroExterior>
+      </ContenedorCentro>
 
       <Modal>
         {eliminarUsuario && <EliminarUsuario />}
-        {modalEmpresa && empresa && (
+        {modalEmpresa && empresa.miEmpresa.empresa && (
           <EmpresaEditar
-            empresa={empresa}
+            empresa={empresa.miEmpresa.empresa}
             onActualizar={e =>
               dispatch(
-                setEmpresa({ ...e, configuracion: e.configuracion ?? empresa.configuracion })
+                empresaActual({ ...e, configuracion: e.configuracion ?? empresa.miEmpresa.empresa?.configuracion })
               )
             }
           />
@@ -145,13 +121,13 @@ const Perfil = () => {
         {!modalEmpresa && campoConfig && empresa && (
           <ConfiguracionEditar
             campo={campoConfig}
-            configuracion={empresa.configuracion}
+            configuracion={empresa.miEmpresa.empresa?.configuracion}
             onCerrar={() => setModal(false)}
           />
         )}
         {!modalEmpresa && !campoConfig && modalPerfil && <PerfilEditar />}
         {!modalEmpresa && !campoConfig && !modalPerfil && modalUsuario && (
-          <UsuarioCrear onCreado={() => setUsuariosVersion(v => v + 1)} />
+          <UsuarioCrear  />
         )}
       </Modal>
     </>

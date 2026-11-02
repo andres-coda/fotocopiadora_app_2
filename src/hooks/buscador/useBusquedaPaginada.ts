@@ -14,12 +14,12 @@ interface UseBuscadorPaginadoProp<T> {
   datosRedux: ReduxProp<T>;
   resetBusqueda: () => UnknownAction;
   crearBusqueda: ActionCreatorWithPayload<UltimaBusquedaProp<T>>;
+  crearBusquedaInicial?: ActionCreatorWithPayload<UltimaBusquedaProp<T>>;
   obtenerBusqueda: ({ query, limite, pagina }: BusquedaApiProp) => void;
   agregarBusqueda: ActionCreatorWithPayload<UltimaBusquedaProp<T>>;
   response: PaginadoProp<T> | null;
   loading: boolean;
   limiteLetrasBusqueda?: number;
-  cargaInicial?:boolean;
 }
 
 const useBusquedaPaginada = <T>({
@@ -29,16 +29,16 @@ const useBusquedaPaginada = <T>({
   crearBusqueda,
   obtenerBusqueda,
   agregarBusqueda,
+  crearBusquedaInicial = undefined,
   response,
   limiteLetrasBusqueda = 3,
-  cargaInicial = false,
   loading = false,
 }: UseBuscadorPaginadoProp<T>) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setModal } = useModalContext();
 
-  const {query} = useBuscadorQuery({valor, obtenerBusqueda, limiteLetrasBusqueda, paginado:true});
+  const { query } = useBuscadorQuery({ valor, obtenerBusqueda, limiteLetrasBusqueda, paginado: true });
 
   useEffect(() => {
     if (query.length < limiteLetrasBusqueda) {
@@ -63,16 +63,17 @@ const useBusquedaPaginada = <T>({
     }
   };
 
-  const {finListaRef, contenedorRef} = useFinPaginaRedux({
-    datos:datosRedux.busquedaActual,
+  const { finListaRef, contenedorRef } = useFinPaginaRedux({
+    datos: datosRedux.busquedaActual,
     query,
     loading,
     limiteLetrasBusqueda,
     response,
-    crearBusquedaRedux:crearBusqueda,
+    crearBusquedaRedux: crearBusqueda,
+    crearBusquedaInicial,
     obtenerBusqueda,
-    actualizarBusquedaRedux:agregarBusqueda,
-    cargaInicial
+    actualizarBusquedaRedux: agregarBusqueda,
+    cargaInicial: !datosRedux.cargaInicial
   })
 
   return { contenedorRef, nuevoElemento, finListaRef };

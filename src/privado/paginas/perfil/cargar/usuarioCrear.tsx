@@ -20,12 +20,9 @@ const opcionesRol: Opcion[] = [
   { value: 'admin', label: 'Administrador' },
 ];
 
-interface Props {
-  /** Lo dispara el alta confirmada, para que el padre refresque el listado. */
-  onCreado: () => void;
-}
 
-const UsuarioCrear = ({ onCreado }: Props) => {
+
+const UsuarioCrear = () => {
   const { crearUsuario, responseUsuario, loadingUsuario, errorFetchUsuario } = useUsuarioApi();
   const { setModal } = useModalContext();
   const avisado = useRef<boolean>(false);
@@ -44,8 +41,7 @@ const UsuarioCrear = ({ onCreado }: Props) => {
   useEffect(() => {
     if (!responseUsuario || avisado.current) return;
     avisado.current = true;
-    onCreado();
-  }, [responseUsuario, onCreado]);
+  }, [responseUsuario]);
 
   const onSubmit = (data: formValuesUsuarioAlta) => {
     crearUsuario(data);

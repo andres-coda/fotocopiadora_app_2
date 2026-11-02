@@ -11,15 +11,15 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import useConfiguracionApi from '../../servicio/configuracion/useConfiguracionApi';
-import { setConfiguracionEmpresa } from '../../redux/state/empresa.state';
 import './lateralIzquierdo.css';
 import Card from '../../componente-estilo/card/card';
 import Lateral from '../../componente-estilo/lateral/lateral';
 import PreciosCategoria from './preciosCategoria';
+import { setConfiguracionEmpresa } from '../../redux/state/empresa.state';
 
 const LateralIzquierdo = () => {
   const configuracion: ConfiguracionProp | undefined = useSelector(
-    (store: appStore) => store.empresa.empresa?.configuracion
+    (store: appStore) => store.empresa.miEmpresa.empresa?.configuracion
   );
 
   const dispatch = useDispatch();
@@ -66,7 +66,7 @@ const LateralIzquierdo = () => {
 
   useEffect(() => {
     if (responseConfiguracion) {
-      dispatch(setConfiguracionEmpresa(responseConfiguracion));
+      dispatch((setConfiguracionEmpresa(responseConfiguracion)));
     }
   }, [responseConfiguracion]);
 

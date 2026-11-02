@@ -10,8 +10,8 @@ import { resetReduxPedido } from '../redux/state/pedido.state';
 import { resetReduxPrecio } from '../redux/state/precio.state';
 import { resetReduxPropuesta } from '../redux/state/propuesta.state';
 import { resetReduxSede } from '../redux/state/sede.state';
-import { resetEmpresa } from '../redux/state/empresa.state';
 import { resetSesion } from '../redux/state/sesion.state';
+import { resetReduxEmpresa } from '../redux/state/empresa.state';
 
 interface AuthContextType {
   token: string | null;
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     dispatch(resetReduxPrecio());
     dispatch(resetReduxPropuesta());
     dispatch(resetReduxSede());
-    dispatch(resetEmpresa());
+    dispatch(resetReduxEmpresa());
     dispatch(resetSesion());
   };
 

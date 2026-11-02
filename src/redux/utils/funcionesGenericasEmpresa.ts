@@ -27,6 +27,7 @@ export const crearDatoInicial = <T>(
 ) => {
   state.datosIniciales = action.payload;
   state.busquedaActual = action.payload;
+  state.cargaInicial = true;
 };
 
 export const crearBusqueda =

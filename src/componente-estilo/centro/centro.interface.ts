@@ -9,6 +9,8 @@ export interface CentroDefectoProp {
   error?: string | null;
   //Loading para saber si la petición fue enviada y esta cargando los datos
   loading?: boolean;
+  //El nuevo estilo aplica al centro interior, el que va con grid
+  nuevoEstilo?: string;
 }
 
 export interface CentroProp extends CentroDefectoProp {

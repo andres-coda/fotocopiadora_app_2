@@ -20,6 +20,7 @@ export const estadoInicialRedux = <T>(orden: keyof T, limite?: number): ReduxPro
     busquedaActual: busquedaReduxInicial<T>(orden, limite),
     ultimasBusqueda: [],
     datoSeleccionado: undefined,
+    cargaInicial: false
   }
 }
 

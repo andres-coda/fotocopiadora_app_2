@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ReduxProp } from '../modelo/reduxContext.interface';
 import {
   crearDatoInicial,
@@ -18,6 +18,7 @@ import {
   setErrorEmpresa,
   setSolicitadaEmpresa,
 } from '../utils/funcionesEmpresa';
+import { ConfiguracionProp } from '../../modelo/Entidades/configuracion/configuracion.interface';
 
 const cantidadBusquedas: number = 1;
 
@@ -45,7 +46,7 @@ export const empresaSlice = createSlice({
   name: 'empresa',
   initialState: estadoEmpresaInicial,
   reducers: {
-    crearEmpresas: crearDatoInicial,
+    crearEmpresas: crearDatoInicial<EmpresaProp>,
     crearBusquedaEmpresa: crearBusqueda<EmpresaProp>(cantidadBusquedas),
     resetBusquedaEmpresa: resetBusqueda<EmpresaProp>(cantidadBusquedas),
     seleccionarEmpresa: seleccionarDato,
@@ -56,6 +57,9 @@ export const empresaSlice = createSlice({
     cargandoEmpresa: setCargandoEmpresa,
     errorEmpresa: setErrorEmpresa,
     solicitadaEmpresa: setSolicitadaEmpresa,
+    setConfiguracionEmpresa: (state, action: PayloadAction<ConfiguracionProp>) => {
+      if (state.miEmpresa.empresa) state.miEmpresa.empresa.configuracion = action.payload;
+    },
     resetReduxEmpresa: resetRedux<EmpresaProp>,
   },
 });
@@ -73,6 +77,7 @@ export const {
   errorEmpresa,
   solicitadaEmpresa,
   resetReduxEmpresa,
+  setConfiguracionEmpresa,
 } = empresaSlice.actions;
 
 export default empresaSlice.reducer;

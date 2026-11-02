@@ -4,6 +4,7 @@ import RutaInvalida from "../componente/ruta_invalida/rutaInvalida";
 import { ProveiderPedidoContext } from "../contexto/contextoPedido";
 import { RutasSupers } from "./ruta/rutaSupers";
 import Empresas from "./empresa/empresas";
+import PerfilSuper from "./perfil/perfilSuper";
 
 const SuperRuta = () => {
   return (
@@ -12,6 +13,7 @@ const SuperRuta = () => {
         <RutaInvalida>
           <Route path="/" element={<Navigate to={RutasSupers.EMPRESA_LISTA} />}></Route>
           <Route path={RutasSupers.EMPRESA_LISTA} element={<Empresas />}></Route>
+            <Route path={RutasSupers.PERFIL} element={<PerfilSuper />}></Route>
         </RutaInvalida>
       </ProveiderPedidoContext>
     </PrivadoContenedor>

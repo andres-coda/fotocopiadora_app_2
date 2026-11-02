@@ -4,5 +4,6 @@ export const rutaSuperBase = {
 
 export const RutasSupers = {
   EMPRESA: 'empresa',
-  EMPRESA_LISTA: 'empresas'
+  EMPRESA_LISTA: 'empresas',
+  PERFIL: 'perfil',
 }
