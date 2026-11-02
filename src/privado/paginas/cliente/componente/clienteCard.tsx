@@ -26,7 +26,7 @@ const ClienteCard = ({ cliente, onClick }: Props) => {
   };
 
   return (
-    <Card onClick={() => handleCliente()} nuevoEstilo={'card-cliente'}>
+    <Card onClick={() => handleCliente()} nuevoEstilo={'card-cliente retirado'} limitado>
       <ClienteDatos cliente={cliente} />
       <ul>
         <li className="pendiente" title="Pedidos pendientes">

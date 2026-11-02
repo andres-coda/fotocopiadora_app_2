@@ -4,9 +4,6 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: .5rem;
-  background-color: var(--colorCardGris);
-  min-height: 68px;
 }
 
 /* La categoría va como etiqueta chica en la esquina superior izquierda: posicionada en

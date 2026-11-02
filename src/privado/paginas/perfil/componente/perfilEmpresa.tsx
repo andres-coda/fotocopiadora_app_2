@@ -23,7 +23,7 @@ const PerfilEmpresa = ({ empresa, onEditarEmpresa }: Prop) => {
     );
 
   return (
-    <Card nuevoEstilo="perfil-empresa">
+    <Card nuevoEstilo="perfil-empresa" limitado gigante>
       <Titulo titulo={empresa.nombre} />
       <div className="empresa-renglon">
         <Email />

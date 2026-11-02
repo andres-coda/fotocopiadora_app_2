@@ -5,16 +5,10 @@ import { AppProp } from '../modelo/cargarDatos.interface';
 import { crearElementosContexto } from '../utils/crearElementosContexto';
 import { LibroProp } from '../../modelo/Entidades/libro/libro.interface';
 import useLibrosApi from '../../servicio/libro/useLibrosApi';
-import useClientesApi from '../../servicio/cliente/useClientesApi';
-import { ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
 import { EspecificacionProp } from '../../modelo/Entidades/especificacion/especificacion.interface';
 import useEspecificacionesApi from '../../servicio/especificacion/useEspecificacionesApi';
-import { MateriaProp } from '../../modelo/Entidades/libro/materia.interface';
-import useMateriasApi from '../../servicio/materia/useMateriasApi';
 import usePedidosApi from '../../servicio/pedido/usePedidosApi';
 import { PedidoProp } from '../../modelo/Entidades/pedido/pedido.interface';
-import usePedidoLibrosApi from '../../servicio/pedido_libro/usePedidoLibrosApi';
-import { PedidoLibroProp } from '../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
 import usePreciosApi from '../../servicio/precio/usePreciosApi';
 import useSedesApi from '../../servicio/sede/useSedesApi';
 import { PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
@@ -33,11 +27,8 @@ import { cargandoEmpresa, empresaActual, errorEmpresa, solicitadaEmpresa } from 
 const CargarDatosIniciales = ({ children }: AppProp) => {
   const {token} = useAutenticacion();
   const { obtenerLibros, responseLibros } = useLibrosApi();
-  const { obtenerClientes, responseClientes } = useClientesApi();
   const { obtenerEspecificaciones, responseEspecificaciones } = useEspecificacionesApi();
-  const { obtenerMaterias, responseMaterias } = useMateriasApi();
   const { obtenerPedidos, responsePedidos } = usePedidosApi();
-  const { obtenerPedidoLibross, responsePedidoLibross } = usePedidoLibrosApi();
   const { obtenerPrecios, responsePrecios } = usePreciosApi();
   const { obtenerSedes, responseSedes } = useSedesApi();
   const { obtenerMensajes, responseMensajes } = useMensajesApi();
@@ -59,20 +50,11 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const librosIniciales: LibroProp[] = useSelector(
     (store: appStore) => store.libro.datosIniciales.datosQuery
   );
-  const clienteItems: ClienteProp[] = useSelector(
-    (store: appStore) => store.cliente.datosIniciales.datosQuery
-  );
   const especificacionItems: EspecificacionProp[] = useSelector(
     (store: appStore) => store.especificacion.datosIniciales.datosQuery
   );
-  const materiaItems: MateriaProp[] = useSelector(
-    (store: appStore) => store.materia.datosIniciales.datosQuery
-  );
   const pedidoItems: PedidoProp[] = useSelector(
     (store: appStore) => store.pedido.datosIniciales.datosQuery
-  );
-  const pedidoLibroItems: PedidoLibroProp[] = useSelector(
-    (store: appStore) => store.pedidoLibro.datosIniciales.datosQuery
   );
   const precioItems: PrecioProp[] = useSelector(
     (store: appStore) => store.precio.datosIniciales.datosQuery
@@ -124,11 +106,8 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     console.log('response pedido: ', responsePedidos);
     crearElementosContexto({
       libros: responseLibros || undefined,
-      clientes: responseClientes || undefined,
       especificaciones: responseEspecificaciones || undefined,
-      materias: responseMaterias?.datos || undefined,
       pedidos: responsePedidos || undefined,
-      pedidoLibros: responsePedidoLibross || undefined,
       precios: responsePrecios || undefined,
       sedes: responseSedes || undefined,
       mensajes: responseMensajes || undefined,
@@ -138,11 +117,8 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     });
   }, [
     responseLibros,
-    responseClientes,
     responseEspecificaciones,
-    responseMaterias,
     responsePedidos,
-    responsePedidoLibross,
     responsePrecios,
     responseSedes,
     responseMensajes,
@@ -153,10 +129,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     if(!token) return
     if (pedidoItems.length === 0) obtenerPedidos();
     if (librosIniciales.length === 0) obtenerLibros();
-    if (clienteItems.length === 0) obtenerClientes();
     if (especificacionItems.length === 0) obtenerEspecificaciones();
-    if (materiaItems.length === 0) obtenerMaterias();
-    if (pedidoLibroItems.length === 0) obtenerPedidoLibross();
     if (precioItems.length === 0) obtenerPrecios();
     if (sedeItems.length === 0) obtenerSedes();
     if (mensajeItems.length === 0) obtenerMensajes();

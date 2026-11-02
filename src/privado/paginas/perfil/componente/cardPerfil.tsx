@@ -31,7 +31,7 @@ const CardPerfil = ({ usuario, onEditarPerfil }: Prop) => {
   };
 
   return (
-    <Card nuevoEstilo="perfil-usuario">
+    <Card nuevoEstilo="perfil-usuario" limitado gigante>
       <div className="empresa-renglon">
         <Monigote />
         <Texto texto={usuario.nombre} />

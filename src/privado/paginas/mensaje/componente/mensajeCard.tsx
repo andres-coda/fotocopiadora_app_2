@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import Boton from '../../../../componente-estilo/boton/boton';
 import Card from '../../../../componente-estilo/card/card';
 import Texto from '../../../../componente-estilo/texto/texto';
@@ -11,6 +11,7 @@ import useEditar from '../../../../hooks/editar/useEditar';
 import { MensajeProp } from '../../../../modelo/Entidades/mensaje/mensaje.interface';
 import Botonera from '../../../../componente-estilo/botonera/botonera';
 import './mensajeCard.css';
+import useCopiar from '../../../../hooks/copiar/useCopiar';
 
 interface Prop {
   mensaje: MensajeProp;
@@ -20,21 +21,9 @@ interface Prop {
 }
 
 const MensajeCard = ({ mensaje, puedeEditar = false, onToggleFavorito, eliminarMensaje = undefined }: Prop) => {
-  const [copiado, setCopiado] = useState<boolean>(false);
+  const {copiado, handleCopiar } = useCopiar()
+
   const { handleEdit } = useEditar({ setModalLocal: true });
-  
-  // El tilde de "copiado" vuelve al icono de copiar despues de un momento.
-  useEffect(() => {
-    if (!copiado) return;
-
-    const timer = setTimeout(() => setCopiado(false), 1500);
-    return () => clearTimeout(timer);
-  }, [copiado]);
-
-  const handleCopiar = () => {
-    navigator.clipboard.writeText(mensaje.mensaje ?? mensaje.nombre);
-    setCopiado(true);
-  };
 
   return (
     <Card nuevoEstilo="card-mensaje" tituloCard={mensaje.nombre}>
@@ -75,7 +64,7 @@ const MensajeCard = ({ mensaje, puedeEditar = false, onToggleFavorito, eliminarM
             edit
             nuevoEstilo="btn-icono-chico"
             titulo={copiado ? 'Copiado' : 'Copiar mensaje'}
-            onClick={handleCopiar}
+            onClick={()=>handleCopiar({mensaje: mensaje.mensaje ?? mensaje.nombre})}
           />
         </Botonera>
       </div>

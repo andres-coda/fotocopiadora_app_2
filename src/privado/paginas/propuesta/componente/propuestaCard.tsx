@@ -36,6 +36,7 @@ const PropuestaCard = ({ propuesta, selectPropuesta = undefined }: Prop) => {
       onClick={() => handleSelect(propuesta)}
       nuevoEstilo={`propuesta-card `}
       tituloCard={propuesta.nombre}
+      limitado
     >
       <div className="card-horizontal propuesta-titulo">
         <Texto

@@ -7,6 +7,7 @@ import useClientesApi from '../../../servicio/cliente/useClientesApi';
 import {
   agregarClientesBusquedaActual,
   crearBusquedaCliente,
+  crearClientes,
   resetBusquedaCliente,
   resetSeleccionarCliente,
 } from '../../../redux/state/cliente.state';
@@ -28,6 +29,7 @@ const Cliente_lista = () => {
   const { contenedorRef, finListaRef, nuevoElemento } = useBusquedaPaginada<ClienteProp>({
     valor,
     datosRedux: clienteDatos,
+    crearBusquedaInicial: crearClientes,
     resetBusqueda: resetBusquedaCliente,
     crearBusqueda: crearBusquedaCliente,
     obtenerBusqueda: obtenerClientesBusqueda,
@@ -59,7 +61,10 @@ const Cliente_lista = () => {
       <Centro
         ref={contenedorRef}
         finListaRef={finListaRef}
-        vacio={!clienteDatos.busquedaActual || clienteDatos.busquedaActual.datosQuery.length === 0}
+        vacio={
+          clienteDatos.cargaInicial &&
+          (!clienteDatos.busquedaActual || clienteDatos.busquedaActual.datosQuery.length === 0)
+        }
         entidad="clientes"
         query={valor}
       >

@@ -20,6 +20,7 @@ const ItemCard = ({ item, idPedido, onClick }: Prop) => {
       nuevoEstilo={`item-card ${claseXestado(item.estado)} pedido-cliente-card`}
       tituloCard={`${item.detalles || nombreLibroXstring(item.libro)}`}
       onClick={onClick ? handleItem : undefined}
+      limitado
     >
       <ItemInternoCard idPedido={idPedido} item={item} />
     </Card>

@@ -23,11 +23,8 @@ const PrecioCard = ({ precio, setEliminar }: Props) => {
   const dispatch = useDispatch();
 
   return (
-    <Card nuevoEstilo={'card-precio'}>
-      {precio.categoria?.nombre && (
-        <Texto texto={precio.categoria.nombre} nuevoEstilo="card-precio__categoria" />
-      )}
-      <Texto texto={`${precio.nombre}`} chica />
+    <Card nuevoEstilo={'card-precio'} retirado notaMargenSup={precio.categoria?.nombre}>
+      <Texto texto={`${precio.nombre}`} />
       <Texto texto={`$${Number(precio.importe)}`} chica negrita derecha ajustado />
       <Botonera nuevoEstilo="botonera-precio">
         <Boton

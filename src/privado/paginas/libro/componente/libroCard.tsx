@@ -1,7 +1,6 @@
 import Card from '../../../../componente-estilo/card/card';
 import Texto from '../../../../componente-estilo/texto/texto';
 import useEditar from '../../../../hooks/editar/useEditar';
-import './libroCard.css';
 import { LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
 import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import { useEffect } from 'react';
@@ -11,6 +10,7 @@ import Copiar from '../../../../assets/copiar.svg?react';
 import usePresupuesto from '../../../../hooks/presupuesto/usePresupuesto';
 import Cargando from '../../../../componente/cargando/cargando';
 import { nombreLibroXstring } from '../../../../utils/formatoDatos';
+import './libroCard.css';
 
 interface Props {
   libro: LibroProp;
@@ -43,7 +43,7 @@ const LibroCard = ({ libro, selecLibro }: Props) => {
   };
 
   return (
-    <Card onClick={handleClick} nuevoEstilo={'card-libro'} tituloCard={nombreLibroXstring(libro)}>
+    <Card limitado onClick={handleClick} nuevoEstilo={'card-libro'} tituloCard={nombreLibroXstring(libro)}>
       <img src={libro.img} alt={nombreLibroXstring(libro)} />
       {!loadingLibro && !errorFetchLibro ? (
         <div className="card-vertical vertical-libro-card">

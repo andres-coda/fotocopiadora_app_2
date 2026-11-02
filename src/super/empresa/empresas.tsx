@@ -50,8 +50,9 @@ const Empresas = () => {
         ref={contenedorRef}
         finListaRef={finListaRef}
         vacio={
-          (!empresaRedux.cargaInicial && !empresaRedux.busquedaActual.datosQuery) ||
-          (!empresaRedux.cargaInicial && empresaRedux.busquedaActual.datosQuery.length === 0)
+          empresaRedux.cargaInicial &&
+          (!empresaRedux.busquedaActual.datosQuery ||
+            empresaRedux.busquedaActual.datosQuery.length === 0)
         }
         entidad="empresas"
         query={valor}

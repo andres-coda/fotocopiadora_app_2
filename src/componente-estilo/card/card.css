@@ -1,17 +1,36 @@
-.card {
+.card{
   display: flex;
   flex-direction: column;
+  position: relative;
   justify-content: flex-start;
+  align-items: flex-start;
+  box-sizing: border-box;
   width: 100%;
   max-width: 600px;
   min-width: 150px;
-  box-sizing: border-box;
-  box-shadow: 1px 1px 1px var(--colorSombra);
-  padding: 0.8rem;
   border-radius: 5px;
+  box-shadow: 1px 1px 1px var(--colorSombra);
   margin-bottom: 0.1rem;
-  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.card-interno {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
   overflow: hidden;
+}
+
+.limitado{
+  padding: 0;
+}
+
+.gigante{
+  max-width: none;
 }
 
 .listo {
@@ -65,7 +84,7 @@
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
-  flex: 1;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;

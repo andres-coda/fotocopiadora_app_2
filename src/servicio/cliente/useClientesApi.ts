@@ -14,7 +14,7 @@ const useClientesApi = () => {
 
   const obtenerClientesBusqueda = ({ query, limite, pagina }: BusquedaApiProp) => {
     fetchData({
-      url: `${CLIENTE}?q=${query.trimEnd()}&limite=${limite ?? limiteDefecto}&pagina=${pagina ?? 1}`,
+      url: `${CLIENTE}?q=${query.trimEnd()}&limite=${limite ?? 10}&pagina=${pagina ?? 1}`,
       methodo: httpMethod.GET,
       adapter: clienteAdapter,
     });

@@ -106,6 +106,7 @@
   width: 100%;
   min-height: fit-content;
   gap: 1rem;
+  padding: .8rem;
   background-color: var(--colorCardGris);
 }
 

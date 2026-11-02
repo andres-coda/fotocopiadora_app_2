@@ -8,11 +8,12 @@ interface Prop<T> {
   loading?: boolean;
   limiteLetrasBusqueda?: number;
   cargaInicial?: boolean;
+  claves?:boolean;
   obtenerBusqueda: ({ query, limite, pagina }: BusquedaApiProp) => void;
 }
 
 const useFinPagina = <T>({
-  datos, query = undefined, loading = false, limiteLetrasBusqueda = 0, cargaInicial = false, obtenerBusqueda
+  datos, query = undefined, loading = false, limiteLetrasBusqueda = 0, cargaInicial = false, obtenerBusqueda, claves = false
 }: Prop<T>) => {
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const finListaRef = useRef<HTMLDivElement>(null);
@@ -29,7 +30,9 @@ const useFinPagina = <T>({
         if (!entry.isIntersecting) {
           return;
         }
-        if (query != undefined && query.length >= limiteLetrasBusqueda && datos?.query != query) {
+        if ((query != undefined && query.length >= limiteLetrasBusqueda && datos?.query != query) || 
+        (claves)
+        ) {
           return;
         }
         if (loadingRef.current) {

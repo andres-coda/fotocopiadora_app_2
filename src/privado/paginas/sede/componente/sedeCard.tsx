@@ -23,7 +23,7 @@ const SedeCard = ({ sede, setEliminar }: Props) => {
   const dispatch = useDispatch();
 
   return (
-    <Card nuevoEstilo={'card-sede'}>
+    <Card nuevoEstilo={'card-sede'} limitado>
       <Texto texto={`${sede.nombre}`} chica />
       <Botonera nuevoEstilo="botonera-sede">
         <Boton

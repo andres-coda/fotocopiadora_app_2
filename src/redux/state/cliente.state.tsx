@@ -19,13 +19,13 @@ import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 1;
 
-const estadoClienteInicial: ReduxProp<ClienteProp> = estadoInicialRedux<ClienteProp>('ultAct');
+const estadoClienteInicial: ReduxProp<ClienteProp> = estadoInicialRedux<ClienteProp>('ultAct',10);
 
 export const clienteSlice = createSlice({
   name: 'cliente',
   initialState: estadoClienteInicial,
   reducers: {
-    crearClientes: crearDatoInicial,
+    crearClientes: crearDatoInicial<ClienteProp>,
     crearBusquedaCliente: crearBusqueda<ClienteProp>(cantidadBusquedas),
     resetBusquedaCliente: resetBusqueda<ClienteProp>(cantidadBusquedas),
     seleccionarCliente: seleccionarDato,

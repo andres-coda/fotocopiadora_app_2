@@ -22,6 +22,7 @@ const ItemCardCompleto = ({ item, idPedido, onClick }: Prop) => {
       nuevoEstilo={`card-pedido card-item-completa`}
       tituloCard={`${item.detalles || nombreLibroXstring(item.libro)}`}
       onClick={handleItem}
+      limitado
     >
       {item.pedido && <CardFechas pedido={item.pedido} />}
       {item.pedido && <CardArchivos pedido={item.pedido} />}

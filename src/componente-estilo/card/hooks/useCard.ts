@@ -1,19 +1,42 @@
+import { useNavigate } from 'react-router-dom';
 import { CardProp } from '../modelo/card.interface';
+import { MouseEventHandler } from 'react';
 
-function useCard({ chica, listo, pendiente, retirado, ruta, nuevoEstilo, onClick }: CardProp) {
+function useCard({ listo, pendiente, retirado, cancelado, ruta, nuevoEstilo, onClick, limitado, gigante }: CardProp) {
+  const navigate = useNavigate();
+
   const clase = [
     'card',
-    chica && 'chica',
-    !listo && !pendiente && retirado && 'retirado',
-    !listo && pendiente && 'pendiente',
+    !listo && !pendiente && !cancelado && retirado && 'retirado',
+    !listo && !cancelado  && pendiente && 'pendiente',
+    !listo && cancelado && 'cancelado',
     listo && 'listo',
+    limitado && 'limitado',
+    gigante && 'gigante',
     ruta || (onClick && 'card-click'),
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const claseInterno = [
+    'card-interno',
+    limitado && 'limitado-interno',
     nuevoEstilo ?? '',
   ]
     .filter(Boolean)
     .join(' ');
 
-  return { clase };
+  const handleClick: MouseEventHandler<HTMLDivElement> = event => {
+      if (onClick) {
+        onClick(event);
+      }
+  
+      if (ruta) {
+        navigate(ruta);
+      }
+    };
+
+  return { clase, claseInterno, handleClick };
 }
 
 export default useCard;
