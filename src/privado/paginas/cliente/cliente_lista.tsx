@@ -11,7 +11,6 @@ import {
   resetSeleccionarCliente,
 } from '../../../redux/state/cliente.state';
 import Centro from '../../../componente-estilo/centro/centro';
-import TextoVacio from '../../../componente/Textos/textoVacio';
 import ClienteCard from './componente/clienteCard';
 import { useEffect, useState } from 'react';
 import BuscadorPaginadoCompleto from '../../../componente/buscador/buscadorPaginadoCompleto';
@@ -57,15 +56,16 @@ const Cliente_lista = () => {
         etiquetaArriba="Al comienzo de la lista"
         etiquetaMas={'Nuevo cliente'}
       />
-      <Centro>
-        {!clienteDatos.busquedaActual || clienteDatos.busquedaActual.datosQuery.length === 0 ? (
-          <TextoVacio entidad="clientes" />
-        ) : (
-          clienteDatos.busquedaActual.datosQuery.map(d => <ClienteCard cliente={d} key={d.id} />)
-        )}
-        <div ref={finListaRef}>
-          <p>Fin de lista</p>
-        </div>
+      <Centro
+        ref={contenedorRef}
+        finListaRef={finListaRef}
+        vacio={!clienteDatos.busquedaActual || clienteDatos.busquedaActual.datosQuery.length === 0}
+        entidad="clientes"
+        query={valor}
+      >
+        {clienteDatos.busquedaActual.datosQuery.map(d => (
+          <ClienteCard cliente={d} key={d.id} />
+        ))}
       </Centro>
       <Modal>
         <ClienteCargar />

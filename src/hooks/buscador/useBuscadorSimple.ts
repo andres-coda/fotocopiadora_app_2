@@ -1,8 +1,9 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PaginadoProp } from '../../adaptadores/entrada/paginado.adapter';
 import { BusquedaApiProp } from '../../modelo/HTTP/peticiones.interface';
 import { UltimaBusquedaProp } from '../../redux/modelo/reduxContext.interface';
 import useFinPagina from '../finPagina/useFinPagina';
+import useBuscadorQuery from './useBuscadorQuery';
 
 interface UseBuscadorSimpleProp<T> {
   valor: string;
@@ -21,23 +22,8 @@ const useBusquedaSimple = <T>({
 }: UseBuscadorSimpleProp<T>) => {
   const [datos, setDatos] = useState<UltimaBusquedaProp<T> | undefined>(undefined);
 
-  const [query, setQuery] = useState<string>('');
-
-  useEffect(() => {
-    console.log('valor: ', valor);
-    const timer = setTimeout(() => {
-      setQuery(valor);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [valor]);
-
-  useEffect(() => {
-    if (query.length >= limiteLetrasBusqueda) {
-      obtenerBusqueda({ query });
-    }
-  }, [query]);
-
+  const {query} = useBuscadorQuery({valor, obtenerBusqueda, limiteLetrasBusqueda});
+ 
   useEffect(() => {
     if (response) {
       console.log('ACTUALIZO REDUX', response.pagina);

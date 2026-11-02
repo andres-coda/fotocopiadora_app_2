@@ -4,7 +4,6 @@ import { SedeProp } from '../../../modelo/Entidades/sede/sede.interface';
 import { appStore } from '../../../redux/store';
 import BuscadorFiltros from '../../../componente/buscador/buscadorCompleto';
 import Centro from '../../../componente-estilo/centro/centro';
-import TextoVacio from '../../../componente/Textos/textoVacio';
 import SedeCard from './componente/sedeCard';
 import useSedesApi from '../../../servicio/sede/useSedesApi';
 import { useEffect, useState } from 'react';
@@ -59,15 +58,16 @@ const Sedes = () => {
         etiquetaMas="Nueva sede"
         titulo="Lista de sedes"
       />
-      <Centro ref={contenedorRef}>
-        {sedeDatos.busquedaActual.datosQuery.length > 0 ? (
-          sedeDatos.busquedaActual.datosQuery.map(dato => (
-            <SedeCard sede={dato} setEliminar={setEliminar} key={dato.id} />
-          ))
-        ) : (
-          <TextoVacio entidad="sedes" />
-        )}
-        <div ref={finListaRef} style={{ gridColumn: '1 / -1', height: '1px' }} />
+      <Centro
+        ref={contenedorRef}
+        entidad="sedes"
+        vacio={!sedeDatos.busquedaActual.datosQuery || sedeDatos.busquedaActual.datosQuery.length === 0}
+        query={valor}
+        finListaRef={finListaRef}
+      >
+        {sedeDatos.busquedaActual.datosQuery.map(dato => (
+          <SedeCard sede={dato} setEliminar={setEliminar} key={dato.id} />
+        ))}
       </Centro>
       <Modal>
         {!eliminar && <SedeCargar />}

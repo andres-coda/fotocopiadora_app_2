@@ -1,14 +1,23 @@
 import Texto from '../../componente-estilo/texto/texto';
 
 interface Prop {
-  entidad: string;
+  entidad?: string;
   filtro?: boolean;
+  query?:string;
 }
 
-const TextoVacio = ({ entidad, filtro = false }: Prop) => {
+ const texto = ({entidad, filtro, query}:Prop) => {
+  const newEntidad = entidad || 'elementos';
+  const newFiltro = `que coincida con los filtros`
+  const newQuery = query ? `que coincida con ${query}` : '';
+    return `¡¡¡ No hay ${newEntidad} en la lista ${filtro ? newFiltro : ''} ${filtro && query ? 'y' : ''} ${newQuery} !!!`
+  }
+
+const TextoVacio = ({ entidad, filtro = false, query = undefined}: Prop) => {
+ 
   return (
     <Texto
-      texto={`No hay ${entidad} en la lista ${filtro === true ? `que cumpla con los filtros seleccionados` : ''}`}
+      texto={texto({entidad, filtro, query})}
       mediana
       centrado
     />

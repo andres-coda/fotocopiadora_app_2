@@ -84,29 +84,28 @@ const Pedidos = () => {
         etiquetaArriba="Al comienzo de la lista"
         etiquetaMas={'Nuevo pedido'}
       />
-      <Centro ref={contenedorRef}>
-        {!pedidoDatos.busquedaActual || pedidoDatos.busquedaActual.datosQuery.length === 0 ? (
-          <TextoVacio entidad="clientes" />
-        ) : (
-          pedidoDatos.busquedaActual.datosQuery.map(d => (
-            <PedidoCard pedido={d} key={d.id} onClick={handlePedido} />
-          ))
-        )}
-        <div ref={finListaRef}>
-          <p>Fin de lista</p>
-        </div>
-        <Modal
-          texto={`Pedido de ${pedidoDatos?.datoSeleccionado?.cliente.telefono ? formatoTelefonoMostrar(pedidoDatos?.datoSeleccionado?.cliente.telefono) : (pedidoDatos?.datoSeleccionado?.cliente.email ?? '')}`}
-        >
-          {pedidoDatos.datoSeleccionado ? (
-            <PedidoCard pedido={pedidoDatos.datoSeleccionado} activo />
-          ) : (
-            <TextoVacio entidad="pedido" />
-          )}
-          {loadingPedidoLibross && <Cargando />}
-          {errorFetchPedidoLibross && <Texto texto={errorFetchPedidoLibross} error chica />}
-        </Modal>
+      <Centro
+        ref={contenedorRef}
+        entidad="precios"
+        vacio={!pedidoDatos.busquedaActual || pedidoDatos.busquedaActual.datosQuery.length === 0}
+        query={valor}
+        finListaRef={finListaRef}
+      >
+        {pedidoDatos.busquedaActual.datosQuery.map(d => (
+          <PedidoCard pedido={d} key={d.id} onClick={handlePedido} />
+        ))}
       </Centro>
+      <Modal
+        texto={`Pedido de ${pedidoDatos?.datoSeleccionado?.cliente.telefono ? formatoTelefonoMostrar(pedidoDatos?.datoSeleccionado?.cliente.telefono) : (pedidoDatos?.datoSeleccionado?.cliente.email ?? '')}`}
+      >
+        {pedidoDatos.datoSeleccionado ? (
+          <PedidoCard pedido={pedidoDatos.datoSeleccionado} activo />
+        ) : (
+          <TextoVacio entidad="pedido" />
+        )}
+        {loadingPedidoLibross && <Cargando />}
+        {errorFetchPedidoLibross && <Texto texto={errorFetchPedidoLibross} error chica />}
+      </Modal>
     </>
   );
 };

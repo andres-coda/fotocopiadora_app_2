@@ -1,19 +1,21 @@
 import { useDispatch } from 'react-redux';
 import { ReduxProp, UltimaBusquedaProp, orden } from '../../redux/modelo/reduxContext.interface';
-import { RefObject, useEffect, useRef, useState } from 'react';
-import { UnknownAction } from '@reduxjs/toolkit';
+import { useEffect } from 'react';
+import { ActionCreatorWithPayload, UnknownAction } from '@reduxjs/toolkit';
 import { BusquedaApiProp } from '../../modelo/HTTP/peticiones.interface';
 import { PaginadoProp } from '../../adaptadores/entrada/paginado.adapter';
 import { useNavigate } from 'react-router-dom';
 import { useModalContext } from '../../contexto/contextoModal';
+import useFinPaginaRedux from '../finPagina/useFinPaginaRedux';
+import useBuscadorQuery from './useBuscadorQuery';
 
 interface UseBuscadorPaginadoProp<T> {
   valor: string;
   datosRedux: ReduxProp<T>;
   resetBusqueda: () => UnknownAction;
-  crearBusqueda: (busqueda: UltimaBusquedaProp<T>) => UnknownAction;
+  crearBusqueda: ActionCreatorWithPayload<UltimaBusquedaProp<T>>;
   obtenerBusqueda: ({ query, limite, pagina }: BusquedaApiProp) => void;
-  agregarBusqueda: (busqueda: UltimaBusquedaProp<T>) => UnknownAction;
+  agregarBusqueda: ActionCreatorWithPayload<UltimaBusquedaProp<T>>;
   response: PaginadoProp<T> | null;
   loading: boolean;
   sortBy?: keyof T;
@@ -34,21 +36,11 @@ const useBusquedaPaginada = <T>({
   limiteLetrasBusqueda = 3,
   loading = false,
 }: UseBuscadorPaginadoProp<T>) => {
-  const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-  const finListaRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setModal } = useModalContext();
 
-  const [query, setQuery] = useState<string>('');
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setQuery(valor);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [valor]);
+  const {query} = useBuscadorQuery({valor, obtenerBusqueda, limiteLetrasBusqueda, paginado:true});
 
   useEffect(() => {
     if (query.length < limiteLetrasBusqueda) {
@@ -65,37 +57,6 @@ const useBusquedaPaginada = <T>({
     }
   }, [query]);
 
-  useEffect(() => {
-    if (response) {
-      console.log('ACTUALIZO REDUX', response.pagina);
-      if (query.length >= limiteLetrasBusqueda && query != datosRedux.busquedaActual.query) {
-        dispatch(
-          crearBusqueda({
-            query: query,
-            datosQuery: response.datos,
-            total: response.total,
-            pagina: response.pagina,
-            limite: response.limite,
-            sortBy,
-            sortOrder,
-          })
-        );
-      } else {
-        dispatch(
-          agregarBusqueda({
-            query: query,
-            datosQuery: response.datos,
-            total: response.total,
-            pagina: response.pagina,
-            limite: response.limite,
-            sortBy,
-            sortOrder,
-          })
-        );
-      }
-    }
-  }, [response]);
-
   const nuevoElemento = (ruta?: string) => {
     if (ruta) {
       navigate(ruta);
@@ -104,59 +65,16 @@ const useBusquedaPaginada = <T>({
     }
   };
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        console.log('observer detecta:', entry.isIntersecting);
-
-        if (!entry.isIntersecting) {
-          return;
-        }
-        if (query.length > limiteLetrasBusqueda && datosRedux.busquedaActual.query != query) {
-          console.log('Corta porque no es la query actual: ', query);
-          return;
-        }
-        if (loading) {
-          console.log('CORTO POR LOADING');
-          return;
-        }
-        if (
-          datosRedux.busquedaActual.pagina * datosRedux.busquedaActual.limite >=
-          datosRedux.busquedaActual.total
-        ) {
-          console.log('que datosRedux estoy pasando: ', datosRedux);
-          console.log('limite: ', datosRedux.busquedaActual.limite);
-          console.log('pagina: ', datosRedux.busquedaActual.pagina);
-          console.log('total: ', datosRedux.busquedaActual.total);
-
-          console.log('CORTO PORQUE NO HAY MAS PAGINAS');
-          return;
-        }
-        console.log('PIDO', {
-          paginaRedux: datosRedux.busquedaActual.pagina,
-          loading,
-        });
-
-        obtenerBusqueda({
-          pagina: datosRedux.busquedaActual.pagina + 1,
-          limite: datosRedux.busquedaActual.limite,
-          query,
-        });
-      },
-      {
-        root: contenedorRef.current,
-        threshold: 0.2,
-      }
-    );
-
-    if (finListaRef.current) {
-      observer.observe(finListaRef.current);
-    } else {
-      console.log('NO HAY ELEMENTO PARA OBSERVAR');
-    }
-
-    return () => observer.disconnect();
-  }, [datosRedux.busquedaActual.query, datosRedux.busquedaActual.pagina]);
+  const {finListaRef, contenedorRef} = useFinPaginaRedux({
+    datos:datosRedux.busquedaActual,
+    query,
+    loading,
+    limiteLetrasBusqueda,
+    response,
+    crearBusquedaRedux:crearBusqueda,
+    obtenerBusqueda,
+    actualizarBusquedaRedux:agregarBusqueda
+  })
 
   return { contenedorRef, nuevoElemento, finListaRef };
 };

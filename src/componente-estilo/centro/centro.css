@@ -1,10 +1,25 @@
+.centro-exterior{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: .5rem;
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
 .centro {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 
+  grid-auto-rows: max-content;
+
   gap: 1rem;
   padding: 0.5rem;
   margin: 0;
+  width: 100%;
 
   background-color: var(--colorFondo);
   align-items: start;

@@ -3,7 +3,6 @@ import { ReduxProp } from '../../../redux/modelo/reduxContext.interface';
 import { PrecioProp } from '../../../modelo/Entidades/precio/precio.interface';
 import { appStore } from '../../../redux/store';
 import Centro from '../../../componente-estilo/centro/centro';
-import TextoVacio from '../../../componente/Textos/textoVacio';
 import PrecioCard from './componente/precioCard';
 import { useEffect, useState } from 'react';
 import usePreciosApi from '../../../servicio/precio/usePreciosApi';
@@ -58,15 +57,19 @@ const Precios = () => {
         etiquetaArriba="Al comienzo de la lista"
         etiquetaMas="Nuevo precio"
       />
-      <Centro ref={contenedorRef}>
-        {!precioDatos.busquedaActual || precioDatos.busquedaActual.datosQuery.length === 0 ? (
-          <TextoVacio entidad="precios" />
-        ) : (
-          precioDatos.busquedaActual.datosQuery.map(d => (
-            <PrecioCard precio={d} key={d.id} setEliminar={setEliminar} />
-          ))
-        )}
-        <div ref={finListaRef} style={{ gridColumn: '1 / -1', height: '1px' }} />
+      <Centro
+        ref={contenedorRef}
+        entidad="precios"
+        vacio={
+          !precioDatos.busquedaActual.datosQuery ||
+          precioDatos.busquedaActual.datosQuery.length === 0
+        }
+        query={valor}
+        finListaRef={finListaRef}
+      >
+        {precioDatos.busquedaActual.datosQuery.map(d => (
+          <PrecioCard precio={d} key={d.id} setEliminar={setEliminar} />
+        ))}
       </Centro>
       <Modal>
         {!eliminar && <PrecioCargar />}

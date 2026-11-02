@@ -116,34 +116,35 @@ const ItemsLista = () => {
         etiquetaMas={'Nuevo pedido'}
       />
       <FiltrosActivos />
-      <Centro ref={contenedorRef}>
-        {!items.busquedaActual || items.busquedaActual.datosQuery.length === 0 ? (
-          <TextoVacio entidad="clientes" />
-        ) : (
-          items?.busquedaActual?.datosQuery?.map(d => (
-            <ItemCardCompleto
-              item={d}
-              key={d.id}
-              idPedido={d.idPedido}
-              onClick={handleSeleccionarItem}
-            />
-          ))
-        )}
-        <div ref={finListaRef}></div>
-        <Modal texto={textoModal}>
-          {filtro ? (
-            <FiltroItem />
-          ) : ordenar ? (
-            <OrdenItem />
-          ) : (
-            <>
-              {pedido ? <PedidoCard pedido={pedido} activo /> : <TextoVacio entidad="pedido" />}
-              {loadingPedidoLibross && <Cargando />}
-              {errorFetchPedidoLibross && <Texto texto={errorFetchPedidoLibross} error chica />}
-            </>
-          )}
-        </Modal>
+      <Centro
+        ref={contenedorRef}
+        finListaRef={finListaRef}
+        vacio={!items.busquedaActual || items.busquedaActual.datosQuery.length === 0}
+        entidad="items"
+        query={valor}
+      >
+        {items?.busquedaActual?.datosQuery?.map(d => (
+          <ItemCardCompleto
+            item={d}
+            key={d.id}
+            idPedido={d.idPedido}
+            onClick={handleSeleccionarItem}
+          />
+        ))}
       </Centro>
+      <Modal texto={textoModal}>
+        {filtro ? (
+          <FiltroItem />
+        ) : ordenar ? (
+          <OrdenItem />
+        ) : (
+          <>
+            {pedido ? <PedidoCard pedido={pedido} activo /> : <TextoVacio entidad="pedido" />}
+            {loadingPedidoLibross && <Cargando />}
+            {errorFetchPedidoLibross && <Texto texto={errorFetchPedidoLibross} error chica />}
+          </>
+        )}
+      </Modal>
     </>
   );
 };

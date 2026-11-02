@@ -1,7 +1,5 @@
-import './libros.css';
 import Centro from '../../../componente-estilo/centro/centro';
 import LibroCard from './componente/libroCard';
-import TextoVacio from '../../../componente/Textos/textoVacio';
 import BuscadorPaginadoCompleto from '../../../componente/buscador/buscadorPaginadoCompleto';
 import { useEffect, useState } from 'react';
 import {
@@ -18,6 +16,35 @@ import { rutaPrivadaBase, RutasPrivadas } from '../../rutas/rutasPrivadas';
 import Modal from '../../../componente/modal/modal';
 import LibroCargar from './cargar/libroCargar';
 import PropuestaSelect from '../propuesta/componente/propuestaSelect';
+import { PropuestaProp } from '../../../modelo/Entidades/propuesta/propuesta.interface';
+import './libros.css';
+
+interface esVacioProp {
+  libros?: LibroProp[];
+  propuestas?: PropuestaProp[];
+  opActivas?: string[];
+}
+
+const esVacio = ({
+  libros = [],
+  propuestas = [],
+  opActivas = [],
+}: esVacioProp): string | undefined => {
+  if (
+    libros.length === 0 &&
+    propuestas.length === 0 &&
+    opActivas.includes(listaLibroPropuestaSeleccionable[0].nombre)
+  )
+    return 'libros y propuestas';
+
+  if (libros.length === 0 && opActivas.includes(listaLibroPropuestaSeleccionable[2].nombre))
+    return 'libros';
+
+  if (propuestas.length === 0 && opActivas.includes(listaLibroPropuestaSeleccionable[1].nombre))
+    return 'propuestas';
+
+  return undefined;
+};
 
 const Libros_lista = () => {
   const [opcionesActivas, setOpcionesActivas] = useState<string[]>([
@@ -69,36 +96,26 @@ const Libros_lista = () => {
             : 'Nueva propuesta'
         }
       />
-      <Centro ref={contenedorRef} nuevoEstilo="centro-libro">
+      <Centro
+        ref={contenedorRef}
+        finListaRef={finListaRef}
+        vacio={esVacio({ libros, propuestas, opActivas: opcionesActivas }) != undefined}
+        entidad={esVacio({ libros, propuestas, opActivas: opcionesActivas })}
+        query={valor}
+      >
         {propuestas.map(d => (
           <PropuestaCard propuesta={d} key={d.id} />
         ))}
         {libros.map(d => (
           <LibroCard libro={d} key={d.id} selecLibro={selectLibro} />
         ))}
-        {libros.length === 0 &&
-          propuestas.length === 0 &&
-          opcionesActivas.includes(listaLibroPropuestaSeleccionable[0].nombre) && (
-            <TextoVacio entidad="libros y propuestas" />
-          )}
-        {libros.length === 0 &&
-          opcionesActivas.includes(listaLibroPropuestaSeleccionable[2].nombre) && (
-            <TextoVacio entidad="libros" />
-          )}
-        {propuestas.length === 0 &&
-          opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre) && (
-            <TextoVacio entidad="propuestas" />
-          )}
-        <div ref={finListaRef}>
-          <p>Fin de lista</p>
-        </div>
-        <Modal nuevoEstilo={propuesta ? 'propuesta-select-color' : ''}>
-          <>
-            {propuesta && <PropuestaSelect propuesta={propuesta} />}
-            {!propuesta && <LibroCargar />}
-          </>
-        </Modal>
       </Centro>
+      <Modal nuevoEstilo={propuesta ? 'propuesta-select-color' : ''}>
+        <>
+          {propuesta && <PropuestaSelect propuesta={propuesta} />}
+          {!propuesta && <LibroCargar />}
+        </>
+      </Modal>
     </>
   );
 };

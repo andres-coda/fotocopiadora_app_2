@@ -5,9 +5,6 @@ import { MensajeProp } from '../../../modelo/Entidades/mensaje/mensaje.interface
 import { appStore } from '../../../redux/store';
 import BuscadorPaginadoCompleto from '../../../componente/buscador/buscadorPaginadoCompleto';
 import Centro from '../../../componente-estilo/centro/centro';
-import Texto from '../../../componente-estilo/texto/texto';
-import TextoVacio from '../../../componente/Textos/textoVacio';
-import Cargando from '../../../componente/cargando/cargando';
 import Modal from '../../../componente/modal/modal';
 import useMensajesApi from '../../../servicio/mensaje/useMensajesApi';
 import useMensajeApi from '../../../servicio/mensaje/useMensajeApi';
@@ -22,8 +19,8 @@ import {
 } from '../../../redux/state/mensaje.state';
 import MensajeCard from './componente/mensajeCard';
 import MensajeCargar from './cargar/mensajeCargar';
-import './mensajes.css';
 import EliminarMensaje from './componente/eliminarMensaje';
+import './mensajes.css';
 
 const Mensajes = () => {
   const mensajeDatos: ReduxProp<MensajeProp> = useSelector((store: appStore) => store.mensaje);
@@ -44,9 +41,9 @@ const Mensajes = () => {
   // modo edicion.
   useEffect(() => {
     if (!modal) {
-      dispatch(resetSeleccionarMensaje())
-      setEliminarMsj(false)
-    };
+      dispatch(resetSeleccionarMensaje());
+      setEliminarMsj(false);
+    }
   }, [modal]);
 
   // Igual que en el modal: la lista se actualiza apenas el back confirma.
@@ -66,9 +63,6 @@ const Mensajes = () => {
     sortBy: 'nombre' as keyof MensajeProp,
   });
 
-  const { datosQuery: mensajes, pagina, limite, total } = mensajeDatos.busquedaActual;
-  const hayMas = pagina * limite < total;
-
   const handleToggleFavorito = (mensaje: MensajeProp) =>
     toggleFavorito(mensaje.id, !mensaje.favorito);
 
@@ -84,32 +78,27 @@ const Mensajes = () => {
         etiquetaMas="Nuevo mensaje"
         handleMas={esAdmin ? () => nuevoElemento() : undefined}
       />
-      <Centro ref={contenedorRef} nuevoEstilo="centro-mensaje">
-        {errorFetchMensajes && <Texto texto={errorFetchMensajes} error chica />}
-        {mensajes.length > 0 ? (
-          mensajes.map(mensaje => (
-            <MensajeCard
-              mensaje={mensaje}
-              key={mensaje.id}
-              puedeEditar={esAdmin}
-              onToggleFavorito={handleToggleFavorito}
-              eliminarMensaje={setEliminarMsj}
-            />
-          ))
-        ) : loadingMensajes ? (
-          <Cargando />
-        ) : (
-          <TextoVacio entidad="mensajes" filtro={valor.length >= 3} />
-        )}
-        <div ref={finListaRef} className="mensajes-pie" style={{ gridColumn: '1 / -1' }}>
-          {loadingMensajes && mensajes.length > 0 && <Cargando />}
-          {!loadingMensajes && !hayMas && mensajes.length > 0 && (
-            <Texto texto="Fin de la lista" chica sombra centrado />
-          )}
-        </div>
+      <Centro
+        ref={contenedorRef}
+        finListaRef={finListaRef}
+        vacio={!mensajeDatos.busquedaActual.datosQuery || mensajeDatos.busquedaActual.datosQuery.length === 0}
+        entidad="mensajes"
+        query={valor}
+        error={errorFetchMensajes ?? undefined}
+        loading={loadingMensajes}
+      >
+        {mensajeDatos.busquedaActual.datosQuery.map(mensaje => (
+          <MensajeCard
+            mensaje={mensaje}
+            key={mensaje.id}
+            puedeEditar={esAdmin}
+            onToggleFavorito={handleToggleFavorito}
+            eliminarMensaje={setEliminarMsj}
+          />
+        ))}
       </Centro>
       <Modal nuevoEstilo="modal-ancho">
-        {eliminarMsj && <EliminarMensaje/>}
+        {eliminarMsj && <EliminarMensaje />}
         {!eliminarMsj && <MensajeCargar />}
       </Modal>
     </>
