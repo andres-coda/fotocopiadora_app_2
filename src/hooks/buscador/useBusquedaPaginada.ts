@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { ReduxProp, UltimaBusquedaProp, orden } from '../../redux/modelo/reduxContext.interface';
+import { ReduxProp, UltimaBusquedaProp } from '../../redux/modelo/reduxContext.interface';
 import { useEffect } from 'react';
 import { ActionCreatorWithPayload, UnknownAction } from '@reduxjs/toolkit';
 import { BusquedaApiProp } from '../../modelo/HTTP/peticiones.interface';
@@ -18,9 +18,8 @@ interface UseBuscadorPaginadoProp<T> {
   agregarBusqueda: ActionCreatorWithPayload<UltimaBusquedaProp<T>>;
   response: PaginadoProp<T> | null;
   loading: boolean;
-  sortBy?: keyof T;
-  sortOrder?: orden;
   limiteLetrasBusqueda?: number;
+  cargaInicial?:boolean;
 }
 
 const useBusquedaPaginada = <T>({
@@ -31,9 +30,8 @@ const useBusquedaPaginada = <T>({
   obtenerBusqueda,
   agregarBusqueda,
   response,
-  sortBy = 'id' as keyof T,
-  sortOrder = 'asc' as orden,
   limiteLetrasBusqueda = 3,
+  cargaInicial = false,
   loading = false,
 }: UseBuscadorPaginadoProp<T>) => {
   const dispatch = useDispatch();
@@ -73,7 +71,8 @@ const useBusquedaPaginada = <T>({
     response,
     crearBusquedaRedux:crearBusqueda,
     obtenerBusqueda,
-    actualizarBusquedaRedux:agregarBusqueda
+    actualizarBusquedaRedux:agregarBusqueda,
+    cargaInicial
   })
 
   return { contenedorRef, nuevoElemento, finListaRef };

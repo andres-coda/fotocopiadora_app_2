@@ -20,9 +20,9 @@ import { SesionStateProp, sesionSlice } from './state/sesion.state';
 import { PropuestaProp } from '../modelo/Entidades/propuesta/propuesta.interface';
 import { libroSlice } from './state/libro.state';
 import { propuestaSlice } from './state/propuesta.state';
-import { EmpresaStateProp, empresaSlice } from './state/empresa.state';
 import { usuarioProps } from '../modelo/usuario/Usuario.interface';
 import { usuarioSlice } from './state/usuarios.state';
+import { empresaSlice, EmpresaStateProp } from './state/empresa.state';
 
 export interface appStore {
   cliente: ReduxProp<ClienteProp>;

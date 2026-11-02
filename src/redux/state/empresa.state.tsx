@@ -1,11 +1,27 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ConfiguracionProp } from '../../modelo/Entidades/configuracion/configuracion.interface';
+import { createSlice } from '@reduxjs/toolkit';
+import { ReduxProp } from '../modelo/reduxContext.interface';
+import {
+  crearDatoInicial,
+  crearBusqueda,
+  resetBusqueda,
+  seleccionarDato,
+  resetSeleccionDato,
+  agregarDatosBusquedaActual,
+  resetRedux,
+} from '../utils/funcionesGenericasEmpresa';
+import { empresaInicial, estadoInicialRedux } from '../utils/reduxInicial';
 import { EmpresaProp } from '../../modelo/Entidades/empresa/empresa.interface';
+import {
+  resetMiEmpresa,
+  setCargandoEmpresa,
+  setEmpresaActual,
+  setErrorEmpresa,
+  setSolicitadaEmpresa,
+} from '../utils/funcionesEmpresa';
 
-// La empresa se guarda completa, con su configuracion embebida, tal como la
-// devuelve GET /empresa/mia. El id de empresa no vive en el front: el back lo
-// deriva de la sesion.
-export interface EmpresaStateProp {
+const cantidadBusquedas: number = 1;
+
+export interface EmpresaSesionProp {
   empresa: EmpresaProp | null;
   cargando: boolean;
   error: string | null;
@@ -14,48 +30,49 @@ export interface EmpresaStateProp {
   solicitada: boolean;
 }
 
-export const empresaInicial: EmpresaStateProp = {
-  empresa: null,
-  cargando: false,
-  error: null,
-  solicitada: false,
+// Estado del slice: los filtros y el orden viven en la raíz para que sobrevivan
+// a cada respuesta (busquedaActual se reemplaza en cada fetch).
+export type EmpresaStateProp = ReduxProp<EmpresaProp> & {
+  miEmpresa: EmpresaSesionProp;
+};
+
+const estadoEmpresaInicial: EmpresaStateProp = {
+  ...estadoInicialRedux<EmpresaProp>('nombre'),
+  miEmpresa: empresaInicial,
 };
 
 export const empresaSlice = createSlice({
   name: 'empresa',
-  initialState: empresaInicial,
+  initialState: estadoEmpresaInicial,
   reducers: {
-    setEmpresa: (state, action: PayloadAction<EmpresaProp | null>) => {
-      state.empresa = action.payload;
-    },
-    setConfiguracionEmpresa: (state, action: PayloadAction<ConfiguracionProp>) => {
-      if (state.empresa) state.empresa.configuracion = action.payload;
-    },
-    setCargandoEmpresa: (state, action: PayloadAction<boolean>) => {
-      state.cargando = action.payload;
-    },
-    setErrorEmpresa: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
-    },
-    setSolicitadaEmpresa: (state, action: PayloadAction<boolean>) => {
-      state.solicitada = action.payload;
-    },
-    resetEmpresa: state => {
-      state.empresa = null;
-      state.cargando = false;
-      state.error = null;
-      state.solicitada = false;
-    },
+    crearEmpresas: crearDatoInicial,
+    crearBusquedaEmpresa: crearBusqueda<EmpresaProp>(cantidadBusquedas),
+    resetBusquedaEmpresa: resetBusqueda<EmpresaProp>(cantidadBusquedas),
+    seleccionarEmpresa: seleccionarDato,
+    resetSeleccionarEmpresa: resetSeleccionDato,
+    agregarEmpresasBusquedaActual: agregarDatosBusquedaActual<EmpresaProp>,
+    empresaActual: setEmpresaActual,
+    resetEmpresaActual: resetMiEmpresa,
+    cargandoEmpresa: setCargandoEmpresa,
+    errorEmpresa: setErrorEmpresa,
+    solicitadaEmpresa: setSolicitadaEmpresa,
+    resetReduxEmpresa: resetRedux<EmpresaProp>,
   },
 });
 
 export const {
-  setEmpresa,
-  setConfiguracionEmpresa,
-  setCargandoEmpresa,
-  setErrorEmpresa,
-  setSolicitadaEmpresa,
-  resetEmpresa,
+  crearEmpresas,
+  crearBusquedaEmpresa,
+  resetBusquedaEmpresa,
+  resetSeleccionarEmpresa,
+  seleccionarEmpresa,
+  agregarEmpresasBusquedaActual,
+  empresaActual,
+  resetEmpresaActual,
+  cargandoEmpresa,
+  errorEmpresa,
+  solicitadaEmpresa,
+  resetReduxEmpresa,
 } = empresaSlice.actions;
 
 export default empresaSlice.reducer;

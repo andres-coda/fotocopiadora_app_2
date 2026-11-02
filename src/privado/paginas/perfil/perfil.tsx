@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { appStore } from '../../../redux/store';
 import { setEmpresa } from '../../../redux/state/empresa.state';
-import Centro from '../../../componente-estilo/centro/centro';
+import CentroExterior from '../../../componente-estilo/centro/centro';
 import Texto from '../../../componente-estilo/texto/texto';
 import Cargando from '../../../componente/cargando/cargando';
 import Modal from '../../../componente/modal/modal';
@@ -89,22 +89,22 @@ const Perfil = () => {
 
   if (error)
     return (
-      <Centro>
+      <CentroExterior>
         <Texto texto={error} error />
-      </Centro>
+      </CentroExterior>
     );
   if (cargando || !usuarioSesion)
     return (
-      <Centro>
+      <CentroExterior>
         <Cargando />
-      </Centro>
+      </CentroExterior>
     );
 
   const esAdmin = usuarioSesion.role === 'admin' || usuarioSesion.role === 'super_admin';
 
   return (
     <>
-      <Centro nuevoEstilo="perfil-centro">
+      <CentroExterior nuevoEstilo="perfil-centro">
         {cargandoEmpresa && <Cargando />}
         {!cargandoEmpresa && !sinEmpresa && errorEmpresa && (
           <Texto texto={errorEmpresa} error chica />
@@ -128,7 +128,7 @@ const Perfil = () => {
             )}
           </>
         )}
-      </Centro>
+      </CentroExterior>
 
       <Modal>
         {eliminarUsuario && <EliminarUsuario />}

@@ -26,13 +26,9 @@ import { PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interf
 import usePropuestasApi from '../../servicio/propuesta/usePropuestasApi';
 import { useSesion } from '../../hooks/sesion/useSesion';
 import useEmpresaApi from '../../servicio/empresa/useEmpresaApi';
-import {
-  setCargandoEmpresa,
-  setEmpresa,
-  setErrorEmpresa,
-  setSolicitadaEmpresa,
-} from '../state/empresa.state';
+
 import { useAutenticacion } from '../../hooks/autenticacion/useAutenticacion';
+import { cargandoEmpresa, empresaActual, errorEmpresa, solicitadaEmpresa } from '../state/empresa.state';
 
 const CargarDatosIniciales = ({ children }: AppProp) => {
   const {token} = useAutenticacion();
@@ -55,9 +51,8 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
 
   const { obtenerEmpresaMia, responseEmpresa, loadingEmpresa, errorFetchEmpresa } = useEmpresaApi();
 
-  const empresaActual = useSelector((store: appStore) => store.empresa.empresa);
-  const errorEmpresa = useSelector((store: appStore) => store.empresa.error);
-
+  const miEmpresa = useSelector((store: appStore) => store.empresa.miEmpresa);
+ 
   // Evita repetir la peticion cuando el back responde 404 (sin empresa).
   const empresaSolicitada = useRef<boolean>(false);
 
@@ -95,11 +90,11 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const {} = useSockets({});
 
   useEffect(() => {
-    dispatch(setCargandoEmpresa(loadingEmpresa));
+    dispatch(cargandoEmpresa(loadingEmpresa));
   }, [loadingEmpresa]);
 
   useEffect(() => {
-    if (responseEmpresa) dispatch(setEmpresa(responseEmpresa));
+    if (responseEmpresa) dispatch(empresaActual(responseEmpresa));
   }, [responseEmpresa]);
 
   useEffect(() => {
@@ -108,22 +103,22 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     // GET /empresa/mia responde 404 cuando el usuario no tiene empresa.
     // Ese caso no es un fallo: se refleja como "sin empresa".
     if (errorFetchEmpresa.includes('404')) {
-      dispatch(setEmpresa(null));
-      dispatch(setErrorEmpresa(null));
+      dispatch(empresaActual(null));
+      dispatch(errorEmpresa(null));
       return;
     }
 
-    dispatch(setErrorEmpresa(errorFetchEmpresa));
+    dispatch(errorEmpresa(errorFetchEmpresa));
   }, [errorFetchEmpresa]);
 
   useEffect(() => {
     if (empresaSolicitada.current) return;
-    if (empresaActual !== null || errorEmpresa) return;
+    if (miEmpresa.empresa !== null || miEmpresa.error) return;
 
     empresaSolicitada.current = true;
-    dispatch(setSolicitadaEmpresa(true));
+    dispatch(solicitadaEmpresa(true));
     obtenerEmpresaMia();
-  }, [empresaActual, errorEmpresa]);
+  }, [miEmpresa, errorEmpresa]);
 
   useEffect(() => {
     console.log('response pedido: ', responsePedidos);

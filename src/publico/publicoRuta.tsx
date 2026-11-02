@@ -6,6 +6,9 @@ import Login from './paginas/login/login';
 import PrivadoRuta from '../privado/privadoRuta';
 import RutaPrivadaGuard from '../guard/rutaPrivadaGuard';
 import { rutaPrivadaBase } from '../privado/rutas/rutasPrivadas';
+import { rutaSuperBase } from '../super/ruta/rutaSupers';
+import SuperRuta from '../super/superRuta';
+import RutaSuperGuard from '../guard/rutaSuperGuard';
 
 const PublicoRuta = () => {
   return (
@@ -15,6 +18,9 @@ const PublicoRuta = () => {
       <Route path={rutaPublica.REGISTRO} element={<Registro />} />
       <Route element={<RutaPrivadaGuard />}>
         <Route path={`${rutaPrivadaBase.PRIVADO}/*`} element={<PrivadoRuta />} />
+      </Route>
+      <Route element={<RutaSuperGuard />}>
+        <Route path={`${rutaSuperBase.SUPER}/*`} element={<SuperRuta />} />
       </Route>
     </RutaInvalida>
   );

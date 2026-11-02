@@ -4,6 +4,7 @@ import {
   ConfiguracionProp,
 } from '../configuracion/configuracion.interface';
 
+
 export interface EmpresaAdapterProp extends BaseAdapterProp {
   nombre: string;
   email: string;
