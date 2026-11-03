@@ -14,6 +14,7 @@ import {
   actualizarMensajeRedux,
   agregarMensajesBusquedaActual,
   crearBusquedaMensaje,
+  crearMensajes,
   resetBusquedaMensaje,
   resetSeleccionarMensaje,
 } from '../../../redux/state/mensaje.state';
@@ -54,13 +55,13 @@ const Mensajes = () => {
   const { contenedorRef, nuevoElemento, finListaRef } = useBusquedaPaginada<MensajeProp>({
     valor,
     datosRedux: mensajeDatos,
+    crearBusquedaInicial: crearMensajes,
     resetBusqueda: resetBusquedaMensaje,
     crearBusqueda: crearBusquedaMensaje,
     obtenerBusqueda: obtenerMensajesBusqueda,
     agregarBusqueda: agregarMensajesBusquedaActual,
     response: responseMensajes,
     loading: loadingMensajes,
-    sortBy: 'nombre' as keyof MensajeProp,
   });
 
   const handleToggleFavorito = (mensaje: MensajeProp) =>
@@ -81,7 +82,11 @@ const Mensajes = () => {
       <Centro
         ref={contenedorRef}
         finListaRef={finListaRef}
-        vacio={!mensajeDatos.busquedaActual.datosQuery || mensajeDatos.busquedaActual.datosQuery.length === 0}
+        vacio={
+          mensajeDatos.cargaInicial &&
+          (!mensajeDatos.busquedaActual.datosQuery ||
+            mensajeDatos.busquedaActual.datosQuery.length === 0)
+        }
         entidad="mensajes"
         query={valor}
         error={errorFetchMensajes ?? undefined}

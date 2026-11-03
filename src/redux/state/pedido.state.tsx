@@ -25,7 +25,7 @@ export const pedidoSlice = createSlice({
   name: 'pedido',
   initialState: estadoPedidoInicial,
   reducers: {
-    crearPedidos: crearDatoInicial,
+    crearPedidos: crearDatoInicial<PedidoProp>,
     crearBusquedaPedido: crearBusqueda<PedidoProp>(cantidadBusquedas),
     resetBusquedaPedido: resetBusqueda<PedidoProp>(cantidadBusquedas),
     seleccionarPedido: seleccionarDato,

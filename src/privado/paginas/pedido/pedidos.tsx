@@ -12,6 +12,7 @@ import {
   agregarItemsPedidoSeleccionadoRedux,
   agregarPedidosBusquedaActual,
   crearBusquedaPedido,
+  crearPedidos,
   resetBusquedaPedido,
   resetSeleccionarPedido,
   seleccionarPedido,
@@ -34,6 +35,7 @@ const Pedidos = () => {
   const { contenedorRef, finListaRef, nuevoElemento } = useBusquedaPaginada<PedidoProp>({
     valor,
     datosRedux: pedidoDatos,
+    crearBusquedaInicial: crearPedidos,
     resetBusqueda: resetBusquedaPedido,
     crearBusqueda: crearBusquedaPedido,
     obtenerBusqueda: obtenerPedidosBusqueda,
@@ -86,8 +88,11 @@ const Pedidos = () => {
       />
       <Centro
         ref={contenedorRef}
-        entidad="precios"
-        vacio={!pedidoDatos.busquedaActual || pedidoDatos.busquedaActual.datosQuery.length === 0}
+        entidad="pedidos"
+        vacio={
+          pedidoDatos.cargaInicial &&
+          (!pedidoDatos.busquedaActual || pedidoDatos.busquedaActual.datosQuery.length === 0)
+        }
         query={valor}
         finListaRef={finListaRef}
       >

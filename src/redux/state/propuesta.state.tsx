@@ -22,7 +22,7 @@ export const propuestaSlice = createSlice({
   name: 'propuesta_empresa',
   initialState: estadoPropuestaInicial,
   reducers: {
-    crearPropuestas: crearDatoInicial,
+    crearPropuestas: crearDatoInicial<PropuestaProp>,
     crearBusquedaPropuesta: crearBusqueda<PropuestaProp>(cantidadBusquedas),
     resetBusquedaPropuesta: resetBusqueda<PropuestaProp>(cantidadBusquedas),
     seleccionarPropuesta: seleccionarDato<PropuestaProp>,

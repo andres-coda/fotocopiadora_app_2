@@ -26,7 +26,7 @@ export const libroSlice = createSlice({
   name: 'libro',
   initialState: estadoLibroInicial,
   reducers: {
-    crearLibros: crearDatoInicial,
+    crearLibros: crearDatoInicial<LibroProp>,
     crearBusquedaLibro: crearBusqueda<LibroProp>(cantidadBusquedas),
     resetBusquedaLibro: resetBusqueda<LibroProp>(cantidadBusquedas),
     seleccionarLibro: seleccionarDato,

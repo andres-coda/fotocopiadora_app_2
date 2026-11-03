@@ -27,11 +27,6 @@ const useFinPaginaRedux = <T>({
 
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    console.log('datos: ', datos);
-    console.log('carga inicial: ', cargaInicial)
-  },[])
-
   useEffect(() => {
     if (!response) return;
     const respuestaDto: UltimaBusquedaProp<T> = {
