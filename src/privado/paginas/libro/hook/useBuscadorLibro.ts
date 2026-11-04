@@ -176,10 +176,10 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
   // cada tecla) volveria a disparar el pedido y quedarian requests duplicados.
   useEffect(() => {
     if (librosHabilitados && !librosDatos.cargaInicial) {
-      pedirLibros({ query });
+      pedirLibros({ query, limite: librosDatos.busquedaActual.limite });
     }
     if (propuestasHabilitadas && !propuestaDatos.cargaInicial) {
-      pedirPropuestas({ query });
+      pedirPropuestas({ query, limite: propuestaDatos.busquedaActual.limite });
     }
   }, [opcionesActivas]);
 

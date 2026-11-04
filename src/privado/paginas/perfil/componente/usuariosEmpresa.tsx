@@ -12,8 +12,10 @@ import {
   agregarUsuariosBusquedaActual,
   crearBusquedaUsuario,
 } from '../../../../redux/state/usuarios.state';
-import { UltimaBusquedaProp } from '../../../../redux/modelo/reduxContext.interface';
+import { ReduxProp, UltimaBusquedaProp } from '../../../../redux/modelo/reduxContext.interface';
 import useFinPaginaRedux from '../../../../hooks/finPagina/useFinPaginaRedux';
+import DesplegableArrow from '../../../../componente-estilo/desplegable/desplegableArrow';
+import Botonera from '../../../../componente-estilo/botonera/botonera';
 
 interface Props {
   onAgregarUsuario: () => void;
@@ -27,39 +29,45 @@ interface Props {
  */
 const UsuariosEmpresa = ({ onAgregarUsuario, onEliminarUsuario }: Props) => {
   const sesion: usuarioProps | null = useSelector((store: appStore) => store.sesion.usuario);
-  const usuarioRedux: UltimaBusquedaProp<usuarioProps> = useSelector(
-    (store: appStore) => store.usuario.busquedaActual
+  const usuarioRedux: ReduxProp<usuarioProps> = useSelector(
+    (store: appStore) => store.usuario
   );
   const { obtenerUsuarios, responseUsuarios, loadingUsuarios, errorFetchUsuarios } =
     useUsuariosApi();
 
   const { finListaRef, contenedorRef } = useFinPaginaRedux<usuarioProps>({
-    datos: usuarioRedux,
+    datos: usuarioRedux.busquedaActual,
     loading: loadingUsuarios,
     cargaInicial: true,
     obtenerBusqueda: obtenerUsuarios,
-    response:responseUsuarios,
+    response: responseUsuarios,
     crearBusquedaRedux: crearBusquedaUsuario,
-    actualizarBusquedaRedux:agregarUsuariosBusquedaActual
+    actualizarBusquedaRedux: agregarUsuariosBusquedaActual,
   });
 
   if (!sesion || sesion.role === 'operador')
     return <Texto texto="no tiene acceso a los trabajadores" error chica />;
 
   if (errorFetchUsuarios) return <Texto texto={errorFetchUsuarios} error chica />;
-  if (loadingUsuarios && usuarioRedux.datosQuery.length === 0) return <Cargando />;
+  if (loadingUsuarios && usuarioRedux.busquedaActual.datosQuery.length === 0) return <Cargando />;
 
   return (
-    <div className="usuarios-lista" ref={contenedorRef}>
-      {usuarioRedux.datosQuery.length === 0 && <Texto texto="Todavia no hay usuarios cargados" chica />}
-      {usuarioRedux.datosQuery.length != 0 && usuarioRedux.datosQuery
-        .filter(u => u.id != sesion?.id)
-        .map(u => (
-          <CardUsuario usuario={u} onEliminarUsuario={onEliminarUsuario} />
-        ))}
-      <div ref={finListaRef}></div>
-      <Boton nuevoEstilo={` btn-usuario-mas`} onClick={() => onAgregarUsuario()} icono={<Mas />} />
-    </div>
+    <DesplegableArrow
+      titulo="Listas de trabajadores"
+      verde
+      grid
+      contenedorRef={contenedorRef}
+      vacio={usuarioRedux.cargaInicial && usuarioRedux.busquedaActual.datosQuery.length === 0}
+      finListaRef={finListaRef}
+      nuevoEstilo='usuario-lista'
+    >
+      {usuarioRedux.busquedaActual.datosQuery.length != 0 &&
+        usuarioRedux.busquedaActual.datosQuery
+          .filter(u => u.id != sesion?.id)
+          .map(u => <CardUsuario usuario={u} onEliminarUsuario={onEliminarUsuario} />)}
+
+      <Boton nuevoEstilo={` btn-usuario-mas btn-icono-chico`} onClick={() => onAgregarUsuario()} icono={<Mas />} />
+    </DesplegableArrow>
   );
 };
 

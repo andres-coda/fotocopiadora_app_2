@@ -10,6 +10,8 @@
   overflow: hidden;
   box-sizing: border-box;
   border-radius: 5px;
+  width: 100%;
+  background-color: transparent;
 }
 
 .centro {
@@ -23,7 +25,7 @@
   margin: 0;
   width: 100%;
 
-  background-color: var(--colorFondo);
+  background-color: transparent;
   align-items: start;
 
   border-radius: 5px;

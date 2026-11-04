@@ -83,27 +83,31 @@ const Perfil = () => {
       <ContenedorCentro
         loading={usuarioSesion.cargando || empresa.miEmpresa.cargando}
         error={usuarioSesion.error || empresa.miEmpresa.error}
-        nuevoEstilo='perfil-centro'
+        nuevoEstilo="perfil-centro"
       >
-        {!empresa.miEmpresa.cargando && empresa.miEmpresa.empresa && !empresa.miEmpresa.error && usuarioSesion.usuario &&(
-          <>
-            <PerfilEmpresa empresa={empresa.miEmpresa.empresa} onEditarEmpresa={abrirEmpresa} />
-            <Texto texto="Sesión actual" mediana negrita />
-            <CardPerfil usuario={usuarioSesion.usuario} onEditarPerfil={abrirPerfil} />
+        {!empresa.miEmpresa.cargando &&
+          empresa.miEmpresa.empresa &&
+          !empresa.miEmpresa.error &&
+          usuarioSesion.usuario && (
+            <>
+              <PerfilEmpresa empresa={empresa.miEmpresa.empresa} onEditarEmpresa={abrirEmpresa} />
+              <Texto texto="Sesión actual" mediana negrita />
+              <CardPerfil usuario={usuarioSesion.usuario} onEditarPerfil={abrirPerfil} />
 
-            <DesplegableArrow titulo="Configuraciones" verde>
-              <Configuracion
-                configuracion={empresa.miEmpresa.empresa.configuracion}
-                onEditarCampo={abrirConfiguracion}
-              />
-            </DesplegableArrow>
-            {usuarioSesion.usuario.role === 'admin' && (
-              <DesplegableArrow titulo="Listas de trabajadores" verde>
-                <UsuariosEmpresa onAgregarUsuario={abrirUsuario} onEliminarUsuario={setEliminarUsuario}/>
+              <DesplegableArrow titulo="Configuraciones" verde>
+                <Configuracion
+                  configuracion={empresa.miEmpresa.empresa.configuracion}
+                  onEditarCampo={abrirConfiguracion}
+                />
               </DesplegableArrow>
-            )}
-          </>
-        )}
+              {usuarioSesion.usuario.role === 'admin' && (
+                <UsuariosEmpresa
+                  onAgregarUsuario={abrirUsuario}
+                  onEliminarUsuario={setEliminarUsuario}
+                />
+              )}
+            </>
+          )}
       </ContenedorCentro>
 
       <Modal>
@@ -113,7 +117,10 @@ const Perfil = () => {
             empresa={empresa.miEmpresa.empresa}
             onActualizar={e =>
               dispatch(
-                empresaActual({ ...e, configuracion: e.configuracion ?? empresa.miEmpresa.empresa?.configuracion })
+                empresaActual({
+                  ...e,
+                  configuracion: e.configuracion ?? empresa.miEmpresa.empresa?.configuracion,
+                })
               )
             }
           />
@@ -126,9 +133,7 @@ const Perfil = () => {
           />
         )}
         {!modalEmpresa && !campoConfig && modalPerfil && <PerfilEditar />}
-        {!modalEmpresa && !campoConfig && !modalPerfil && modalUsuario && (
-          <UsuarioCrear  />
-        )}
+        {!modalEmpresa && !campoConfig && !modalPerfil && modalUsuario && <UsuarioCrear />}
       </Modal>
     </>
   );

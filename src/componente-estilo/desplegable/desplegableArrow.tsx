@@ -1,26 +1,31 @@
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import Boton from '../boton/boton';
 import Texto from '../texto/texto';
 import Arrow from '../../assets/arrow.svg?react';
 import './desplegable.css';
+import Centro from '../centro/centro';
+import useDesplegableClase from './useDesplegableClase';
+import { ContenedorCentro } from '../centro/centroExterior';
+import { DesplegableProp } from './desplegable.interface';
 
-interface Prop {
-  children: ReactNode;
-  nuevoEstilo?: string;
-  titulo: string;
-  verde?:boolean;
-  gris?:boolean;
-}
-
-const DesplegableArrow = ({ children, titulo, nuevoEstilo = '', verde = false, gris = false }: Prop) => {
+const DesplegableArrow = ({
+  children,
+  titulo,
+  nuevoEstilo = '',
+  verde = false,
+  gris = false,
+  grid = false,
+  finListaRef = undefined,
+  entidad = undefined,
+  vacio = false,
+  loading = false,
+  error = undefined,
+  contenedorRef = undefined
+}: DesplegableProp) => {
   const [activo, setActivo] = useState<boolean>(false);
+  const { clase } = useDesplegableClase({ verde, gris, nuevoEstilo });
   return (
-    <div 
-    className={`
-    desplegable-arrow ${nuevoEstilo ? nuevoEstilo : ''} 
-    ${verde ? 'desplegable-verde' : ''}
-    ${gris ? 'desplegable-gris' : ''}
-    `}>
+    <div className={clase}>
       <Texto texto={titulo} mediana negrita />
       <Boton
         cerrar
@@ -28,7 +33,23 @@ const DesplegableArrow = ({ children, titulo, nuevoEstilo = '', verde = false, g
         onClick={() => setActivo(prev => !prev)}
         icono={<Arrow />}
       />
-      {activo && children}
+      {activo && grid && (
+        <Centro
+          finListaRef={finListaRef}
+          entidad={entidad}
+          vacio={vacio}
+          loading={loading}
+          error={error}
+          ref={contenedorRef}
+        >
+          {children}
+        </Centro>
+      )}
+      {activo && !grid && (
+        <ContenedorCentro loading={loading} error={error}>
+          {children}
+        </ContenedorCentro>
+      )}
     </div>
   );
 };

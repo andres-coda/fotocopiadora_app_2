@@ -16,7 +16,7 @@ import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 15;
 
-const estadoPropuestaInicial: ReduxProp<PropuestaProp> = estadoInicialRedux<PropuestaProp>('ultAct')
+const estadoPropuestaInicial: ReduxProp<PropuestaProp> = estadoInicialRedux<PropuestaProp>('nombre', 10)
 
 export const propuestaSlice = createSlice({
   name: 'propuesta_empresa',

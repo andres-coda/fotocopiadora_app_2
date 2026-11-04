@@ -21,7 +21,7 @@ import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 15;
 
-const estadoLibroInicial: ReduxProp<LibroProp> = estadoInicialRedux<LibroProp>('nombre');
+const estadoLibroInicial: ReduxProp<LibroProp> = estadoInicialRedux<LibroProp>('nombre', 10);
 export const libroSlice = createSlice({
   name: 'libro',
   initialState: estadoLibroInicial,
