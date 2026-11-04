@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
-import { ReduxProp, UltimaBusquedaProp } from '../../../../redux/modelo/reduxContext.interface';
+import { ReduxProp } from '../../../../redux/modelo/reduxContext.interface';
 import { appStore } from '../../../../redux/store';
 import useLibrosApi from '../../../../servicio/libro/useLibrosApi';
 import { RefObject, useEffect, useRef } from 'react';
@@ -28,6 +28,7 @@ import { useNavigate } from 'react-router-dom';
 import useBuscadorQuery from '../../../../hooks/buscador/useBuscadorQuery';
 import { BusquedaApiProp } from '../../../../modelo/HTTP/peticiones.interface';
 import { nombreLibroXstring } from '../../../../utils/formatoDatos';
+import useGestionResponse from '../../../../hooks/respuesta/useGestionRespuesta';
 
 interface BuscadorLibroProp {
   opcionesActivas: string[];
@@ -108,6 +109,12 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
   const queryLibrosRef = useRef<string>('');
   const queryPropuestaRef = useRef<string>('');
 
+  // Ref de la query VIGENTE (la que escribe el usuario), distinto del ref de
+  // request (queryLibrosRef) que se pisa en el reset. El hook de respuesta
+  // compara response.query (echo del back) contra este para descartar stale.
+  const queryActualLibrosRef = useRef<string>('');
+  const queryActualPropuestaRef = useRef<string>('');
+
   const pedirLibros = ({ query, limite, pagina }: BusquedaApiProp) => {
     queryLibrosRef.current = query;
     obtenerLibrosBusqueda({ query, limite, pagina });
@@ -122,27 +129,25 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
     // Nada cargado todavia: la primera pagina la piden los efectos de abajo.
     if (!librosDatos.cargaInicial && !propuestaDatos.cargaInicial) return;
 
-    const librosActual = librosDatos.busquedaActual;
     if (
       librosHabilitados &&
       librosDatos.cargaInicial &&
       queryLibrosRef.current === query &&
-      librosActual.pagina * librosActual.limite < librosActual.total
+      librosDatos.busquedaActual.pagina * librosDatos.busquedaActual.limite < librosDatos.busquedaActual.total
     ) {
-      pedirLibros({ query, pagina: librosActual.pagina + 1, limite: librosActual.limite });
+      pedirLibros({ query, pagina: librosDatos.busquedaActual.pagina + 1, limite: librosDatos.busquedaActual.limite });
     }
 
-    const propuestaActual = propuestaDatos.busquedaActual;
     if (
       propuestasHabilitadas &&
       propuestaDatos.cargaInicial &&
       queryPropuestaRef.current === query &&
-      propuestaActual.pagina * propuestaActual.limite < propuestaActual.total
+      propuestaDatos.busquedaActual.pagina * propuestaDatos.busquedaActual.limite < propuestaDatos.busquedaActual.total
     ) {
       pedirPropuestas({
         query,
-        pagina: propuestaActual.pagina + 1,
-        limite: propuestaActual.limite,
+        pagina: propuestaDatos.busquedaActual.pagina + 1,
+        limite: propuestaDatos.busquedaActual.limite,
       });
     }
   };
@@ -154,9 +159,15 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
     obtenerBusqueda,
   });
 
+  // La query vigente se guarda en un ref para que el hook de respuesta pueda
+  // compararla contra el echo del back sin depender de un ref de request.
+  queryActualLibrosRef.current = query;
+  queryActualPropuestaRef.current = query;
+
   useEffect(() => {
     if (!modal) {
       dispatch(resetSeleccionarPropuesta());
+      dispatch(resetSeleccionarLibro());
     }
   }, [modal]);
 
@@ -225,59 +236,23 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
     }
   }, [query, opcionesActivas, librosDatos.cargaInicial, propuestaDatos.cargaInicial]);
 
-  useEffect(() => {
-    if (!responseLibros) return;
-    const respuestaDtoLibro: UltimaBusquedaProp<LibroProp> = {
-      ...librosDatos.busquedaActual,
-      ...responseLibros,
-      // `PaginadoProp` no trae la query con la que se pidio. Sin ponerla aca,
-      // `query` quedaba con la de la busqueda anterior (o `undefined` desde el
-      // arranque), asi que `evaluarUltimasBusquedas` comparaba `undefined`
-      // contra `undefined` y colapsaba todas las entradas del cache en una.
-      query: queryLibrosRef.current,
-      datosQuery: responseLibros.datos,
-    };
+  useGestionResponse<LibroProp>({
+    datos: librosDatos,
+    response: responseLibros,
+    query: queryActualLibrosRef,
+    crearDatos: crearLibros,
+    crearBusqueda: crearBusquedaLibro,
+    agregarBusqueda: agregarLibrosBusquedaActual
+  });
 
-    if (!librosDatos.cargaInicial) {
-      dispatch(crearLibros(respuestaDtoLibro));
-      return;
-    }
-    // Si la query ya bajo del minimo, el reset limpio la lista y esta respuesta
-    // es de una busqueda que quedo en vuelo: nadie la aborto porque no se
-    // disparo un pedido nuevo. Sin este guard, los resultados viejos repueblan
-    // la lista despues de borrar el texto.
-    if (query.length < limiteLetrasBusqueda) return;
-    if (responseLibros.pagina === 1) {
-      dispatch(crearBusquedaLibro(respuestaDtoLibro));
-    } else {
-      dispatch(agregarLibrosBusquedaActual(respuestaDtoLibro));
-    }
-  }, [responseLibros]);
-
-  useEffect(() => {
-    if (!responsePropuestas) return;
-    const respuestaDtoPropuestas: UltimaBusquedaProp<PropuestaProp> = {
-      ...propuestaDatos.busquedaActual,
-      ...responsePropuestas,
-      // Mismo motivo que en libros: la respuesta paginada no trae la query y
-      // sin fijarla el cache de `ultimasBusqueda` no puede distinguir busquedas.
-      query: queryPropuestaRef.current,
-      datosQuery: responsePropuestas.datos,
-    };
-
-    if (!propuestaDatos.cargaInicial) {
-      dispatch(crearPropuestas(respuestaDtoPropuestas));
-      return;
-    }
-    // Mismo guard que en libros: una respuesta que quedo en vuelo cuando la
-    // query bajo del minimo ya no representa el estado actual.
-    if (query.length < limiteLetrasBusqueda) return;
-    if (responsePropuestas.pagina === 1) {
-      dispatch(crearBusquedaPropuesta(respuestaDtoPropuestas));
-    } else {
-      dispatch(agregarPropuestasBusquedaActual(respuestaDtoPropuestas));
-    }
-  }, [responsePropuestas]);
+  useGestionResponse<PropuestaProp>({
+    datos: propuestaDatos,
+    response: responsePropuestas,
+    query: queryActualPropuestaRef,
+    crearDatos: crearPropuestas,
+    crearBusqueda: crearBusquedaPropuesta,
+    agregarBusqueda: agregarPropuestasBusquedaActual
+  });
 
   const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const finListaRef = useRef<HTMLDivElement>(null);

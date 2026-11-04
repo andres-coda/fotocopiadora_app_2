@@ -3,6 +3,7 @@ export interface PaginadoAdapterProp<T> {
   limite?: number;
   pagina?: number;
   datos: T[];
+  query?: string;
 }
 
 export interface PaginadoProp<K> {
@@ -10,6 +11,7 @@ export interface PaginadoProp<K> {
   limite: number;
   pagina: number;
   datos: K[];
+  query: string;
 }
 // T es el dato de entrada, K es el dato de salida
 export const paginadoAdapter = <T, K>(
@@ -24,10 +26,13 @@ export const paginadoAdapter = <T, K>(
 
   // El back devuelve pagina y limite como string (vienen de @Query), y
   // useBusquedaPaginada hace `pagina + 1`: sin convertir, "1" + 1 === "11".
+  // `query` lo devuelve el back como echo del termino buscado; si falta (back
+  // viejo o endpoint sin busqueda), queda ''.
   return {
     total: Number(pg.total ?? 0),
     limite: Number(pg.limite ?? 20),
     pagina: Number(pg.pagina ?? 1),
     datos,
+    query: pg.query ?? '',
   };
 };

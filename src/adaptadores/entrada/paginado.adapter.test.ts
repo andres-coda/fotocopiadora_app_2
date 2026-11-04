@@ -31,7 +31,7 @@ describe('paginado.adapter: coercion de la paginacion', () => {
       adaptadorIdentidad
     );
 
-    expect(resultado).toEqual({ total: 5, limite: 10, pagina: 2, datos: [] });
+    expect(resultado).toEqual({ total: 5, limite: 10, pagina: 2, datos: [], query: '' });
   });
 
   it('usa 0, 20 y 1 cuando faltan total, limite y pagina', () => {

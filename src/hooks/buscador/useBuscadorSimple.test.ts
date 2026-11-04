@@ -27,6 +27,7 @@ const crearPagina = (datos: FilaTest[]): PaginadoProp<FilaTest> => ({
   limite: 20,
   pagina: 1,
   datos,
+  query: '',
 });
 
 const filas = (): FilaTest[] => [

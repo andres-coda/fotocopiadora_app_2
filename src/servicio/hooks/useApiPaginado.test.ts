@@ -76,6 +76,7 @@ describe('useApiPaginado: adapter', () => {
       limite: 20,
       pagina: 2,
       datos: ['Ana'],
+      query: '',
     });
   });
 
@@ -87,7 +88,7 @@ describe('useApiPaginado: adapter', () => {
       await result.current.fetchData({ url: URL, adapter: nombre });
     });
 
-    expect(result.current.response).toEqual({ total: 0, limite: 20, pagina: 1, datos: [] });
+    expect(result.current.response).toEqual({ total: 0, limite: 20, pagina: 1, datos: [], query: '' });
   });
 
   it('descarta los items que el adapter no puede convertir', async () => {
