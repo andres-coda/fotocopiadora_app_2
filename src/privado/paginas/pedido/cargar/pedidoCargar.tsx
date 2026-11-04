@@ -24,7 +24,7 @@ import { calcularPrecio } from '../../../../utils/precio';
 import { PrecioProp } from '../../../../modelo/Entidades/precio/precio.interface';
 import { PedidoLibroConstruccionProp } from '../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
 import Texto from '../../../../componente-estilo/texto/texto';
-import { ClienteProp } from '../../../../modelo/Entidades/cliente/cliente.interface';
+import { clienteInicial, ClienteProp } from '../../../../modelo/Entidades/cliente/cliente.interface';
 import useClientesApi from '../../../../servicio/cliente/useClientesApi';
 import useBusquedaSimple from '../../../../hooks/buscador/useBuscadorSimple';
 import DesplegablePredictivo from '../../../../componente-estilo/predictivo/desplegablePredictivo';
@@ -57,6 +57,8 @@ const telefonoComparable = (telefono?: string): string =>
   normalizarTelefono(telefono) ?? telefono?.trim() ?? '';
 
 const limiteBusquedaCliente = 4;
+
+type CampoCliente = 'nombre' | 'telefono' | 'email';
 
 const PedidoCargar = () => {
   const pedidoSelect: PedidoProp | undefined = useSelector(
@@ -101,9 +103,26 @@ const PedidoCargar = () => {
 
   const { abrirWhatsapp } = useWhatsapp();
 
-  const [clienteSeleccionado, setClienteSeleccionado] = useState<ClienteProp | undefined>(
-    undefined
+  // Al editar, el pedido ya trae su cliente: se siembra como seleccionado para
+  // que el buscador no dispare solo al entrar al formulario. Sin esto el
+  // telefono precargado caia en `valor` y el desplegable se abria encima del
+  // formulario. `pedidoSelect.cliente` es el shape del adapter, asi que le
+  // faltan `ultAct`, `resumen` y `pedidos`; se completan desde `clienteInicial`
+  // en vez de castear.
+  const [clienteSeleccionado, setClienteSeleccionado] = useState<ClienteProp | undefined>(() =>
+    pedidoSelect?.cliente
+      ? {
+          ...clienteInicial,
+          id: pedidoSelect.cliente.id,
+          nombre: pedidoSelect.cliente.nombre,
+          telefono: pedidoSelect.cliente.telefono,
+          email: pedidoSelect.cliente.email,
+        }
+      : undefined
   );
+
+  // Campo del formulario que el usuario esta editando.
+  const [campoCliente, setCampoCliente] = useState<CampoCliente>();
   const { obtenerClientesBusqueda, responseClientes, loadingClientes, errorFetchClientes } =
     useClientesApi();
 
@@ -130,17 +149,38 @@ const PedidoCargar = () => {
   // cliente que habia seleccionado: no se manda uno viejo al back.
   const clienteParaPedido = esElMismoCliente ? clienteSeleccionado : undefined;
 
+  // Se busca solo por el campo que tiene el foco y solo si su valor se aparto
+  // del cliente ya elegido. Sin foco no se busca nada, asi entrar o salir de un
+  // campo no dispara peticiones; y con el cliente intacto tampoco, para que el
+  // desplegable no se reabra sobre una edicion en curso.
+  const valorCampoConFoco = campoCliente ? clienteBuscado[campoCliente] : '';
+  const referenciaConFoco =
+    clienteSeleccionado !== undefined && campoCliente !== undefined
+      ? clienteSeleccionado[campoCliente] ?? ''
+      : undefined;
+
+  // El telefono se compara normalizado: el formulario y el adapter pueden
+  // guardarlo en formatos distintos, y sin esto alcanza con que el form
+  // reescriba el numero en otro formato para que el guard se caiga y el
+  // desplegable se reabra con un cliente que no cambio.
+  const elCampoNoCambio =
+    referenciaConFoco !== undefined &&
+    (campoCliente === 'telefono'
+      ? telefonoComparable(valorCampoConFoco) === telefonoComparable(referenciaConFoco)
+      : valorCampoConFoco === referenciaConFoco);
+
+  const valorBusquedaCliente = campoCliente && !elCampoNoCambio ? valorCampoConFoco : '';
+
   const {
     finListaRef: finClientes,
     datos: clientes,
     setDatos: setClientes,
   } = useBusquedaSimple<ClienteProp>({
-    // `||` y no `??`: los tres campos son strings y el vacio no es nullish,
-    // asi que con `??` el telefono vacio ganaba siempre y buscar por nombre
-    // no disparaba nada.
-    valor: !esElMismoCliente
-      ? clienteBuscado.telefono || clienteBuscado.nombre || clienteBuscado.email
-      : '',
+    // Antes se priorizaba el telefono, que nunca esta vacio: corregir el nombre
+    // de un cliente ya elegido disparaba una busqueda por el telefono viejo y
+    // el desplegable se abria con resultados ajenos a lo que se estaba
+    // tipeando. Un click ahi revertia la edicion.
+    valor: valorBusquedaCliente,
     response: responseClientes,
     loading: loadingClientes,
     limiteLetrasBusqueda: limiteBusquedaCliente,
@@ -242,6 +282,8 @@ const PedidoCargar = () => {
               tipo="text"
               error={errors.nombre}
               esquema={pedido}
+              onFocus={() => setCampoCliente('nombre')}
+              onBlur={() => setCampoCliente(undefined)}
             />
             <Input<formValuesPedido>
               name="telefono"
@@ -252,6 +294,8 @@ const PedidoCargar = () => {
               esquema={pedido}
               formatValue={v => formatTelefono(v)}
               parseValue={v => parseTelefono(v)}
+              onFocus={() => setCampoCliente('telefono')}
+              onBlur={() => setCampoCliente(undefined)}
             />
             <Input<formValuesPedido>
               name="email"
@@ -260,6 +304,8 @@ const PedidoCargar = () => {
               tipo="text"
               error={errors.email}
               esquema={pedido}
+              onFocus={() => setCampoCliente('email')}
+              onBlur={() => setCampoCliente(undefined)}
             />
           </div>
           {clientes && clientes.datosQuery.length > 0 && (
