@@ -17,7 +17,7 @@ import { rutaPublica } from '../../publico/rutas/rutasPublicas';
 
 function Heder() {
   // El perfil ya lo carga CargarDatosIniciales en el slice `sesion`.
-  const userActual = useSelector((store: appStore) => store.sesion.usuario);
+  const userActual = useSelector((store: appStore) => store.sesion.dato);
 
   return (
     <nav className="heder">

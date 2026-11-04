@@ -15,7 +15,7 @@ const useEspecificacionesSelect = (
   cambioLibro?: string
 ) => {
   const esp: EspecificacionProp[] = useSelector(
-    (store: appStore) => store.especificacion.especificaciones
+    (store: appStore) => store.especificacion.datos
   );
 
   const [especificaciones, setEspecificaciones] = useState<Especificaciones[]>(() =>

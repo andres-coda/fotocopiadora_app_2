@@ -15,14 +15,14 @@ import DesplegableArrow from '../../../componente-estilo/desplegable/desplegable
 import Configuracion from './componente/configuracion';
 import UsuariosEmpresa from './componente/usuariosEmpresa';
 import EliminarUsuario from './componente/eliminarUsuario';
-import { empresaActual } from '../../../redux/state/empresa.state';
+import { setMiEmpresa } from '../../../redux/state/miEmpresa.state';
 import './perfil.css';
 import { ContenedorCentro } from '../../../componente-estilo/centro/centroExterior';
 
 const Perfil = () => {
   // El perfil y la empresa ya vienen cargados por CargarDatosIniciales.
   const usuarioSesion = useSelector((store: appStore) => store.sesion);
-  const empresa = useSelector((store: appStore) => store.empresa);
+  const miEmpresa = useSelector((store: appStore) => store.miEmpresa);
   const { modal, setModal } = useModalContext();
   const [modalEmpresa, setModalEmpresa] = useState<boolean>(false);
   const [modalPerfil, setModalPerfil] = useState<boolean>(false);
@@ -81,26 +81,26 @@ const Perfil = () => {
   return (
     <>
       <ContenedorCentro
-        loading={usuarioSesion.cargando || empresa.miEmpresa.cargando}
-        error={usuarioSesion.error || empresa.miEmpresa.error}
+        loading={usuarioSesion.loading || miEmpresa.loading}
+        error={usuarioSesion.error || miEmpresa.error}
         nuevoEstilo="perfil-centro"
       >
-        {!empresa.miEmpresa.cargando &&
-          empresa.miEmpresa.empresa &&
-          !empresa.miEmpresa.error &&
-          usuarioSesion.usuario && (
+        {!miEmpresa.loading &&
+          miEmpresa.dato &&
+          !miEmpresa.error &&
+          usuarioSesion.dato && (
             <>
-              <PerfilEmpresa empresa={empresa.miEmpresa.empresa} onEditarEmpresa={abrirEmpresa} />
+              <PerfilEmpresa empresa={miEmpresa.dato} onEditarEmpresa={abrirEmpresa} />
               <Texto texto="Sesión actual" mediana negrita />
-              <CardPerfil usuario={usuarioSesion.usuario} onEditarPerfil={abrirPerfil} />
+              <CardPerfil usuario={usuarioSesion.dato} onEditarPerfil={abrirPerfil} />
 
               <DesplegableArrow titulo="Configuraciones" verde>
                 <Configuracion
-                  configuracion={empresa.miEmpresa.empresa.configuracion}
+                  configuracion={miEmpresa.dato.configuracion}
                   onEditarCampo={abrirConfiguracion}
                 />
               </DesplegableArrow>
-              {usuarioSesion.usuario.role === 'admin' && (
+              {usuarioSesion.dato.role === 'admin' && (
                 <UsuariosEmpresa
                   onAgregarUsuario={abrirUsuario}
                   onEliminarUsuario={setEliminarUsuario}
@@ -112,23 +112,23 @@ const Perfil = () => {
 
       <Modal>
         {eliminarUsuario && <EliminarUsuario />}
-        {modalEmpresa && empresa.miEmpresa.empresa && (
+        {modalEmpresa && miEmpresa.dato && (
           <EmpresaEditar
-            empresa={empresa.miEmpresa.empresa}
+            empresa={miEmpresa.dato}
             onActualizar={e =>
               dispatch(
-                empresaActual({
+                setMiEmpresa({
                   ...e,
-                  configuracion: e.configuracion ?? empresa.miEmpresa.empresa?.configuracion,
+                  configuracion: e.configuracion ?? miEmpresa.dato?.configuracion,
                 })
               )
             }
           />
         )}
-        {!modalEmpresa && campoConfig && empresa && (
+        {!modalEmpresa && campoConfig && miEmpresa.dato && (
           <ConfiguracionEditar
             campo={campoConfig}
-            configuracion={empresa.miEmpresa.empresa?.configuracion}
+            configuracion={miEmpresa.dato?.configuracion}
             onCerrar={() => setModal(false)}
           />
         )}

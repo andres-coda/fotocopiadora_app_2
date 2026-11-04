@@ -7,7 +7,7 @@ import { rutaPublica } from '../publico/rutas/rutasPublicas';
 const RutaSuperGuard = () => {
   const { token } = useAutenticacion();
   const sesion = useSelector((store:appStore) => store.sesion);
-  const autenticado: boolean = (token && sesion.usuario?.role === 'super_admin') ? true : false;
+  const autenticado: boolean = (token && sesion.dato?.role === 'super_admin') ? true : false;
   return autenticado ? <Outlet /> : <Navigate to={rutaPublica.LOGIN} replace />;
 };
 

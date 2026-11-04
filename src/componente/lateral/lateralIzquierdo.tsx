@@ -15,11 +15,11 @@ import './lateralIzquierdo.css';
 import Card from '../../componente-estilo/card/card';
 import Lateral from '../../componente-estilo/lateral/lateral';
 import PreciosCategoria from './preciosCategoria';
-import { setConfiguracionEmpresa } from '../../redux/state/empresa.state';
+import { setConfiguracionMiEmpresa } from '../../redux/state/miEmpresa.state';
 
 const LateralIzquierdo = () => {
   const configuracion: ConfiguracionProp | undefined = useSelector(
-    (store: appStore) => store.empresa.miEmpresa.empresa?.configuracion
+    (store: appStore) => store.miEmpresa.dato?.configuracion
   );
 
   const dispatch = useDispatch();
@@ -66,7 +66,7 @@ const LateralIzquierdo = () => {
 
   useEffect(() => {
     if (responseConfiguracion) {
-      dispatch((setConfiguracionEmpresa(responseConfiguracion)));
+      dispatch((setConfiguracionMiEmpresa(responseConfiguracion)));
     }
   }, [responseConfiguracion]);
 

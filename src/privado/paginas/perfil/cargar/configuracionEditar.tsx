@@ -21,7 +21,7 @@ import useDatosCobroApi from '../../../../servicio/dato_cobro/useDatosCobroApi';
 import useMensajesApi from '../../../../servicio/mensaje/useMensajesApi';
 import useSedesApi from '../../../../servicio/sede/useSedesApi';
 import MensajeNombreCard from '../../mensaje/componente/mensajeNombreCard';
-import { setConfiguracionEmpresa } from '../../../../redux/state/empresa.state';
+import { setConfiguracionMiEmpresa } from '../../../../redux/state/miEmpresa.state';
 
 interface Props {
   campo: CampoConfig;
@@ -138,7 +138,7 @@ const ConfiguracionEditar = ({ campo, configuracion: actual, onCerrar }: Props) 
 
   useEffect(() => {
     if (responseConfiguracion) {
-      dispatch(setConfiguracionEmpresa(responseConfiguracion));
+      dispatch(setConfiguracionMiEmpresa(responseConfiguracion));
       onCerrar();
     }
     // onCerrar cierra el modal y desmonta este componente.

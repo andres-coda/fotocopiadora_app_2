@@ -30,7 +30,7 @@ interface Props {
  * no expone un endpoint para que un admin edite a otro usuario.
  */
 const UsuariosEmpresa = ({ onAgregarUsuario, onEliminarUsuario }: Props) => {
-  const sesion: usuarioProps | null = useSelector((store: appStore) => store.sesion.usuario);
+  const sesion: usuarioProps | null = useSelector((store: appStore) => store.sesion.dato);
   const usuarioRedux: ReduxProp<usuarioProps> = useSelector(
     (store: appStore) => store.usuario
   );

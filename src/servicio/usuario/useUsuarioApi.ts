@@ -1,4 +1,4 @@
-import { usuarioAdapter } from '../../adaptadores/entrada/usuario.adapter';
+import { perfilAdapter, usuarioAdapter } from '../../adaptadores/entrada/usuario.adapter';
 import { usuarioAltaDtoAdapter } from '../../adaptadores/salida/usuarioAltaDto.adapter';
 import { usuarioEditarDtoAdapter } from '../../adaptadores/salida/usuarioEditarDto.adapter';
 import {
@@ -7,7 +7,7 @@ import {
 } from '../../modelo/usuario/esqUsuario.esquema';
 import { usuarioProps } from '../../modelo/usuario/Usuario.interface';
 import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
-import { USER } from '../../utils/endpoint';
+import { PERFIL, USER } from '../../utils/endpoint';
 import useApi from '../hooks/useApi';
 
 /**
@@ -26,6 +26,9 @@ import useApi from '../hooks/useApi';
  */
 const useUsuarioApi = () => {
   const { fetchData, response, loading, errorFetch } = useApi<usuarioProps | undefined>({});
+
+  const obtenerPerfil = () =>
+    fetchData({ url: `${PERFIL}`, methodo: httpMethod.GET, adapter: perfilAdapter });
 
   const obtenerUsuario = (id: string) =>
     fetchData({ url: `${USER}/${id}`, methodo: httpMethod.GET, adapter: usuarioAdapter });
@@ -50,6 +53,7 @@ const useUsuarioApi = () => {
     obtenerUsuario,
     crearUsuario,
     editarUsuario,
+    obtenerPerfil,
     responseUsuario: response,
     loadingUsuario: loading,
     errorFetchUsuario: errorFetch,

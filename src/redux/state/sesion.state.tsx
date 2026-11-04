@@ -1,39 +1,37 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { usuarioProps } from '../../modelo/usuario/Usuario.interface';
+import { ReduxSimpleElemento } from '../modelo/reduxContext.interface';
+import { estadoInicialSimpleElemento } from '../utils/reduxInicial';
 
-export interface SesionStateProp {
-  usuario: usuarioProps | null;
-  cargando: boolean;
-  error: string | null;
-}
 
-export const sesionInicial: SesionStateProp = {
-  usuario: null,
-  cargando: false,
-  error: null,
-};
+export const sesionInicial: ReduxSimpleElemento<usuarioProps> = estadoInicialSimpleElemento<usuarioProps>();
 
 export const sesionSlice = createSlice({
   name: 'sesion',
   initialState: sesionInicial,
   reducers: {
     setUsuario: (state, action: PayloadAction<usuarioProps | null>) => {
-      state.usuario = action.payload;
+      state.dato = action.payload;
     },
-    setCargandoSesion: (state, action: PayloadAction<boolean>) => {
-      state.cargando = action.payload;
+    setCargaInicial: (state, action: PayloadAction<boolean>) => {
+      state.cargaInicial = action.payload;
     },
-    setErrorSesion: (state, action: PayloadAction<string | null>) => {
+    setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
-    resetSesion: state => {
-      state.usuario = null;
-      state.cargando = false;
-      state.error = null;
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
     },
+    resetSesion: () => estadoInicialSimpleElemento<usuarioProps>(),
   },
 });
 
-export const { setUsuario, setCargandoSesion, setErrorSesion, resetSesion } = sesionSlice.actions;
+export const { 
+  setUsuario, 
+  setCargaInicial: setCargaInicialSesion, 
+  setError: setErrorSesion, 
+  setLoading: setLoadingSesion,
+  resetSesion 
+} = sesionSlice.actions;
 
 export default sesionSlice.reducer;

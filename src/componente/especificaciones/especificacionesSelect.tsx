@@ -17,7 +17,7 @@ interface EspSelectProp {
 
 const EspecificacionesSelect = ({ setEspecificaciones, especificaciones }: EspSelectProp) => {
   const esp: EspecificacionProp[] = useSelector(
-    (store: appStore) => store.especificacion.especificaciones
+    (store: appStore) => store.especificacion.datos
   );
 
   const newEsp = esp.map(e => {

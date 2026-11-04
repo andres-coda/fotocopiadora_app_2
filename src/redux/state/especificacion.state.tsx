@@ -3,16 +3,16 @@ import { EspecificacionProp } from '../../modelo/Entidades/especificacion/especi
 import { ReduxSimple } from '../modelo/reduxContext.interface';
 import { estadoInicialSimple } from '../utils/reduxInicial';
 
-export type EspecificacionState = ReduxSimple<EspecificacionProp, 'especificaciones'>;
+export type EspecificacionState = ReduxSimple<EspecificacionProp>;
 
-const initialState: EspecificacionState = estadoInicialSimple<EspecificacionProp, 'especificaciones'>('especificaciones');
+const initialState: EspecificacionState = estadoInicialSimple<EspecificacionProp>();
 
 export const especificacionSlice = createSlice({
   name: 'especificacion',
   initialState,
   reducers: {
     setEspecificaciones: (state, action: PayloadAction<EspecificacionProp[]>) => {
-      state.especificaciones = action.payload;
+      state.datos = action.payload;
       state.cargaInicial = true;
     },
     setCargaInicial: (state, action: PayloadAction<boolean>) => {
@@ -24,7 +24,7 @@ export const especificacionSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-    resetEspecificaciones: () => estadoInicialSimple<EspecificacionProp, 'especificaciones'>('especificaciones'),
+    resetEspecificaciones: () => estadoInicialSimple<EspecificacionProp>(),
   },
 });
 

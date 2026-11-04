@@ -25,7 +25,7 @@ import './mensajes.css';
 
 const Mensajes = () => {
   const mensajeDatos: ReduxProp<MensajeProp> = useSelector((store: appStore) => store.mensaje);
-  const usuario = useSelector((store: appStore) => store.sesion.usuario);
+  const usuario = useSelector((store: appStore) => store.sesion.dato);
   const { obtenerMensajesBusqueda, responseMensajes, loadingMensajes, errorFetchMensajes } =
     useMensajesApi();
   const { toggleFavorito, responseMensaje } = useMensajeApi();

@@ -68,7 +68,7 @@ const PedidoCargar = () => {
     (store: appStore) => store.precio.datosIniciales.datosQuery
   );
   const configuracion = useSelector(
-    (store: appStore) => store.empresa.miEmpresa.empresa?.configuracion
+    (store: appStore) => store.miEmpresa.dato?.configuracion
   );
 
   const {

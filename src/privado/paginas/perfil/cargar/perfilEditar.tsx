@@ -27,7 +27,7 @@ import useUsuarioApi from '../../../../servicio/usuario/useUsuarioApi';
  * compartirlo haria que la respuesta del GET se confunda con la del PUT.
  */
 const PerfilEditar = () => {
-  const usuarioSesion = useSelector((store: appStore) => store.sesion.usuario);
+  const usuarioSesion = useSelector((store: appStore) => store.sesion.dato);
   const dispatch = useDispatch();
   const { setModal } = useModalContext();
 

@@ -12,6 +12,7 @@ import { resetReduxPropuesta } from '../redux/state/propuesta.state';
 import { resetReduxSede } from '../redux/state/sede.state';
 import { resetSesion } from '../redux/state/sesion.state';
 import { resetReduxEmpresa } from '../redux/state/empresa.state';
+import { resetMiEmpresa } from '../redux/state/miEmpresa.state';
 
 interface AuthContextType {
   token: string | null;
@@ -51,6 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     dispatch(resetReduxPropuesta());
     dispatch(resetReduxSede());
     dispatch(resetReduxEmpresa());
+    dispatch(resetMiEmpresa());
     dispatch(resetSesion());
   };
 

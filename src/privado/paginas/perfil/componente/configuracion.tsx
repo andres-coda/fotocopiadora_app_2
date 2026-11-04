@@ -10,7 +10,7 @@ import useConfiguracionApi from '../../../../servicio/configuracion/useConfigura
 import Editar from '../../../../assets/edit.svg?react';
 
 import './configuracion.css'
-import { setConfiguracionEmpresa } from '../../../../redux/state/empresa.state';
+import { setConfiguracionMiEmpresa } from '../../../../redux/state/miEmpresa.state';
 
 interface Props {
   configuracion?: ConfiguracionProp;
@@ -77,7 +77,7 @@ const Configuracion = ({ configuracion, onEditarCampo }: Props) => {
   }, [errorFetchConfiguracion, configuracion]);
 
   useEffect(() => {
-    if (responseConfiguracion) dispatch(setConfiguracionEmpresa(responseConfiguracion));
+    if (responseConfiguracion) dispatch(setConfiguracionMiEmpresa(responseConfiguracion));
   }, [responseConfiguracion, dispatch]);
 
   // Solo viaja el campo tocado: el DTO omite el resto y el back no lo modifica.

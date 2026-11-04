@@ -1,3 +1,5 @@
+import { HasId } from "../../modelo/general/hasId.interface";
+
 export interface filtroLlamada {
   id: string;
   estado: boolean;
@@ -35,10 +37,16 @@ export interface ActionProp<T> {
   type: string;
 }
 
-export type ReduxSimple<T, K extends string = "items"> = {
-  [P in K]: T[];
-} & {
+export interface ReduxSimple<T extends HasId>{
+  datos:T[];
   cargaInicial: boolean;
-  error: string;
+  error?: string;
+  loading: boolean;
+};
+
+export interface ReduxSimpleElemento<T extends HasId>{
+  dato: T | null;
+  cargaInicial: boolean;
+  error?: string | null;
   loading: boolean;
 };

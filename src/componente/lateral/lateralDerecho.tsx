@@ -5,7 +5,9 @@ import './lateralIzquierdo.css';
 import './lateralDerecho.css';
 import MensajesFavoritosLateral from './mensajesFavoritosLateral';
 import Card from '../../componente-estilo/card/card';
-import { resetSesion, SesionStateProp } from '../../redux/state/sesion.state';
+import { resetSesion } from '../../redux/state/sesion.state';
+import { ReduxSimpleElemento } from '../../redux/modelo/reduxContext.interface';
+import { usuarioProps } from '../../modelo/usuario/Usuario.interface';
 import Monigote from '../../assets/user.svg?react';
 import Cerrar_Sesion from '../../assets/cerrar-sesion.svg?react';
 import Boton from '../../componente-estilo/boton/boton';
@@ -15,7 +17,7 @@ import { useAuth } from '../../contexto/contextoAutenticacion';
 import Lateral from '../../componente-estilo/lateral/lateral';
 
 const LateralDerecho = () => {
-  const sesion: SesionStateProp | undefined = useSelector((store: appStore) => store.sesion);
+  const sesion: ReduxSimpleElemento<usuarioProps> | undefined = useSelector((store: appStore) => store.sesion);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -24,7 +26,7 @@ const LateralDerecho = () => {
     dispatch(resetSesion());
     navigate(`/${rutaPublica.LOGIN}`);
   };
-  if (!sesion.usuario)
+  if (!sesion.dato)
     return (
       <Lateral nuevoEstilo="lateral-derecho">
         <Texto texto={'No hay sesion'} mediana negrita />;
@@ -35,7 +37,7 @@ const LateralDerecho = () => {
     <Lateral nuevoEstilo="lateral-derecho">
       <Card nuevoEstilo="sesion">
         <Monigote />
-        <Texto texto={sesion.usuario?.nombre} mediana negrita />
+        <Texto texto={sesion.dato?.nombre} mediana negrita />
         <Boton
           icono={<Cerrar_Sesion />}
           nuevoEstilo="btn-icono-chico"

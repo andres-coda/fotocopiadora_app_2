@@ -66,7 +66,7 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
     pedido,
   });
 
-  const configuracion = useSelector((store: appStore) => store.empresa.miEmpresa.empresa?.configuracion);
+  const configuracion = useSelector((store: appStore) => store.miEmpresa.dato?.configuracion);
 
   // Arranca con lo configurado por la empresa y se puede pisar por pedido.
   const [enviarWappManual, setEnviarWappManual] = useState<boolean | undefined>(undefined);

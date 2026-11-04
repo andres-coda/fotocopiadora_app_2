@@ -12,12 +12,12 @@ const PerfilSuper = () => {
   const { setModal } = useModalContext();
 
   return (
-    <ContenedorCentro loading={usuarioSesion.cargando} error={usuarioSesion.error}>
-      {usuarioSesion.usuario && (
+    <ContenedorCentro loading={usuarioSesion.loading} error={usuarioSesion.error}>
+      {usuarioSesion.dato && (
         <>
           <Texto texto="Sesión actual" mediana negrita />
           <CardPerfil
-            usuario={usuarioSesion.usuario}
+            usuario={usuarioSesion.dato}
             onEditarPerfil={() => setModal(prev => prev)}
           />
         </>

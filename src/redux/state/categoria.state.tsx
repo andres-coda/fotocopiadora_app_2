@@ -3,16 +3,16 @@ import { CategoriaProp } from '../../modelo/Entidades/precio/precio.interface';
 import { ReduxSimple } from '../modelo/reduxContext.interface';
 import { estadoInicialSimple } from '../utils/reduxInicial';
 
-export type CategoriaState = ReduxSimple<CategoriaProp, 'categorias'>;
+export type CategoriaState = ReduxSimple<CategoriaProp>;
 
-const initialState: CategoriaState = estadoInicialSimple<CategoriaProp, 'categorias'>('categorias');
+const initialState: CategoriaState = estadoInicialSimple<CategoriaProp>();
 
 export const categoriaSlice = createSlice({
   name: 'categoria',
   initialState,
   reducers: {
     setCategorias: (state, action: PayloadAction<CategoriaProp[]>) => {
-      state.categorias = action.payload;
+      state.datos = action.payload;
       state.cargaInicial = true;
     },
     setCargaInicialCategorias: (state, action: PayloadAction<boolean>) => {
@@ -24,7 +24,7 @@ export const categoriaSlice = createSlice({
     setLoadingCategorias: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-    resetCategorias: () => estadoInicialSimple<CategoriaProp, 'categorias'>('categorias'),
+    resetCategorias: () => estadoInicialSimple<CategoriaProp>(),
   },
 });
 

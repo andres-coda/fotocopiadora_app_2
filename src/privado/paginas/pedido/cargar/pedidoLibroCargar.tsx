@@ -44,7 +44,7 @@ const crearLibropedido = (
 
 const PedidoLibroCargar = () => {
   const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.busquedaActual.datosQuery);
-  const configuracion = useSelector((store: appStore) => store.empresa.miEmpresa?.empresa?.configuracion);
+  const configuracion = useSelector((store: appStore) => store.miEmpresa.dato?.configuracion);
   const sedeConfigurada = sedes.find(s => s.id === configuracion?.sede?.id);
   // Si la configuracion apunta a una sede que ya no esta en el listado (borrada),
   // no se elige otra en silencio: el pedido quedaria en la sede equivocada.

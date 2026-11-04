@@ -1,8 +1,8 @@
+import { HasId } from "../../modelo/general/hasId.interface";
 import { limiteDefecto } from "../../utils/constantes";
-import { orden, UltimaBusquedaProp, ReduxProp, ReduxSimple } from "../modelo/reduxContext.interface";
-import { EmpresaSesionProp } from "../state/empresa.state";
+import { orden, UltimaBusquedaProp, ReduxProp, ReduxSimple, ReduxSimpleElemento } from "../modelo/reduxContext.interface";
 
-export const busquedaReduxInicial = <T>(orden: keyof T, limite?:number): UltimaBusquedaProp<T> => {
+export const busquedaReduxInicial = <T>(orden: keyof T, limite?: number): UltimaBusquedaProp<T> => {
   return {
     query: undefined,
     datosQuery: [],
@@ -24,17 +24,20 @@ export const estadoInicialRedux = <T>(orden: keyof T, limite?: number): ReduxPro
   }
 }
 
-export const empresaInicial: EmpresaSesionProp = {
-  empresa: null,
-  cargando: false,
-  error: null,
-  solicitada: false,
-};
-export const estadoInicialSimple = <T, K extends string = "items">(
-  key: K
-): ReduxSimple<T, K> => ({
-  [key]: [],
-  cargaInicial: false,
-  error: "",
-  loading: false,
-} as ReduxSimple<T, K>);
+export const estadoInicialSimple = <T extends HasId>(): ReduxSimple<T> => {
+  return {
+    datos: [],
+    cargaInicial: false,
+    error:undefined,
+    loading: false,
+  }
+}
+
+export const estadoInicialSimpleElemento = <T extends HasId>(): ReduxSimpleElemento<T> => {
+  return {
+    dato: null,
+    cargaInicial: false,
+    error:undefined,
+    loading: false,
+  }
+}
