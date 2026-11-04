@@ -15,6 +15,7 @@ import useFormulario from '../../../../hooks/formulario/useFormulario';
 import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import Input from '../../../../componente/formulario/input';
 import { formatTelefono, parseDecimal, parseTelefono } from '../../../../utils/formulario';
+import { normalizarTelefono } from '../../../../utils/telefono';
 import PedidoLibroCargar from './pedidoLibroCargar';
 import { usePedidoContext } from '../../../../contexto/contextoPedido';
 import { useEffect, useState } from 'react';
@@ -49,6 +50,11 @@ const calcularTotal = (precios: PrecioProp[], libros?: PedidoLibroConstruccionPr
     ) ?? 0
   );
 };
+
+// `normalizarTelefono` devuelve undefined cuando el numero no cierra; en ese
+// caso se compara el texto crudo para no dar por iguales dos numeros distintos.
+const telefonoComparable = (telefono?: string): string =>
+  normalizarTelefono(telefono) ?? telefono?.trim() ?? '';
 
 const limiteBusquedaCliente = 4;
 
@@ -110,10 +116,15 @@ const PedidoCargar = () => {
   // `formatTelefono` descarta todo lo no numerico, asi que comparaba '' contra
   // '': con cualquier nombre alfabetico daba igual y el cliente seleccionado
   // quedaba "vivo" aunque editaras el nombre. Se compara el nombre directo.
+  // El telefono se compara normalizado: el form puede guardarlo local y el
+  // cliente venir en internacional, y sin esto corregir solo el telefono
+  // dejaba el cliente viejo y el numero nuevo no llegaba al back.
   const esElMismoCliente =
     clienteSeleccionado !== undefined &&
     clienteBuscado.nombre === (clienteSeleccionado.nombre ?? '') &&
-    clienteBuscado.email === (clienteSeleccionado.email ?? '');
+    clienteBuscado.email === (clienteSeleccionado.email ?? '') &&
+    telefonoComparable(clienteBuscado.telefono) ===
+      telefonoComparable(clienteSeleccionado.telefono);
 
   // Si el usuario edito nombre o email, lo que hay en el formulario ya no es el
   // cliente que habia seleccionado: no se manda uno viejo al back.
@@ -168,7 +179,7 @@ const PedidoCargar = () => {
 
     abrirWhatsapp({
       telefono:
-        clienteParaPedido?.telefono ?? responsePedido.cliente?.telefono ?? watch('telefono'),
+        clienteParaPedido?.telefono || responsePedido.cliente?.telefono || watch('telefono'),
       mensaje: armarMensajeTomado({
         pedido: responsePedido,
         encabezado: configuracion?.msjTomado?.mensaje,
