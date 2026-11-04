@@ -103,14 +103,13 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
   const { obtenerPropuestaBusqueda, responsePropuestas, loadingPropuestas, errorFetchPropuestas } =
     usePropuestasApi();
 
-  // La respuesta paginada no trae la query con la que se pidio, asi que se
-  // guarda al disparar. El observer la usa para no pedir la pagina siguiente
-  // de una busqueda vieja.
+  // Refs de REQUEST (query con la que se disparo cada pedido): se usan para
+  // paginar solo la busqueda vigente y para no repetir una busqueda ya hecha.
+  // El reset los pone en '' para que la respuesta vieja se descarte.
   const queryLibrosRef = useRef<string>('');
   const queryPropuestaRef = useRef<string>('');
 
-  // Ref de la query VIGENTE (la que escribe el usuario), distinto del ref de
-  // request (queryLibrosRef) que se pisa en el reset. El hook de respuesta
+  // Ref de la query VIGENTE (la que escribe el usuario). El hook de respuesta
   // compara response.query (echo del back) contra este para descartar stale.
   const queryActualLibrosRef = useRef<string>('');
   const queryActualPropuestaRef = useRef<string>('');
