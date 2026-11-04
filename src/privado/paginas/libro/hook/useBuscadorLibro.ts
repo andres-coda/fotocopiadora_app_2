@@ -242,6 +242,11 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
       dispatch(crearLibros(respuestaDtoLibro));
       return;
     }
+    // Si la query ya bajo del minimo, el reset limpio la lista y esta respuesta
+    // es de una busqueda que quedo en vuelo: nadie la aborto porque no se
+    // disparo un pedido nuevo. Sin este guard, los resultados viejos repueblan
+    // la lista despues de borrar el texto.
+    if (query.length < limiteLetrasBusqueda) return;
     if (responseLibros.pagina === 1) {
       dispatch(crearBusquedaLibro(respuestaDtoLibro));
     } else {
@@ -264,6 +269,9 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
       dispatch(crearPropuestas(respuestaDtoPropuestas));
       return;
     }
+    // Mismo guard que en libros: una respuesta que quedo en vuelo cuando la
+    // query bajo del minimo ya no representa el estado actual.
+    if (query.length < limiteLetrasBusqueda) return;
     if (responsePropuestas.pagina === 1) {
       dispatch(crearBusquedaPropuesta(respuestaDtoPropuestas));
     } else {
