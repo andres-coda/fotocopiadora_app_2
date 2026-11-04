@@ -34,3 +34,11 @@ export interface ActionProp<T> {
   payload: T;
   type: string;
 }
+
+export type ReduxSimple<T, K extends string = "items"> = {
+  [P in K]: T[];
+} & {
+  cargaInicial: boolean;
+  error: string;
+  loading: boolean;
+};

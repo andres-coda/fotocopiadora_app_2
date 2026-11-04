@@ -1,6 +1,6 @@
 import { clienteSlice } from '../state/cliente.state';
 import { especificacionSlice } from '../state/especificacion.state';
-import { materiaSlice } from '../state/materia.state';
+import { categoriaSlice } from '../state/categoria.state';
 import { pedidoSlice } from '../state/pedido.state';
 import { pedidoLibroSlice } from '../state/pedido_libro.state';
 import { precioSlice } from '../state/precio.state';
@@ -11,7 +11,7 @@ import { libroSlice } from '../state/libro.state';
 export const reducerRegistro = {
   cliente: clienteSlice.reducer,
   especificacion: especificacionSlice.reducer,
-  materia: materiaSlice.reducer,
+  categoria: categoriaSlice.reducer,
   pedido: pedidoSlice.reducer,
   pedidoLibro: pedidoLibroSlice.reducer,
   precio: precioSlice.reducer,
@@ -25,16 +25,6 @@ export const selectores = {
     busquedaActual: (state: any) => state.cliente.busquedaActual.datosQuery,
     datoSeleccionado: (state: any) => state.cliente.datoSeleccionado,
     busquedas: (state: any) => state.cliente.ultimasBusqueda,
-  },
-  especificacion: {
-    busquedaActual: (state: any) => state.especificacion.busquedaActual.datosQuery,
-    datoSeleccionado: (state: any) => state.especificacion.datoSeleccionado,
-    busquedas: (state: any) => state.especificacion.ultimasBusqueda,
-  },
-  materia: {
-    busquedaActual: (state: any) => state.materia.busquedaActual.datosQuery,
-    datoSeleccionado: (state: any) => state.materia.datoSeleccionado,
-    busquedas: (state: any) => state.materia.ultimasBusqueda,
   },
   pedido: {
     busquedaActual: (state: any) => state.pedido.busquedaActual.datosQuery,

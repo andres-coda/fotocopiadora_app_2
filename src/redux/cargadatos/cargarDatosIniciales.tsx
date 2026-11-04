@@ -5,9 +5,10 @@ import { AppProp } from '../modelo/cargarDatos.interface';
 import { crearElementosContexto } from '../utils/crearElementosContexto';
 import { EspecificacionProp } from '../../modelo/Entidades/especificacion/especificacion.interface';
 import useEspecificacionesApi from '../../servicio/especificacion/useEspecificacionesApi';
+import useCategoriasApi from '../../servicio/precio/useCategoriasApi';
 import usePreciosApi from '../../servicio/precio/usePreciosApi';
 import useSedesApi from '../../servicio/sede/useSedesApi';
-import { PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
+import { PrecioProp, CategoriaProp } from '../../modelo/Entidades/precio/precio.interface';
 import { SedeProp } from '../../modelo/Entidades/sede/sede.interface';
 import { MensajeProp } from '../../modelo/Entidades/mensaje/mensaje.interface';
 import useMensajesApi from '../../servicio/mensaje/useMensajesApi';
@@ -21,6 +22,7 @@ import { cargandoEmpresa, empresaActual, errorEmpresa, solicitadaEmpresa } from 
 const CargarDatosIniciales = ({ children }: AppProp) => {
   const {token} = useAutenticacion();
   const { obtenerEspecificaciones, responseEspecificaciones } = useEspecificacionesApi();
+  const { obtenerCategorias, responseCategorias } = useCategoriasApi();
   const { obtenerPrecios, responsePrecios } = usePreciosApi();
   const { obtenerSedes, responseSedes } = useSedesApi();
   const { obtenerMensajes, responseMensajes } = useMensajesApi();
@@ -39,7 +41,10 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const empresaSolicitada = useRef<boolean>(false);
 
   const especificacionItems: EspecificacionProp[] = useSelector(
-    (store: appStore) => store.especificacion.datosIniciales.datosQuery
+    (store: appStore) => store.especificacion.especificaciones
+  );
+  const categoriaItems: CategoriaProp[] = useSelector(
+    (store: appStore) => store.categoria.categorias
   );
   const precioItems: PrecioProp[] = useSelector(
     (store: appStore) => store.precio.datosIniciales.datosQuery
@@ -87,6 +92,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   useEffect(() => {
     crearElementosContexto({
       especificaciones: responseEspecificaciones || undefined,
+      categorias: responseCategorias || undefined,
       precios: responsePrecios || undefined,
       sedes: responseSedes || undefined,
       mensajes: responseMensajes || undefined,
@@ -95,6 +101,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     });
   }, [
     responseEspecificaciones,
+    responseCategorias,
     responsePrecios,
     responseSedes,
     responseMensajes,
@@ -103,6 +110,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   useEffect(() => {
     if(!token) return
     if (especificacionItems.length === 0) obtenerEspecificaciones();
+    if (categoriaItems.length === 0) obtenerCategorias();
     if (precioItems.length === 0) obtenerPrecios();
     if (sedeItems.length === 0) obtenerSedes();
     if (mensajeItems.length === 0) obtenerMensajes();

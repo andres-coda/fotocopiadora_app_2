@@ -18,6 +18,7 @@ export interface PrecioNombreProp {
 export interface CategoriaProp {
     id: string;
     nombre: string;
+    bloqueado?: boolean;
 }
 
 export interface PrecioAdapterProp extends BaseAdapterProp {

@@ -1,5 +1,5 @@
 import { limiteDefecto } from "../../utils/constantes";
-import { orden, UltimaBusquedaProp, ReduxProp } from "../modelo/reduxContext.interface";
+import { orden, UltimaBusquedaProp, ReduxProp, ReduxSimple } from "../modelo/reduxContext.interface";
 import { EmpresaSesionProp } from "../state/empresa.state";
 
 export const busquedaReduxInicial = <T>(orden: keyof T, limite?:number): UltimaBusquedaProp<T> => {
@@ -30,3 +30,11 @@ export const empresaInicial: EmpresaSesionProp = {
   error: null,
   solicitada: false,
 };
+export const estadoInicialSimple = <T, K extends string = "items">(
+  key: K
+): ReduxSimple<T, K> => ({
+  [key]: [],
+  cargaInicial: false,
+  error: "",
+  loading: false,
+} as ReduxSimple<T, K>);

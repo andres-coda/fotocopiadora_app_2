@@ -42,7 +42,7 @@ export const precioAdapterArray = (precios?: PrecioAdapterProp[]): PrecioProp[] 
 
 export const categoriaAdapter = (categoria?: CategoriaProp): CategoriaProp | undefined => {
   if (!categoria) return undefined;
-  return { id: categoria.id, nombre: categoria.nombre };
+  return { id: categoria.id, nombre: categoria.nombre, bloqueado: categoria.bloqueado };
 };
 
 export const precioNombreAdapter = (

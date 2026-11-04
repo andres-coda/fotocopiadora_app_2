@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useDispatch } from 'react-redux';
 import { resetReduxCliente } from '../redux/state/cliente.state';
-import { resetReduxEspecificaciones } from '../redux/state/especificacion.state';
+import { resetEspecificaciones } from '../redux/state/especificacion.state';
+import { resetCategorias } from '../redux/state/categoria.state';
 import { resetReduxLibro } from '../redux/state/libro.state';
-import { resetReduxMateria } from '../redux/state/materia.state';
 import { resetReduxMensaje } from '../redux/state/mensaje.state';
 import { resetReduxItem } from '../redux/state/pedido_libro.state';
 import { resetReduxPedido } from '../redux/state/pedido.state';
@@ -41,9 +41,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     setToken(null);
     dispatch(resetReduxCliente());
-    dispatch(resetReduxEspecificaciones());
+    dispatch(resetEspecificaciones());
+    dispatch(resetCategorias());
     dispatch(resetReduxLibro());
-    dispatch(resetReduxMateria());
     dispatch(resetReduxMensaje());
     dispatch(resetReduxItem());
     dispatch(resetReduxPedido());

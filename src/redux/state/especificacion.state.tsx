@@ -1,46 +1,39 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { EspecificacionProp } from '../../modelo/Entidades/especificacion/especificacion.interface';
-import { ReduxProp } from '../modelo/reduxContext.interface';
-import {
-  crearDatoInicial,
-  crearBusqueda,
-  resetBusqueda,
-  seleccionarDato,
-  resetSeleccionDato,
-  agregarDatosBusquedaActual,
-  cambiarOrden,
-  resetRedux,
-} from '../utils/funcionesGenericasEmpresa';
-import { estadoInicialRedux } from '../utils/reduxInicial';
+import { ReduxSimple } from '../modelo/reduxContext.interface';
+import { estadoInicialSimple } from '../utils/reduxInicial';
 
-const cantidadBusquedas: number = 1;
+export type EspecificacionState = ReduxSimple<EspecificacionProp, 'especificaciones'>;
 
-const estadoEspecificacionInicial: ReduxProp<EspecificacionProp> = estadoInicialRedux<EspecificacionProp>('nombre', 20);
+const initialState: EspecificacionState = estadoInicialSimple<EspecificacionProp, 'especificaciones'>('especificaciones');
 
 export const especificacionSlice = createSlice({
   name: 'especificacion',
-  initialState: estadoEspecificacionInicial,
+  initialState,
   reducers: {
-    crearEspecificaciones: crearDatoInicial,
-    crearBusquedaEspecificacion: crearBusqueda<EspecificacionProp>(cantidadBusquedas),
-    resetBusquedaEspecificacion: resetBusqueda<EspecificacionProp>(cantidadBusquedas),
-    seleccionarEspecificacion: seleccionarDato,
-    resetSeleccionarEspecificacion: resetSeleccionDato,
-    agregarEspecificacionesBusquedaActual: agregarDatosBusquedaActual<EspecificacionProp>,
-    cambiarOrdenEspecificacion: cambiarOrden<EspecificacionProp>,
-    resetReduxEspecificaciones: resetRedux<EspecificacionProp>,
+    setEspecificaciones: (state, action: PayloadAction<EspecificacionProp[]>) => {
+      state.especificaciones = action.payload;
+      state.cargaInicial = true;
+    },
+    setCargaInicial: (state, action: PayloadAction<boolean>) => {
+      state.cargaInicial = action.payload;
+    },
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+    resetEspecificaciones: () => estadoInicialSimple<EspecificacionProp, 'especificaciones'>('especificaciones'),
   },
 });
 
 export const {
-  crearEspecificaciones,
-  crearBusquedaEspecificacion,
-  resetBusquedaEspecificacion,
-  resetSeleccionarEspecificacion,
-  seleccionarEspecificacion,
-  agregarEspecificacionesBusquedaActual,
-  cambiarOrdenEspecificacion,
-  resetReduxEspecificaciones,
+  setEspecificaciones,
+  setCargaInicial,
+  setError,
+  setLoading,
+  resetEspecificaciones,
 } = especificacionSlice.actions;
 
 export default especificacionSlice.reducer;
