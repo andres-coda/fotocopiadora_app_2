@@ -172,18 +172,31 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
     }
   }, [opcionesActivas]);
 
+  // El reset depende solo de `query`: con `opcionesActivas` en las deps,
+  // cambiar el toggle con la query corta reseteaba las dos entidades, incluida
+  // la que no se toco, y se perdian la pagina acumulada y el scroll de la otra
+  // lista.
   useEffect(() => {
-    if (query.length < limiteLetrasBusqueda) {
-      queryLibrosRef.current = '';
-      queryPropuestaRef.current = '';
-      dispatch(resetBusquedaLibro());
-      dispatch(resetBusquedaPropuesta());
-      return;
-    }
+    if (query.length >= limiteLetrasBusqueda) return;
+
+    queryLibrosRef.current = '';
+    queryPropuestaRef.current = '';
+    dispatch(resetBusquedaLibro());
+    dispatch(resetBusquedaPropuesta());
+  }, [query]);
+
+  // Si se escribe antes de que responda la carga inicial, la busqueda dispara
+  // igual y su respuesta llega con `cargaInicial` en false: los effects de
+  // respuesta caen en la rama `crearLibros` y pisan `datosIniciales` con un
+  // resultado de query. El guard por entidad junto con `cargaInicial` en las
+  // deps hace que la busqueda pendiente corra justo despues de la carga
+  // inicial en vez de competir con ella.
+  useEffect(() => {
+    if (query.length < limiteLetrasBusqueda) return;
 
     // Si esta entidad ya se pidio con esta misma query (o se siguio paginando
     // con ella), el cambio de toggle no debe volver a disparar la busqueda.
-    if (librosHabilitados && queryLibrosRef.current !== query) {
+    if (librosHabilitados && librosDatos.cargaInicial && queryLibrosRef.current !== query) {
       const busqueda = librosDatos.ultimasBusqueda.find(
         (d) => d.query?.toLowerCase() === query.toLowerCase()
       );
@@ -195,7 +208,11 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
       }
     }
 
-    if (propuestasHabilitadas && queryPropuestaRef.current !== query) {
+    if (
+      propuestasHabilitadas &&
+      propuestaDatos.cargaInicial &&
+      queryPropuestaRef.current !== query
+    ) {
       const busquedaPropuesta = propuestaDatos.ultimasBusqueda.find(
         (d) => d.query?.toLowerCase() === query.toLowerCase()
       );
@@ -206,7 +223,7 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
         pedirPropuestas({ query });
       }
     }
-  }, [query, opcionesActivas]);
+  }, [query, opcionesActivas, librosDatos.cargaInicial, propuestaDatos.cargaInicial]);
 
   useEffect(() => {
     if (!responseLibros) return;

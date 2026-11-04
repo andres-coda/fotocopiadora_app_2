@@ -56,16 +56,23 @@ export const resetSeleccionDato = <T>(state: ReduxProp<T>) => {
   state.datoSeleccionado = undefined;
 };
 
-export const agregarDatosBusquedaActual = <T>(
+// Una pagina pedida dos veces no aporta filas nuevas, pero sus `pagina`,
+// `limite` y `total` si se aplican para que el observer avance. Sin deduplicar
+// por `id`, `datosQuery` acumula repetidos y aguas abajo quedan children con la
+// misma key: React deja montado un nodo con contenido viejo.
+export const agregarDatosBusquedaActual = <T extends HasId>(
   state: ReduxProp<T>,
   action: PayloadAction<UltimaBusquedaProp<T>>
 ) => {
+  const yaPresentes = new Set(state.busquedaActual.datosQuery.map((d) => d.id));
+  const nuevos = action.payload.datosQuery.filter((d) => !yaPresentes.has(d.id));
+
   state.busquedaActual = {
     ...state.busquedaActual,
     limite: action.payload.limite,
     total: action.payload.total,
     pagina: action.payload.pagina,
-    datosQuery: [...state.busquedaActual.datosQuery, ...action.payload.datosQuery],
+    datosQuery: [...state.busquedaActual.datosQuery, ...nuevos],
   };
 };
 
