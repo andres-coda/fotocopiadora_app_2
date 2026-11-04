@@ -12,8 +12,7 @@ import { pedidoLibroSlice, PedidoLibroStateProp } from './state/pedido_libro.sta
 import { PrecioProp } from '../modelo/Entidades/precio/precio.interface';
 import { precioSlice } from './state/precio.state';
 import { categoriaSlice, CategoriaState } from './state/categoria.state';
-import { SedeProp } from '../modelo/Entidades/sede/sede.interface';
-import { sedeSlice } from './state/sede.state';
+import { sedeSlice, SedeState } from './state/sede.state';
 import { MensajeProp } from '../modelo/Entidades/mensaje/mensaje.interface';
 import { mensajeSlice } from './state/mensaje.state';
 import { sesionSlice } from './state/sesion.state';
@@ -33,7 +32,7 @@ export interface appStore {
   pedidoLibro: PedidoLibroStateProp;
   precio: ReduxProp<PrecioProp>;
   categoria: CategoriaState;
-  sede: ReduxProp<SedeProp>;
+  sede: SedeState;
   mensaje: ReduxProp<MensajeProp>;
   propuesta: ReduxProp<PropuestaProp>;
   libro: ReduxProp<LibroProp>;

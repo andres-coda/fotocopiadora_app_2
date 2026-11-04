@@ -34,7 +34,7 @@ const useItemCard = ({
   resetEstado,
   resetSede,
 }: UseItemHoockProp) => {
-  const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.datosIniciales.datosQuery);
+  const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.datos);
 
   const dispatch = useDispatch();
 

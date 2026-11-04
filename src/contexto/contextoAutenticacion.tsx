@@ -9,7 +9,7 @@ import { resetReduxItem } from '../redux/state/pedido_libro.state';
 import { resetReduxPedido } from '../redux/state/pedido.state';
 import { resetReduxPrecio } from '../redux/state/precio.state';
 import { resetReduxPropuesta } from '../redux/state/propuesta.state';
-import { resetReduxSede } from '../redux/state/sede.state';
+import { resetSedes } from '../redux/state/sede.state';
 import { resetSesion } from '../redux/state/sesion.state';
 import { resetReduxEmpresa } from '../redux/state/empresa.state';
 import { resetMiEmpresa } from '../redux/state/miEmpresa.state';
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     dispatch(resetReduxPedido());
     dispatch(resetReduxPrecio());
     dispatch(resetReduxPropuesta());
-    dispatch(resetReduxSede());
+    dispatch(resetSedes());
     dispatch(resetReduxEmpresa());
     dispatch(resetMiEmpresa());
     dispatch(resetSesion());

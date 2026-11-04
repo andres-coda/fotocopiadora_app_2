@@ -6,7 +6,6 @@ import { seleccionarLibro } from '../../redux/state/libro.state';
 import { seleccionarPrecio } from '../../redux/state/precio.state';
 import { seleccionarCliente } from '../../redux/state/cliente.state';
 import { seleccionarPropuesta } from '../../redux/state/propuesta.state';
-import { seleccionarSede } from '../../redux/state/sede.state';
 import { seleccionarPedido } from '../../redux/state/pedido.state';
 import { seleccionarMensaje } from '../../redux/state/mensaje.state';
 
@@ -16,7 +15,6 @@ const useEditar = ({
   cliente,
   libro,
   pedido,
-  sede,
   precio,
   propuesta,
   mensaje,
@@ -29,7 +27,6 @@ const useEditar = ({
     cliente: cl,
     libro: l,
     pedido: p,
-    sede: s,
     precio: pr,
     propuesta: prta,
     mensaje: msj,
@@ -37,14 +34,12 @@ const useEditar = ({
     const newCliente = cl || cliente;
     const newLibro = l || libro;
     const newPedido = p || pedido;
-    const newSede = s || sede;
     const newPrecio = pr || precio;
     const newPropuesta = prta || propuesta;
     const newMensaje = msj || mensaje;
     if (newCliente) dispatch(seleccionarCliente(newCliente));
     if (newLibro) dispatch(seleccionarLibro(newLibro));
     if (newPedido) dispatch(seleccionarPedido(newPedido));
-    if (newSede) dispatch(seleccionarSede(newSede));
     if (newPrecio) dispatch(seleccionarPrecio(newPrecio));
     if (newPropuesta) dispatch(seleccionarPropuesta(newPropuesta));
     if (newMensaje) dispatch(seleccionarMensaje(newMensaje));
@@ -54,7 +49,6 @@ const useEditar = ({
     cliente: cl,
     libro: l,
     pedido: p,
-    sede: s,
     precio: pr,
     propuesta: prta,
     mensaje: msj,
@@ -63,7 +57,6 @@ const useEditar = ({
       cliente: cl,
       libro: l,
       pedido: p,
-      sede: s,
       precio: pr,
       propuesta: prta,
       mensaje: msj,
@@ -80,7 +73,6 @@ const useEditar = ({
     cliente: cl,
     libro: l,
     pedido: p,
-    sede: s,
     precio: pr,
     propuesta: prta,
     mensaje: msj,
@@ -89,7 +81,6 @@ const useEditar = ({
       cliente: cl,
       libro: l,
       pedido: p,
-      sede: s,
       precio: pr,
       propuesta: prta,
       mensaje: msj,

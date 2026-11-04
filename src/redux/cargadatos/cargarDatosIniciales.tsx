@@ -7,7 +7,7 @@ import { EspecificacionProp } from '../../modelo/Entidades/especificacion/especi
 import useEspecificacionesApi from '../../servicio/especificacion/useEspecificacionesApi';
 import useCategoriasApi from '../../servicio/precio/useCategoriasApi';
 import usePreciosApi from '../../servicio/precio/usePreciosApi';
-import useSedesApi from '../../servicio/sede/useSedesApi';
+import useSedesAllApi from '../../servicio/sede/useSedesAllApi';
 import { PrecioProp, CategoriaProp } from '../../modelo/Entidades/precio/precio.interface';
 import { EmpresaProp } from '../../modelo/Entidades/empresa/empresa.interface';
 import { SedeProp } from '../../modelo/Entidades/sede/sede.interface';
@@ -18,6 +18,7 @@ import useEmpresaApi from '../../servicio/empresa/useEmpresaApi';
 
 import { useAutenticacion } from '../../hooks/autenticacion/useAutenticacion';
 import { setMiEmpresa, setErrorMiEmpresa, setLoadingMiEmpresa } from '../state/miEmpresa.state';
+import { setSedes, setErrorSedes, setLoadingSedes } from '../state/sede.state';
 import { ReduxSimple, ReduxSimpleElemento } from '../modelo/reduxContext.interface';
 import { setError as setErrorEspecificaciones, setEspecificaciones, setLoading as setLoadingEspecifcaciones } from '../state/especificacion.state';
 import { setCategorias, setErrorCategorias, setLoadingCategorias } from '../state/categoria.state';
@@ -32,7 +33,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   const { obtenerEspecificaciones, responseEspecificaciones, loadingEspecificaciones, errorFetchEspecificaciones } = useEspecificacionesApi();
   const { obtenerCategorias, responseCategorias, loadingCategorias, errorFetchCategorias } = useCategoriasApi();
   const { obtenerPrecios, responsePrecios } = usePreciosApi();
-  const { obtenerSedes, responseSedes } = useSedesApi();
+  const { obtenerSedes: obtenerSedesAll, responseSedes: responseSedesAll, loadingSedes: loadingSedesAll, errorFetchSedes: errorFetchSedesAll } = useSedesAllApi();
   const { obtenerMensajes, responseMensajes } = useMensajesApi();
   const { obtenerEmpresaMia, responseEmpresa, loadingEmpresa, errorFetchEmpresa } = useEmpresaApi();
 
@@ -112,11 +113,24 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   
 
   // Evita repetir la peticion cuando el back responde 404 (sin empresa).
+  const sedes: ReduxSimple<SedeProp> = useSelector(
+    (store: appStore) => store.sede
+  );
+
+  useCargaDatosInicialesSimplesArray({
+    error: errorFetchSedesAll,
+    response: responseSedesAll,
+    loading: loadingSedesAll,
+    obtenerBusqueda: obtenerSedesAll,
+    datos: sedes,
+    setLoading: setLoadingSedes,
+    setError: setErrorSedes,
+    cargaInicial: setSedes,
+    token
+  });
+
   const precioItems: PrecioProp[] = useSelector(
     (store: appStore) => store.precio.datosIniciales.datosQuery
-  );
-  const sedeItems: SedeProp[] = useSelector(
-    (store: appStore) => store.sede.datosIniciales.datosQuery
   );
   const mensajeItems: MensajeProp[] = useSelector(
     (store: appStore) => store.mensaje.datosIniciales.datosQuery
@@ -128,21 +142,18 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
   useEffect(() => {
     crearElementosContexto({
       precios: responsePrecios || undefined,
-      sedes: responseSedes || undefined,
       mensajes: responseMensajes || undefined,
 
       dispatch,
     });
   }, [
     responsePrecios,
-    responseSedes,
     responseMensajes,
   ]);
 
   useEffect(() => {
     if(!token) return
     if (precioItems.length === 0) obtenerPrecios();
-    if (sedeItems.length === 0) obtenerSedes();
     if (mensajeItems.length === 0) obtenerMensajes();
   }, [token]);
 

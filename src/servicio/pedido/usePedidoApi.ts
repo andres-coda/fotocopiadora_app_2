@@ -13,7 +13,7 @@ import { ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
 
 const usePedidoApi = () => {
   const { fetchData, response, loading, errorFetch } = useApi<PedidoProp | undefined>({});
-  const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.datosIniciales.datosQuery);
+  const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.datos);
   const configuracion = useSelector((store: appStore) => store.miEmpresa.dato?.configuracion);
   const sedeDefecto = sedes.find(s => s.id === configuracion?.sede?.id) ?? sedes[0];
 

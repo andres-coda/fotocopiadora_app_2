@@ -1,55 +1,39 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { ReduxProp } from '../modelo/reduxContext.interface';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SedeProp } from '../../modelo/Entidades/sede/sede.interface';
-import {
-  crearDatoInicial,
-  crearBusqueda,
-  resetBusqueda,
-  seleccionarDato,
-  resetSeleccionDato,
-  agregarDatosBusquedaActual,
-  cambiarOrden,
-  eliminarElemento,
-  modificarElementoRedux,
-  agregarElementoInicio,
-  resetRedux,
-} from '../utils/funcionesGenericasEmpresa';
-import { estadoInicialRedux } from '../utils/reduxInicial';
+import { ReduxSimple } from '../modelo/reduxContext.interface';
+import { estadoInicialSimple } from '../utils/reduxInicial';
 
-const cantidadBusquedas: number = 1;
+export type SedeState = ReduxSimple<SedeProp>;
 
-const estadoSedeInicial: ReduxProp<SedeProp> = estadoInicialRedux<SedeProp>('ultAct', 20);
+const initialState: SedeState = estadoInicialSimple<SedeProp>();
 
 export const sedeSlice = createSlice({
   name: 'sede',
-  initialState: estadoSedeInicial,
+  initialState,
   reducers: {
-    crearSedes: crearDatoInicial,
-    crearBusquedaSede: crearBusqueda<SedeProp>(cantidadBusquedas),
-    resetBusquedaSede: resetBusqueda<SedeProp>(cantidadBusquedas),
-    seleccionarSede: seleccionarDato,
-    resetSeleccionarSede: resetSeleccionDato,
-    agregarSedesBusquedaActual: agregarDatosBusquedaActual<SedeProp>,
-    cambiarOrdenSede: cambiarOrden<SedeProp>,
-    eliminarSedeRedux: eliminarElemento<SedeProp>,
-    actualizarSedeRedux: modificarElementoRedux<SedeProp>,
-    agregarSedeInicioRedux: agregarElementoInicio<SedeProp>,
-    resetReduxSede: resetRedux<SedeProp>,
+    setSedes: (state, action: PayloadAction<SedeProp[]>) => {
+      state.datos = action.payload;
+      state.cargaInicial = true;
+    },
+    setCargaInicialSedes: (state, action: PayloadAction<boolean>) => {
+      state.cargaInicial = action.payload;
+    },
+    setErrorSedes: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
+    setLoadingSedes: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+    resetSedes: () => estadoInicialSimple<SedeProp>(),
   },
 });
 
 export const {
-  crearSedes,
-  crearBusquedaSede,
-  resetBusquedaSede,
-  resetSeleccionarSede,
-  seleccionarSede,
-  agregarSedesBusquedaActual,
-  cambiarOrdenSede,
-  eliminarSedeRedux,
-  actualizarSedeRedux,
-  agregarSedeInicioRedux,
-  resetReduxSede,
+  setSedes,
+  setCargaInicialSedes,
+  setErrorSedes,
+  setLoadingSedes,
+  resetSedes,
 } = sedeSlice.actions;
 
 export default sedeSlice.reducer;

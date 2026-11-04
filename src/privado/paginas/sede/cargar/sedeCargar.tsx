@@ -11,14 +11,16 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import Formulario from '../../../../componente/formulario/formulario';
 import Input from '../../../../componente/formulario/input';
-import { actualizarSedeRedux, agregarSedeInicioRedux } from '../../../../redux/state/sede.state';
 import { useModalContext } from '../../../../contexto/contextoModal';
 import CartelExito from '../../../../componente/cartelExito/cartelExito';
+import { setSedes } from '../../../../redux/state/sede.state';
 
-const SedeCargar = () => {
-  const sedeSelect: SedeProp | undefined = useSelector(
-    (store: appStore) => store.sede.datoSeleccionado
-  );
+interface Props {
+  sedeSelect?: SedeProp;
+}
+
+const SedeCargar = ({ sedeSelect }: Props) => {
+  const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.datos);
   const { editarSede, crearSede, responseSede, errorFetchSede, loadingSede } = useSedeApi();
   const { setModal } = useModalContext();
   const dispatch = useDispatch();
@@ -35,8 +37,12 @@ const SedeCargar = () => {
 
   const finalizar = () => {
     if (responseSede) {
-      if (esEdicion) dispatch(actualizarSedeRedux(responseSede as SedeProp));
-      else dispatch(agregarSedeInicioRedux(responseSede as SedeProp));
+      const actualizada = responseSede as SedeProp;
+      if (esEdicion) {
+        dispatch(setSedes(sedes.map(s => (s.id === actualizada.id ? actualizada : s))));
+      } else {
+        dispatch(setSedes([...sedes, actualizada]));
+      }
     }
     setModal(false);
   };
@@ -59,7 +65,7 @@ const SedeCargar = () => {
 
   return (
     <Formulario
-      titulo={`${sedeSelect ? `Editar sede` : 'Nueva sede'}`}
+      titulo={`${sedeSelect ? 'Editar sede' : 'Nueva sede'}`}
       onSubmit={handleSubmit(onSubmit)}
       onClickSecundario={() => setModal(false)}
       etiquetaPrimaria="Guardar sede"

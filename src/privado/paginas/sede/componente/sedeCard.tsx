@@ -6,21 +6,16 @@ import { SedeProp } from '../../../../modelo/Entidades/sede/sede.interface';
 import Editar from '../../../../assets/edit.svg?react';
 import Eliminar from '../../../../assets/deleted.svg?react';
 import './sedeCard.css';
-import useEditar from '../../../../hooks/editar/useEditar';
-import { Dispatch, SetStateAction } from 'react';
 import { useModalContext } from '../../../../contexto/contextoModal';
-import { useDispatch } from 'react-redux';
-import { seleccionarSede } from '../../../../redux/state/sede.state';
 
 interface Props {
   sede: SedeProp;
-  setEliminar: Dispatch<SetStateAction<boolean>>;
+  onEditar: (sede: SedeProp) => void;
+  onEliminar: (sede: SedeProp) => void;
 }
 
-const SedeCard = ({ sede, setEliminar }: Props) => {
-  const { handleEdit } = useEditar({ setModalLocal: true, sede });
+const SedeCard = ({ sede, onEditar, onEliminar }: Props) => {
   const { setModal } = useModalContext();
-  const dispatch = useDispatch();
 
   return (
     <Card nuevoEstilo={'card-sede'} limitado>
@@ -32,7 +27,8 @@ const SedeCard = ({ sede, setEliminar }: Props) => {
           nuevoEstilo="btn-icono-chico"
           titulo={`Eliminar sede`}
           onClick={() => {
-            (setEliminar(true), setModal(true), dispatch(seleccionarSede(sede)));
+            onEliminar(sede);
+            setModal(true);
           }}
         />
         <Boton
@@ -40,7 +36,10 @@ const SedeCard = ({ sede, setEliminar }: Props) => {
           secundario
           nuevoEstilo="btn-icono-chico"
           titulo={`Editar sede`}
-          onClick={() => handleEdit({ sede })}
+          onClick={() => {
+            onEditar(sede);
+            setModal(true);
+          }}
         />
       </Botonera>
     </Card>

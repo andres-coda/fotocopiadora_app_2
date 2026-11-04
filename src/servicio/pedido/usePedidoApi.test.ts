@@ -25,12 +25,12 @@ const sedeCentro: SedeProp = { id: 'sede-1', nombre: 'Centro', deleted: false, u
 const sedeNorte: SedeProp = { id: 'sede-2', nombre: 'Norte', deleted: false, ultAct: '' };
 
 interface StoreFalso {
-  sede: { datosIniciales: { datosQuery: SedeProp[] } };
+  sede: { datos: SedeProp[] };
   miEmpresa: { dato: EmpresaProp | null };
 }
 
 let estadoFalso: StoreFalso = {
-  sede: { datosIniciales: { datosQuery: [sedeCentro, sedeNorte] } },
+  sede: { datos: [sedeCentro, sedeNorte] },
   miEmpresa: { dato: null },
 };
 
@@ -62,7 +62,7 @@ let fetchMock: ReturnType<typeof vi.fn>;
 beforeEach(() => {
   token = null;
   estadoFalso = {
-    sede: { datosIniciales: { datosQuery: [sedeCentro, sedeNorte] } },
+    sede: { datos: [sedeCentro, sedeNorte] },
     miEmpresa: { dato: null },
   };
   fetchMock = vi.fn(() => Promise.resolve(respuestaOk({})));
@@ -178,7 +178,7 @@ describe('usePedidoApi: contrato de los metodos', () => {
 
   it('crearPedido toma la sede por defecto de la configuracion de la empresa', async () => {
     estadoFalso = {
-      sede: { datosIniciales: { datosQuery: [sedeCentro, sedeNorte] } },
+      sede: { datos: [sedeCentro, sedeNorte] },
       miEmpresa: { dato: empresaConSede(sedeNorte) },
     };
     const { result } = montar();
@@ -209,7 +209,7 @@ describe('usePedidoApi: contrato de los metodos', () => {
     // vacio ni levantando un TypeError): el 400 del back cae en
     // errorFetchPedido por el camino de errores existente.
     estadoFalso = {
-      sede: { datosIniciales: { datosQuery: [] } },
+      sede: { datos: [] },
       miEmpresa: { dato: null },
     };
     const { result } = montar();
@@ -257,7 +257,7 @@ describe('usePedidoApi: contrato de los metodos', () => {
 
   it('editarPedido hace PUT al id recibido con los items del pedido', async () => {
     estadoFalso = {
-      sede: { datosIniciales: { datosQuery: [sedeCentro, sedeNorte] } },
+      sede: { datos: [sedeCentro, sedeNorte] },
       miEmpresa: { dato: empresaConSede(sedeNorte) },
     };
     const { result } = montar();

@@ -14,6 +14,9 @@ import CardPerfil from './componente/cardPerfil';
 import DesplegableArrow from '../../../componente-estilo/desplegable/desplegableArrow';
 import Configuracion from './componente/configuracion';
 import UsuariosEmpresa from './componente/usuariosEmpresa';
+import SedesPerfil from './componente/sedesPerfil';
+import SedeCargar from '../sede/cargar/sedeCargar';
+import EliminarSede from '../sede/componente/eliminarSede';
 import EliminarUsuario from './componente/eliminarUsuario';
 import { setMiEmpresa } from '../../../redux/state/miEmpresa.state';
 import './perfil.css';
@@ -27,6 +30,9 @@ const Perfil = () => {
   const [modalEmpresa, setModalEmpresa] = useState<boolean>(false);
   const [modalPerfil, setModalPerfil] = useState<boolean>(false);
   const [modalUsuario, setModalUsuario] = useState<boolean>(false);
+  const [modalSede, setModalSede] = useState<boolean>(false);
+  const [eliminarSede, setEliminarSede] = useState<boolean>(false);
+  const [sedeSeleccionada, setSedeSeleccionada] = useState<any>(null);
   const [eliminarUsuario, setEliminarUsuario] = useState<boolean>(false);
   const [campoConfig, setCampoConfig] = useState<CampoConfig | null>(null);
   // Sube cuando el alta de usuario confirma: obliga a refrescar el listado.
@@ -39,6 +45,9 @@ const Perfil = () => {
       setModalPerfil(false);
       setModalUsuario(false);
       setEliminarUsuario(false);
+      setModalSede(false);
+      setEliminarSede(false);
+      setSedeSeleccionada(null);
       setCampoConfig(null);
     }
   }, [modal]);
@@ -65,6 +74,15 @@ const Perfil = () => {
     setCampoConfig(null);
     setModalUsuario(false);
     setModalPerfil(true);
+    setModal(true);
+  };
+
+  const abrirSede = () => {
+    setModalEmpresa(false);
+    setCampoConfig(null);
+    setModalPerfil(false);
+    setModalUsuario(false);
+    setModalSede(true);
     setModal(true);
   };
 
@@ -106,6 +124,11 @@ const Perfil = () => {
                   onEliminarUsuario={setEliminarUsuario}
                 />
               )}
+              <SedesPerfil
+                onAgregarSede={() => { setSedeSeleccionada(null); abrirSede(); }}
+                onEditarSede={s => { setSedeSeleccionada(s); abrirSede(); }}
+                onEliminarSede={s => { setSedeSeleccionada(s); setEliminarSede(true); setModal(true); }}
+              />
             </>
           )}
       </ContenedorCentro>
@@ -133,7 +156,9 @@ const Perfil = () => {
           />
         )}
         {!modalEmpresa && !campoConfig && modalPerfil && <PerfilEditar />}
-        {!modalEmpresa && !campoConfig && !modalPerfil && modalUsuario && <UsuarioCrear />}
+{!modalEmpresa && !campoConfig && !modalPerfil && modalUsuario && <UsuarioCrear />}
+        {!modalEmpresa && !campoConfig && !modalPerfil && !modalUsuario && modalSede && <SedeCargar sedeSelect={sedeSeleccionada} />}
+        {eliminarSede && sedeSeleccionada && <EliminarSede sede={sedeSeleccionada} />}
       </Modal>
     </>
   );

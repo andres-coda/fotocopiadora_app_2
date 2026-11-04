@@ -1,10 +1,13 @@
-import { useSelector } from 'react-redux';
-import useSedeDeleteApi from '../../../../servicio/sede/useSedeDeleteApi';
 import { SedeProp } from '../../../../modelo/Entidades/sede/sede.interface';
+import useSedeDeleteApi from '../../../../servicio/sede/useSedeDeleteApi';
 import { appStore } from '../../../../redux/store';
-import { eliminarSedeRedux } from '../../../../redux/state/sede.state';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSedes } from '../../../../redux/state/sede.state';
 import EliminarElemento from '../../../../componente-estilo/eliminar/eliminarElemento';
 
+interface Props {
+  sede: SedeProp;
+}
 
 const tituloEliminarSede = 'Eliminar sede';
 
@@ -24,9 +27,10 @@ const msjExitoEliminarSede = (sede: string | undefined): string | undefined => {
   return `La sede ---[ ${sede} ]--- fue eliminada con exito`;
 };
 
-const EliminarSede = () => {
-  const sede: SedeProp | undefined = useSelector((store: appStore) => store.sede.datoSeleccionado);
+const EliminarSede = ({ sede }: Props) => {
+  const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.datos);
   const { eliminarSede, responseSede, errorFetchSede, loadingSede } = useSedeDeleteApi();
+  const dispatch = useDispatch();
 
   return (
     <EliminarElemento
@@ -35,12 +39,12 @@ const EliminarSede = () => {
       entidad="sede"
       texto={textoEliminarSede(sede?.nombre)}
       msjExito={msjExitoEliminarSede(sede?.nombre)}
-      eliminarElemento={eliminarSede}
+      eliminarElemento={() => eliminarSede(sede.id)}
       loading={loadingSede}
       errorFetch={errorFetchSede}
       response={responseSede}
       elemento={sede}
-      eliminarElementoRedux={eliminarSedeRedux}
+      eliminarElementoRedux={() => dispatch(setSedes(sedes.filter(x => x.id !== sede.id)))}
     />
   );
 };
