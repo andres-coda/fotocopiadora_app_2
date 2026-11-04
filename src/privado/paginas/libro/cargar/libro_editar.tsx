@@ -113,19 +113,3 @@ const LibroEditar = () => {
 };
 
 export default LibroEditar;
-
-/*
-<Formulario
-      titulo={`Editar datos del libro ${nombreLibroXstring(libro)}`}
-      onSubmit={handleSubmit(onSubmit)}
-      onClickSecundario={() => retroceder()}
-      etiquetaPrimaria="Guardar libro"
-      etiquetaSecundaria="Atras"
-      loading={loadingLibro}
-      errorFetch={errorFetchLibro}
-    >
-      <>
-        <CargarLibroDatosLocal control={control} errors={errors} especificaciones={especificaciones} setEspecificaciones={setEspecificaciones} />
-      </>
-    </Formulario>
-*/

@@ -5,6 +5,7 @@ import {
 } from '../../modelo/Entidades/propuesta/propuesta.interface';
 import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
 import { BusquedaApiProp } from '../../modelo/HTTP/peticiones.interface';
+import { limiteDefecto } from '../../utils/constantes';
 import { PROPUESTA } from '../../utils/endpoint';
 import useApiPaginado from '../hooks/useApiPaginado';
 
@@ -16,7 +17,7 @@ const usePropuestasApi = () => {
 
   const obtenerPropuestaBusqueda = ({ query, limite, pagina }: BusquedaApiProp) => {
     fetchData({
-      url: `${PROPUESTA}/buscar?limite=${limite ?? 20}&pagina=${pagina ?? 1}&q=${query.trimEnd()}`,
+      url: `${PROPUESTA}/buscar?limite=${limite ?? limiteDefecto}&pagina=${pagina ?? 1}&q=${query.trimEnd()}`,
       methodo: httpMethod.GET,
       adapter: propuestaAdapter,
     });

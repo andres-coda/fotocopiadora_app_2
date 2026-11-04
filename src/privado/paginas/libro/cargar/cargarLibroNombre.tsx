@@ -60,6 +60,7 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
     obtenerLibrosNombre,
     responseLibros: responseLibroNombre,
     loadingLibros,
+    errorFetchLibros,
   } = useLibroNombreApi();
   const {
     finListaRef: finLibros,
@@ -88,7 +89,7 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
     });
   };
 
-  const { obtenerEditorialesNombre, responseEditoriales, loadingEditoriales } =
+  const { obtenerEditorialesNombre, responseEditoriales, loadingEditoriales, errorFetchEditoriales } =
     useEditorialNombreApi();
   const {
     finListaRef: finEditoriales,
@@ -114,7 +115,7 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
     }));
   };
 
-  const { obtenerMateriaBusqueda, responseMaterias, loadingMaterias } = useMateriasApi();
+  const { obtenerMateriaBusqueda, responseMaterias, loadingMaterias, errorFetchMaterias } = useMateriasApi();
   const {
     finListaRef: finMaterias,
     datos: materias,
@@ -153,9 +154,11 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
         {libros && libros.datosQuery.length > 0 && (
           <DesplegablePredictivo
             children={libros.datosQuery.map(l => (
-              <LibroCardNombre libro={l} selectLibro={handleSelectLibro} key={l.id} />
+              <LibroCardNombre libro={l} selectLibro={handleSelectLibro} key={`libro-${l.id}`} />
             ))}
-            finRegistros={finLibros}
+            finListaRef={finLibros}
+            loading={loadingLibros}
+            error={errorFetchLibros}
           />
         )}
       </div>
@@ -171,9 +174,11 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
         {editoriales && editoriales.datosQuery.length > 0 && (
           <DesplegablePredictivo
             children={editoriales.datosQuery.map(e => (
-              <EditorialCard editorial={e} selectEditorial={handleSelectEditorial} key={e.id} />
+              <EditorialCard editorial={e} selectEditorial={handleSelectEditorial} key={`editorial-${e.id}`} />
             ))}
-            finRegistros={finEditoriales}
+            finListaRef={finEditoriales}
+            loading={loadingEditoriales}
+            error={errorFetchEditoriales}
           />
         )}
       </div>
@@ -190,9 +195,11 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
         {materias && materias.datosQuery.length > 0 && (
           <DesplegablePredictivo
             children={materias.datosQuery.map(e => (
-              <MateriaCard materia={e} selectMateria={handleSelectMateria} key={e.id} />
+              <MateriaCard materia={e} selectMateria={handleSelectMateria} key={`mat-${e.id}`} />
             ))}
-            finRegistros={finMaterias}
+            finListaRef={finMaterias}
+            loading={loadingMaterias}
+            error={errorFetchMaterias}
           />
         )}
       </div>

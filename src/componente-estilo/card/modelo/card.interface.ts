@@ -1,6 +1,7 @@
 import { MouseEventHandler, ReactNode } from 'react';
 
 export interface CardProp {
+  estadoClass?:string;
   limitado?:boolean;
   gigante?:boolean;
   listo?: boolean;

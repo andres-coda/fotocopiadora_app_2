@@ -13,7 +13,7 @@ const EditorialCard = ({ editorial, selectEditorial }: Prop) => {
   };
 
   return (
-    <Card onClick={selectEditorial ? handleEditorial : undefined} tituloCard={editorial.nombre}>
+    <Card onClick={selectEditorial ? handleEditorial : undefined} tituloCard={editorial.nombre} retirado>
       <Texto texto={editorial.nombre} chica />
     </Card>
   );

@@ -64,6 +64,7 @@ const crearState = (busquedaActual: PrecioProp[] = []): ReduxProp<PrecioProp> =>
   datosIniciales: crearBusqueda(busquedaActual),
   ultimasBusqueda: [crearBusqueda(busquedaActual)],
   datoSeleccionado: undefined,
+  cargaInicial: true,
 });
 
 const crearStore = (state: ReduxProp<PrecioProp> = crearState()) =>

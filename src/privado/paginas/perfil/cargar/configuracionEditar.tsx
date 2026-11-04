@@ -196,7 +196,7 @@ const ConfiguracionEditar = ({ campo, configuracion: actual, onCerrar }: Props) 
           />
           {mensajesBuscados && mensajesBuscados.datosQuery.length > 0 && (
             <DesplegablePredictivo
-              finRegistros={finMensajes}
+              finListaRef={finMensajes}
               children={mensajesBuscados.datosQuery.map(mensaje => (
                 <MensajeNombreCard
                   mensaje={mensaje}

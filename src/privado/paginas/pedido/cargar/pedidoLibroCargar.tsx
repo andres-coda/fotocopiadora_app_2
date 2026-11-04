@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { PedidoLibroConstruccionProp } from '../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
 import BuscadorLibro from '../../../../componente/buscador/buscadorLibro';
 import { LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
-import './pedidoCargar.css';
 import { PropuestaProp } from '../../../../modelo/Entidades/propuesta/propuesta.interface';
 import { usePedidoContext } from '../../../../contexto/contextoPedido';
 import PresupuestoSimple from '../../../../componente/pedido/presupuesto/presupuestoSimple';
@@ -23,6 +22,7 @@ import PedidoLibroCard from '../componente/pedidoLibroCard';
 import Boton from '../../../../componente-estilo/boton/boton';
 import { useEffect } from 'react';
 import Botonera from '../../../../componente-estilo/botonera/botonera';
+import './pedidoCargar.css';
 
 const crearLibropedido = (
   libro: LibroProp,
@@ -44,7 +44,7 @@ const crearLibropedido = (
 
 const PedidoLibroCargar = () => {
   const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.busquedaActual.datosQuery);
-  const configuracion = useSelector((store: appStore) => store.empresa.empresa?.configuracion);
+  const configuracion = useSelector((store: appStore) => store.empresa.miEmpresa?.empresa?.configuracion);
   const sedeConfigurada = sedes.find(s => s.id === configuracion?.sede?.id);
   // Si la configuracion apunta a una sede que ya no esta en el listado (borrada),
   // no se elige otra en silencio: el pedido quedaria en la sede equivocada.

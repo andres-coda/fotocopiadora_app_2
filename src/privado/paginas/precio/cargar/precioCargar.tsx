@@ -160,7 +160,7 @@ const PrecioCargar = () => {
           children={precios.datosQuery.map(c => (
             <PrecioNombreCard precioNombre={c} selectPrecioNombre={handleSelectPrecioNombre} />
           ))}
-          finRegistros={finPrecio}
+          finListaRef={finPrecio}
         />
       )}
       <Input<formValuesPrecio>
@@ -187,7 +187,7 @@ const PrecioCargar = () => {
             children={categorias.datosQuery.map(c => (
               <CategoriaCard categoria={c} selectCategoria={handleSelectCategoria} key={c.id} />
             ))}
-            finRegistros={finCategorias}
+            finListaRef={finCategorias}
           />
         )}
       </div>

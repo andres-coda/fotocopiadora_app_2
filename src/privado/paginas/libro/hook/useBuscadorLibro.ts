@@ -3,7 +3,8 @@ import { LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
 import { ReduxProp, UltimaBusquedaProp } from '../../../../redux/modelo/reduxContext.interface';
 import { appStore } from '../../../../redux/store';
 import useLibrosApi from '../../../../servicio/libro/useLibrosApi';
-import { useEffect } from 'react'; import {
+import { RefObject, useEffect, useRef } from 'react';
+import {
   agregarLibrosBusquedaActual,
   crearBusquedaLibro,
   crearLibros,
@@ -26,13 +27,44 @@ import { useModalContext } from '../../../../contexto/contextoModal';
 import { useNavigate } from 'react-router-dom';
 import useBuscadorQuery from '../../../../hooks/buscador/useBuscadorQuery';
 import { BusquedaApiProp } from '../../../../modelo/HTTP/peticiones.interface';
-import useFinPagina from '../../../../hooks/finPagina/useFinPagina';
-import { busquedaReduxInicial } from '../../../../redux/utils/reduxInicial';
+import { nombreLibroXstring } from '../../../../utils/formatoDatos';
 
 interface BuscadorLibroProp {
   opcionesActivas: string[];
   valor: string;
 }
+
+type PropuestaLibro = 'propuesta' | 'libro';
+
+interface DatosArrayProp {
+  dato: LibroProp | PropuestaProp;
+  tipo: PropuestaLibro;
+}
+
+// Se arma una sola vez: localeCompare con locale construye un collator en cada
+// llamada y esto corre en cada render.
+const collator = new Intl.Collator('es', { sensitivity: 'base' });
+
+// Los libros muestran nombre + nivel + componentes, las propuestas solo nombre.
+const nombreOrden = (item: DatosArrayProp): string =>
+  item.tipo === 'libro'
+    ? nombreLibroXstring(item.dato as LibroProp)
+    : (item.dato as PropuestaProp).nombre;
+
+// Un solo orden alfabetico sobre el nombre visible, sin importar el tipo.
+// Se deduplica por `tipo + id`: si una pagina se pidio dos veces, el mismo
+// libro queda repetido en `datosQuery` y dos children con la misma key dejan
+// nodos viejos montados en el DOM.
+const unirPropuestaLibros = (libros: LibroProp[], propuestas: PropuestaProp[]): DatosArrayProp[] => {
+  const porClave = new Map<string, DatosArrayProp>();
+
+  libros.forEach((libro) => porClave.set(`libro-${libro.id}`, { dato: libro, tipo: 'libro' }));
+  propuestas.forEach((propuesta) =>
+    porClave.set(`propuesta-${propuesta.id}`, { dato: propuesta, tipo: 'propuesta' })
+  );
+
+  return [...porClave.values()].sort((a, b) => collator.compare(nombreOrden(a), nombreOrden(b)));
+};
 
 const limiteLetrasBusqueda = 3;
 
@@ -50,24 +82,77 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
     (store: appStore) => store.propuesta
   );
 
+  // Que entidades entran en la lista segun el toggle.
+  const librosHabilitados = !opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre);
+  const propuestasHabilitadas = !opcionesActivas.includes(
+    listaLibroPropuestaSeleccionable[2].nombre
+  );
+
+  // `datos` es solo de render: se deriva de Redux en cada render, sin estado
+  // propio, asi nunca queda un render atrasado respecto de busquedaActual.
+  const libros: LibroProp[] = librosHabilitados
+    ? librosDatos.busquedaActual.datosQuery ?? []
+    : [];
+  const propuestas: PropuestaProp[] = propuestasHabilitadas
+    ? propuestaDatos.busquedaActual.datosQuery ?? []
+    : [];
+  const datos = unirPropuestaLibros(libros, propuestas);
+
   const { obtenerLibrosBusqueda, responseLibros, loadingLibros, errorFetchLibros } = useLibrosApi();
-  const { obtenerPropuestaBusqueda, responsePropuestas, loadingPropuestas, errorFetchPropuestas } = usePropuestasApi();
+  const { obtenerPropuestaBusqueda, responsePropuestas, loadingPropuestas, errorFetchPropuestas } =
+    usePropuestasApi();
+
+  // La respuesta paginada no trae la query con la que se pidio, asi que se
+  // guarda al disparar. El observer la usa para no pedir la pagina siguiente
+  // de una busqueda vieja.
+  const queryLibrosRef = useRef<string>('');
+  const queryPropuestaRef = useRef<string>('');
+
+  const pedirLibros = ({ query, limite, pagina }: BusquedaApiProp) => {
+    queryLibrosRef.current = query;
+    obtenerLibrosBusqueda({ query, limite, pagina });
+  };
+
+  const pedirPropuestas = ({ query, limite, pagina }: BusquedaApiProp) => {
+    queryPropuestaRef.current = query;
+    obtenerPropuestaBusqueda({ query, limite, pagina });
+  };
 
   const obtenerBusqueda = ({ query }: BusquedaApiProp) => {
+    // Nada cargado todavia: la primera pagina la piden los efectos de abajo.
+    if (!librosDatos.cargaInicial && !propuestaDatos.cargaInicial) return;
+
+    const librosActual = librosDatos.busquedaActual;
     if (
-      (opcionesActivas.includes(listaLibroPropuestaSeleccionable[0].nombre) || opcionesActivas.includes(listaLibroPropuestaSeleccionable[2].nombre)) &&
-      (librosDatos.busquedaActual.total !== 0 && librosDatos.busquedaActual.limite * librosDatos.busquedaActual.pagina < librosDatos.busquedaActual.total)
+      librosHabilitados &&
+      librosDatos.cargaInicial &&
+      queryLibrosRef.current === query &&
+      librosActual.pagina * librosActual.limite < librosActual.total
     ) {
-      obtenerLibrosBusqueda({ query, pagina: librosDatos.busquedaActual.pagina + 1, limite: librosDatos.busquedaActual.limite })
+      pedirLibros({ query, pagina: librosActual.pagina + 1, limite: librosActual.limite });
     }
+
+    const propuestaActual = propuestaDatos.busquedaActual;
     if (
-      (opcionesActivas.includes(listaLibroPropuestaSeleccionable[0].nombre) || opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)) &&
-      (propuestaDatos.busquedaActual.total !== 0 && propuestaDatos.busquedaActual.limite * propuestaDatos.busquedaActual.pagina < propuestaDatos.busquedaActual.total)
+      propuestasHabilitadas &&
+      propuestaDatos.cargaInicial &&
+      queryPropuestaRef.current === query &&
+      propuestaActual.pagina * propuestaActual.limite < propuestaActual.total
     ) {
-      obtenerPropuestaBusqueda({ query, pagina: propuestaDatos.busquedaActual.pagina + 1, limite: propuestaDatos.busquedaActual.limite })
+      pedirPropuestas({
+        query,
+        pagina: propuestaActual.pagina + 1,
+        limite: propuestaActual.limite,
+      });
     }
-  }
-  const { query } = useBuscadorQuery({ valor, limiteLetrasBusqueda, paginado: true, obtenerBusqueda });
+  };
+
+  const { query } = useBuscadorQuery({
+    valor,
+    limiteLetrasBusqueda,
+    paginado: true,
+    obtenerBusqueda,
+  });
 
   useEffect(() => {
     if (!modal) {
@@ -75,50 +160,65 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
     }
   }, [modal]);
 
+  // Carga inicial: una sola vez por montaje y por toggle. `cargaInicial` y
+  // `query` no van en las deps a proposito: si estuvieran, cada respuesta (o
+  // cada tecla) volveria a disparar el pedido y quedarian requests duplicados.
   useEffect(() => {
-    if (!propuestaDatos.cargaInicial && !opcionesActivas.includes(listaLibroPropuestaSeleccionable[2].nombre)) {
-      obtenerPropuestaBusqueda({ query });
+    if (librosHabilitados && !librosDatos.cargaInicial) {
+      pedirLibros({ query });
     }
-    if (!librosDatos.cargaInicial && !opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)) {
-      obtenerLibrosBusqueda({ query });
+    if (propuestasHabilitadas && !propuestaDatos.cargaInicial) {
+      pedirPropuestas({ query });
     }
-  }, [propuestaDatos.cargaInicial, librosDatos.cargaInicial, opcionesActivas]);
+  }, [opcionesActivas]);
 
   useEffect(() => {
     if (query.length < limiteLetrasBusqueda) {
+      queryLibrosRef.current = '';
+      queryPropuestaRef.current = '';
       dispatch(resetBusquedaLibro());
       dispatch(resetBusquedaPropuesta());
-    } else {
+      return;
+    }
+
+    // Si esta entidad ya se pidio con esta misma query (o se siguio paginando
+    // con ella), el cambio de toggle no debe volver a disparar la busqueda.
+    if (librosHabilitados && queryLibrosRef.current !== query) {
       const busqueda = librosDatos.ultimasBusqueda.find(
-        d => d.query?.toLowerCase() === query.toLowerCase()
-      );
-      const busquedaPropuesta = propuestaDatos.ultimasBusqueda.find(
-        d => d.query?.toLowerCase() === query.toLowerCase()
+        (d) => d.query?.toLowerCase() === query.toLowerCase()
       );
       if (busqueda) {
+        queryLibrosRef.current = query;
         dispatch(crearBusquedaLibro(busqueda));
       } else {
-        obtenerLibrosBusqueda({ query })
+        pedirLibros({ query });
       }
-      if (busquedaPropuesta) {
-        dispatch(crearBusquedaPropuesta(busquedaPropuesta))
-      } else {
-        obtenerPropuestaBusqueda({ query })
-      }
+    }
 
+    if (propuestasHabilitadas && queryPropuestaRef.current !== query) {
+      const busquedaPropuesta = propuestaDatos.ultimasBusqueda.find(
+        (d) => d.query?.toLowerCase() === query.toLowerCase()
+      );
+      if (busquedaPropuesta) {
+        queryPropuestaRef.current = query;
+        dispatch(crearBusquedaPropuesta(busquedaPropuesta));
+      } else {
+        pedirPropuestas({ query });
+      }
     }
   }, [query, opcionesActivas]);
 
   useEffect(() => {
-    if (!responseLibros) return
+    if (!responseLibros) return;
     const respuestaDtoLibro: UltimaBusquedaProp<LibroProp> = {
-      ...librosDatos.busquedaActual, ...responseLibros,
+      ...librosDatos.busquedaActual,
+      ...responseLibros,
       datosQuery: responseLibros.datos,
     };
 
     if (!librosDatos.cargaInicial) {
-      dispatch(crearLibros(respuestaDtoLibro))
-      return
+      dispatch(crearLibros(respuestaDtoLibro));
+      return;
     }
     if (responseLibros.pagina === 1) {
       dispatch(crearBusquedaLibro(respuestaDtoLibro));
@@ -128,15 +228,16 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
   }, [responseLibros]);
 
   useEffect(() => {
-    if (!responsePropuestas) return
+    if (!responsePropuestas) return;
     const respuestaDtoPropuestas: UltimaBusquedaProp<PropuestaProp> = {
-      ...propuestaDatos.busquedaActual, ...responsePropuestas,
+      ...propuestaDatos.busquedaActual,
+      ...responsePropuestas,
       datosQuery: responsePropuestas.datos,
     };
 
     if (!propuestaDatos.cargaInicial) {
-      dispatch(crearPropuestas(respuestaDtoPropuestas))
-      return
+      dispatch(crearPropuestas(respuestaDtoPropuestas));
+      return;
     }
     if (responsePropuestas.pagina === 1) {
       dispatch(crearBusquedaPropuesta(respuestaDtoPropuestas));
@@ -145,14 +246,50 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
     }
   }, [responsePropuestas]);
 
-  const datos: UltimaBusquedaProp<LibroProp | PropuestaProp> = busquedaReduxInicial('nombre')
+  const contenedorRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  const finListaRef = useRef<HTMLDivElement>(null);
 
-  const { contenedorRef, finListaRef } = useFinPagina<LibroProp | PropuestaProp>({
+  const loadingRefLibro = useRef(loadingLibros);
+  const loadingRefPropuesta = useRef(loadingPropuestas);
+  loadingRefLibro.current = loadingLibros;
+  loadingRefPropuesta.current = loadingPropuestas;
+
+  // El observer solo dispara `obtenerBusqueda`, que ya decide si hay pagina
+  // siguiente y si corresponde a la query actual. Se guarda en un ref para que
+  // el observer use siempre la ultima version: si dependiera de los flags del
+  // toggle, cada cambio de opcion lo recrearia y el callback inicial pediria
+  // una pagina de mas.
+  const obtenerBusquedaRef = useRef(obtenerBusqueda);
+  obtenerBusquedaRef.current = obtenerBusqueda;
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        if (loadingRefLibro.current || loadingRefPropuesta.current) return;
+
+        obtenerBusquedaRef.current({ query });
+      },
+      {
+        root: contenedorRef.current,
+        threshold: 0.2,
+      }
+    );
+
+    if (finListaRef.current) {
+      observer.observe(finListaRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [
     query,
-    loading: loadingLibros || loadingPropuestas,
-    datos,
-    obtenerBusqueda: obtenerBusqueda,
-  });
+    librosDatos.cargaInicial,
+    propuestaDatos.cargaInicial,
+    librosDatos.busquedaActual.pagina,
+    propuestaDatos.busquedaActual.pagina,
+    librosDatos.busquedaActual.total,
+    propuestaDatos.busquedaActual.total,
+  ]);
 
   const handleNuevoElemento = () => {
     if (opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)) {
@@ -162,55 +299,50 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
     }
   };
 
-  const libros: LibroProp[] = !opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)
-    ? (librosDatos?.busquedaActual?.datosQuery ?? [])
-    : [];
-
-  const propuestas: PropuestaProp[] = !opcionesActivas.includes(
-    listaLibroPropuestaSeleccionable[2].nombre
-  )
-    ? (propuestaDatos?.busquedaActual?.datosQuery ?? [])
-    : [];
-
   const esVacio = (): string | undefined => {
     if (
       librosDatos.cargaInicial &&
       propuestaDatos.cargaInicial &&
-      (libros.length === 0 &&
-        propuestas.length === 0 &&
-        opcionesActivas.includes(listaLibroPropuestaSeleccionable[0].nombre))
+      libros.length === 0 &&
+      propuestas.length === 0 &&
+      opcionesActivas.includes(listaLibroPropuestaSeleccionable[0].nombre)
     )
       return 'libros y propuestas';
 
     if (
       librosDatos.cargaInicial &&
-      libros.length === 0 && opcionesActivas.includes(listaLibroPropuestaSeleccionable[2].nombre))
+      libros.length === 0 &&
+      opcionesActivas.includes(listaLibroPropuestaSeleccionable[2].nombre)
+    )
       return 'libros';
 
     if (
       propuestaDatos.cargaInicial &&
-      propuestas.length === 0 && opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre))
+      propuestas.length === 0 &&
+      opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)
+    )
       return 'propuestas';
 
     return undefined;
   };
 
   const selectLibro = (libro: LibroProp) => {
-      dispatch(seleccionarLibro(libro));
-      navigate(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`);
-    };
+    dispatch(seleccionarLibro(libro));
+    navigate(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`);
+  };
 
   return {
     handleNuevoElemento,
     contenedorRef,
-    libros,
-    propuestas,
+    datos,
     finListaRef,
     propuesta: propuestaDatos.datoSeleccionado,
     esVacio,
     errorFetchLibros,
     errorFetchPropuestas,
-    selectLibro
+    selectLibro,
+    loadingLibros,
+    loadingPropuestas,
   };
 };
 

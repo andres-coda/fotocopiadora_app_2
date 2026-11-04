@@ -26,12 +26,12 @@ const sedeNorte: SedeProp = { id: 'sede-2', nombre: 'Norte', deleted: false, ult
 
 interface StoreFalso {
   sede: { datosIniciales: { datosQuery: SedeProp[] } };
-  empresa: { empresa: EmpresaProp | null };
+  empresa: { miEmpresa: { empresa: EmpresaProp | null } };
 }
 
 let estadoFalso: StoreFalso = {
   sede: { datosIniciales: { datosQuery: [sedeCentro, sedeNorte] } },
-  empresa: { empresa: null },
+  empresa: { miEmpresa: { empresa: null } },
 };
 
 // El hook resuelve la sede por defecto leyendo dos selectores de react-redux.
@@ -63,7 +63,7 @@ beforeEach(() => {
   token = null;
   estadoFalso = {
     sede: { datosIniciales: { datosQuery: [sedeCentro, sedeNorte] } },
-    empresa: { empresa: null },
+    empresa: { miEmpresa: { empresa: null } },
   };
   fetchMock = vi.fn(() => Promise.resolve(respuestaOk({})));
   vi.stubGlobal('fetch', fetchMock);
@@ -179,7 +179,7 @@ describe('usePedidoApi: contrato de los metodos', () => {
   it('crearPedido toma la sede por defecto de la configuracion de la empresa', async () => {
     estadoFalso = {
       sede: { datosIniciales: { datosQuery: [sedeCentro, sedeNorte] } },
-      empresa: { empresa: empresaConSede(sedeNorte) },
+      empresa: { miEmpresa: { empresa: empresaConSede(sedeNorte) } },
     };
     const { result } = montar();
 
@@ -210,7 +210,7 @@ describe('usePedidoApi: contrato de los metodos', () => {
     // errorFetchPedido por el camino de errores existente.
     estadoFalso = {
       sede: { datosIniciales: { datosQuery: [] } },
-      empresa: { empresa: null },
+      empresa: { miEmpresa: { empresa: null } },
     };
     const { result } = montar();
 
@@ -258,7 +258,7 @@ describe('usePedidoApi: contrato de los metodos', () => {
   it('editarPedido hace PUT al id recibido con los items del pedido', async () => {
     estadoFalso = {
       sede: { datosIniciales: { datosQuery: [sedeCentro, sedeNorte] } },
-      empresa: { empresa: empresaConSede(sedeNorte) },
+      empresa: { miEmpresa: { empresa: empresaConSede(sedeNorte) } },
     };
     const { result } = montar();
 

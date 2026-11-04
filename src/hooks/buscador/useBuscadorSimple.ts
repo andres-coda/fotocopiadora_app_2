@@ -55,6 +55,13 @@ const useBusquedaSimple = <T>({
     }
   }, [response]);
 
+  // Cuando la query baja del minimo no se pide nada, asi que no llega respuesta
+  // y el effect de arriba nunca corre: los resultados viejos se quedaban en
+  // pantalla con el desplegable abierto. Este limpia al borrar.
+  useEffect(() => {
+    if (query.length < limiteLetrasBusqueda) setDatos(undefined);
+  }, [query, limiteLetrasBusqueda]);
+
   const { finListaRef, contenedorRef } = useFinPagina({ datos, loading, limiteLetrasBusqueda, query, obtenerBusqueda })
 
   return { contenedorRef, finListaRef, datos, setDatos };

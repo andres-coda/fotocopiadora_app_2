@@ -12,6 +12,8 @@ import Modal from '../../../componente/modal/modal';
 import LibroCargar from './cargar/libroCargar';
 import PropuestaSelect from '../propuesta/componente/propuestaSelect';
 import './libros.css';
+import { PropuestaProp } from '../../../modelo/Entidades/propuesta/propuesta.interface';
+import { LibroProp } from '../../../modelo/Entidades/libro/libro.interface';
 
 const Libros_lista = () => {
   const [valor, setValor] = useState<string>('')
@@ -22,14 +24,15 @@ const Libros_lista = () => {
   const {
     contenedorRef,
     handleNuevoElemento,
-    libros,
-    propuestas,
+    datos,
     finListaRef,
     propuesta,
     esVacio,
     selectLibro,
     errorFetchLibros,
-    errorFetchPropuestas
+    errorFetchPropuestas,
+    loadingLibros,
+    loadingPropuestas
   } = useBuscadorLibro({
     opcionesActivas, valor
   });
@@ -61,12 +64,12 @@ const Libros_lista = () => {
         entidad={esVacio()}
         query={valor}
         error={errorFetchLibros || errorFetchPropuestas}
+        loading={loadingLibros || loadingPropuestas}
       >
-        {propuestas.map(d => (
-          <PropuestaCard propuesta={d} key={d.id} />
-        ))}
-        {libros.map(d => (
-          <LibroCard libro={d} key={d.id} selecLibro={selectLibro} />
+        {datos.map(d=>(
+          d.tipo === 'propuesta' 
+          ? <PropuestaCard propuesta={d.dato as PropuestaProp} key={`propuesta-${d.dato.id}`} />
+          : <LibroCard libro={d.dato as LibroProp} key={`libro-${d.dato.id}`} selecLibro={selectLibro} />
         ))}
       </Centro>
       <Modal nuevoEstilo={propuesta ? 'propuesta-select-color' : ''}>

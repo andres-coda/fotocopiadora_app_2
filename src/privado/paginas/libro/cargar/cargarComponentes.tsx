@@ -35,7 +35,7 @@ const CargarComponentes = <T extends formValuesLibroComponentes>({
   );
   const [nivelSeleccionado, setNivelSeleccionado] = useState<string | undefined>(undefined);
 
-  const { obtenerComponentes, responseComponentes, loadingComponentes } = useComponenteApi();
+  const { obtenerComponentes, responseComponentes, loadingComponentes, errorFetchComponentes } = useComponenteApi();
 
   const componentesValor = watch().componentes ?? '';
 
@@ -75,7 +75,7 @@ const CargarComponentes = <T extends formValuesLibroComponentes>({
     setComponenteSeleccionado(partes.join(', '));
   };
 
-  const { obtenerNivels, responseNivels, loadingNivels } = useNivelApi();
+  const { obtenerNivels, responseNivels, loadingNivels, errorFetchNivels } = useNivelApi();
   const {
     finListaRef: finNiveles,
     datos: niveles,
@@ -109,9 +109,11 @@ const CargarComponentes = <T extends formValuesLibroComponentes>({
         {componentes && componentes.datosQuery.length > 0 && (
           <DesplegablePredictivo
             children={componentes.datosQuery.map(c => (
-              <ComponenteCard componente={c} selectComponente={handleSelectComponente} />
+              <ComponenteCard componente={c} selectComponente={handleSelectComponente} key={`comp-${c.id}`}/>
             ))}
-            finRegistros={finComponentes}
+            finListaRef={finComponentes}
+            error={errorFetchComponentes}
+            loading={loadingComponentes}
           />
         )}
       </div>
@@ -127,9 +129,11 @@ const CargarComponentes = <T extends formValuesLibroComponentes>({
         {niveles && niveles.datosQuery.length > 0 && (
           <DesplegablePredictivo
             children={niveles.datosQuery.map(n => (
-              <NivelCard nivel={n} selectNivel={handleSelectNivel} />
+              <NivelCard nivel={n} selectNivel={handleSelectNivel} key={`nivel-${n.id}`}/>
             ))}
-            finRegistros={finNiveles}
+            finListaRef={finNiveles}
+            loading={loadingNivels}
+            error={errorFetchNivels}
           />
         )}
       </div>

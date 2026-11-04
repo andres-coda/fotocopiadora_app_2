@@ -5,7 +5,6 @@ import Monigote from '../../../../assets/user.svg?react';
 import Texto from '../../../../componente-estilo/texto/texto';
 import Boton from '../../../../componente-estilo/boton/boton';
 import Editar from '../../../../assets/edit.svg?react';
-import Logout from '../../../../assets/cerrar-sesion.svg?react';
 import Botonera from '../../../../componente-estilo/botonera/botonera';
 import { useAuth } from '../../../../contexto/contextoAutenticacion';
 import { useDispatch } from 'react-redux';

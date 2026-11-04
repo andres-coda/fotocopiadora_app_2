@@ -15,7 +15,7 @@ const useBuscadorQuery = ({valor, obtenerBusqueda, limiteLetrasBusqueda = 3, pag
   const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
-    console.log('valor: ', valor);
+    
     const timer = setTimeout(() => {
       setQuery(valor);
     }, tiempoBusqueda);

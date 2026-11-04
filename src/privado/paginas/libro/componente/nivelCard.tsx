@@ -13,7 +13,7 @@ const NivelCard = ({ nivel, selectNivel }: Prop) => {
   };
 
   return (
-    <Card onClick={selectNivel ? handleNivel : undefined} tituloCard={nivel.nombre}>
+    <Card onClick={selectNivel ? handleNivel : undefined} tituloCard={nivel.nombre} retirado>
       <Texto texto={nivel.nombre} />
     </Card>
   );

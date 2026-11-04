@@ -33,7 +33,7 @@ const PedidoLibroCard = ({ pL, estadoClas }: Prop) => {
   };
 
   return (
-    <Card nuevoEstilo={`pedido-libro-card ${claseXestado(estadoClas)}`} onClick={handleClick}>
+    <Card nuevoEstilo={`pedido-libro-card`} estadoClass={claseXestado(estadoClas)} onClick={handleClick}>
       <Texto texto={`${pL.cantidad}`} mediana ajustado />
       <div className={`card-vertical`}>
         <Texto texto={`${nombreLibroXstring(pL.libro)}`} centrado inline />

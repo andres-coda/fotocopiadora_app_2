@@ -4,6 +4,7 @@ import useCard from './hooks/useCard';
 import CardContenedor from './cardContenedor';
 
 export default function Card({
+  estadoClass,
   children,
   gigante = false,
   limitado = false,
@@ -21,6 +22,7 @@ export default function Card({
   error
 }: CardPropComp) {
   const { clase, claseInterno, handleClick } = useCard({
+    estadoClass,
     listo,
     gigante,
     limitado,

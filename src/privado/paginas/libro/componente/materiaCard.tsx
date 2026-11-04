@@ -13,7 +13,7 @@ const MateriaCard = ({ materia, selectMateria }: Prop) => {
   };
 
   return (
-    <Card onClick={selectMateria ? handleMateria : undefined} tituloCard={materia.nombre}>
+    <Card onClick={selectMateria ? handleMateria : undefined} tituloCard={materia.nombre} retirado>
       <Texto texto={materia.nombre} chica />
     </Card>
   );

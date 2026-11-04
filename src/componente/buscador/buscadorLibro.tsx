@@ -10,7 +10,7 @@ import {
   listaLibroPropuestaSeleccionable,
   normalizarLibroPropuesta,
 } from '../../privado/paginas/libro/util/funcionesAdicionales';
-import DesplegablePredictivo from '../../componente-estilo/predictivo/desplegablePredictivo';
+import Centro from '../../componente-estilo/centro/centro';
 
 interface Prop {
   selectLibro: (libro: LibroProp) => void;
@@ -21,10 +21,21 @@ const BuscadorLibro = ({ selectLibro, selectPropuesta }: Prop) => {
   const [opcionesActivas, setOpcionesActivas] = useState<string[]>([
     listaLibroPropuestaSeleccionable[0].nombre,
   ]);
-  const { valor, setValor, contenedorRef, handleNuevoElemento, libros, propuestas, finListaRef } =
-    useBuscadorLibro({
-      opcionesActivas,
-    });
+  const [valor, setValor] = useState<string>('');
+  const {
+    contenedorRef,
+    handleNuevoElemento,
+    datos,
+    finListaRef,
+    esVacio,
+    errorFetchLibros,
+    errorFetchPropuestas,
+    loadingLibros,
+    loadingPropuestas,
+  } = useBuscadorLibro({
+    opcionesActivas,
+    valor,
+  });
 
   const handlePropuesta = (propuesta: PropuestaProp): void => {
     setValor('');
@@ -56,22 +67,35 @@ const BuscadorLibro = ({ selectLibro, selectPropuesta }: Prop) => {
             : 'Nueva propuesta'
         }
       />
-      {valor.length >= 3 &&
-        ((libros && libros.length > 0) || (propuestas && propuestas.length > 0)) && (
-          <DesplegablePredictivo
-            children={
-              <>
-                {propuestas?.map(p => (
-                  <PropuestaCard propuesta={p} selectPropuesta={handlePropuesta} key={p.id} />
-                ))}
-                {libros?.map(d => (
-                  <LibroCard libro={d} key={d.id} selecLibro={handleLibro} />
-                ))}
-              </>
-            }
-            finRegistros={finListaRef}
-          />
-        )}
+      {valor.length >= 3 && datos && datos.length > 0 && (
+        <Centro
+          children={
+            <>
+              {datos?.map(p =>
+                p.tipo === 'propuesta' ? (
+                  <PropuestaCard
+                    propuesta={p.dato as PropuestaProp}
+                    selectPropuesta={handlePropuesta}
+                    key={`propuesta-${p.dato.id}`}
+                  />
+                ) : (
+                  <LibroCard
+                    libro={p.dato as LibroProp}
+                    key={`libro-${p.dato.id}`}
+                    selecLibro={handleLibro}
+                  />
+                )
+              )}
+            </>
+          }
+          finListaRef={finListaRef}
+          vacio={esVacio() != undefined}
+          query={valor}
+          error={errorFetchLibros || errorFetchPropuestas}
+          loading={loadingLibros || loadingPropuestas}
+          desplegable
+        />
+      )}
     </div>
   );
 };

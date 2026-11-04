@@ -71,6 +71,7 @@ const crearState = (
   busquedaActual,
   datosIniciales,
   ultimasBusqueda,
+  cargaInicial: true,
 });
 
 const accion = (payload: PrecioProp): PayloadAction<PrecioProp> => ({
@@ -240,6 +241,7 @@ describe('agregarPrecioSocket: total y estructuras', () => {
         crearBusqueda({ query: 'lapiz', limite: 5, datos: [nuevo] }),
         crearBusqueda({ query: 'cuaderno', limite: 5 }),
       ],
+      cargaInicial: true,
     });
   });
 

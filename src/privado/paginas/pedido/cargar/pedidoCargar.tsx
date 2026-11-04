@@ -49,7 +49,9 @@ const calcularTotal = (precios: PrecioProp[], libros?: PedidoLibroConstruccionPr
     ) ?? 0
   );
 };
+
 const limiteBusquedaCliente = 4;
+
 const PedidoCargar = () => {
   const pedidoSelect: PedidoProp | undefined = useSelector(
     (store: appStore) => store.pedido.datoSeleccionado
@@ -57,7 +59,9 @@ const PedidoCargar = () => {
   const precios: PrecioProp[] = useSelector(
     (store: appStore) => store.precio.datosIniciales.datosQuery
   );
-  const configuracion = useSelector((store: appStore) => store.empresa.empresa?.configuracion);
+  const configuracion = useSelector(
+    (store: appStore) => store.empresa.miEmpresa.empresa?.configuracion
+  );
 
   const {
     control,
@@ -103,18 +107,28 @@ const PedidoCargar = () => {
     email: watch().email ?? '',
   };
 
+  // `formatTelefono` descarta todo lo no numerico, asi que comparaba '' contra
+  // '': con cualquier nombre alfabetico daba igual y el cliente seleccionado
+  // quedaba "vivo" aunque editaras el nombre. Se compara el nombre directo.
   const esElMismoCliente =
     clienteSeleccionado !== undefined &&
-    formatTelefono(clienteBuscado.nombre) === formatTelefono(clienteSeleccionado.nombre) &&
+    clienteBuscado.nombre === (clienteSeleccionado.nombre ?? '') &&
     clienteBuscado.email === (clienteSeleccionado.email ?? '');
+
+  // Si el usuario edito nombre o email, lo que hay en el formulario ya no es el
+  // cliente que habia seleccionado: no se manda uno viejo al back.
+  const clienteParaPedido = esElMismoCliente ? clienteSeleccionado : undefined;
 
   const {
     finListaRef: finClientes,
     datos: clientes,
     setDatos: setClientes,
   } = useBusquedaSimple<ClienteProp>({
+    // `||` y no `??`: los tres campos son strings y el vacio no es nullish,
+    // asi que con `??` el telefono vacio ganaba siempre y buscar por nombre
+    // no disparaba nada.
     valor: !esElMismoCliente
-      ? (clienteBuscado.telefono ?? clienteBuscado.nombre ?? clienteBuscado.email ?? '')
+      ? clienteBuscado.telefono || clienteBuscado.nombre || clienteBuscado.email
       : '',
     response: responseClientes,
     loading: loadingClientes,
@@ -154,7 +168,7 @@ const PedidoCargar = () => {
 
     abrirWhatsapp({
       telefono:
-        clienteSeleccionado?.telefono ?? responsePedido.cliente?.telefono ?? watch('telefono'),
+        clienteParaPedido?.telefono ?? responsePedido.cliente?.telefono ?? watch('telefono'),
       mensaje: armarMensajeTomado({
         pedido: responsePedido,
         encabezado: configuracion?.msjTomado?.mensaje,
@@ -166,7 +180,7 @@ const PedidoCargar = () => {
     });
     // Se dispara una vez por alta confirmada por el back, no por cada render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    reset
+    reset;
   }, [responsePedido]);
 
   const { retroceder } = useFormulario<PedidoProp, formValuesPedido, PedidoProp>({
@@ -187,7 +201,7 @@ const PedidoCargar = () => {
     if (pedidoSelect?.id) {
       editarPedido(data, pedidoSelect.id, datos.pedidos);
     } else {
-      crearPedido(data, datos.pedidos, clienteSeleccionado);
+      crearPedido(data, datos.pedidos, clienteParaPedido);
     }
   };
 
@@ -239,11 +253,14 @@ const PedidoCargar = () => {
           </div>
           {clientes && clientes.datosQuery.length > 0 && (
             <DesplegablePredictivo
-              children={clientes.datosQuery.map(c => (
+              finListaRef={finClientes}
+              error={errorFetchClientes}
+              loading={loadingClientes}
+            >
+              {clientes.datosQuery.map(c => (
                 <ClienteDatos cliente={c} selectCliente={handleSelectCliente} key={c.id} />
               ))}
-              finRegistros={finClientes}
-            />
+            </DesplegablePredictivo>
           )}
           <Botonera nuevoEstilo="switch-pedido-cargar" derecha>
             <Switch

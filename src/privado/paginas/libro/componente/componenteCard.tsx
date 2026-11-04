@@ -13,7 +13,7 @@ const ComponenteCard = ({ componente, selectComponente }: Prop) => {
   };
 
   return (
-    <Card onClick={selectComponente ? handleComponente : undefined} tituloCard={componente.nombre}>
+    <Card onClick={selectComponente ? handleComponente : undefined} tituloCard={componente.nombre} retirado>
       <Texto texto={componente.nombre} chica />
     </Card>
   );

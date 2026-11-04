@@ -12,7 +12,7 @@ export const LibroCardNombre = ({ libro, selectLibro }: Prop) => {
     if (selectLibro) selectLibro(libro);
   };
   return (
-    <Card onClick={selectLibro ? handleLibro : undefined} tituloCard={libro.nombre}>
+    <Card onClick={selectLibro ? handleLibro : undefined} tituloCard={libro.nombre} retirado>
       <div className="card-vertical">
         <Texto texto={libro.nombre} />
         <Texto texto={`Materia: ${libro.materia.nombre}`} chica />
