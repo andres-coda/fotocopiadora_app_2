@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect } from "react";
+import { useEffect } from "react";
 import { PaginadoProp } from "../../adaptadores/entrada/paginado.adapter";
 import { ReduxProp, UltimaBusquedaProp } from "../../redux/modelo/reduxContext.interface";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
@@ -8,8 +8,8 @@ import { useDispatch } from "react-redux";
 interface Prop<T> {
   datos: ReduxProp<T>;
   response?: PaginadoProp<T> | null;
-  query: MutableRefObject<string>;
-  crearDatos: ActionCreatorWithPayload<UltimaBusquedaProp<T>>;
+  query: string;
+  crearDatos?: ActionCreatorWithPayload<UltimaBusquedaProp<T>>;
   crearBusqueda: ActionCreatorWithPayload<UltimaBusquedaProp<T>>;
   agregarBusqueda: ActionCreatorWithPayload<UltimaBusquedaProp<T>>;
 }
@@ -19,7 +19,7 @@ const useGestionResponse = <T extends HasId>({
   response = undefined,
   query,
   crearBusqueda,
-  crearDatos,
+  crearDatos = undefined,
   agregarBusqueda,
 }: Prop<T>) => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const useGestionResponse = <T extends HasId>({
       datosQuery: response.datos,
     };
 
-    if (!datos.cargaInicial) {
+    if (!datos.cargaInicial && crearDatos) {
       dispatch(crearDatos(respuestaDto));
       return;
     }
@@ -44,7 +44,7 @@ const useGestionResponse = <T extends HasId>({
     // vuelo, p. ej. se borro el input): se descarta para no repoblar la lista
     // con resultados viejos. La paginacion legitima pasa porque response.query
     // coincide con la query vigente.
-    if ((response.query ?? '') !== query.current) return;
+    if ((response.query ?? '') !== query) return;
     if (response.pagina === 1) {
       dispatch(crearBusqueda(respuestaDto));
     } else {

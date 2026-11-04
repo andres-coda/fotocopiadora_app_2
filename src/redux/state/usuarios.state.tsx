@@ -34,7 +34,7 @@ export const usuarioSlice = createSlice({
   name: 'usuario',
   initialState: estadoUsuarioInicial,
   reducers: {
-    crearUsuarios: crearDatoInicial,
+    crearUsuarios: crearDatoInicial<usuarioProps>,
     crearBusquedaUsuario: crearBusqueda<usuarioProps>(cantidadBusquedas),
     resetBusquedaUsuario: resetBusqueda<usuarioProps>(cantidadBusquedas),
     seleccionarUsuario: seleccionarDato,

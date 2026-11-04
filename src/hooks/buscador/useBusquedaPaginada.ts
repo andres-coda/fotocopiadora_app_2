@@ -1,18 +1,19 @@
-import { useDispatch } from 'react-redux';
 import { ReduxProp, UltimaBusquedaProp } from '../../redux/modelo/reduxContext.interface';
-import { useEffect } from 'react';
-import { ActionCreatorWithPayload, UnknownAction } from '@reduxjs/toolkit';
+import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { BusquedaApiProp } from '../../modelo/HTTP/peticiones.interface';
 import { PaginadoProp } from '../../adaptadores/entrada/paginado.adapter';
 import { useNavigate } from 'react-router-dom';
 import { useModalContext } from '../../contexto/contextoModal';
-import useFinPaginaRedux from '../finPagina/useFinPaginaRedux';
 import useBuscadorQuery from './useBuscadorQuery';
+import useGestionPeticion from '../respuesta/useGestionPeticion';
+import { HasId } from '../../modelo/general/hasId.interface';
+import useGestionResponse from '../respuesta/useGestionRespuesta';
+import useFinPagina from '../finPagina/useFinPagina';
 
 interface UseBuscadorPaginadoProp<T> {
   valor: string;
   datosRedux: ReduxProp<T>;
-  resetBusqueda: () => UnknownAction;
+  resetBusqueda: ActionCreatorWithoutPayload;
   crearBusqueda: ActionCreatorWithPayload<UltimaBusquedaProp<T>>;
   crearBusquedaInicial?: ActionCreatorWithPayload<UltimaBusquedaProp<T>>;
   obtenerBusqueda: ({ query, limite, pagina }: BusquedaApiProp) => void;
@@ -22,7 +23,7 @@ interface UseBuscadorPaginadoProp<T> {
   limiteLetrasBusqueda?: number;
 }
 
-const useBusquedaPaginada = <T>({
+const useBusquedaPaginada = <T extends HasId>({
   valor,
   datosRedux,
   resetBusqueda,
@@ -34,26 +35,28 @@ const useBusquedaPaginada = <T>({
   limiteLetrasBusqueda = 3,
   loading = false,
 }: UseBuscadorPaginadoProp<T>) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setModal } = useModalContext();
 
   const { query } = useBuscadorQuery({ valor, obtenerBusqueda, limiteLetrasBusqueda, paginado: true });
 
-  useEffect(() => {
-    if (query.length < limiteLetrasBusqueda) {
-      dispatch(resetBusqueda());
-    } else {
-      const busqueda = datosRedux.ultimasBusqueda.find(
-        d => d.query?.toLowerCase() === query.toLowerCase()
-      );
-      if (busqueda) {
-        dispatch(crearBusqueda(busqueda));
-      } else {
-        obtenerBusqueda({ query });
-      }
-    }
-  }, [query]);
+  const { queryRef } = useGestionPeticion<T>({
+    datos: datosRedux,
+    obtenerBusqueda: obtenerBusqueda,
+    query: query,
+    limiteLetrasBusqueda,
+    resetearBusqueda: resetBusqueda,
+    crearBusqueda: crearBusqueda,
+  });
+
+  useGestionResponse<T>({
+    datos:datosRedux,
+    response,
+    query:queryRef.current,
+    crearDatos: crearBusquedaInicial,
+    crearBusqueda,
+    agregarBusqueda,
+  })
 
   const nuevoElemento = (ruta?: string) => {
     if (ruta) {
@@ -63,17 +66,13 @@ const useBusquedaPaginada = <T>({
     }
   };
 
-  const { finListaRef, contenedorRef } = useFinPaginaRedux({
-    datos: datosRedux.busquedaActual,
-    query,
-    loading,
-    limiteLetrasBusqueda,
-    response,
-    crearBusquedaRedux: crearBusqueda,
-    crearBusquedaInicial,
-    obtenerBusqueda,
-    actualizarBusquedaRedux: agregarBusqueda,
-    cargaInicial: !datosRedux.cargaInicial
+  const {finListaRef, contenedorRef} = useFinPagina({
+    datos:datosRedux.busquedaActual, 
+    query, 
+    loading, 
+    limiteLetrasBusqueda, 
+    cargaInicial: !datosRedux.cargaInicial, 
+    obtenerBusqueda
   })
 
   return { contenedorRef, nuevoElemento, finListaRef };

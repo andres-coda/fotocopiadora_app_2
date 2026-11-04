@@ -5,17 +5,19 @@ import useUsuariosApi from '../../../../servicio/usuario/useUsuariosApi';
 import CardUsuario from './cardUsuario';
 import Boton from '../../../../componente-estilo/boton/boton';
 import Mas from '../../../../assets/mas.svg?react';
-import Cargando from '../../../../componente/cargando/cargando';
 import { useSelector } from 'react-redux';
 import { appStore } from '../../../../redux/store';
 import {
   agregarUsuariosBusquedaActual,
   crearBusquedaUsuario,
+  crearUsuarios,
+  resetBusquedaUsuario,
 } from '../../../../redux/state/usuarios.state';
-import { ReduxProp, UltimaBusquedaProp } from '../../../../redux/modelo/reduxContext.interface';
-import useFinPaginaRedux from '../../../../hooks/finPagina/useFinPaginaRedux';
+import { ReduxProp } from '../../../../redux/modelo/reduxContext.interface';
 import DesplegableArrow from '../../../../componente-estilo/desplegable/desplegableArrow';
-import Botonera from '../../../../componente-estilo/botonera/botonera';
+import useFinPagina from '../../../../hooks/finPagina/useFinPagina';
+import useGestionPeticion from '../../../../hooks/respuesta/useGestionPeticion';
+import useGestionResponse from '../../../../hooks/respuesta/useGestionRespuesta';
 
 interface Props {
   onAgregarUsuario: () => void;
@@ -35,21 +37,30 @@ const UsuariosEmpresa = ({ onAgregarUsuario, onEliminarUsuario }: Props) => {
   const { obtenerUsuarios, responseUsuarios, loadingUsuarios, errorFetchUsuarios } =
     useUsuariosApi();
 
-  const { finListaRef, contenedorRef } = useFinPaginaRedux<usuarioProps>({
+  const {queryRef} = useGestionPeticion({
+    datos: usuarioRedux,
+    obtenerBusqueda: obtenerUsuarios,
+    resetearBusqueda: resetBusquedaUsuario,
+    crearBusqueda: crearBusquedaUsuario
+  });
+
+  useGestionResponse<usuarioProps>({
+    datos:usuarioRedux,
+    response: responseUsuarios,
+    query: queryRef.current,
+    crearDatos: crearUsuarios,
+    crearBusqueda: crearBusquedaUsuario,
+    agregarBusqueda: agregarUsuariosBusquedaActual,
+  })
+
+  const { finListaRef, contenedorRef } = useFinPagina<usuarioProps>({
     datos: usuarioRedux.busquedaActual,
     loading: loadingUsuarios,
-    cargaInicial: true,
     obtenerBusqueda: obtenerUsuarios,
-    response: responseUsuarios,
-    crearBusquedaRedux: crearBusquedaUsuario,
-    actualizarBusquedaRedux: agregarUsuariosBusquedaActual,
   });
 
   if (!sesion || sesion.role === 'operador')
     return <Texto texto="no tiene acceso a los trabajadores" error chica />;
-
-  if (errorFetchUsuarios) return <Texto texto={errorFetchUsuarios} error chica />;
-  if (loadingUsuarios && usuarioRedux.busquedaActual.datosQuery.length === 0) return <Cargando />;
 
   return (
     <DesplegableArrow
@@ -60,6 +71,8 @@ const UsuariosEmpresa = ({ onAgregarUsuario, onEliminarUsuario }: Props) => {
       vacio={usuarioRedux.cargaInicial && usuarioRedux.busquedaActual.datosQuery.length === 0}
       finListaRef={finListaRef}
       nuevoEstilo='usuario-lista'
+      error={errorFetchUsuarios}
+      loading={loadingUsuarios}
     >
       {usuarioRedux.busquedaActual.datosQuery.length != 0 &&
         usuarioRedux.busquedaActual.datosQuery

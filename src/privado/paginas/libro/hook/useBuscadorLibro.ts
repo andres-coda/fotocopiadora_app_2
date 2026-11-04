@@ -29,6 +29,7 @@ import useBuscadorQuery from '../../../../hooks/buscador/useBuscadorQuery';
 import { BusquedaApiProp } from '../../../../modelo/HTTP/peticiones.interface';
 import { nombreLibroXstring } from '../../../../utils/formatoDatos';
 import useGestionResponse from '../../../../hooks/respuesta/useGestionRespuesta';
+import useGestionPeticion from '../../../../hooks/respuesta/useGestionPeticion';
 
 interface BuscadorLibroProp {
   opcionesActivas: string[];
@@ -103,26 +104,30 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
   const { obtenerPropuestaBusqueda, responsePropuestas, loadingPropuestas, errorFetchPropuestas } =
     usePropuestasApi();
 
-  // Refs de REQUEST (query con la que se disparo cada pedido): se usan para
-  // paginar solo la busqueda vigente y para no repetir una busqueda ya hecha.
-  // El reset los pone en '' para que la respuesta vieja se descarte.
-  const queryLibrosRef = useRef<string>('');
-  const queryPropuestaRef = useRef<string>('');
-
   // Ref de la query VIGENTE (la que escribe el usuario). El hook de respuesta
   // compara response.query (echo del back) contra este para descartar stale.
   const queryActualLibrosRef = useRef<string>('');
   const queryActualPropuestaRef = useRef<string>('');
 
-  const pedirLibros = ({ query, limite, pagina }: BusquedaApiProp) => {
-    queryLibrosRef.current = query;
-    obtenerLibrosBusqueda({ query, limite, pagina });
-  };
+  const { queryRef: queryLibrosRef } = useGestionPeticion<LibroProp>({
+    datos: librosDatos,
+    obtenerBusqueda: obtenerLibrosBusqueda,
+    query: queryActualLibrosRef.current,
+    limiteLetrasBusqueda,
+    resetearBusqueda: resetBusquedaLibro,
+    crearBusqueda: crearBusquedaLibro,
+    condicion: !librosHabilitados
+  });
 
-  const pedirPropuestas = ({ query, limite, pagina }: BusquedaApiProp) => {
-    queryPropuestaRef.current = query;
-    obtenerPropuestaBusqueda({ query, limite, pagina });
-  };
+  const { queryRef: queryPropuestaRef } = useGestionPeticion<PropuestaProp>({
+    datos: propuestaDatos,
+    obtenerBusqueda: obtenerPropuestaBusqueda,
+    query: queryActualLibrosRef.current,
+    limiteLetrasBusqueda,
+    resetearBusqueda: resetBusquedaPropuesta,
+    crearBusqueda: crearBusquedaPropuesta,
+    condicion: !propuestasHabilitadas
+  });
 
   const obtenerBusqueda = ({ query }: BusquedaApiProp) => {
     // Nada cargado todavia: la primera pagina la piden los efectos de abajo.
@@ -134,7 +139,7 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
       queryLibrosRef.current === query &&
       librosDatos.busquedaActual.pagina * librosDatos.busquedaActual.limite < librosDatos.busquedaActual.total
     ) {
-      pedirLibros({ query, pagina: librosDatos.busquedaActual.pagina + 1, limite: librosDatos.busquedaActual.limite });
+      obtenerLibrosBusqueda({ query, pagina: librosDatos.busquedaActual.pagina + 1, limite: librosDatos.busquedaActual.limite });
     }
 
     if (
@@ -143,7 +148,7 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
       queryPropuestaRef.current === query &&
       propuestaDatos.busquedaActual.pagina * propuestaDatos.busquedaActual.limite < propuestaDatos.busquedaActual.total
     ) {
-      pedirPropuestas({
+      obtenerPropuestaBusqueda({
         query,
         pagina: propuestaDatos.busquedaActual.pagina + 1,
         limite: propuestaDatos.busquedaActual.limite,
@@ -170,75 +175,10 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
     }
   }, [modal]);
 
-  // Carga inicial: una sola vez por montaje y por toggle. `cargaInicial` y
-  // `query` no van en las deps a proposito: si estuvieran, cada respuesta (o
-  // cada tecla) volveria a disparar el pedido y quedarian requests duplicados.
-  useEffect(() => {
-    if (librosHabilitados && !librosDatos.cargaInicial) {
-      pedirLibros({ query, limite: librosDatos.busquedaActual.limite });
-    }
-    if (propuestasHabilitadas && !propuestaDatos.cargaInicial) {
-      pedirPropuestas({ query, limite: propuestaDatos.busquedaActual.limite });
-    }
-  }, [opcionesActivas]);
-
-  // El reset depende solo de `query`: con `opcionesActivas` en las deps,
-  // cambiar el toggle con la query corta reseteaba las dos entidades, incluida
-  // la que no se toco, y se perdian la pagina acumulada y el scroll de la otra
-  // lista.
-  useEffect(() => {
-    if (query.length >= limiteLetrasBusqueda) return;
-
-    queryLibrosRef.current = '';
-    queryPropuestaRef.current = '';
-    dispatch(resetBusquedaLibro());
-    dispatch(resetBusquedaPropuesta());
-  }, [query]);
-
-  // Si se escribe antes de que responda la carga inicial, la busqueda dispara
-  // igual y su respuesta llega con `cargaInicial` en false: los effects de
-  // respuesta caen en la rama `crearLibros` y pisan `datosIniciales` con un
-  // resultado de query. El guard por entidad junto con `cargaInicial` en las
-  // deps hace que la busqueda pendiente corra justo despues de la carga
-  // inicial en vez de competir con ella.
-  useEffect(() => {
-    if (query.length < limiteLetrasBusqueda) return;
-
-    // Si esta entidad ya se pidio con esta misma query (o se siguio paginando
-    // con ella), el cambio de toggle no debe volver a disparar la busqueda.
-    if (librosHabilitados && librosDatos.cargaInicial && queryLibrosRef.current !== query) {
-      const busqueda = librosDatos.ultimasBusqueda.find(
-        (d) => d.query?.toLowerCase() === query.toLowerCase()
-      );
-      if (busqueda) {
-        queryLibrosRef.current = query;
-        dispatch(crearBusquedaLibro(busqueda));
-      } else {
-        pedirLibros({ query });
-      }
-    }
-
-    if (
-      propuestasHabilitadas &&
-      propuestaDatos.cargaInicial &&
-      queryPropuestaRef.current !== query
-    ) {
-      const busquedaPropuesta = propuestaDatos.ultimasBusqueda.find(
-        (d) => d.query?.toLowerCase() === query.toLowerCase()
-      );
-      if (busquedaPropuesta) {
-        queryPropuestaRef.current = query;
-        dispatch(crearBusquedaPropuesta(busquedaPropuesta));
-      } else {
-        pedirPropuestas({ query });
-      }
-    }
-  }, [query, opcionesActivas, librosDatos.cargaInicial, propuestaDatos.cargaInicial]);
-
   useGestionResponse<LibroProp>({
     datos: librosDatos,
     response: responseLibros,
-    query: queryActualLibrosRef,
+    query,
     crearDatos: crearLibros,
     crearBusqueda: crearBusquedaLibro,
     agregarBusqueda: agregarLibrosBusquedaActual
@@ -247,7 +187,7 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
   useGestionResponse<PropuestaProp>({
     datos: propuestaDatos,
     response: responsePropuestas,
-    query: queryActualPropuestaRef,
+    query,
     crearDatos: crearPropuestas,
     crearBusqueda: crearBusquedaPropuesta,
     agregarBusqueda: agregarPropuestasBusquedaActual
