@@ -39,7 +39,14 @@ const Input = <T extends FieldValues>({
                 field.onChange(parseValue ? parseValue(raw) : raw);
               }}
               onFocus={onFocus}
-              onBlur={onBlur}
+              // `{...field}` ya trae el `onBlur` de react-hook-form, que marca
+              // el campo como `touched`. Pisarlo con el `onBlur` propio (o con
+              // `undefined` cuando el consumidor no pasa ninguno) lo dejaba sin
+              // ejecutar en todos los formularios. Se encadenan los dos.
+              onBlur={() => {
+                field.onBlur();
+                onBlur?.();
+              }}
             />
           )}
         />
