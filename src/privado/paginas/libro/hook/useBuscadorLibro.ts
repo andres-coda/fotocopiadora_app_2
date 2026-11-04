@@ -230,6 +230,11 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
     const respuestaDtoLibro: UltimaBusquedaProp<LibroProp> = {
       ...librosDatos.busquedaActual,
       ...responseLibros,
+      // `PaginadoProp` no trae la query con la que se pidio. Sin ponerla aca,
+      // `query` quedaba con la de la busqueda anterior (o `undefined` desde el
+      // arranque), asi que `evaluarUltimasBusquedas` comparaba `undefined`
+      // contra `undefined` y colapsaba todas las entradas del cache en una.
+      query: queryLibrosRef.current,
       datosQuery: responseLibros.datos,
     };
 
@@ -249,6 +254,9 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
     const respuestaDtoPropuestas: UltimaBusquedaProp<PropuestaProp> = {
       ...propuestaDatos.busquedaActual,
       ...responsePropuestas,
+      // Mismo motivo que en libros: la respuesta paginada no trae la query y
+      // sin fijarla el cache de `ultimasBusqueda` no puede distinguir busquedas.
+      query: queryPropuestaRef.current,
       datosQuery: responsePropuestas.datos,
     };
 
