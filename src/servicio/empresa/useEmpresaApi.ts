@@ -1,7 +1,7 @@
 import { empresaAdapter } from '../../adaptadores/entrada/empresa.adapter';
-import { empresaDtoAdapter } from '../../adaptadores/salida/empresaDto.adapter';
+import { empresaDtoAdapter, empresaCrearSuperDtoAdapter } from '../../adaptadores/salida/empresaDto.adapter';
 import { EmpresaProp } from '../../modelo/Entidades/empresa/empresa.interface';
-import { formValuesEmpresa } from '../../modelo/Entidades/empresa/esqEmpresa.esquema';
+import { formValuesEmpresa, formValuesEmpresaCrearSuper } from '../../modelo/Entidades/empresa/esqEmpresa.esquema';
 import { httpMethod } from '../../modelo/HTTP/HttpMethod.enum';
 import { EMPRESA, EMPRESA_MIA } from '../../utils/endpoint';
 import useApi from '../hooks/useApi';
@@ -20,13 +20,26 @@ const useEmpresaApi = () => {
       adapter: empresaAdapter,
     });
 
+  const crearEmpresa = (data: formValuesEmpresaCrearSuper) =>
+    fetchData({
+      url: EMPRESA,
+      methodo: httpMethod.POST,
+      bodyData: JSON.stringify(empresaCrearSuperDtoAdapter(data)),
+      adapter: empresaAdapter,
+    });
+
   const obtenerEmpresaMia = () =>
     fetchData({ url: EMPRESA_MIA, methodo: httpMethod.GET, adapter: empresaAdapter });
+
+  const eliminarEmpresa = (id: string) =>
+    fetchData({ url: `${EMPRESA}/${id}`, methodo: httpMethod.DELETE });
 
   return {
     obtenerEmpresaById,
     obtenerEmpresaMia,
     editarEmpresa,
+    crearEmpresa,
+    eliminarEmpresa,
     responseEmpresa: response,
     loadingEmpresa: loading,
     errorFetchEmpresa: errorFetch,

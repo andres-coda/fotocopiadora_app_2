@@ -47,13 +47,6 @@ function Heder() {
             <Pedido />
           </Link>
         </li>
-        {userActual?.role != 'super_admin' && (
-          <li title={'Sedes'}>
-            <Link to={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.SEDE_LISTA}`}>
-              <Sedes />
-            </Link>
-          </li>
-        )}
         {userActual?.role === 'super_admin' && (
           <li title={'Empresas'}>
             <Link to={`/${rutaSuperBase.SUPER}/${RutasSupers.EMPRESA_LISTA}`}>

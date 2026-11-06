@@ -1,7 +1,3 @@
-.lateral-derecho > .card.sesion {
-  flex-shrink: 0;
-}
-
 .mensajes-favoritos {
   display: flex;
   flex-direction: column;
@@ -68,4 +64,30 @@
   overflow-wrap: anywhere;
   line-height: 1.3;
   margin: 0;
+}
+
+/* `.card` y `.fecha-entrega` tienen la misma especificidad (una clase cada uno), así que
+   ganaba `.card` porque `card.css` se evalúa después: el archivo se importa al final desde
+   `card.tsx`. Con el selector compuesto esta regla gana siempre, sin depender del orden. */
+.card.fecha-entrega {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: .5rem;
+  box-sizing: border-box;
+  width: 100%;
+  cursor: default;
+  box-shadow: none;
+}
+
+.sesion {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  cursor: default;
+  gap: .5rem;
 }

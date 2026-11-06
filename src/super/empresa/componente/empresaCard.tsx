@@ -8,9 +8,10 @@ import { RutasSupers, rutaSuperBase } from '../../ruta/rutaSupers';
 
 interface Prop {
   empresa: EmpresaProp;
+  onEliminar?: () => void;
 }
 
-const EmpresaCard = ({ empresa }: Prop) => {
+const EmpresaCard = ({ empresa, onEliminar }: Prop) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleEmpresa = () => {
@@ -22,6 +23,14 @@ const EmpresaCard = ({ empresa }: Prop) => {
       <Texto texto={empresa.nombre} />
       <Texto texto={empresa.email} />
       <Texto texto={empresa.telefono} />
+      {onEliminar && (
+        <button
+          type="button"
+          onClick={e => { e.stopPropagation(); onEliminar(); }}
+        >
+          Eliminar
+        </button>
+      )}
     </Card>
   );
 };

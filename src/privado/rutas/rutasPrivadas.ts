@@ -15,8 +15,6 @@ export const RutasPrivadas = {
   MATERIA_LISTA: 'materias',
   MATERIA_CARGAR: 'new_materia',
   MENSAJE_LISTA: 'mensajes',
-  SEDE: 'sede',
-  SEDE_LISTA: 'sedes',
   SEDE_CARGAR: 'new-sede',
   PRECIO: 'precio',
   PRECIO_LISTO: 'precios',

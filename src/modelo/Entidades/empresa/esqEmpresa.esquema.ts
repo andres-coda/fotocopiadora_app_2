@@ -44,6 +44,62 @@ export const empresaFormDefault: formValuesEmpresa = {
   telefono: '',
 };
 
+// ───────────────────────────────────────────────────────────────────────────
+// Alta de empresa por super_admin: empresa + primer usuario admin en un solo
+// formulario. El back los crea en una sola transaccion.
+// ───────────────────────────────────────────────────────────────────────────
+export const empresaCrearSuper = z.object({
+  nombre: z
+    .string()
+    .min(1, { message: 'La empresa debe tener un nombre' })
+    .max(50, { message: 'El nombre no puede superar los 50 caracteres' }),
+  email: z
+    .email('Email invalido')
+    .min(1, { message: 'El email es obligatorio' })
+    .max(150, { message: 'El email no puede superar los 150 caracteres' }),
+  telefono: z
+    .string()
+    .min(1, { message: 'El telefono es obligatorio' })
+    .refine(
+      val => {
+        const cleaned = val.replace(/\\D/g, '');
+        return cleaned.length >= 10 && cleaned.length <= 15;
+      },
+      { message: 'Debe ser un telefono valido' }
+    )
+    .transform(val => {
+      let cleaned = val.replace(/[^\\d+]/g, '');
+      cleaned = cleaned.replace(/(?!^\\+)\\D/g, '');
+      if (!cleaned.startsWith('+') && cleaned.startsWith('0')) {
+        cleaned = cleaned.slice(1);
+      }
+      return cleaned;
+    }),
+  adminNombre: z
+    .string()
+    .min(1, { message: 'El nombre del administrador es obligatorio' })
+    .max(50, { message: 'El nombre no puede superar los 50 caracteres' }),
+  adminEmail: z
+    .email('Email invalido')
+    .min(1, { message: 'El email del administrador es obligatorio' })
+    .max(50, { message: 'El email no puede superar los 50 caracteres' }),
+  adminPassword: z
+    .string()
+    .min(6, { message: 'La contraseña debe tener al menos 6 caracteres' })
+    .max(255, { message: 'La contraseña no puede superar los 255 caracteres' }),
+});
+
+export type formValuesEmpresaCrearSuper = z.infer<typeof empresaCrearSuper>;
+
+export const empresaCrearSuperFormDefault: formValuesEmpresaCrearSuper = {
+  nombre: '',
+  email: '',
+  telefono: '',
+  adminNombre: '',
+  adminEmail: '',
+  adminPassword: '',
+};
+
 export const empresaFormEdit = (empresa?: EmpresaProp | null): formValuesEmpresa => {
   if (!empresa) return empresaFormDefault;
   return {

@@ -1,7 +1,7 @@
-import './card.css';
 import { CardPropComp } from './modelo/card.interface';
 import useCard from './hooks/useCard';
 import CardContenedor from './cardContenedor';
+import './card.css';
 
 export default function Card({
   estadoClass,

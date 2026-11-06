@@ -8,21 +8,26 @@ import {
 } from '../../redux/state/empresa.state';
 import { appStore } from '../../redux/store';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useEmpresasApi from '../../servicio/empresa/useEmpresasApi';
+import useEmpresaApi from '../../servicio/empresa/useEmpresaApi';
 import useBusquedaPaginada from '../../hooks/buscador/useBusquedaPaginada';
 import { EmpresaProp } from '../../modelo/Entidades/empresa/empresa.interface';
 import BuscadorPaginadoCompleto from '../../componente/buscador/buscadorPaginadoCompleto';
 import Centro from '../../componente-estilo/centro/centro';
 import EmpresaCard from './componente/empresaCard';
+import { RutasSupers, rutaSuperBase } from '../ruta/rutaSupers';
 
 const Empresas = () => {
   const empresaRedux: EmpresaStateProp = useSelector((store: appStore) => store.empresa);
+  const navigate = useNavigate();
 
   const [valor, setValor] = useState<string>('');
   const { obtenerEmpresaBusqueda, responseEmpresa, errorFetchEmpresa, loadingEmpresa } =
     useEmpresasApi();
+  const { eliminarEmpresa } = useEmpresaApi();
 
-  const { contenedorRef, nuevoElemento, finListaRef } = useBusquedaPaginada<EmpresaProp>({
+  const { contenedorRef, finListaRef } = useBusquedaPaginada<EmpresaProp>({
     valor,
     datosRedux: empresaRedux,
     crearBusquedaInicial: crearEmpresas,
@@ -34,6 +39,12 @@ const Empresas = () => {
     loading: loadingEmpresa,
   });
 
+  const handleEliminar = (id: string) => {
+    if (window.confirm('¿Eliminar esta empresa?')) {
+      eliminarEmpresa(id);
+    }
+  };
+
   return (
     <>
       <BuscadorPaginadoCompleto
@@ -44,7 +55,7 @@ const Empresas = () => {
         titulo="Empresas"
         etiquetaArriba="Al comienzo de la lista"
         etiquetaMas="Nueva empresa"
-        handleMas={() => nuevoElemento()}
+        handleMas={() => navigate(`/${rutaSuperBase.SUPER}/${RutasSupers.EMPRESA_CREAR}`)}
       />
       <Centro
         ref={contenedorRef}
@@ -60,7 +71,11 @@ const Empresas = () => {
         loading={loadingEmpresa}
       >
         {empresaRedux.busquedaActual.datosQuery.map(empresa => (
-          <EmpresaCard empresa={empresa} key={empresa.id} />
+          <EmpresaCard
+            empresa={empresa}
+            key={empresa.id}
+            onEliminar={() => handleEliminar(empresa.id)}
+          />
         ))}
       </Centro>
     </>
