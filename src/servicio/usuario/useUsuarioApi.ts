@@ -1,6 +1,7 @@
 import { perfilAdapter, usuarioAdapter } from '../../adaptadores/entrada/usuario.adapter';
 import { usuarioAltaDtoAdapter } from '../../adaptadores/salida/usuarioAltaDto.adapter';
 import { usuarioEditarDtoAdapter } from '../../adaptadores/salida/usuarioEditarDto.adapter';
+// No separate interface file; use inline type.
 import {
   formValuesPerfilEditar,
   formValuesUsuarioAlta,
@@ -49,10 +50,19 @@ const useUsuarioApi = () => {
       adapter: usuarioAdapter,
     });
 
+  const cambiarRol = (id: string, role: string) =>
+    fetchData({
+      url: `${USER}/role`,
+      methodo: httpMethod.PUT,
+      bodyData: JSON.stringify({ id, role }),
+      adapter: usuarioAdapter,
+    });
+
   return {
     obtenerUsuario,
     crearUsuario,
     editarUsuario,
+    cambiarRol,
     obtenerPerfil,
     responseUsuario: response,
     loadingUsuario: loading,

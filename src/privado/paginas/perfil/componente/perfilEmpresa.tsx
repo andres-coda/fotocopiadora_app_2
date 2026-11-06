@@ -15,7 +15,7 @@ interface Prop {
   onEditarEmpresa?: () => void;
 }
 const PerfilEmpresa = ({ empresa, onEditarEmpresa }: Prop) => {
-  if (!empresa || !onEditarEmpresa)
+  if (!empresa)
     return (
       <Card>
         <Texto texto="No existe empresa" />
@@ -33,13 +33,15 @@ const PerfilEmpresa = ({ empresa, onEditarEmpresa }: Prop) => {
         <Telefono />
         <Texto texto={formatoTelefonoMostrar(empresa.telefono)} />
       </div>
-      <Boton
-        icono={<Editar />}
-        secundario
-        nuevoEstilo="btn-icono-chico btn-edit-flotante"
-        titulo="Editar mis datos"
-        onClick={onEditarEmpresa}
-      />
+      {onEditarEmpresa && (
+        <Boton
+          icono={<Editar />}
+          secundario
+          nuevoEstilo="btn-icono-chico btn-edit-flotante"
+          titulo="Editar mis datos"
+          onClick={onEditarEmpresa}
+        />
+      )}
     </Card>
   );
 };
