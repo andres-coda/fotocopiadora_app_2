@@ -6,5 +6,7 @@ export const RutasSupers = {
   EMPRESA: 'empresa',
   EMPRESA_LISTA: 'empresas',
   EMPRESA_CREAR: 'empresa-crear',
+  LIBRO_LISTA: 'libros',
+  LIBRO_EDITAR: 'libro-editar',
   PERFIL: 'perfil',
 }
