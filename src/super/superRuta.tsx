@@ -6,6 +6,7 @@ import { RutasSupers } from "./ruta/rutaSupers";
 import Empresas from "./empresa/empresas";
 import EmpresaCrear from "./empresa/empresaCrear";
 import EmpresaDetalle from "./empresa/empresaDetalle";
+import LibrosSuper from "./libro/libros";
 import PerfilSuper from "./perfil/perfilSuper";
 
 const SuperRuta = () => {
@@ -17,6 +18,7 @@ const SuperRuta = () => {
           <Route path={RutasSupers.EMPRESA_LISTA} element={<Empresas />}></Route>
           <Route path={RutasSupers.EMPRESA_CREAR} element={<EmpresaCrear />}></Route>
           <Route path={RutasSupers.EMPRESA} element={<EmpresaDetalle />}></Route>
+          <Route path={RutasSupers.LIBRO_LISTA} element={<LibrosSuper />}></Route>
             <Route path={RutasSupers.PERFIL} element={<PerfilSuper />}></Route>
         </RutaInvalida>
       </ProveiderPedidoContext>
