@@ -13,6 +13,7 @@ import User from './../../assets/user.svg?react';
 import Mensaje from './../../assets/email.svg?react';
 import Nuevo from './../../assets/nuevo.svg?react';
 import { RutasSupers, rutaSuperBase } from '../../super/ruta/rutaSupers';
+import SolicitudesIcon from './../../assets/edit.svg?react';
 import { rutaPublica } from '../../publico/rutas/rutasPublicas';
 
 function Heder() {
@@ -51,6 +52,20 @@ function Heder() {
           <li title={'Empresas'}>
             <Link to={`/${rutaSuperBase.SUPER}/${RutasSupers.EMPRESA_LISTA}`}>
               <Sedes />
+            </Link>
+          </li>
+        )}
+        {userActual?.role === 'super_admin' && (
+          <li title={'Solicitudes'}>
+            <Link to={`/${rutaSuperBase.SUPER}/${RutasSupers.SOLICITUD_LISTA}`}>
+              <SolicitudesIcon />
+            </Link>
+          </li>
+        )}
+        {userActual?.role === 'super_admin' && (
+          <li title={'Libros (super)'}>
+            <Link to={`/${rutaSuperBase.SUPER}/${RutasSupers.LIBRO_LISTA}`}>
+              <Libro />
             </Link>
           </li>
         )}
