@@ -8,5 +8,7 @@ export const RutasSupers = {
   EMPRESA_CREAR: 'empresa-crear',
   LIBRO_LISTA: 'libros',
   LIBRO_EDITAR: 'libro-editar',
+  SOLICITUD_LISTA: 'solicitudes',
+  SOLICITUD_DETALLE: 'solicitud',
   PERFIL: 'perfil',
 }

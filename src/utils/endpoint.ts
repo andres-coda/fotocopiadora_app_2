@@ -31,6 +31,7 @@ export const MENSAJE: string = `${BASE}/mensaje`;
 export const MENSAJE_NOMBRE: string = `${MENSAJE}/nombre`;
 export const DATO_COBRO: string = `${BASE}/dato-cobro`;
 export const DATO_COBRO_NOMBRE: string = `${DATO_COBRO}/nombre`;
+export const SOLICITUD: string = `${BASE}/solicitud`;
 export const PROPUESTA: string = `${BASE}/propuesta-pedido`;
 export const NIVEL: string = `${BASE}/nivel`;
 export const EDITORIAL: string = `${BASE}/editorial`;
