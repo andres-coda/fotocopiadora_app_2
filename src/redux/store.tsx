@@ -24,6 +24,7 @@ import { usuarioProps } from '../modelo/usuario/Usuario.interface';
 import { usuarioSlice } from './state/usuarios.state';
 import { empresaSlice, EmpresaStateProp } from './state/empresa.state';
 import { miEmpresaSlice, MiEmpresaState } from './state/miEmpresa.state';
+import { solicitudSlice, SolicitudStateProp } from './state/solicitud.state';
 
 export interface appStore {
   cliente: ReduxProp<ClienteProp>;
@@ -40,6 +41,7 @@ export interface appStore {
   sesion: ReduxSimpleElemento<usuarioProps>;
   miEmpresa: MiEmpresaState;
   empresa: EmpresaStateProp;
+  solicitud: SolicitudStateProp;
 }
 
 export default configureStore<appStore>({
@@ -58,5 +60,6 @@ export default configureStore<appStore>({
     sesion: sesionSlice.reducer,
     miEmpresa: miEmpresaSlice.reducer,
     empresa: empresaSlice.reducer,
+    solicitud: solicitudSlice.reducer,
   },
 });
