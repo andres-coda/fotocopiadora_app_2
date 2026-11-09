@@ -16,8 +16,10 @@ export interface estilosTextoProps {
   etiqueta?: string | undefined;
   textoResaltado?: string;
   inline?: boolean;
+  //simula las opciones cuando esta cargando el desplegable
+  desplegable?:boolean;
 }
 
 export interface textoProps extends estilosTextoProps {
-  texto: String;
+  texto: string;
 }

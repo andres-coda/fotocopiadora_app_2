@@ -50,13 +50,15 @@ const useUsuarioApi = () => {
       adapter: usuarioAdapter,
     });
 
-  const cambiarRol = (id: string, role: string) =>
+  const cambiarRol = (id: string, role: string | undefined) =>{
+    if(!role) return;
     fetchData({
       url: `${USER}/role`,
       methodo: httpMethod.PUT,
       bodyData: JSON.stringify({ id, role }),
       adapter: usuarioAdapter,
     });
+  }
 
   return {
     obtenerUsuario,

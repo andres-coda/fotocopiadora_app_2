@@ -14,9 +14,14 @@ function useTexto({
   ajustado,
   alCien,
   inline,
+  desplegable,
   nuevoEstilo,
 }: estilosTextoProps) {
+  const desp = 'inline ajustado chica desplegable-texto';
+  const er = 'error chica'
+
   const clase = [
+    'texto',
     centrado && !derecha && 'centrado',
     derecha && 'derecha',
     chica && !mediana && !grande && !muyGrande && 'chica',
@@ -25,11 +30,12 @@ function useTexto({
     muyGrande && 'muyGrande',
     negrita && 'negrita',
     sombra && !error && !inverso && 'sombra',
-    error && !inverso && 'error',
+    error && !inverso && er,
     inverso && 'inverso',
     ajustado && 'ajustado',
     alCien && 'alCien',
     inline && 'inline',
+    desplegable && desp,
     nuevoEstilo,
   ]
     .filter(Boolean)

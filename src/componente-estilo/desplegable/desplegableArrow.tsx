@@ -7,6 +7,7 @@ import Centro from '../centro/centro';
 import useDesplegableClase from './useDesplegableClase';
 import { ContenedorCentro } from '../centro/centroExterior';
 import { DesplegableProp } from './desplegable.interface';
+import Botonera from '../botonera/botonera';
 
 const DesplegableArrow = ({
   children,
@@ -20,7 +21,8 @@ const DesplegableArrow = ({
   vacio = false,
   loading = false,
   error = undefined,
-  contenedorRef = undefined
+  contenedorRef = undefined,
+  botones = undefined,
 }: DesplegableProp) => {
   const [activo, setActivo] = useState<boolean>(false);
   const { clase } = useDesplegableClase({ verde, gris, nuevoEstilo });
@@ -50,6 +52,7 @@ const DesplegableArrow = ({
           {children}
         </ContenedorCentro>
       )}
+      {activo && botones && <Botonera derecha>{botones}</Botonera>}
     </div>
   );
 };

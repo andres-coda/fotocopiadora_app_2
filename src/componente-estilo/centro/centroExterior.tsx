@@ -11,7 +11,7 @@ export const ContenedorCentro = ({ children, texto = undefined, error = undefine
     return (
       <div className={claseExterior}>
         {texto && <Titulo titulo={texto} />}
-        <Texto texto={error} error chica />
+        <Texto texto={error} error />
       </div>
     );
 

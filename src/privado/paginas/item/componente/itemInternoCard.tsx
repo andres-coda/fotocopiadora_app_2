@@ -19,8 +19,9 @@ import EspecificacionCard from '../../../../componente/especificaciones/especifi
 import Desplegable from '../../../../componente/formulario/desplegable';
 import { pasarDesplegableOrdenado } from '../../../../utils/formulario';
 import { estadosParaDesplegable, pasarEstadoDesplegable } from '../../../../utils/estado';
-import './itemCard.css';
 import { MouseEvent } from 'react';
+import Formulario from '../../../../componente/formulario/formulario';
+import './itemCard.css';
 
 interface Prop {
   item: PedidoLibroProp;
@@ -89,7 +90,7 @@ const ItemInternoCard = ({ item, idPedido }: Prop) => {
         <EspecificacionCard listaEspecificaciones={item.especificaciones} horizontal />
         <Texto texto={`Detalles: ${item.detalles ?? ''}`} inline chica />
         <div className="estado-contenedor" onClick={handleClickDentroSelect}>
-          {!loadingItem ? (
+          {
             (() => {
               return (
                 <Desplegable<formValuesSede>
@@ -106,28 +107,27 @@ const ItemInternoCard = ({ item, idPedido }: Prop) => {
                   })}
                   nuevoEstilo="desplegable-estado"
                   texto="Sede: "
+                  loading={loadingItem}
+                  chico
+                  noEsRequerido
                 />
               );
-            })()
-          ) : (
-            <Texto texto={'Cambiando...'} chica ajustado />
-          )}
-          {!loadingCambioEstadoPedido ? (
-            <form onSubmit={e => e.preventDefault()}>
-              <Desplegable<formValuesEstado>
-                name="estado"
-                control={control}
-                label="Seleccione nuevo estado"
-                error={errors.estado}
-                esquema={estado}
-                alingDerecha
-                opciones={pasarEstadoDesplegable(undefined, estadosParaDesplegable)}
-                nuevoEstilo="desplegable-estado"
-              />
-            </form>
-          ) : (
-            <Texto texto={'Cambiando...'} chica ajustado />
-          )}
+            })()}
+
+          <Formulario simple>
+            <Desplegable<formValuesEstado>
+              name="estado"
+              control={control}
+              label="Seleccione nuevo estado"
+              error={errors.estado}
+              esquema={estado}
+              alingDerecha
+              opciones={pasarEstadoDesplegable(undefined, estadosParaDesplegable)}
+              nuevoEstilo="desplegable-estado"
+              loading={loadingCambioEstadoPedido}
+              chico
+            />
+          </Formulario>
         </div>
       </div>
     </div>

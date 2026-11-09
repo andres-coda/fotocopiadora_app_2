@@ -2,7 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import { CardProp } from '../modelo/card.interface';
 import { MouseEventHandler } from 'react';
 
-function useCard({ listo, pendiente, retirado, cancelado, ruta, nuevoEstilo, onClick, limitado, gigante, estadoClass = '' }: CardProp) {
+function useCard({ 
+  listo = false, 
+  pendiente = false, 
+  retirado =false, 
+  cancelado=false, 
+  ruta=undefined, 
+  nuevoEstilo='', 
+  onClick=undefined, 
+  limitado=false, 
+  gigante=false, 
+  estadoClass = '' }: CardProp) {
   const navigate = useNavigate();
 
   const clase = [

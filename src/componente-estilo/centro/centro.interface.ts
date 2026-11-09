@@ -9,6 +9,7 @@ export interface CentroClaseProp {
   desplegable?:boolean; 
   //por si viene de centro
   centro?:string;
+  nuevoEstiloExterior?:string;
 }
 
 export interface CentroDefectoProp extends CentroClaseProp {

@@ -10,6 +10,7 @@ import {
   agregarDatosBusquedaActual,
   cambiarOrden,
   resetRedux,
+  eliminarElemento,
 } from '../utils/funcionesGenericasEmpresa';
 import { estadoInicialRedux } from '../utils/reduxInicial';
 
@@ -24,10 +25,11 @@ export const empresaSlice = createSlice({
     crearEmpresas: crearDatoInicial<EmpresaProp>,
     crearBusquedaEmpresa: crearBusqueda<EmpresaProp>(cantidadBusquedas),
     resetBusquedaEmpresa: resetBusqueda<EmpresaProp>(cantidadBusquedas),
-    seleccionarEmpresa: seleccionarDato,
+    seleccionarEmpresa: seleccionarDato<EmpresaProp>,
     resetSeleccionarEmpresa: resetSeleccionDato,
     agregarEmpresasBusquedaActual: agregarDatosBusquedaActual<EmpresaProp>,
     cambiarOrdenEmpresa: cambiarOrden<EmpresaProp>,
+    eliminarEmpresaRedux: eliminarElemento<EmpresaProp>,
     resetReduxEmpresa: resetRedux<EmpresaProp>,
   },
 });
@@ -41,8 +43,7 @@ export const {
   agregarEmpresasBusquedaActual,
   cambiarOrdenEmpresa,
   resetReduxEmpresa,
+  eliminarEmpresaRedux,
 } = empresaSlice.actions;
 
 export default empresaSlice.reducer;
-
-export type EmpresaStateProp = ReduxProp<EmpresaProp>;

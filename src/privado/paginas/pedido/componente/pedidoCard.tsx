@@ -1,6 +1,5 @@
 import Card from '../../../../componente-estilo/card/card';
 import useEditar from '../../../../hooks/editar/useEditar';
-import './pedidoCard.css';
 import { PedidoProp } from '../../../../modelo/Entidades/pedido/pedido.interface';
 import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import CardFechas from '../../../../componente/pedido/cardFechas';
@@ -22,7 +21,6 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import Desplegable from '../../../../componente/formulario/desplegable';
 import CardDatosCliente from '../../../../componente/pedido/cardDatosCliente';
-import Cargando from '../../../../componente/cargando/cargando';
 import useCambiarEstadoPedidoApi from '../../../../servicio/pedido/useCambiarEstadoPedidoApi';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,6 +35,9 @@ import { appStore } from '../../../../redux/store';
 import { Estado } from '../../../../modelo/Entidades/pedido_libro/estado.enum';
 import useWhatsapp from '../../../../hooks/whatsapp/useWhatsapp';
 import { armarMensajeRetiro } from '../../../../utils/whatsapp';
+import Centro from '../../../../componente-estilo/centro/centro';
+import usePedidoClase from '../hook/usePedidoClase';
+import './pedidoCard.css';
 
 interface Props {
   pedido: PedidoProp;
@@ -47,6 +48,8 @@ interface Props {
 }
 
 const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) => {
+  const { claseCard } = usePedidoClase({ activo, nuevoEstilo });
+
   const {
     control,
     formState: { errors },
@@ -123,18 +126,28 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
   return (
     <Card
       onClick={onClick ? () => onClick(pedido) : undefined}
-      nuevoEstilo={`card-pedido ${nuevoEstilo ? nuevoEstilo : ''} ${activo ? 'card-pedido-activo' : ''}`}
+      nuevoEstilo={claseCard}
       limitado
+      gigante={activo}
     >
       <CardFechas pedido={pedido} />
       <CardArchivos pedido={pedido} />
       {activo && (
-        <div className="pedidos-internos">
+        <Centro
+          nuevoEstilo="pedidos-internos"
+          nuevoEstiloExterior="pedidos-internos-exterior"
+          vacio={!pedido || pedido.libroPedidos.length === 0}
+        >
+          {pedido?.libroPedidos.map(lp => (
+            <ItemCard item={lp} key={lp.id} idPedido={pedido.id} />
+          ))}
+          {/* <div className="pedidos-internos">
           {pedido.libroPedidos.length === 0 && <Cargando />}
           {pedido?.libroPedidos.map(lp => (
             <ItemCard item={lp} key={lp.id} idPedido={pedido.id} />
           ))}
-        </div>
+        </div> */}
+        </Centro>
       )}
       {!cliente && <CardDatosCliente pedido={pedido} />}
       <CardImporte pedido={pedido} />
@@ -148,7 +161,7 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
           />
           {errorFetchCambioEstadoPedido ? (
             <Texto texto={errorFetchCambioEstadoPedido} chica ajustado />
-          ) : !loadingCambioEstadoPedido ? (
+          ) : (
             <Desplegable<formValuesEstadoPedido>
               name="estado"
               control={control}
@@ -158,9 +171,9 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
               alingDerecha
               opciones={pasarEstadoDesplegable(estadosPedidoParaDesplegable)}
               nuevoEstilo="desplegable-estado desplegable-estado-pedido"
+              chico
+              loading={loadingCambioEstadoPedido}
             />
-          ) : (
-            <Texto texto={'Cambiando...'} chica ajustado />
           )}
           <Boton
             icono={<Edit />}

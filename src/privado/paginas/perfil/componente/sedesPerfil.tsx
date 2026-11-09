@@ -5,28 +5,47 @@ import DesplegableArrow from '../../../../componente-estilo/desplegable/desplega
 import SedeCard from '../../sede/componente/sedeCard';
 import Boton from '../../../../componente-estilo/boton/boton';
 import Mas from '../../../../assets/mas.svg?react';
+import { usuarioProps } from '../../../../modelo/usuario/Usuario.interface';
+import { EmpresaProp } from '../../../../modelo/Entidades/empresa/empresa.interface';
+import { esSuper } from '../../../../utils/usuario';
 
 interface Props {
-  onAgregarSede: () => void;
-  onEditarSede: (sede: SedeProp) => void;
-  onEliminarSede: (sede: SedeProp) => void;
+  onAgregarSede?: () => void;
+  onEditarSede?: (sede: SedeProp) => void;
+  onEliminarSede?: (sede: SedeProp) => void;
 }
 
-const SedesPerfil = ({ onAgregarSede, onEditarSede, onEliminarSede }: Props) => {
+const SedesPerfil = ({
+  onAgregarSede = undefined,
+  onEditarSede = undefined,
+  onEliminarSede = undefined,
+}: Props) => {
   const sedes: SedeProp[] = useSelector((store: appStore) => store.sede.datos);
+  const sesion: usuarioProps | null = useSelector((store: appStore) => store.sesion.dato);
+  const empresa: EmpresaProp | undefined = useSelector(
+    (store: appStore) => store.empresa.datoSeleccionado
+  );
+
+  const sedesRender: SedeProp[] = sedes.filter(
+    s => !esSuper(sesion) || empresa?.id === s.idEmpresa
+  );
 
   return (
-    <DesplegableArrow titulo="Listas de sedes" verde grid nuevoEstilo="sede-lista">
-      {sedes.length !== 0 &&
-        sedes.map(s => (
-          <SedeCard
-            sede={s}
-            key={s.id}
-            onEditar={() => onEditarSede(s)}
-            onEliminar={() => onEliminarSede(s)}
-          />
+    <DesplegableArrow
+      titulo="Listas de sedes"
+      verde
+      grid
+      vacio={sedesRender.length === 0}
+      entidad='sedes'
+      botones={
+        onAgregarSede && <Boton iconoChico onClick={() => onAgregarSede()} icono={<Mas />} />
+      }
+      nuevoEstilo="sede-lista"
+    >
+      {sedesRender
+        .map(s => (
+          <SedeCard sede={s} key={s.id} onEditar={onEditarSede} onEliminar={onEliminarSede} />
         ))}
-      <Boton nuevoEstilo={`btn-icono-chico`} onClick={() => onAgregarSede()} icono={<Mas />} />
     </DesplegableArrow>
   );
 };

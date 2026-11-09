@@ -1,7 +1,7 @@
 import { Controller, FieldValues } from 'react-hook-form';
-import './input.css';
 import { CheckInputProps } from './modelo/input.interface';
 import Texto from '../../componente-estilo/texto/texto';
+import './estilos/input.css';
 
 const InputCheck = <T extends FieldValues>({
   name,

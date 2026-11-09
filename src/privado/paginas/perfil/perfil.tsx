@@ -13,7 +13,7 @@ import PerfilEmpresa from './componente/perfilEmpresa';
 import CardPerfil from './componente/cardPerfil';
 import DesplegableArrow from '../../../componente-estilo/desplegable/desplegableArrow';
 import Configuracion from './componente/configuracion';
-import UsuariosEmpresa from './componente/usuariosEmpresa';
+import UsuariosEmpresa from '../../../componente/usuario/usuariosEmpresa';
 import SedesPerfil from './componente/sedesPerfil';
 import SedeCargar from '../sede/cargar/sedeCargar';
 import EliminarSede from '../sede/componente/eliminarSede';
@@ -101,36 +101,43 @@ const Perfil = () => {
       <ContenedorCentro
         loading={usuarioSesion.loading || miEmpresa.loading}
         error={usuarioSesion.error || miEmpresa.error}
-        nuevoEstilo="perfil-centro"
+        scroll
       >
-        {!miEmpresa.loading &&
-          miEmpresa.dato &&
-          !miEmpresa.error &&
-          usuarioSesion.dato && (
-            <>
-              <PerfilEmpresa empresa={miEmpresa.dato} onEditarEmpresa={abrirEmpresa} />
-              <Texto texto="Sesión actual" mediana negrita />
-              <CardPerfil usuario={usuarioSesion.dato} onEditarPerfil={abrirPerfil} />
+        {!miEmpresa.loading && miEmpresa.dato && !miEmpresa.error && usuarioSesion.dato && (
+          <>
+            <PerfilEmpresa empresa={miEmpresa.dato} onEditarEmpresa={abrirEmpresa} />
+            <Texto texto="Sesión actual" mediana negrita />
+            <CardPerfil usuario={usuarioSesion.dato} onEditarPerfil={abrirPerfil} />
 
-              <DesplegableArrow titulo="Configuraciones" verde>
-                <Configuracion
-                  configuracion={miEmpresa.dato.configuracion}
-                  onEditarCampo={abrirConfiguracion}
-                />
-              </DesplegableArrow>
-              {usuarioSesion.dato.role === 'admin' && (
-                <UsuariosEmpresa
-                  onAgregarUsuario={abrirUsuario}
-                  onEliminarUsuario={setEliminarUsuario}
-                />
-              )}
-              <SedesPerfil
-                onAgregarSede={() => { setSedeSeleccionada(null); abrirSede(); }}
-                onEditarSede={s => { setSedeSeleccionada(s); abrirSede(); }}
-                onEliminarSede={s => { setSedeSeleccionada(s); setEliminarSede(true); setModal(true); }}
+            <DesplegableArrow titulo="Configuraciones" verde>
+              <Configuracion
+                configuracion={miEmpresa.dato.configuracion}
+                onEditarCampo={abrirConfiguracion}
               />
-            </>
-          )}
+            </DesplegableArrow>
+            {usuarioSesion.dato.role === 'admin' && (
+              <UsuariosEmpresa
+                onAgregarUsuario={abrirUsuario}
+                onEliminarUsuario={setEliminarUsuario}
+              />
+            )}
+            <SedesPerfil
+              onAgregarSede={() => {
+                setSedeSeleccionada(null);
+                abrirSede();
+              }}
+              onEditarSede={s => {
+                setSedeSeleccionada(s);
+                abrirSede();
+              }}
+              onEliminarSede={s => {
+                setSedeSeleccionada(s);
+                setEliminarSede(true);
+                setModal(true);
+              }}
+            />
+          </>
+        )}
       </ContenedorCentro>
 
       <Modal>
@@ -156,8 +163,10 @@ const Perfil = () => {
           />
         )}
         {!modalEmpresa && !campoConfig && modalPerfil && <PerfilEditar />}
-{!modalEmpresa && !campoConfig && !modalPerfil && modalUsuario && <UsuarioCrear />}
-        {!modalEmpresa && !campoConfig && !modalPerfil && !modalUsuario && modalSede && <SedeCargar sedeSelect={sedeSeleccionada} />}
+        {!modalEmpresa && !campoConfig && !modalPerfil && modalUsuario && <UsuarioCrear />}
+        {!modalEmpresa && !campoConfig && !modalPerfil && !modalUsuario && modalSede && (
+          <SedeCargar sedeSelect={sedeSeleccionada} />
+        )}
         {eliminarSede && sedeSeleccionada && <EliminarSede sede={sedeSeleccionada} />}
       </Modal>
     </>

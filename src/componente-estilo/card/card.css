@@ -91,6 +91,12 @@
   overflow: hidden;
 }
 
+.card-horizontal svg {
+  height: 20px;
+  width: 20px;
+  fill: var(--colorNegro);
+}
+
 .card-vertical {
   display: flex;
   flex-direction: column;

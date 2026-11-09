@@ -1,15 +1,10 @@
-import { ReactNode } from 'react';
 import './botonera.css';
+import { BotoneraProps } from './botonera.interface';
+import useBotonera from './useBotonera';
 
-interface Props {
-  children: ReactNode;
-  nuevoEstilo?: string | undefined;
-  derecha?: boolean;
-  ajustada?: boolean;
-}
-
-function Botonera({ children, nuevoEstilo = '', derecha = false, ajustada = false }: Props) {
-  return <div className={`botonera ${nuevoEstilo} ${derecha ? 'botonera-derecha' : ''} ${ajustada? 'botonera-ajustada' : ''}`}>{children}</div>;
+function Botonera({ children, nuevoEstilo, derecha, ajustada, flotante, abajo }: BotoneraProps) {
+  const { clase } = useBotonera({ nuevoEstilo, derecha, ajustada, flotante, abajo });
+  return <div className={clase}>{children}</div>;
 }
 
 export default Botonera;

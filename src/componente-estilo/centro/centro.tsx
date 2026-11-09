@@ -20,11 +20,12 @@ const Centro = forwardRef<HTMLDivElement, CentroProp>(
       scroll = false,
       error = undefined,
       loading = false,
+      nuevoEstiloExterior
     },
     ref
   ) => {
 
-    const {claseCentro, claseExterior} = useCentro({desplegable, nuevoEstilo, scroll})
+    const {claseCentro, claseExterior} = useCentro({desplegable, nuevoEstilo, scroll, nuevoEstiloExterior})
 
     // `error` y `loading` reemplazan al contenido en `ContenedorCentro`, asi
     // que solo tienen sentido cuando no hay nada que mostrar. En los listados

@@ -1,8 +1,8 @@
 import Boton from '../../componente-estilo/boton/boton';
-import './input.css';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Arrow from '../../assets/arrow-small.svg?react';
 import Lupa from '../../assets/lupa.svg?react';
+import './estilos/input.css';
 
 interface InputBuscadorProps {
   name: string;

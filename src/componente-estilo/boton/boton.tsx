@@ -5,18 +5,19 @@ import { BotonProp } from './modelo/boton.interface';
 import Texto from '../texto/texto';
 
 function Boton({
-  onClick,
+  onClick = undefined,
   texto = '',
   icono = undefined,
   titulo = '',
-  secundario = undefined,
-  terciario = undefined,
-  edit = undefined,
-  btnFiltro = undefined,
-  cerrar = undefined,
-  nuevoEstilo = undefined,
-  submit = undefined,
-  reset = undefined,
+  secundario,
+  terciario,
+  edit,
+  btnFiltro,
+  cerrar,
+  nuevoEstilo,
+  submit,
+  reset,
+  iconoChico
 }: BotonProp) {
   const { clase, tipo, colorTexto } = useBoton({
     btnFiltro,
@@ -27,6 +28,8 @@ function Boton({
     nuevoEstilo,
     submit,
     reset,
+    iconoChico,
+    hayTexto: texto ? true : false
   });
 
   const handleClick = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
@@ -38,7 +41,7 @@ function Boton({
   return (
     <button
       onClick={e => handleClick(e)}
-      className={`btn-general ${clase} ${!texto && 'btn-icono'}`}
+      className={clase}
       type={tipo}
       title={titulo ? titulo : undefined}
     >

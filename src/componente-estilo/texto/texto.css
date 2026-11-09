@@ -61,6 +61,20 @@
   font-weight: 700;
 }
 
+.desplegable-texto {
+  padding: 0.1rem 0.5rem;
+  padding-right: 1.5rem;
+
+  min-height: none;
+  height: fit-content;
+  background-color: var(--colorFondo);
+  width: fit-content;
+  box-sizing: border-box;
+  cursor: pointer;
+  border: 1px solid var(--colorNegro);
+  border-radius: 5px;
+}
+
 .inline {
   white-space: nowrap;
   overflow: hidden;

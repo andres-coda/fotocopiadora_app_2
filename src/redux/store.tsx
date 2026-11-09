@@ -12,7 +12,7 @@ import { pedidoLibroSlice, PedidoLibroStateProp } from './state/pedido_libro.sta
 import { PrecioProp } from '../modelo/Entidades/precio/precio.interface';
 import { precioSlice } from './state/precio.state';
 import { categoriaSlice, CategoriaState } from './state/categoria.state';
-import { sedeSlice, SedeState } from './state/sede.state';
+import { sedeSlice } from './state/sede.state';
 import { MensajeProp } from '../modelo/Entidades/mensaje/mensaje.interface';
 import { mensajeSlice } from './state/mensaje.state';
 import { sesionSlice } from './state/sesion.state';
@@ -22,9 +22,11 @@ import { libroSlice } from './state/libro.state';
 import { propuestaSlice } from './state/propuesta.state';
 import { usuarioProps } from '../modelo/usuario/Usuario.interface';
 import { usuarioSlice } from './state/usuarios.state';
-import { empresaSlice, EmpresaStateProp } from './state/empresa.state';
+import { empresaSlice } from './state/empresa.state';
 import { miEmpresaSlice, MiEmpresaState } from './state/miEmpresa.state';
 import { solicitudSlice, SolicitudStateProp } from './state/solicitud.state';
+import { EmpresaProp } from '../modelo/Entidades/empresa/empresa.interface';
+import { SedeProp } from '../modelo/Entidades/sede/sede.interface';
 
 export interface appStore {
   cliente: ReduxProp<ClienteProp>;
@@ -33,14 +35,14 @@ export interface appStore {
   pedidoLibro: PedidoLibroStateProp;
   precio: ReduxProp<PrecioProp>;
   categoria: CategoriaState;
-  sede: SedeState;
+  sede: ReduxSimple<SedeProp>;
   mensaje: ReduxProp<MensajeProp>;
   propuesta: ReduxProp<PropuestaProp>;
   libro: ReduxProp<LibroProp>;
   usuario: ReduxProp<usuarioProps>;
   sesion: ReduxSimpleElemento<usuarioProps>;
   miEmpresa: MiEmpresaState;
-  empresa: EmpresaStateProp;
+  empresa:  ReduxProp<EmpresaProp>;
   solicitud: SolicitudStateProp;
 }
 

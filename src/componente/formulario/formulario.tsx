@@ -1,26 +1,12 @@
-import { BaseSyntheticEvent, ReactNode } from 'react';
-import './formulario.css';
 import Boton from '../../componente-estilo/boton/boton';
 import Titulo from '../../componente-estilo/texto/titulo';
 import Texto from '../../componente-estilo/texto/texto';
 import Botonera from '../../componente-estilo/botonera/botonera';
 import Arrow from '../../assets/arrow.svg?react';
-
-interface FormularioProps {
-  children: ReactNode;
-  onSubmit: (e?: BaseSyntheticEvent) => Promise<void>;
-  titulo?: string | null;
-  onReset?: () => void;
-  textBtnConfirmar?: string | undefined;
-  textBtnSecundario?: string | undefined;
-  onClickSecundario?: () => void;
-  estiloBoton?: string | undefined;
-  claseForm?: string | null;
-  etiquetaPrimaria?: string | undefined;
-  etiquetaSecundaria?: string | undefined;
-  loading?: boolean | undefined;
-  errorFetch?: string | null;
-}
+import useFormulario from './hook/useFormulario';
+import { FormularioProp } from './modelo/formulario.interface';
+import './estilos/formulario.css';
+import { BaseSyntheticEvent } from 'react';
 
 function Formulario({
   children,
@@ -30,17 +16,45 @@ function Formulario({
   textBtnConfirmar = undefined,
   textBtnSecundario = undefined,
   onClickSecundario,
-  estiloBoton = undefined,
-  claseForm = '',
+  estiloBoton,
+  claseForm,
   etiquetaPrimaria = undefined,
   etiquetaSecundaria = undefined,
-  loading = undefined,
-  errorFetch = null,
-}: FormularioProps) {
+  loading = false,
+  errorFetch = undefined,
+  iconoChico,
+  simple = false,
+}: FormularioProp) {
+  const { clase, claseBtnConfirmar, claseBtnSecundario } = useFormulario({
+    estiloBoton,
+    claseForm,
+    iconoChico,
+    hayTxtBtnConfirmar: textBtnConfirmar ? true : false,
+    hayTxtBtnSecundario: textBtnSecundario ? true : false,
+  });
+
+  const handleSubmit = (e: BaseSyntheticEvent<object, any, any> | undefined) => {
+    if (!e) return;
+    e.preventDefault();
+    if (onSubmit) {
+      onSubmit(e);
+    }
+  };
+
+  if (simple)
+    return (
+      <form className="formulario-simple" onSubmit={handleSubmit}>
+        <>
+          {children}
+          {errorFetch && <Texto texto={errorFetch} error />}
+        </>
+      </form>
+    );
+
   return (
-    <div className={`formulario ${claseForm}`}>
+    <div className={clase}>
       {titulo ? <Titulo titulo={titulo} /> : null}
-      <form onSubmit={e => onSubmit(e)} onReset={onReset}>
+      <form onSubmit={handleSubmit} onReset={onReset}>
         {children}
         <Botonera
           derecha
@@ -56,19 +70,20 @@ function Formulario({
                   secundario
                   titulo={etiquetaSecundaria}
                   onClick={onClickSecundario}
+                  nuevoEstilo={claseBtnSecundario}
                 />
               ) : null}
               <Boton
-                texto={loading ? 'Procesando...' : textBtnConfirmar && textBtnConfirmar}
+                texto={loading ? 'Proc...' : textBtnConfirmar && textBtnConfirmar}
                 icono={!textBtnConfirmar && !loading && <Arrow />}
                 submit={loading ? false : true}
-                nuevoEstilo={!textBtnConfirmar ? `btn-icono-derecha ${estiloBoton}` : estiloBoton}
+                nuevoEstilo={claseBtnConfirmar}
                 titulo={etiquetaPrimaria}
               />
             </>
           }
         />
-        {errorFetch && <Texto texto={errorFetch} error chica />}
+        {errorFetch && <Texto texto={errorFetch} error />}
       </form>
     </div>
   );

@@ -12,6 +12,7 @@ export const sedeAdapter = (sede?: SedeAdapterProp): SedeProp | undefined => {
   const newSede: SedeProp = {
     ...base,
     nombre: sede.nombre,
+    idEmpresa: sede.idEmpresa
   };
   return newSede;
 };

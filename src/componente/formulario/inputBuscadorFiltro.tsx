@@ -1,6 +1,6 @@
 import Boton from '../../componente-estilo/boton/boton';
-import './input.css';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import './estilos/input.css';
 
 interface InputBuscadorProps {
   name: string;

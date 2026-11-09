@@ -21,7 +21,7 @@ import EliminarPrecio from './componente/eliminarPrecio';
 
 const Precios = () => {
   const precioDatos: ReduxProp<PrecioProp> = useSelector((store: appStore) => store.precio);
-  const { obtenerPreciosBusqueda, responsePrecios, loadingPrecios } = usePreciosApi();
+  const { obtenerPreciosBusqueda, responsePrecios, loadingPrecios, errorFetchPrecios } = usePreciosApi();
   const [valor, setValor] = useState<string>('');
   const { modal } = useModalContext();
   const [eliminar, setEliminar] = useState<boolean>(false);
@@ -66,6 +66,8 @@ const Precios = () => {
         }
         query={valor}
         finListaRef={finListaRef}
+        error={errorFetchPrecios}
+        loading={loadingPrecios}
       >
         {precioDatos.busquedaActual.datosQuery.map(d => (
           <PrecioCard precio={d} key={d.id} setEliminar={setEliminar} />

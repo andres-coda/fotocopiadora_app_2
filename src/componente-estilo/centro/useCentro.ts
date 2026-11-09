@@ -1,12 +1,12 @@
 
 import { CentroClaseProp } from "./centro.interface"
 
-const useCentro = ({ scroll, desplegable, nuevoEstilo = '', centro = undefined }: CentroClaseProp) => {
+const useCentro = ({ scroll, desplegable, nuevoEstilo = '', centro = '', nuevoEstiloExterior =  '' }: CentroClaseProp) => {
   const claseExterior = centro ? centro : [
     'centro-exterior',
     scroll && 'scroll',
     desplegable && 'centro-predectivo',
-    nuevoEstilo
+    nuevoEstiloExterior
   ]
     .filter(Boolean)
     .join(' ');

@@ -1,8 +1,9 @@
 import { Controller, FieldValues } from 'react-hook-form';
-import './input.css';
 import Texto from '../../componente-estilo/texto/texto';
 import { DesplegableProps } from './modelo/input.interface';
 import { esCampoRequerido } from '../../utils/formulario';
+import useInput from './hook/useInput';
+import './estilos/input.css';
 
 const Desplegable = <T extends FieldValues>({
   name,
@@ -10,22 +11,35 @@ const Desplegable = <T extends FieldValues>({
   label,
   opciones,
   error = undefined,
-  alingDerecha = undefined,
+  alingDerecha,
   onFocus,
   onBlur,
   esquema,
-  nuevoEstilo = undefined,
+  nuevoEstilo,
   texto = undefined,
+  loading =false,
+  nuevoEstiloInput,
+  chico = false,
+  noEsRequerido = false
 }: DesplegableProps<T>) => {
+  const {claseDesplegable, claseInputCompleto, claseInput} = useInput({
+    alingDerecha,
+    hayError: error ? true : false,
+    nuevoEstilo,
+    nuevoEstiloInput,
+    chico,
+    esDesplegable:true
+  })
+  if(loading) return <Texto texto={'Cambiando...'} desplegable />
   return (
-    <div className={`desplegable-horizontal ${nuevoEstilo ?? ''}`}>
-      {texto ? <Texto texto={texto} chica /> : null}
-      <div className={`inputs-span ${nuevoEstilo ? nuevoEstilo : ''}`}>
+    <div className={claseDesplegable}>
+      {texto ? <Texto texto={texto} chica ajustado/> : null}
+      <div className={claseInputCompleto}>
         <span>
-          {esCampoRequerido(esquema, name) && <Texto texto="*" derecha chica negrita error />}
+          {!noEsRequerido && esCampoRequerido(esquema, name) && <Texto texto="*" derecha negrita error />}
         </span>
         <div
-          className={`inputs-entero ${error ? 'is-invalida' : ''} ${alingDerecha ? 'alin-derecha' : ''}`}
+          className={claseInput}
         >
           <Controller
             name={name}
@@ -51,7 +65,7 @@ const Desplegable = <T extends FieldValues>({
           />
           <label htmlFor={String(name)}>{label}</label>
         </div>
-        <span>{error && <Texto texto={String(error.message)} error chica />}</span>
+        <span>{error && <Texto texto={String(error.message)} error/>}</span>
       </div>
     </div>
   );

@@ -1,0 +1,11 @@
+.card-usuario{
+  position: relative;
+  flex-direction: row;
+  padding: .2rem;  
+}
+
+.botonera-card-usuario{
+  gap: .5rem;
+  bottom: 0px;
+  right: 0px;
+}

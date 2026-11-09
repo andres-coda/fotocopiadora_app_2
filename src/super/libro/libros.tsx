@@ -1,53 +1,101 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import Texto from '../../componente-estilo/texto/texto';
-import { ContenedorCentro } from '../../componente-estilo/centro/centroExterior';
+import { useEffect, useState } from 'react';
 import LibroCard from '../../privado/paginas/libro/componente/libroCard';
-import { seleccionarLibro } from '../../redux/state/libro.state';
-import useLibrosApi from '../../servicio/libro/useLibrosApi';
-// useLibroDeleteApi removed (unused).
 import { LibroProp } from '../../modelo/Entidades/libro/libro.interface';
-import { rutaPrivadaBase, RutasPrivadas } from '../../privado/rutas/rutasPrivadas';
+import { listaLibroPropuestaSeleccionable, normalizarLibroPropuesta } from '../../privado/paginas/libro/util/funcionesAdicionales';
+import useBuscadorLibro from '../../privado/paginas/libro/hook/useBuscadorLibro';
+import BuscadorPaginadoCompleto from '../../componente/buscador/buscadorPaginadoCompleto';
+import Centro from '../../componente-estilo/centro/centro';
+import PropuestaCard from '../../privado/paginas/propuesta/componente/propuestaCard';
+import { PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interface';
+import PropuestaSelect from '../../privado/paginas/propuesta/componente/propuestaSelect';
+import LibroCargar from '../../privado/paginas/libro/cargar/libroCargar';
+import Modal from '../../componente/modal/modal';
+import useBusquedaPaginada from '../../hooks/buscador/useBusquedaPaginada';
+import { ReduxProp } from '../../redux/modelo/reduxContext.interface';
+import { useDispatch, useSelector } from 'react-redux';
+import { appStore } from '../../redux/store';
+import useLibrosApi from '../../servicio/libro/useLibrosApi';
+import { useModalContext } from '../../contexto/contextoModal';
+import { agregarLibrosBusquedaActual, crearBusquedaLibro, resetBusquedaLibro, resetSeleccionarLibro, seleccionarLibro } from '../../redux/state/libro.state';
+import { useNavigate } from 'react-router-dom';
+import { RutasSupers, rutaSuperBase } from '../ruta/rutaSupers';
+import LibroSelectSuper from './libroSelectSuper';
+import LibroEditar from '../../privado/paginas/libro/cargar/libro_editar';
 
 const LibrosSuper = () => {
-  const navigate = useNavigate();
-  const [valor, setValor] = useState<string>('');
+  const libroDatos: ReduxProp<LibroProp> = useSelector((store: appStore) => store.libro);
   const { obtenerLibrosBusqueda, responseLibros, loadingLibros, errorFetchLibros } = useLibrosApi();
-  // eliminarLibro available via useLibroDeleteApi if needed.
-
-  useEffect(() => {
-    obtenerLibrosBusqueda({ query: '', limite: 20, pagina: 1 });
-  }, []);
-
-  const handleBuscar = () => {
-    obtenerLibrosBusqueda({ query: valor, limite: 20, pagina: 1 });
-  };
-
+  const [valor, setValor] = useState<string>('');
+  const navigate = useNavigate()
+  const { modal, setModal } = useModalContext();
+  const [select, setSelect] = useState<boolean>(false);
+  const [cargar, setCargar] = useState<boolean>(false);
+  const [editar, setEditar] = useState<boolean>(false);
+  const [eliminar, setEliminar] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const libros: LibroProp[] = (responseLibros as any)?.datos ?? [];
+
+  const seleccionarLibroFc = (libro:LibroProp) => {
+    setSelect(true);
+    setModal(true);
+    dispatch(seleccionarLibro(libro))
+  }
+
+  useEffect(()=>{
+    if(!modal){
+      setCargar(false);
+      setEditar(false);
+      setEliminar(false);
+      setSelect(false);
+      dispatch(resetSeleccionarLibro());
+    }
+  },[modal])
+
+ const { contenedorRef, finListaRef } = useBusquedaPaginada<LibroProp>({
+    valor,
+    datosRedux: libroDatos,
+    resetBusqueda: resetBusquedaLibro,
+    crearBusqueda: crearBusquedaLibro,
+    obtenerBusqueda: obtenerLibrosBusqueda,
+    agregarBusqueda: agregarLibrosBusquedaActual,
+    response: responseLibros,
+    loading: loadingLibros,
+  });
 
   return (
-    <ContenedorCentro loading={loadingLibros} error={errorFetchLibros ?? undefined}>
-      <div style={{ padding: '1rem' }}>
-        <input
-          type="text"
-          value={valor}
-          onChange={e => setValor(e.target.value)}
-          placeholder="Buscar libro"
-        />
-        <button type="button" onClick={handleBuscar}>Buscar</button>
-      </div>
-      {libros.map((libro: LibroProp) => (
-        <LibroCard
-          libro={libro}
-          key={libro.id}
-          selecLibro={(l) => { dispatch(seleccionarLibro(l)); navigate(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_EDITAR}`); }}
-        />
-      ))}
-      {libros.length === 0 && !loadingLibros && <Texto texto="Sin resultados" />}
-    </ContenedorCentro>
+    <>
+      <BuscadorPaginadoCompleto
+        ref={contenedorRef}
+        texto="Buscar libro"
+        valor={valor}
+        setValor={setValor}
+        titulo="Lista de libros"
+        listaSeleccionable={listaLibroPropuestaSeleccionable}
+        normalizar={normalizarLibroPropuesta}
+        etiquetaArriba="Al comienzo de la lista"
+      />
+      <Centro
+        ref={contenedorRef}
+        finListaRef={finListaRef}
+        vacio={
+          !libroDatos.busquedaActual.datosQuery ||
+          libroDatos.busquedaActual.datosQuery.length === 0}
+        entidad='libros'
+        query={valor}
+        error={errorFetchLibros }
+        loading={loadingLibros}
+      >
+        {libroDatos.busquedaActual.datosQuery.map(d=>(
+          <LibroCard libro={d} key={`libro-${d}`} selecLibro={seleccionarLibroFc} />
+        ))}
+      </Centro>
+      <Modal>
+        {cargar && <LibroCargar />}
+        {select && !editar && !eliminar && <LibroSelectSuper onEditar={setEditar} onEliminar={setEliminar}/>}
+        {editar && <LibroEditar/>}
+      </Modal>
+    </>
   );
 };
+
 
 export default LibrosSuper;

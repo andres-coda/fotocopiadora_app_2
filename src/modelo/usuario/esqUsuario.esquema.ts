@@ -145,3 +145,26 @@ export const perfilEditarFormEdit = (usuario?: usuarioProps | null): formValuesP
     email: usuario.email || '',
   };
 };
+
+
+/**
+ * Para solo cambiar rol del usuario
+ */
+
+export const todosRoles = ['super_admin','admin', 'operador'] as const;
+const roleSuperAdmin = z.enum(todosRoles, 'Rol invalido').optional();
+export const roleEsquema = z.object({
+  role:roleSuperAdmin
+});
+
+export type formValuesRole = z.infer<typeof roleEsquema>;
+export const roleEditarFormDefault: formValuesRole = {
+  role: rolesAsignables[1],
+};
+
+export const roleEditarFormEdit = (usuario?: usuarioProps | null): formValuesRole => {
+  if (!usuario) return roleEditarFormDefault;
+  return {
+    role: usuario.role  || roleEditarFormDefault.role,
+  };
+};

@@ -19,6 +19,7 @@ import {
 import useApi from '../../../servicio/hooks/useApi';
 import { useAuth } from '../../../contexto/contextoAutenticacion';
 import './login.css';
+import { rutaSuperBase } from '../../../super/ruta/rutaSupers';
 
 export interface LoginResponseProp {
   access_token: string;
@@ -41,7 +42,7 @@ const Login = () => {
     if (response) {
       console.log('Token: ', response);
       doLogin(response.access_token);
-      navigate(`/${rutaPrivadaBase.PRIVADO}`);
+      navigate(`/${rutaSuperBase.SUPER}`);
     }
   }, [response, doLogin, navigate]);
 

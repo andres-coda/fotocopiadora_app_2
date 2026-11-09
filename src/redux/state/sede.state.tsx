@@ -3,9 +3,7 @@ import { SedeProp } from '../../modelo/Entidades/sede/sede.interface';
 import { ReduxSimple } from '../modelo/reduxContext.interface';
 import { estadoInicialSimple } from '../utils/reduxInicial';
 
-export type SedeState = ReduxSimple<SedeProp>;
-
-const initialState: SedeState = estadoInicialSimple<SedeProp>();
+const initialState: ReduxSimple<SedeProp> = estadoInicialSimple<SedeProp>();
 
 export const sedeSlice = createSlice({
   name: 'sede',

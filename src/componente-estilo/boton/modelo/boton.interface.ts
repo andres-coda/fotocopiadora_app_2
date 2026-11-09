@@ -9,9 +9,11 @@ export interface BotonEstilosProp {
   submit?: boolean | undefined;
   reset?: boolean | undefined;
   btnFiltro?: boolean;
+  hayTexto?:boolean;
+  iconoChico?:boolean;
 }
 
-export interface BotonProp extends BotonEstilosProp {
+export interface BotonProp extends Omit<BotonEstilosProp, 'hayTexto'> {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   texto?: string;
   icono?: ReactNode;

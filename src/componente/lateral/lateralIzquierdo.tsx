@@ -11,11 +11,11 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import useConfiguracionApi from '../../servicio/configuracion/useConfiguracionApi';
-import './lateralIzquierdo.css';
 import Card from '../../componente-estilo/card/card';
 import Lateral from '../../componente-estilo/lateral/lateral';
 import PreciosCategoria from './preciosCategoria';
 import { setConfiguracionMiEmpresa } from '../../redux/state/miEmpresa.state';
+import './laterales.css';
 
 const LateralIzquierdo = () => {
   const configuracion: ConfiguracionProp | undefined = useSelector(

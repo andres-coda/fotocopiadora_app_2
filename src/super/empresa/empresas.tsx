@@ -3,7 +3,6 @@ import {
   agregarEmpresasBusquedaActual,
   crearBusquedaEmpresa,
   crearEmpresas,
-  EmpresaStateProp,
   resetBusquedaEmpresa,
 } from '../../redux/state/empresa.state';
 import { appStore } from '../../redux/store';
@@ -17,9 +16,10 @@ import BuscadorPaginadoCompleto from '../../componente/buscador/buscadorPaginado
 import Centro from '../../componente-estilo/centro/centro';
 import EmpresaCard from './componente/empresaCard';
 import { RutasSupers, rutaSuperBase } from '../ruta/rutaSupers';
+import { ReduxProp } from '../../redux/modelo/reduxContext.interface';
 
 const Empresas = () => {
-  const empresaRedux: EmpresaStateProp = useSelector((store: appStore) => store.empresa);
+  const empresaRedux:  ReduxProp<EmpresaProp> = useSelector((store: appStore) => store.empresa);
   const navigate = useNavigate();
 
   const [valor, setValor] = useState<string>('');

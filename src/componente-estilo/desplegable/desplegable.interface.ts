@@ -23,4 +23,5 @@ export interface DesplegableProp extends DesplegableClasProp {
   //error al hacer peticion a la api
   error?: string | null;
   contenedorRef?: RefObject<HTMLDivElement>
+  botones?: ReactNode;
 }

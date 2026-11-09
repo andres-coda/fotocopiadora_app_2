@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 import { Especificaciones } from '../../modelo/Entidades/especificacion/especificacion.enum';
-import './input.css';
+import './estilos/input.css';
 
 // Se incluye number para admitir enums numéricos (p. ej. Estado) además de los string.
 type inputSet = string | number | Especificaciones;

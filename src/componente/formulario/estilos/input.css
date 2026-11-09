@@ -22,26 +22,10 @@
   box-sizing: border-box;
 }
 
-.inputs-entero select {
-  appearance: none;
-  /* 🔑 QUITA el estilo nativo */
-  -webkit-appearance: none;
-  /* Safari */
-  -moz-appearance: none;
-  background-color: transparent;
-  background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 1rem;
-  padding-right: 2rem;
-  max-height: 500px;
-  cursor: pointer;
-}
-
 .inputs-entero input,
 .inputs-entero select,
 .inputs-entero textarea {
-  font-size: 1rem;
+  font-size: 1em;
   background-color: transparent;
   width: 100%;
   box-sizing: border-box;
@@ -50,6 +34,41 @@
   padding: 9px 0.5rem 0 0.5rem;
   border: 0.5px solid var(--colorSombra);
   color: var(--colorNegro);
+}
+
+.inputs-entero select {
+  appearance: none;
+  /* 🔑 QUITA el estilo nativo */
+  -webkit-appearance: none;
+  /* Safari */
+  -moz-appearance: none;
+  background-color: var(--colorFondo);
+  background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1rem;
+  padding-right: 2rem;
+  max-height: 500px;
+  cursor: pointer;
+  padding: 0.1rem 0.5rem;
+  padding-right: 1.5rem;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 0.7em;
+  width: 100%;
+}
+
+.inputs-entero option {
+  cursor: pointer;
+}
+
+.select-chico, .select-chico  select {
+  height: fit-content;
+  width: fit-content;
+}
+
+.no-span span{
+  display: none;
 }
 
 .inputs-entero input:focus,
@@ -72,12 +91,16 @@
   font-weight: 200;
 }
 
-.inputs-entero input:focus + label,
-.inputs-entero input:not(:placeholder-shown) + label,
-.inputs-entero select:focus + label,
-.inputs-entero select:not([value='']) + label,
-.inputs-entero textarea:focus + label,
-.inputs-entero textarea:not(:placeholder-shown) + label {
+.no-label label {
+  display: none;
+}
+
+.inputs-entero input:focus+label,
+.inputs-entero input:not(:placeholder-shown)+label,
+.inputs-entero select:focus+label,
+.inputs-entero select:not([value=''])+label,
+.inputs-entero textarea:focus+label,
+.inputs-entero textarea:not(:placeholder-shown)+label {
   top: 0;
   left: 0;
   font-size: 0.8em;
@@ -125,8 +148,8 @@
   transition: all 0.3s ease;
 }
 
-.input-buscador .inputs-entero input:focus + label,
-.input-buscador .inputs-entero input:not(:placeholder-shown) + label {
+.input-buscador .inputs-entero input:focus+label,
+.input-buscador .inputs-entero input:not(:placeholder-shown)+label {
   font-size: 0.8em;
   font-weight: 400;
   background-color: var(--colorBlanco);
@@ -152,10 +175,12 @@
   opacity: 0;
   transform: scale(0.8);
   pointer-events: none;
-  width: 0 !important; /* Forzar el ancho */
+  width: 0 !important;
+  /* Forzar el ancho */
   margin: 0 !important;
   visibility: hidden;
-  transition: all 0.2s ease; /* Suavizar transición */
+  transition: all 0.2s ease;
+  /* Suavizar transición */
 }
 
 .btn-general.btn-lupa {
@@ -260,10 +285,7 @@
   justify-content: flex-start;
   align-items: center;
   gap: 0.1rem;
-}
-
-.estado-contenedor .desplegable-horizontal p {
-  border: none;
-  background-color: transparent;
+  width: fit-content;
+  margin: 0;
   padding: 0;
 }

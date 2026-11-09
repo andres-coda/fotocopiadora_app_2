@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { usuarioProps } from '../../modelo/usuario/Usuario.interface';
-import { orden, ReduxProp, UltimaBusquedaProp } from '../modelo/reduxContext.interface';
+import { ReduxProp } from '../modelo/reduxContext.interface';
 import {
   crearBusqueda,
   crearDatoInicial,
@@ -17,16 +17,6 @@ import {
 import { estadoInicialRedux } from '../utils/reduxInicial';
 
 const cantidadBusquedas: number = 1;
-
-export const busquedaUsuarioInicial: UltimaBusquedaProp<usuarioProps> = {
-  query: undefined,
-  datosQuery: [],
-  sortBy: 'ultAct' as keyof usuarioProps,
-  sortOrder: 'asc' as orden,
-  pagina: 0,
-  limite: 6,
-  total: 0,
-};
 
 const estadoUsuarioInicial: ReduxProp<usuarioProps> = estadoInicialRedux<usuarioProps>('nombre');
 

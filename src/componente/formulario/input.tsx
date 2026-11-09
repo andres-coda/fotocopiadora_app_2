@@ -1,8 +1,9 @@
 import { Controller, FieldValues } from 'react-hook-form';
-import './input.css';
 import Texto from '../../componente-estilo/texto/texto';
 import { InputProps } from './modelo/input.interface';
 import { esCampoRequerido } from '../../utils/formulario';
+import './estilos/input.css';
+import useInput from './hook/useInput';
 
 const Input = <T extends FieldValues>({
   name,
@@ -10,19 +11,23 @@ const Input = <T extends FieldValues>({
   label,
   tipo = undefined,
   error = undefined,
-  alingDerecha = undefined,
+  alingDerecha,
   onFocus,
   onBlur,
   esquema,
   formatValue,
   parseValue,
 }: InputProps<T>) => {
+  const {claseInput, claseInputCompleto} = useInput({
+    alingDerecha,
+    hayError: error ? true : false
+  })
   return (
-    <div className="inputs-span">
+    <div className={claseInputCompleto}>
       <span>
-        {esCampoRequerido(esquema, name) && <Texto texto="*" derecha chica negrita error />}
+        {esCampoRequerido(esquema, name) && <Texto texto="*" derecha negrita error />}
       </span>
-      <div className={`inputs-entero ${error && 'is-invalida'} ${alingDerecha && 'alin-derecha'}`}>
+      <div className={claseInput}>
         <Controller
           name={name}
           control={control}
@@ -52,7 +57,7 @@ const Input = <T extends FieldValues>({
         />
         <label htmlFor={String(name)}>{label}</label>
       </div>
-      <span>{error && <Texto texto={String(error.message)} error chica />}</span>
+      <span>{error && <Texto texto={String(error.message)} error />}</span>
     </div>
   );
 };

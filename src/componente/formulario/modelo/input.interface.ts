@@ -1,7 +1,17 @@
 import { FieldError, Control, FieldValues, Path } from 'react-hook-form';
 import { ZodObject, ZodRawShape } from 'zod';
 
-export interface InputProps<T extends FieldValues> {
+export interface InputClaseProp {
+  nuevoEstilo?: string;
+  alingDerecha?: boolean;
+  hayError?:boolean;
+  nuevoEstiloInput?: string;
+  chico?:boolean;
+  esDesplegable?:boolean;
+}
+
+
+export interface InputProps<T extends FieldValues> extends Omit<InputClaseProp, 'hayError'| 'nuevoEstiloInput' | 'chico' | 'esDesplegable'>{
   name: Path<T>;
   control: Control<T>;
   label: string;
@@ -22,7 +32,7 @@ export type CheckInputProps<T extends FieldValues> = Pick<
 >;
 
 export interface TextAreaProps<T extends FieldValues>
-  extends Pick<InputProps<T>, 'name' | 'control' | 'label' | 'error' | 'esquema'> {
+  extends Pick<InputProps<T>, 'name' | 'control' | 'label' | 'error' | 'esquema'>, Pick<InputClaseProp, 'nuevoEstiloInput'> {
   filas?: number;
 }
 
@@ -31,7 +41,9 @@ export interface Opcion {
   label: string;
 }
 
-export interface DesplegableProps<T extends FieldValues> extends InputProps<T> {
+export interface DesplegableProps<T extends FieldValues> extends InputProps<T>,Pick<InputClaseProp, 'nuevoEstiloInput' | 'chico'>  {
   opciones: Opcion[];
   texto?: string;
+  loading?:boolean;
+  noEsRequerido?:boolean;
 }

@@ -25,7 +25,7 @@ const CardContenedor = ({
 
   if(error)return (
     <div className={`${clase}`} onClick={onClick} title={tituloCard}>
-      <Texto texto={error} chica error />
+      <Texto texto={error} error />
     </div>
   )
 

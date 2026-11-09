@@ -147,4 +147,5 @@ export const resetRedux = <T extends HasId>(
   state.datosIniciales = {...state.datosIniciales, query: undefined, datosQuery: [], pagina:1};
   state.busquedaActual = state.datosIniciales;
   state.ultimasBusqueda = [];
+  state.cargaInicial = false;
 }

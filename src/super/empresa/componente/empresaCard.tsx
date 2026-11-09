@@ -5,13 +5,26 @@ import { useDispatch } from 'react-redux';
 import { seleccionarEmpresa } from '../../../redux/state/empresa.state';
 import { useNavigate } from 'react-router-dom';
 import { RutasSupers, rutaSuperBase } from '../../ruta/rutaSupers';
+import Eliminar from '../../../assets/deleted.svg?react';
+import Email from '../../../assets/email.svg?react';
+import Telefono from '../../../assets/phone.svg?react';
+import Boton from '../../../componente-estilo/boton/boton';
+import Botonera from '../../../componente-estilo/botonera/botonera';
+import useEliminar from '../../../hooks/eliminar/useEliminar';
+import { Dispatch, SetStateAction } from 'react';
 
 interface Prop {
   empresa: EmpresaProp;
-  onEliminar?: () => void;
+  onEliminar?: Dispatch<SetStateAction<boolean>>;
 }
 
 const EmpresaCard = ({ empresa, onEliminar }: Prop) => {
+  const { eliminarElemento } = useEliminar({
+    elemento: empresa,
+    selectElemento: seleccionarEmpresa,
+    setModalParticular: onEliminar,
+  });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleEmpresa = () => {
@@ -19,17 +32,28 @@ const EmpresaCard = ({ empresa, onEliminar }: Prop) => {
     navigate(`/${rutaSuperBase.SUPER}/${RutasSupers.EMPRESA}`);
   };
   return (
-    <Card onClick={()=>handleEmpresa()}>
-      <Texto texto={empresa.nombre} />
-      <Texto texto={empresa.email} />
-      <Texto texto={empresa.telefono} />
+    <Card onClick={() => handleEmpresa()} retirado>
+      <div className="card-vertical">
+        <Texto texto={empresa.nombre} centrado mediana />
+        <div className="card-horizontal">
+          <Email />
+          <Texto texto={empresa.email} />
+        </div>
+        <div className="card-horizontal">
+          <Telefono />
+          <Texto texto={empresa.telefono} />
+        </div>
+      </div>
       {onEliminar && (
-        <button
-          type="button"
-          onClick={e => { e.stopPropagation(); onEliminar(); }}
-        >
-          Eliminar
-        </button>
+        <Botonera derecha flotante abajo ajustada>
+          <Boton
+            icono={<Eliminar />}
+            iconoChico
+            secundario
+            titulo="Eliminar empresa"
+            onClick={eliminarElemento}
+          />
+        </Botonera>
       )}
     </Card>
   );

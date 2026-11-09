@@ -1,52 +1,76 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Texto from '../../componente-estilo/texto/texto';
 import useSolicitudesApi from '../../servicio/solicitud/useSolicitudesApi';
-import { RutasSupers, rutaSuperBase } from '../ruta/rutaSupers';
 import Centro from '../../componente-estilo/centro/centro';
+import { SolicitudProp } from '../../modelo/Entidades/solicitud/solicitud.interface';
+import { ReduxProp } from '../../redux/modelo/reduxContext.interface';
+import { useSelector } from 'react-redux';
+import { appStore } from '../../redux/store';
+import { useEffect, useState } from 'react';
+import useBusquedaPaginada from '../../hooks/buscador/useBusquedaPaginada';
+import {
+  agregarSolicitudesBusquedaActual,
+  crearBusquedaSolicitud,
+  crearSolicitudes,
+  resetBusquedaSolicitud,
+} from '../../redux/state/solicitud.state';
+import BuscadorPaginadoCompleto from '../../componente/buscador/buscadorPaginadoCompleto';
+import SolicitudCard from './componente/solicitudCard';
+import Modal from '../../componente/modal/modal';
+import SolicitudDetalle from './solicitudDetalle';
 
 const Solicitudes = () => {
-  const navigate = useNavigate();
-  // valor state removed (unused).
+  const solicitudRedux: ReduxProp<SolicitudProp> = useSelector(
+    (store: appStore) => store.solicitud
+  );
+
   const { obtenerSolicitudes, responseSolicitudes, loadingSolicitudes, errorSolicitudes } =
     useSolicitudesApi();
 
-  useEffect(() => {
-    obtenerSolicitudes({ limite: 20, pagina: 1 });
-  }, []);
+  const [valor, setValor] = useState<string>('');
 
-  const solicitudes = (responseSolicitudes as any)?.datos ?? [];
-
-  const estadoSolicitudTexto = (e: number) => {
-    if (e === 1) return 'Pendiente';
-    if (e === 2) return 'Aceptada';
-    if (e === 3) return 'Rechazada';
-    return 'Desconocido';
-  };
+  const { contenedorRef, finListaRef } = useBusquedaPaginada<SolicitudProp>({
+    valor,
+    datosRedux: solicitudRedux,
+    crearBusquedaInicial: crearSolicitudes,
+    resetBusqueda: resetBusquedaSolicitud,
+    crearBusqueda: crearBusquedaSolicitud,
+    obtenerBusqueda: obtenerSolicitudes,
+    agregarBusqueda: agregarSolicitudesBusquedaActual,
+    response: responseSolicitudes,
+    loading: loadingSolicitudes,
+  });
 
   return (
-    <Centro
-      loading={loadingSolicitudes}
-      error={errorSolicitudes ?? undefined}
-      texto="Solicitudes de edición de libros"
-      vacio={solicitudes}
-    >
-      {solicitudes.map((s: any) => (
-        <div
-          key={s.id}
-          style={{ padding: '0.5rem', borderBottom: '1px solid #ccc', cursor: 'pointer' }}
-          onClick={() =>
-            navigate(`/${rutaSuperBase.SUPER}/${RutasSupers.SOLICITUD_DETALLE}/${s.id}`)
-          }
-        >
-          <Texto texto={s.nombreLibro} negrita />
-          <Texto texto={`Por: ${s.nombreUsuario}`} chica />
-          <Texto texto={`Estado: ${estadoSolicitudTexto(s.estado)}`} chica />
-          <Texto texto={new Date(s.fechaCreacion).toLocaleDateString()} chica />
-        </div>
-      ))}
-      {solicitudes.length === 0 && !loadingSolicitudes && <Texto texto="Sin solicitudes" />}
-    </Centro>
+    <>
+      <BuscadorPaginadoCompleto
+        ref={contenedorRef}
+        texto="Buscar solicitud"
+        valor={valor}
+        setValor={setValor}
+        titulo="Lista de solicitudes de edición de libros"
+        etiquetaArriba="Al comienzo de la lista"
+        etiquetaMas="Nueva solicitud"
+      />
+      <Centro
+        ref={contenedorRef}
+        finListaRef={finListaRef}
+        vacio={
+          solicitudRedux.cargaInicial &&
+          (!solicitudRedux.busquedaActual.datosQuery ||
+            solicitudRedux.busquedaActual.datosQuery.length === 0)
+        }
+        entidad="solicitudes"
+        query={valor}
+        loading={loadingSolicitudes}
+        error={errorSolicitudes ?? undefined}
+      >
+        {solicitudRedux.busquedaActual.datosQuery.map((s) => 
+          <SolicitudCard solicitud={s} key={s.id} />
+        )}
+      </Centro>
+      <Modal>
+        <SolicitudDetalle solicitud={solicitudRedux.datoSeleccionado}/>
+      </Modal>
+    </>
   );
 };
 

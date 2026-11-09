@@ -10,8 +10,8 @@ import { useModalContext } from '../../../../contexto/contextoModal';
 
 interface Props {
   sede: SedeProp;
-  onEditar: (sede: SedeProp) => void;
-  onEliminar: (sede: SedeProp) => void;
+  onEditar?: (sede: SedeProp) => void;
+  onEliminar?: (sede: SedeProp) => void;
 }
 
 const SedeCard = ({ sede, onEditar, onEliminar }: Props) => {
@@ -20,8 +20,8 @@ const SedeCard = ({ sede, onEditar, onEliminar }: Props) => {
   return (
     <Card nuevoEstilo={'card-sede'} limitado>
       <Texto texto={`${sede.nombre}`} chica />
-      <Botonera nuevoEstilo="botonera-sede">
-        <Boton
+      {(onEditar || onEliminar) && <Botonera nuevoEstilo="botonera-sede">
+        {onEliminar && <Boton
           icono={<Eliminar />}
           edit
           nuevoEstilo="btn-icono-chico"
@@ -30,8 +30,8 @@ const SedeCard = ({ sede, onEditar, onEliminar }: Props) => {
             onEliminar(sede);
             setModal(true);
           }}
-        />
-        <Boton
+        />}
+        {onEditar && <Boton
           icono={<Editar />}
           secundario
           nuevoEstilo="btn-icono-chico"
@@ -40,8 +40,8 @@ const SedeCard = ({ sede, onEditar, onEliminar }: Props) => {
             onEditar(sede);
             setModal(true);
           }}
-        />
-      </Botonera>
+        />}
+      </Botonera>}
     </Card>
   );
 };
