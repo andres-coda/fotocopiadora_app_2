@@ -17,6 +17,7 @@ import { httpMethod } from '../../../../modelo/HTTP/HttpMethod.enum';
 import { IMG_SUBIR } from '../../../../utils/endpoint';
 import { libroDatosExtras } from '../../../../modelo/Entidades/libro/esqLibro.esquema';
 import './cargarLibroImagen.css';
+import { ContenedorCentro } from '../../../../componente-estilo/centro/centroExterior';
 
 interface Prop<T extends FieldValues> {
   control: Control<T>;
@@ -81,30 +82,29 @@ const CargarLibroImagen = <T extends FieldValues>({ control, errors, setValue }:
 
   return (
     <div className="cargar-libro-imagen" onPaste={onPaste}>
-      <Input<T>
-        name={name}
-        control={control}
-        label="Url de imagen"
-        tipo="text"
-        error={imgError}
-        esquema={libroDatosExtras}
-      />
-
-      <div className="cargar-libro-imagen-acciones">
-        <Boton
-          texto={loading ? 'Subiendo...' : 'Subir imagen'}
-          secundario
-          onClick={() => fileRef.current?.click()}
+      <div className="cargar-libro-previa">
+        <Input<T>
+          name={name}
+          control={control}
+          label="Url de imagen"
+          tipo="text"
+          error={imgError}
+          esquema={libroDatosExtras}
         />
-        <span className="cargar-libro-imagen-hint">o pegá una imagen (Ctrl+V)</span>
-        <input ref={fileRef} type="file" accept="image/*" hidden onChange={onFileChange} />
+        <div className="cargar-libro-imagen-acciones">
+          <Boton
+            texto={loading ? 'Subiendo...' : 'Subir imagen'}
+            secundario
+            onClick={() => fileRef.current?.click()}
+          />
+          <span className="cargar-libro-imagen-hint">o pegá una imagen (Ctrl+V)</span>
+          <input ref={fileRef} type="file" accept="image/*" hidden onChange={onFileChange} />
+        </div>
       </div>
-
+        {valor ? (
+          <img src={valor} alt="Vista previa" className="cargar-libro-imagen-preview" />
+        ) : null}
       {error && <Texto texto={error} error />}
-
-      {valor ? (
-        <img src={valor} alt="Vista previa" className="cargar-libro-imagen-preview" />
-      ) : null}
     </div>
   );
 };
