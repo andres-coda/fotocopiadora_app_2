@@ -6,8 +6,10 @@ import { Mens } from '../../modelo/socket/enum/mens.enum';
 import { EntidadDatoMap, Mensaje } from '../../modelo/socket/Socket.interface';
 import { PrecioAdapterProp, PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
 import { ClienteAdapterProp, ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
+import { MensajeAdapterProp, MensajeProp } from '../../modelo/Entidades/mensaje/mensaje.interface';
 import { precioAdapter } from '../../adaptadores/entrada/precio.adapter';
 import { clienteAdapter } from '../../adaptadores/entrada/cliente.adapter';
+import { mensajeAdapter } from '../../adaptadores/entrada/mensaje.adapter';
 import {
   actualizarPrecioRedux,
   agregarPrecioSocketRedux,
@@ -18,6 +20,11 @@ import {
   agregarClienteSocketRedux,
   eliminarClienteRedux,
 } from '../../redux/state/cliente.state';
+import {
+  actualizarMensajeSocketRedux,
+  agregarMensajeSocketRedux,
+  eliminarMensajeRedux,
+} from '../../redux/state/mensaje.state';
 
 interface Prop {
   libro?: boolean | undefined;
@@ -50,6 +57,15 @@ const normalizarCliente = (raw: unknown): ClienteProp | undefined => {
   if (dato.ultAct && dato.resumen) return dato as ClienteProp;
 
   return clienteAdapter(dato as ClienteAdapterProp);
+};
+
+const normalizarMensaje = (raw: unknown): MensajeProp | undefined => {
+  if (!raw || typeof raw !== 'object') return undefined;
+
+  const dato = raw as Partial<MensajeProp> & Partial<MensajeAdapterProp>;
+  if (!dato.id || !dato.nombre) return undefined;
+
+  return mensajeAdapter(dato as MensajeAdapterProp);
 };
 
 const datoDe = (data: Mensaje): unknown => (data as unknown as { dato?: unknown }).dato;
@@ -159,6 +175,13 @@ const useSockets = ({}: Prop) => {
         alCrear: cliente => dispatch(agregarClienteSocketRedux(cliente)),
         alEditar: cliente => dispatch(actualizarClienteRedux(cliente)),
         alEliminar: id => dispatch(eliminarClienteRedux(id)),
+      }),
+      crearHandlers<MensajeProp>({
+        entidad: EntidadDatoMap.MENSAJE,
+        normalizar: normalizarMensaje,
+        alCrear: mensaje => dispatch(agregarMensajeSocketRedux(mensaje)),
+        alEditar: mensaje => dispatch(actualizarMensajeSocketRedux(mensaje)),
+        alEliminar: id => dispatch(eliminarMensajeRedux(id)),
       }),
     ];
 

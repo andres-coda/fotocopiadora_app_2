@@ -9,9 +9,11 @@ import useSockets from './useSockets';
 import socket from '../../socket';
 import { precioSlice } from '../../redux/state/precio.state';
 import { clienteSlice } from '../../redux/state/cliente.state';
+import { mensajeSlice } from '../../redux/state/mensaje.state';
 import { Mens } from '../../modelo/socket/enum/mens.enum';
 import type { PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
 import type { ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
+import type { MensajeProp } from '../../modelo/Entidades/mensaje/mensaje.interface';
 import { resumenInicial } from '../../modelo/Entidades/cliente/resumen.interface';
 import type {
   ReduxProp,
@@ -96,7 +98,28 @@ const crearStoreCliente = (state: ReduxProp<ClienteProp> = crearState<ClientePro
     preloadedState: { cliente: state },
   });
 
-type Store = ReturnType<typeof crearStore> | ReturnType<typeof crearStoreCliente>;
+const mensaje = (
+  id: string,
+  nombre: string,
+  texto?: string,
+  favorito = false
+): MensajeProp => ({
+  id,
+  nombre,
+  mensaje: texto,
+  favorito,
+});
+
+const crearStoreMensaje = (state: ReduxProp<MensajeProp> = crearState<MensajeProp>()) =>
+  configureStore({
+    reducer: { mensaje: mensajeSlice.reducer },
+    preloadedState: { mensaje: state },
+  });
+
+type Store =
+  | ReturnType<typeof crearStore>
+  | ReturnType<typeof crearStoreCliente>
+  | ReturnType<typeof crearStoreMensaje>;
 
 const montar = (store: Store) =>
   renderHook(() => useSockets({}), {
@@ -286,6 +309,58 @@ describe('useSockets: cliente', () => {
     expect(idsCliente(estado.busquedaActual.datosQuery)).toEqual(['c2']);
     expect(idsCliente(estado.datosIniciales.datosQuery)).toEqual(['c2']);
     expect(idsCliente(estado.ultimasBusqueda[0].datosQuery)).toEqual(['c2']);
+  });
+});
+
+describe('useSockets: mensaje', () => {
+  const idsMensaje = (datos: MensajeProp[]) => datos.map(m => m.id);
+
+  it('agrega el mensaje nuevo a las tres estructuras del store', () => {
+    const store = crearStoreMensaje();
+    montar(store);
+
+    emitir(Mens.CREAR, {
+      mensaje: Mens.CREAR,
+      entidad: 'mensaje',
+      dato: { id: 'm1', nombre: 'saludo', mensaje: 'Hola', favorito: false },
+    });
+
+    const { mensaje: estado } = store.getState();
+    expect(idsMensaje(estado.busquedaActual.datosQuery)).toEqual(['m1']);
+    expect(idsMensaje(estado.datosIniciales.datosQuery)).toEqual(['m1']);
+    expect(idsMensaje(estado.ultimasBusqueda[0].datosQuery)).toEqual(['m1']);
+    expect(estado.busquedaActual.datosQuery[0].mensaje).toBe('Hola');
+    expect(estado.busquedaActual.total).toBe(1);
+  });
+
+  it('al editar conserva el favorito local del usuario', () => {
+    const store = crearStoreMensaje(crearState([mensaje('m1', 'saludo', 'Hola', true)]));
+    montar(store);
+
+    // El payload trae el favorito de quien edito (false), no el del usuario local.
+    emitir(Mens.EDITAR, {
+      mensaje: Mens.EDITAR,
+      entidad: 'mensaje',
+      dato: { id: 'm1', nombre: 'saludo cordial', mensaje: 'Hola!', favorito: false },
+    });
+
+    const { mensaje: estado } = store.getState();
+    expect(estado.busquedaActual.datosQuery[0].nombre).toBe('saludo cordial');
+    expect(estado.busquedaActual.datosQuery[0].mensaje).toBe('Hola!');
+    expect(estado.busquedaActual.datosQuery[0].favorito).toBe(true);
+    expect(estado.datosIniciales.datosQuery[0].favorito).toBe(true);
+  });
+
+  it('elimina el mensaje por id en las tres estructuras', () => {
+    const store = crearStoreMensaje(crearState([mensaje('m1', 'saludo'), mensaje('m2', 'despedida')]));
+    montar(store);
+
+    emitir(Mens.ELIMINAR, { mensaje: Mens.ELIMINAR, entidad: 'mensaje', id: 'm1' });
+
+    const { mensaje: estado } = store.getState();
+    expect(idsMensaje(estado.busquedaActual.datosQuery)).toEqual(['m2']);
+    expect(idsMensaje(estado.datosIniciales.datosQuery)).toEqual(['m2']);
+    expect(idsMensaje(estado.ultimasBusqueda[0].datosQuery)).toEqual(['m2']);
   });
 });
 

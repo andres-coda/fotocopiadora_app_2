@@ -15,6 +15,7 @@ import {
   resetRedux,
 } from '../utils/funcionesGenericasEmpresa';
 import { estadoInicialRedux } from '../utils/reduxInicial';
+import { actualizarMensajeSocket, agregarMensajeSocket } from '../utils/funcionesMensaje';
 
 const cantidadBusquedas: number = 1;
 
@@ -34,6 +35,8 @@ export const mensajeSlice = createSlice({
     eliminarMensajeRedux: eliminarElemento<MensajeProp>,
     actualizarMensajeRedux: modificarElementoRedux<MensajeProp>,
     agregarMensajeInicioRedux: agregarElementoInicio<MensajeProp>,
+    agregarMensajeSocketRedux: agregarMensajeSocket,
+    actualizarMensajeSocketRedux: actualizarMensajeSocket,
     resetReduxMensaje: resetRedux<MensajeProp>,
   },
 });
@@ -49,6 +52,8 @@ export const {
   eliminarMensajeRedux,
   actualizarMensajeRedux,
   agregarMensajeInicioRedux,
+  agregarMensajeSocketRedux,
+  actualizarMensajeSocketRedux,
   resetReduxMensaje,
 } = mensajeSlice.actions;
 

@@ -7,6 +7,7 @@ export const EntidadDatoMap = {
   LIBRO: 'libro',
   PEDIDO_LIBRO: 'libro_pedido',
   MATERIA: 'materia',
+  MENSAJE: 'mensaje',
   PEDIDO: 'pedido',
   PRECIO: 'precio',
   PREOPUESTA: 'propuesta_pedido',
