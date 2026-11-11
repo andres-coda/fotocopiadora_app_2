@@ -1,0 +1,26 @@
+.cargar-libro-imagen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cargar-libro-imagen-acciones {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cargar-libro-imagen-hint {
+  font-size: 0.8em;
+  color: var(--colorSombra);
+}
+
+.cargar-libro-imagen-preview {
+  max-width: 160px;
+  max-height: 160px;
+  border-radius: 5px;
+  border: 0.5px solid var(--colorSombra);
+  object-fit: contain;
+}

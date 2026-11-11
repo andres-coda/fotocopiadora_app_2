@@ -5,6 +5,7 @@ import {
   libroDatosExtras,
 } from '../../../../modelo/Entidades/libro/esqLibro.esquema';
 import { parseDecimal } from '../../../../utils/formulario';
+import CargarLibroImagen from './cargarLibroImagen';
 
 interface Prop<T extends formValuesLibroDatosExtras> {
   control: Control<T>;
@@ -19,7 +20,6 @@ const CargarLibroDatosExtras = <T extends formValuesLibroDatosExtras>({
   const nameAutor = 'autor' as Path<T>;
   const nameEdicion = 'edicion' as Path<T>;
   const nameAnio = 'anio' as Path<T>;
-  const nameImg = 'img' as Path<T>;
 
   return (
     <>
@@ -62,14 +62,7 @@ const CargarLibroDatosExtras = <T extends formValuesLibroDatosExtras>({
           parseValue={v => parseDecimal(v, 4, 0)}
         />
       </div>
-      <Input<T>
-        name={nameImg}
-        control={control}
-        label="Url de imagen"
-        tipo="text"
-        error={errors.img}
-        esquema={libroDatosExtras}
-      />
+      <CargarLibroImagen<T> control={control} errors={errors} />
     </>
   );
 };

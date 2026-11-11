@@ -37,3 +37,4 @@ export const SOLICITUD: string = `${BASE}/solicitud`;
 export const PROPUESTA: string = `${BASE}/propuesta-pedido`;
 export const NIVEL: string = `${BASE}/nivel`;
 export const EDITORIAL: string = `${BASE}/editorial`;
+export const IMG_SUBIR: string = `${BASE}/img-subir`;
