@@ -36,7 +36,7 @@ import Eliminar from '../../../../assets/deleted.svg?react';
 import LibroSelectNombre from './libroSelectNombre';
 import LibroSelectExtra from './libroSelectExtra';
 import LibroSelectLocal from './libroSelectLocal';
-import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import EliminarLibro from './eliminarLibro';
 
 const LibroSelect = () => {
@@ -57,7 +57,7 @@ const LibroSelect = () => {
   const { modal, setModal } = useModalContext();
   const { handleEdit } = useEditar({
     libro,
-    ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_EDITAR}`,
+    ruta: `/${rutaBase.PRIVADO}/${RutasPrivadas.LIBRO_EDITAR}`,
   });
 
   const dispatch = useDispatch();

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import './App.css';
 import Heder from './componente/heder/heder';
 import LateralIzquierdo from './componente/lateral/lateralIzquierdo';
@@ -8,6 +9,13 @@ interface AppProp {
   children: ReactNode;
 }
 function App({ children }: AppProp) {
+  const location = useLocation();
+  const sinLayout = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/registro';
+
+  if (sinLayout) {
+    return <>{children}</>;
+  }
+
   return (
     <>
       <Heder />

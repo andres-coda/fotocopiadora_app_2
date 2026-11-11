@@ -1,7 +1,7 @@
 import Card from '../../../../componente-estilo/card/card';
 import useEditar from '../../../../hooks/editar/useEditar';
 import { PedidoProp } from '../../../../modelo/Entidades/pedido/pedido.interface';
-import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import CardFechas from '../../../../componente/pedido/cardFechas';
 import CardArchivos from '../../../../componente/pedido/cardArchivos';
 import CardImporte from '../../../../componente/pedido/cardImporte';
@@ -65,7 +65,7 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
     errorFetchCambioEstadoPedido,
   } = useCambiarEstadoPedidoApi();
   const { handleSelect } = useEditar({
-    ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
+    ruta: `/${rutaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     pedido,
   });
 
@@ -183,7 +183,7 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
             onClick={() =>
               handleSelect({
                 pedido,
-                rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}`,
+                rutaLocal: `/${rutaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}`,
               })
             }
           />

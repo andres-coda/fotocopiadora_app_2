@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import './libro_cargar.css';
 import Formulario from '../../../../componente/formulario/formulario';
 import useFormulario from '../../../../hooks/formulario/useFormulario';
@@ -90,7 +90,7 @@ const LibroCargar = ({ libroDespuesGuardar }: Prop) => {
               (resetForm({
                 reset: () => reset(libroFormDefault),
                 setModal: true,
-                ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
+                ruta: `/${rutaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
               }),
                 setNombreLibro(undefined));
             }}

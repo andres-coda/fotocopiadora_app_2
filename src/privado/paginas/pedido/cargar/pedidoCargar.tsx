@@ -12,7 +12,7 @@ import {
 } from '../../../../modelo/Entidades/pedido/esqPedido.esquema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useFormulario from '../../../../hooks/formulario/useFormulario';
-import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import Input from '../../../../componente/formulario/input';
 import { formatTelefono, parseDecimal, parseTelefono } from '../../../../utils/formulario';
 import { normalizarTelefono } from '../../../../utils/telefono';
@@ -239,7 +239,7 @@ const PedidoCargar = () => {
     resetSelect: resetSeleccionarPedido,
     agregarElemento: seleccionarPedido,
     reset,
-    ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO}`,
+    ruta: `/${rutaBase.PRIVADO}/${RutasPrivadas.PEDIDO}`,
   });
 
   const onSubmit = (data: formValuesPedido) => {

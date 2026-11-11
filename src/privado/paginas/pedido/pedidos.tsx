@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ReduxProp } from '../../../redux/modelo/reduxContext.interface';
 import { PedidoProp } from '../../../modelo/Entidades/pedido/pedido.interface';
 import { appStore } from '../../../redux/store';
-import { rutaPrivadaBase, RutasPrivadas } from '../../rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../rutas/rutasPrivadas';
 import Centro from '../../../componente-estilo/centro/centro';
 import TextoVacio from '../../../componente/Textos/textoVacio';
 import PedidoCard from './componente/pedidoCard';
@@ -78,7 +78,7 @@ const Pedidos = () => {
         ref={contenedorRef}
         texto="Buscar pedido"
         handleMas={() =>
-          nuevoElemento(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}`)
+          nuevoElemento(`/${rutaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}`)
         }
         valor={valor}
         setValor={setValor}

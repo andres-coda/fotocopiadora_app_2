@@ -22,7 +22,7 @@ import {
   resetSeleccionarPropuesta,
 } from '../../../../redux/state/propuesta.state';
 import { listaLibroPropuestaSeleccionable } from '../util/funcionesAdicionales';
-import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import { useModalContext } from '../../../../contexto/contextoModal';
 import { useNavigate } from 'react-router-dom';
 import useBuscadorQuery from '../../../../hooks/buscador/useBuscadorQuery';
@@ -240,7 +240,7 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
 
   const handleNuevoElemento = () => {
     if (opcionesActivas.includes(listaLibroPropuestaSeleccionable[1].nombre)) {
-      navigate(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`);
+      navigate(`/${rutaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`);
     } else {
       setModal(true);
     }
@@ -275,7 +275,7 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
 
   const selectLibro = (libro: LibroProp) => {
     dispatch(seleccionarLibro(libro));
-    navigate(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`);
+    navigate(`/${rutaBase.PRIVADO}/${RutasPrivadas.LIBRO}`);
   };
 
   return {

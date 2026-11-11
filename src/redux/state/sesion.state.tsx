@@ -12,6 +12,7 @@ export const sesionSlice = createSlice({
   reducers: {
     setUsuario: (state, action: PayloadAction<usuarioProps | null>) => {
       state.dato = action.payload;
+      state.cargaInicial = true;
     },
     setCargaInicial: (state, action: PayloadAction<boolean>) => {
       state.cargaInicial = action.payload;

@@ -2,7 +2,7 @@ import Card from '../../../../componente-estilo/card/card';
 import Texto from '../../../../componente-estilo/texto/texto';
 import useEditar from '../../../../hooks/editar/useEditar';
 import { LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
-import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import { useEffect } from 'react';
 import useLibroApi from '../../../../servicio/libro/useLibroApi';
 import Boton from '../../../../componente-estilo/boton/boton';
@@ -20,7 +20,7 @@ interface Props {
 const LibroCard = ({ libro, selecLibro }: Props) => {
   const { copiarPresupuesto } = usePresupuesto({ libro });
   const { handleSelect } = useEditar({
-    ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
+    ruta: `/${rutaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
     libro,
   });
   const { obtenerLibroById, responseLibro, loadingLibro, errorFetchLibro } = useLibroApi();
@@ -28,7 +28,7 @@ const LibroCard = ({ libro, selecLibro }: Props) => {
   useEffect(() => {
     if (responseLibro) {
       handleSelect({
-        rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
+        rutaLocal: `/${rutaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
         libro: responseLibro,
       });
     }

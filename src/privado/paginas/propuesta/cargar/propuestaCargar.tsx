@@ -12,7 +12,7 @@ import {
 } from '../../../../modelo/Entidades/propuesta/esqPropuesta.esquema';
 import useFormulario from '../../../../hooks/formulario/useFormulario';
 import usePropuestaApi from '../../../../servicio/propuesta/usePropuestaApi';
-import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import { useState } from 'react';
 import Input from '../../../../componente/formulario/input';
 import BuscadorLibro from '../../../../componente/buscador/buscadorLibro';
@@ -49,7 +49,7 @@ const PropuestaCargar = () => {
     response: responsePropuesta,
     resetSelect: resetSeleccionarPropuesta,
     reset,
-    ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
+    ruta: `/${rutaBase.PRIVADO}/${RutasPrivadas.LIBRO}`,
   });
 
   const onSubmit = (data: formValuesPropuesta) => {

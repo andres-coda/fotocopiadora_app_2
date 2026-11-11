@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { resetReduxCliente } from '../redux/state/cliente.state';
 import { resetEspecificaciones } from '../redux/state/especificacion.state';
 import { resetCategorias } from '../redux/state/categoria.state';
@@ -15,6 +15,10 @@ import { resetReduxEmpresa } from '../redux/state/empresa.state';
 import { resetMiEmpresa } from '../redux/state/miEmpresa.state';
 import { resetReduxSolicitud } from '../redux/state/solicitud.state';
 import { resetReduxUsuario } from '../redux/state/usuarios.state';
+import { appStore } from '../redux/store';
+import { ReduxSimpleElemento } from '../redux/modelo/reduxContext.interface';
+import { usuarioProps } from '../modelo/usuario/Usuario.interface';
+
 
 interface AuthContextType {
   token: string | null;
@@ -28,6 +32,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
   const dispatch = useDispatch();
+  const sesion: ReduxSimpleElemento<usuarioProps> = useSelector((store: appStore) => store.sesion);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
     if (token) {
@@ -37,12 +43,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [token]);
 
+  useEffect(() => {
+    if (!token) {
+      logout();
+      return;
+    }
+
+    if (!sesion.cargaInicial) {
+      setIsAuthenticated(false);
+      return;
+    }
+    setIsAuthenticated(true);
+
+    setIsAuthenticated(true);
+  }, [sesion.cargaInicial, token]);
+
   const login = (newToken: string) => {
     setToken(newToken);
   };
 
   const logout = () => {
     setToken(null);
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
     dispatch(resetReduxCliente());
     dispatch(resetEspecificaciones());
     dispatch(resetCategorias());
@@ -64,7 +87,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     token,
     login,
     logout,
-    isAuthenticated: !!token,
+    isAuthenticated,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

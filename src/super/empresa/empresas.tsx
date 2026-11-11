@@ -15,8 +15,9 @@ import { EmpresaProp } from '../../modelo/Entidades/empresa/empresa.interface';
 import BuscadorPaginadoCompleto from '../../componente/buscador/buscadorPaginadoCompleto';
 import Centro from '../../componente-estilo/centro/centro';
 import EmpresaCard from './componente/empresaCard';
-import { RutasSupers, rutaSuperBase } from '../ruta/rutaSupers';
+import { RutasSupers } from '../ruta/rutaSupers';
 import { ReduxProp } from '../../redux/modelo/reduxContext.interface';
+import { rutaBase } from '../../privado/rutas/rutasPrivadas';
 
 const Empresas = () => {
   const empresaRedux:  ReduxProp<EmpresaProp> = useSelector((store: appStore) => store.empresa);
@@ -55,7 +56,7 @@ const Empresas = () => {
         titulo="Empresas"
         etiquetaArriba="Al comienzo de la lista"
         etiquetaMas="Nueva empresa"
-        handleMas={() => navigate(`/${rutaSuperBase.SUPER}/${RutasSupers.EMPRESA_CREAR}`)}
+        handleMas={() => navigate(`/${rutaBase.SUPER}/${RutasSupers.EMPRESA_CREAR}`)}
       />
       <Centro
         ref={contenedorRef}

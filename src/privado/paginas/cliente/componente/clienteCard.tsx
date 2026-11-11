@@ -1,7 +1,7 @@
 import useEditar from '../../../../hooks/editar/useEditar';
 import Card from '../../../../componente-estilo/card/card';
 import { ClienteProp } from '../../../../modelo/Entidades/cliente/cliente.interface';
-import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import ClienteDatos from './clienteDatos';
 import './clienteCard.css';
 
@@ -12,7 +12,7 @@ interface Props {
 
 const ClienteCard = ({ cliente, onClick }: Props) => {
   const { handleSelect } = useEditar({
-    ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`,
+    ruta: `/${rutaBase.PRIVADO}/${RutasPrivadas.CLIENTE}`,
     cliente,
   });
 
@@ -21,7 +21,7 @@ const ClienteCard = ({ cliente, onClick }: Props) => {
       onClick(cliente);
     } else {
       console.log('hace click');
-      handleSelect({ rutaLocal: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE}` });
+      handleSelect({ rutaLocal: `/${rutaBase.PRIVADO}/${RutasPrivadas.CLIENTE}` });
     }
   };
 

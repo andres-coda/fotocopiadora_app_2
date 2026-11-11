@@ -1,5 +1,6 @@
-export const rutaPrivadaBase = {
+export const rutaBase = {
   PRIVADO: 'privado',
+  SUPER:'super'
 };
 
 export const RutasPrivadas = {

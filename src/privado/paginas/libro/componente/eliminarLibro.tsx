@@ -1,7 +1,7 @@
 import { LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
 import { nombreLibroXstring } from '../../../../utils/formatoDatos';
 import { eliminarLibroRedux } from '../../../../redux/state/libro.state';
-import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import useLibroDeleteApi from '../../../../servicio/libro/useLibroDeleteApi';
 import EliminarElemento from '../../../../componente-estilo/eliminar/eliminarElemento';
 
@@ -41,7 +41,7 @@ const EliminarLibro = ({ libro }: Prop) => {
       response={responseLibro}
       elemento={libro}
       eliminarElementoRedux={eliminarLibroRedux}
-      ruta={`${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.LIBRO_LISTA}`}
+      ruta={`${rutaBase.PRIVADO}/${RutasPrivadas.LIBRO_LISTA}`}
     />
   );
 };

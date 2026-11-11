@@ -8,7 +8,7 @@ import Formulario from '../../../componente/formulario/formulario';
 import Input from '../../../componente/formulario/input';
 import Boton from '../../../componente-estilo/boton/boton';
 import { useNavigate } from 'react-router-dom';
-import { rutaPrivadaBase } from '../../../privado/rutas/rutasPrivadas';
+import { rutaBase } from '../../../privado/rutas/rutasPrivadas';
 import Botonera from '../../../componente-estilo/botonera/botonera';
 import { rutaPublica } from '../../rutas/rutasPublicas';
 import {
@@ -19,7 +19,6 @@ import {
 import useApi from '../../../servicio/hooks/useApi';
 import { useAuth } from '../../../contexto/contextoAutenticacion';
 import './login.css';
-import { rutaSuperBase } from '../../../super/ruta/rutaSupers';
 
 export interface LoginResponseProp {
   access_token: string;
@@ -42,7 +41,7 @@ const Login = () => {
     if (response) {
       console.log('Token: ', response);
       doLogin(response.access_token);
-      navigate(`/${rutaSuperBase.SUPER}`);
+      navigate(`/${rutaBase.SUPER}`);
     }
   }, [response, doLogin, navigate]);
 

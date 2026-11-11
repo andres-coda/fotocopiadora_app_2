@@ -1,7 +1,7 @@
 import useClienteDeleteApi from '../../../../servicio/cliente/useClienteDeleteApi';
 import { ClienteProp } from '../../../../modelo/Entidades/cliente/cliente.interface';
 import { eliminarClienteRedux } from '../../../../redux/state/cliente.state';
-import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import { formatoTelefonoMostrar } from '../../../../utils/formatoDatos';
 import EliminarElemento from '../../../../componente-estilo/eliminar/eliminarElemento';
 
@@ -47,7 +47,7 @@ const EliminarCliente = ({cliente}:Prop) => {
       response={responseCliente}
       elemento={cliente}
       eliminarElementoRedux={eliminarClienteRedux}
-      ruta={`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.CLIENTE_LISTA}`}
+      ruta={`/${rutaBase.PRIVADO}/${RutasPrivadas.CLIENTE_LISTA}`}
     />
   );
 }

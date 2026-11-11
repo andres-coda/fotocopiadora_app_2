@@ -16,8 +16,12 @@ import Lateral from '../../componente-estilo/lateral/lateral';
 import PreciosCategoria from './preciosCategoria';
 import { setConfiguracionMiEmpresa } from '../../redux/state/miEmpresa.state';
 import './laterales.css';
+import { esSuper } from '../../utils/usuario';
+import { ReduxSimpleElemento } from '../../redux/modelo/reduxContext.interface';
+import { usuarioProps } from '../../modelo/usuario/Usuario.interface';
 
 const LateralIzquierdo = () => {
+  const sesion: ReduxSimpleElemento<usuarioProps> = useSelector((store: appStore) => store.sesion);
   const configuracion: ConfiguracionProp | undefined = useSelector(
     (store: appStore) => store.miEmpresa.dato?.configuracion
   );
@@ -66,26 +70,30 @@ const LateralIzquierdo = () => {
 
   useEffect(() => {
     if (responseConfiguracion) {
-      dispatch((setConfiguracionMiEmpresa(responseConfiguracion)));
+      dispatch(setConfiguracionMiEmpresa(responseConfiguracion));
     }
   }, [responseConfiguracion]);
 
   return (
     <Lateral>
-      <Card nuevoEstilo="fecha-entrega">
-        <Texto texto={`Entrega`} mediana negrita />
-        <Input<formValuesConfigEntrega>
-          name="fechaEntrega"
-          control={control}
-          label="Fecha"
-          tipo="date"
-          error={errors.fechaEntrega}
-          esquema={configEntrega}
-        />
-        {errorFetchConfiguracion && <Texto texto={errorFetchConfiguracion} error chica />}
-        <Texto textoResaltado="Hora: " texto={`${configuracion?.horaEntrega ?? '00'}:00`} />
-      </Card>
-      <PreciosCategoria />
+      {!esSuper(sesion.dato) && (
+        <>
+          <Card nuevoEstilo="fecha-entrega">
+            <Texto texto={`Entrega`} mediana negrita />
+            <Input<formValuesConfigEntrega>
+              name="fechaEntrega"
+              control={control}
+              label="Fecha"
+              tipo="date"
+              error={errors.fechaEntrega}
+              esquema={configEntrega}
+            />
+            {errorFetchConfiguracion && <Texto texto={errorFetchConfiguracion} error chica />}
+            <Texto textoResaltado="Hora: " texto={`${configuracion?.horaEntrega ?? '00'}:00`} />
+          </Card>
+          <PreciosCategoria />
+        </>
+      )}
     </Lateral>
   );
 };

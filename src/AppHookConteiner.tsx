@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import { ProveiderModalContext } from './contexto/contextoModal';
 import { AuthProvider } from './contexto/contextoAutenticacion';
+import CargarSesion from './redux/cargadatos/cargarSesion';
 
 const AppHookConteiner = () => {
   return (
@@ -14,9 +15,11 @@ const AppHookConteiner = () => {
         <BrowserRouter>
           <Provider store={store}>
             <AuthProvider>
-              <App>
-                <AppRouter />
-              </App>
+              <CargarSesion>
+                <App>
+                  <AppRouter />
+                </App>
+              </CargarSesion>
             </AuthProvider>
           </Provider>
         </BrowserRouter>

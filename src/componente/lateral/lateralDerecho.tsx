@@ -1,9 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { appStore } from '../../redux/store';
 import Texto from '../../componente-estilo/texto/texto';
 import MensajesFavoritosLateral from './mensajesFavoritosLateral';
 import Card from '../../componente-estilo/card/card';
-import { resetSesion } from '../../redux/state/sesion.state';
 import { ReduxSimpleElemento } from '../../redux/modelo/reduxContext.interface';
 import { usuarioProps } from '../../modelo/usuario/Usuario.interface';
 import Monigote from '../../assets/user.svg?react';
@@ -14,15 +13,14 @@ import { rutaPublica } from '../../publico/rutas/rutasPublicas';
 import { useAuth } from '../../contexto/contextoAutenticacion';
 import Lateral from '../../componente-estilo/lateral/lateral';
 import './laterales.css';
+import { esSuper } from '../../utils/usuario';
 
 const LateralDerecho = () => {
   const sesion: ReduxSimpleElemento<usuarioProps> | undefined = useSelector((store: appStore) => store.sesion);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { logout } = useAuth();
   const cerrarSesion = () => {
     logout();
-    dispatch(resetSesion());
     navigate(`/${rutaPublica.LOGIN}`);
   };
   if (!sesion.dato)
@@ -45,7 +43,7 @@ const LateralDerecho = () => {
           edit
         />
       </Card>
-      <MensajesFavoritosLateral />
+      {!esSuper(sesion.dato) && <MensajesFavoritosLateral />}
     </Lateral>
   );
 };

@@ -18,7 +18,7 @@ import useLibrosApi from '../../servicio/libro/useLibrosApi';
 import { useModalContext } from '../../contexto/contextoModal';
 import { agregarLibrosBusquedaActual, crearBusquedaLibro, resetBusquedaLibro, resetSeleccionarLibro, seleccionarLibro } from '../../redux/state/libro.state';
 import { useNavigate } from 'react-router-dom';
-import { RutasSupers, rutaSuperBase } from '../ruta/rutaSupers';
+import { RutasSupers } from '../ruta/rutaSupers';
 import LibroSelectSuper from './libroSelectSuper';
 import LibroEditar from '../../privado/paginas/libro/cargar/libro_editar';
 

@@ -1,27 +1,16 @@
-import { Navigate, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import RutaInvalida from '../componente/ruta_invalida/rutaInvalida';
 import { rutaPublica } from './rutas/rutasPublicas';
 import Registro from './paginas/registro/registro';
 import Login from './paginas/login/login';
-import PrivadoRuta from '../privado/privadoRuta';
-import RutaPrivadaGuard from '../guard/rutaPrivadaGuard';
-import { rutaPrivadaBase } from '../privado/rutas/rutasPrivadas';
-import { rutaSuperBase } from '../super/ruta/rutaSupers';
-import SuperRuta from '../super/superRuta';
-import RutaSuperGuard from '../guard/rutaSuperGuard';
+import Inicio from './paginas/inicio/inicio';
 
 const PublicoRuta = () => {
   return (
     <RutaInvalida>
-      <Route path="/" element={<Navigate to={rutaPublica.LOGIN} />}></Route>
+      <Route path="/" element={<Inicio />}></Route>
       <Route path={rutaPublica.LOGIN} element={<Login />} />
       <Route path={rutaPublica.REGISTRO} element={<Registro />} />
-      <Route element={<RutaPrivadaGuard />}>
-        <Route path={`${rutaPrivadaBase.PRIVADO}/*`} element={<PrivadoRuta />} />
-      </Route>
-      <Route element={<RutaSuperGuard />}>
-        <Route path={`${rutaSuperBase.SUPER}/*`} element={<SuperRuta />} />
-      </Route>
     </RutaInvalida>
   );
 };

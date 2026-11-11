@@ -10,7 +10,8 @@ import Input from '../../componente/formulario/input';
 import CartelExito from '../../componente/cartelExito/cartelExito';
 import useEmpresaApi from '../../servicio/empresa/useEmpresaApi';
 import { useNavigate } from 'react-router-dom';
-import { RutasSupers, rutaSuperBase } from '../ruta/rutaSupers';
+import { RutasSupers } from '../ruta/rutaSupers';
+import { rutaBase } from '../../privado/rutas/rutasPrivadas';
 
 const EmpresaCrear = () => {
   const { crearEmpresa, responseEmpresa, loadingEmpresa, errorFetchEmpresa } = useEmpresaApi();
@@ -33,7 +34,7 @@ const EmpresaCrear = () => {
     return (
       <CartelExito
         mensaje={`La empresa ---[ ${responseEmpresa.nombre} ]--- fue creada con exito junto con su administrador`}
-        onCerrar={() => navigate(`/${rutaSuperBase.SUPER}/${RutasSupers.EMPRESA_LISTA}`)}
+        onCerrar={() => navigate(`/${rutaBase.SUPER}/${RutasSupers.EMPRESA_LISTA}`)}
       />
     );
 
@@ -41,7 +42,7 @@ const EmpresaCrear = () => {
     <Formulario
       titulo="Nueva empresa"
       onSubmit={handleSubmit(onSubmit)}
-      onClickSecundario={() => navigate(`/${rutaSuperBase.SUPER}/${RutasSupers.EMPRESA_LISTA}`)}
+      onClickSecundario={() => navigate(`/${rutaBase.SUPER}/${RutasSupers.EMPRESA_LISTA}`)}
       etiquetaPrimaria="Crear empresa"
       textBtnConfirmar="Crear"
       etiquetaSecundaria="Atras"

@@ -5,7 +5,7 @@ import LibroCard from '../../libro/componente/libroCard';
 import Editar from '../../../../assets/edit.svg?react';
 import Eliminar from '../../../../assets/deleted.svg?react';
 import { useModalContext } from '../../../../contexto/contextoModal';
-import { rutaPrivadaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import useEditar from '../../../../hooks/editar/useEditar';
 import Texto from '../../../../componente-estilo/texto/texto';
 import Copiar from '../../../../assets/copiar.svg?react';
@@ -24,7 +24,7 @@ const PropuestaSelect = ({ propuesta }: Prop) => {
 
   const [eliminarProp, setEliminarProp] = useState<boolean>(false);
   const { handleEdit } = useEditar({
-    ruta: `/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`,
+    ruta: `/${rutaBase.PRIVADO}/${RutasPrivadas.PROPUESTA_CARGAR}`,
     propuesta,
   });
 

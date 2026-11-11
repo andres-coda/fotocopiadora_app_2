@@ -13,7 +13,7 @@ import useBuscadorQuery from './useBuscadorQuery';
 import { agregarPedidoLibrosBusquedaActual, crearBusquedaPedidoLibro, PedidoLibroStateProp, resetBusquedaPedidoLibro } from '../../redux/state/pedido_libro.state';
 import { appStore } from '../../redux/store';
 import usePedidoLibrosApi from '../../servicio/pedido_libro/usePedidoLibrosApi';
-import { rutaPrivadaBase, RutasPrivadas } from '../../privado/rutas/rutasPrivadas';
+import { rutaBase, RutasPrivadas } from '../../privado/rutas/rutasPrivadas';
 import useFinPagina from '../finPagina/useFinPagina';
 import { busquedaQueryParams } from '../../utils/busquedaQueryParams';
 
@@ -115,7 +115,7 @@ const useBuscadorPedido = ({
   }, [modal]);
 
   const nuevoElemento = () => {
-    navigate(`/${rutaPrivadaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}`)
+    navigate(`/${rutaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}`)
   };
 
   const handleSeleccionarItem = (item: PedidoLibroProp) => {

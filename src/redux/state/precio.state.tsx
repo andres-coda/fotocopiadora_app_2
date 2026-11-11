@@ -25,7 +25,7 @@ export const precioSlice = createSlice({
   name: 'precio_empresa',
   initialState: estadoPrecioInicial,
   reducers: {
-    crearPrecios: crearDatoInicial,
+    crearPrecios: crearDatoInicial<PrecioProp>,
     crearBusquedaPrecio: crearBusqueda<PrecioProp>(cantidadBusquedas),
     resetBusquedaPrecio: resetBusqueda<PrecioProp>(cantidadBusquedas),
     seleccionarPrecio: seleccionarDato,

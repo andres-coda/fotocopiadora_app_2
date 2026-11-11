@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { appStore } from '../store';
 import { AppProp } from '../modelo/cargarDatos.interface';
-import { crearElementosContexto } from '../utils/crearElementosContexto';
+import { convertirDatoPlaydon } from '../utils/crearElementosContexto';
 import { EspecificacionProp } from '../../modelo/Entidades/especificacion/especificacion.interface';
 import useEspecificacionesApi from '../../servicio/especificacion/useEspecificacionesApi';
 import useCategoriasApi from '../../servicio/precio/useCategoriasApi';
@@ -19,41 +19,41 @@ import useEmpresaApi from '../../servicio/empresa/useEmpresaApi';
 import { useAutenticacion } from '../../hooks/autenticacion/useAutenticacion';
 import { setMiEmpresa, setErrorMiEmpresa, setLoadingMiEmpresa } from '../state/miEmpresa.state';
 import { setSedes, setErrorSedes, setLoadingSedes } from '../state/sede.state';
-import { ReduxSimple, ReduxSimpleElemento } from '../modelo/reduxContext.interface';
-import { setError as setErrorEspecificaciones, setEspecificaciones, setLoading as setLoadingEspecifcaciones } from '../state/especificacion.state';
+import { ReduxProp, ReduxSimple, ReduxSimpleElemento } from '../modelo/reduxContext.interface';
+import {
+  setError as setErrorEspecificaciones,
+  setEspecificaciones,
+  setLoading as setLoadingEspecifcaciones,
+} from '../state/especificacion.state';
 import { setCategorias, setErrorCategorias, setLoadingCategorias } from '../state/categoria.state';
 import useCargaDatosInicialesSimplesArray from '../../hooks/respuesta/useCargaDatosInicialesSimplesArray';
-import { usuarioProps } from '../../modelo/usuario/Usuario.interface';
-import useUsuarioApi from '../../servicio/usuario/useUsuarioApi';
-import { setErrorSesion, setLoadingSesion, setUsuario } from '../state/sesion.state';
+import { crearPrecios } from '../state/precio.state';
+import { crearMensajes } from '../state/mensaje.state';
 
 const CargarDatosIniciales = ({ children }: AppProp) => {
-  const {token} = useAutenticacion();
-  const {obtenerPerfil, responseUsuario, errorFetchUsuario, loadingUsuario} = useUsuarioApi();
-  const { obtenerEspecificaciones, responseEspecificaciones, loadingEspecificaciones, errorFetchEspecificaciones } = useEspecificacionesApi();
-  const { obtenerCategorias, responseCategorias, loadingCategorias, errorFetchCategorias } = useCategoriasApi();
-  const { obtenerPrecios, responsePrecios } = usePreciosApi();
-  const { obtenerSedes: obtenerSedesAll, responseSedes: responseSedesAll, loadingSedes: loadingSedesAll, errorFetchSedes: errorFetchSedesAll } = useSedesAllApi();
-  const { obtenerMensajes, responseMensajes } = useMensajesApi();
+  const { token } = useAutenticacion();
+  
+  const {
+    obtenerEspecificaciones,
+    responseEspecificaciones,
+    loadingEspecificaciones,
+    errorFetchEspecificaciones,
+  } = useEspecificacionesApi();
+  const { obtenerCategorias, responseCategorias, loadingCategorias, errorFetchCategorias } =
+    useCategoriasApi();
+  const { obtenerPrecios, responsePrecios, loadingPrecios } = usePreciosApi();
+  const {
+    obtenerSedes: obtenerSedesAll,
+    responseSedes: responseSedesAll,
+    loadingSedes: loadingSedesAll,
+    errorFetchSedes: errorFetchSedesAll,
+  } = useSedesAllApi();
+  const { obtenerMensajes, responseMensajes, loadingMensajes } = useMensajesApi();
   const { obtenerEmpresaMia, responseEmpresa, loadingEmpresa, errorFetchEmpresa } = useEmpresaApi();
 
   const dispatch = useDispatch();
 
-  const sesion: ReduxSimpleElemento<usuarioProps> =  useSelector(
-    (store: appStore) => store.sesion
-  );  
-  useCargaDatosInicialesSimplesArray({
-    error: errorFetchUsuario,
-    responseElemento: responseUsuario,
-    loading: loadingUsuario,
-    obtenerBusqueda: obtenerPerfil,
-    dato:sesion,
-    setLoading: setLoadingSesion,
-    setError: setErrorSesion,
-    cargaInicialElemento: setUsuario,
-    token
-  });
-
+ 
   const miEmpresa: ReduxSimpleElemento<EmpresaProp> = useSelector(
     (store: appStore) => store.miEmpresa
   );
@@ -66,7 +66,7 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     setLoading: setLoadingMiEmpresa,
     setError: setErrorMiEmpresa,
     cargaInicialElemento: setMiEmpresa,
-    token
+    token,
   });
 
   // 404 = sin empresa: no es error, se guarda null.
@@ -74,48 +74,43 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     if (!errorFetchEmpresa) return;
     if (errorFetchEmpresa.includes('404')) {
       dispatch(setMiEmpresa(null));
-      dispatch(setErrorMiEmpresa(""));
+      dispatch(setErrorMiEmpresa(''));
       return;
     }
     dispatch(setErrorMiEmpresa(errorFetchEmpresa));
   }, [errorFetchEmpresa]);
-  
+
   const especificaciones: ReduxSimple<EspecificacionProp> = useSelector(
     (store: appStore) => store.especificacion
-  );  
+  );
   useCargaDatosInicialesSimplesArray({
     error: errorFetchEspecificaciones,
     response: responseEspecificaciones,
     loading: loadingEspecificaciones,
     obtenerBusqueda: obtenerEspecificaciones,
-    datos:especificaciones,
+    datos: especificaciones,
     setLoading: setLoadingEspecifcaciones,
     setError: setErrorEspecificaciones,
     cargaInicial: setEspecificaciones,
-    token
+    token,
   });
 
-  const categorias: ReduxSimple<CategoriaProp> = useSelector(
-    (store: appStore) => store.categoria
-  );  
+  const categorias: ReduxSimple<CategoriaProp> = useSelector((store: appStore) => store.categoria);
 
   useCargaDatosInicialesSimplesArray({
     error: errorFetchCategorias,
     response: responseCategorias,
     loading: loadingCategorias,
     obtenerBusqueda: obtenerCategorias,
-    datos:categorias,
+    datos: categorias,
     setLoading: setLoadingCategorias,
     setError: setErrorCategorias,
     cargaInicial: setCategorias,
-    token
+    token,
   });
-  
 
   // Evita repetir la peticion cuando el back responde 404 (sin empresa).
-  const sedes: ReduxSimple<SedeProp> = useSelector(
-    (store: appStore) => store.sede
-  );
+  const sedes: ReduxSimple<SedeProp> = useSelector((store: appStore) => store.sede);
 
   useCargaDatosInicialesSimplesArray({
     error: errorFetchSedesAll,
@@ -126,35 +121,39 @@ const CargarDatosIniciales = ({ children }: AppProp) => {
     setLoading: setLoadingSedes,
     setError: setErrorSedes,
     cargaInicial: setSedes,
-    token
+    token,
   });
 
-  const precioItems: PrecioProp[] = useSelector(
-    (store: appStore) => store.precio.datosIniciales.datosQuery
-  );
-  const mensajeItems: MensajeProp[] = useSelector(
-    (store: appStore) => store.mensaje.datosIniciales.datosQuery
-  );
+  const precioItems: ReduxProp<PrecioProp> = useSelector((store: appStore) => store.precio);
+  useEffect(() => {
+    if (responsePrecios)
+      dispatch(
+        crearPrecios(
+          convertirDatoPlaydon<PrecioProp>({ ...precioItems.datosIniciales, dato: responsePrecios })
+        )
+      );
+  }, [responsePrecios]);
+
+  const mensajeItems: ReduxProp<MensajeProp> = useSelector((store: appStore) => store.mensaje);
+
+  useEffect(() => {
+    if (responseMensajes)
+      dispatch(
+        crearMensajes(
+          convertirDatoPlaydon<MensajeProp>({
+            ...mensajeItems.datosIniciales,
+            dato: responseMensajes,
+          })
+        )
+      );
+  }, [responsePrecios]);
 
   const {} = useSockets({});
 
-
   useEffect(() => {
-    crearElementosContexto({
-      precios: responsePrecios || undefined,
-      mensajes: responseMensajes || undefined,
-
-      dispatch,
-    });
-  }, [
-    responsePrecios,
-    responseMensajes,
-  ]);
-
-  useEffect(() => {
-    if(!token) return
-    if (precioItems.length === 0) obtenerPrecios();
-    if (mensajeItems.length === 0) obtenerMensajes();
+    if (!token) return;
+    if (!precioItems.cargaInicial && !loadingPrecios) obtenerPrecios();
+    if (!mensajeItems.cargaInicial && !loadingMensajes) obtenerMensajes();
   }, [token]);
 
   return <>{children}</>;

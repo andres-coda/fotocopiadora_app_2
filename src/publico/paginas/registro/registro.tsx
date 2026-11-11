@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Centro from '../../../componente-estilo/centro/centro';
 import Formulario from '../../../componente/formulario/formulario';
 import Input from '../../../componente/formulario/input';
-import { rutaPrivadaBase } from '../../../privado/rutas/rutasPrivadas';
+import { rutaBase } from '../../../privado/rutas/rutasPrivadas';
 import {
   formValuesRegistro,
   registro,
@@ -31,7 +31,7 @@ const Registro = () => {
   useEffect(() => {
     if (user) {
       doLogin(user.access_token);
-      navigate(`/${rutaPrivadaBase.PRIVADO}`);
+      navigate(`/${rutaBase.PRIVADO}`);
     }
   }, [user, doLogin, navigate]);
 
