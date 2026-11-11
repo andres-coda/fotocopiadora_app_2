@@ -17,7 +17,6 @@ import { httpMethod } from '../../../../modelo/HTTP/HttpMethod.enum';
 import { IMG_SUBIR } from '../../../../utils/endpoint';
 import { libroDatosExtras } from '../../../../modelo/Entidades/libro/esqLibro.esquema';
 import './cargarLibroImagen.css';
-import { ContenedorCentro } from '../../../../componente-estilo/centro/centroExterior';
 
 interface Prop<T extends FieldValues> {
   control: Control<T>;
