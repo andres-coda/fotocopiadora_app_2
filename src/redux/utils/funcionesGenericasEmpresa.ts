@@ -140,6 +140,61 @@ const modificarElementoLista = <T extends HasId>(
   };
 };
 
+/** Decide si un elemento entra en una busqueda con texto. */
+export type CoincideBusqueda<T> = (elemento: T, query?: string) => boolean;
+
+const compararElementoSocket = <T>(
+  a: T,
+  b: T,
+  sortBy: keyof T,
+  sortOrder: orden
+): number => {
+  const valorA = a[sortBy];
+  const valorB = b[sortBy];
+
+  const resultado =
+    typeof valorA === 'number' && typeof valorB === 'number'
+      ? valorA - valorB
+      : String(valorA ?? '').localeCompare(String(valorB ?? ''), 'es', { sensitivity: 'base' });
+
+  return sortOrder === 'desc' ? -resultado : resultado;
+};
+
+const insertarSiCoincideSocket = <T extends HasId>(
+  elemento: T,
+  busqueda: UltimaBusquedaProp<T>,
+  coincide: CoincideBusqueda<T>
+): UltimaBusquedaProp<T> => {
+  if (busqueda.datosQuery.some(e => e.id === elemento.id)) return busqueda;
+  if (busqueda.datosQuery.length >= busqueda.limite) return busqueda;
+  if (!coincide(elemento, busqueda.query)) return busqueda;
+
+  const datosQuery = [...busqueda.datosQuery, elemento].sort((a, b) =>
+    compararElementoSocket(a, b, busqueda.sortBy, busqueda.sortOrder)
+  );
+
+  return {
+    ...busqueda,
+    datosQuery,
+    total: busqueda.total + 1,
+  };
+};
+
+/**
+ * Reducer de socket para entidades con busqueda por texto.
+ * Inserta el elemento en las tres estructuras del store respetando el limite
+ * de la busqueda, el texto buscado y el orden vigente.
+ */
+export const crearAgregarSocket =
+  <T extends HasId>(coincide: CoincideBusqueda<T>) =>
+  (state: ReduxProp<T>, action: PayloadAction<T>): void => {
+    state.busquedaActual = insertarSiCoincideSocket(action.payload, state.busquedaActual, coincide);
+    state.datosIniciales = insertarSiCoincideSocket(action.payload, state.datosIniciales, coincide);
+    state.ultimasBusqueda = state.ultimasBusqueda.map(busqueda =>
+      insertarSiCoincideSocket(action.payload, busqueda, coincide)
+    );
+  };
+
 export const resetRedux = <T extends HasId>(
   state: ReduxProp<T>,
 ) => {

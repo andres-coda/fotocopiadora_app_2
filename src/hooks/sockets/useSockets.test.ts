@@ -8,8 +8,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import useSockets from './useSockets';
 import socket from '../../socket';
 import { precioSlice } from '../../redux/state/precio.state';
+import { clienteSlice } from '../../redux/state/cliente.state';
 import { Mens } from '../../modelo/socket/enum/mens.enum';
 import type { PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
+import type { ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
+import { resumenInicial } from '../../modelo/Entidades/cliente/resumen.interface';
 import type {
   ReduxProp,
   UltimaBusquedaProp,
@@ -46,20 +49,20 @@ const precio = (id: string, nombre: string, importe: number): PrecioProp => ({
   deleted: false,
 });
 
-const crearBusqueda = (
-  datos: PrecioProp[] = [],
+const crearBusqueda = <T,>(
+  datos: T[] = [],
   query?: string
-): UltimaBusquedaProp<PrecioProp> => ({
+): UltimaBusquedaProp<T> => ({
   query,
   datosQuery: [...datos],
-  sortBy: 'ultAct',
+  sortBy: 'ultAct' as keyof T,
   sortOrder: 'asc',
   pagina: 1,
   limite: 20,
   total: datos.length,
 });
 
-const crearState = (busquedaActual: PrecioProp[] = []): ReduxProp<PrecioProp> => ({
+const crearState = <T,>(busquedaActual: T[] = []): ReduxProp<T> => ({
   busquedaActual: crearBusqueda(busquedaActual),
   datosIniciales: crearBusqueda(busquedaActual),
   ultimasBusqueda: [crearBusqueda(busquedaActual)],
@@ -67,31 +70,51 @@ const crearState = (busquedaActual: PrecioProp[] = []): ReduxProp<PrecioProp> =>
   cargaInicial: true,
 });
 
-const crearStore = (state: ReduxProp<PrecioProp> = crearState()) =>
+const crearStore = (state: ReduxProp<PrecioProp> = crearState<PrecioProp>()) =>
   configureStore({
     reducer: { precio: precioSlice.reducer },
     preloadedState: { precio: state },
   });
 
-type Store = ReturnType<typeof crearStore>;
+const cliente = (
+  id: string,
+  nombre: string,
+  telefono?: string
+): ClienteProp => ({
+  id,
+  nombre,
+  telefono,
+  ultAct: '2024-01-01T00:00:00.000Z',
+  deleted: false,
+  resumen: resumenInicial,
+  pedidos: [],
+});
+
+const crearStoreCliente = (state: ReduxProp<ClienteProp> = crearState<ClienteProp>()) =>
+  configureStore({
+    reducer: { cliente: clienteSlice.reducer },
+    preloadedState: { cliente: state },
+  });
+
+type Store = ReturnType<typeof crearStore> | ReturnType<typeof crearStoreCliente>;
 
 const montar = (store: Store) =>
   renderHook(() => useSockets({}), {
     wrapper: ({ children }: { children: ReactNode }) =>
-      createElement(Provider, { store, children }),
+      createElement(Provider, { store: store as ReturnType<typeof crearStore>, children }),
   });
 
 // Los handlers se registran con `socket.on(evento, handler)`: se buscan en las
-// llamadas del mock en lugar de asumir el orden de registro.
-const handlerDe = (evento: string) => {
-  const llamada = socketMock.on.mock.calls.find(([registrado]) => registrado === evento);
-  if (!llamada) throw new Error(`No se registro handler para el evento ${evento}`);
-  return llamada[1] as (payload: unknown) => void;
-};
+// llamadas del mock en lugar de asumir el orden de registro. Puede haber mas de
+// uno por evento (una entidad por handler), asi que se invocan todos.
+const handlersDe = (evento: string) =>
+  socketMock.on.mock.calls
+    .filter(([registrado]) => registrado === evento)
+    .map(([, handler]) => handler as (payload: unknown) => void);
 
 const emitir = (evento: string, payload: unknown) => {
   act(() => {
-    handlerDe(evento)(payload);
+    handlersDe(evento).forEach(handler => handler(payload));
   });
 };
 
@@ -189,6 +212,80 @@ describe('useSockets: evento deleted', () => {
     expect(ids(estado.busquedaActual.datosQuery)).toEqual(['p2']);
     expect(ids(estado.datosIniciales.datosQuery)).toEqual(['p2']);
     expect(ids(estado.ultimasBusqueda[0].datosQuery)).toEqual(['p2']);
+  });
+});
+
+describe('useSockets: cliente', () => {
+  const idsCliente = (datos: ClienteProp[]) => datos.map(c => c.id);
+
+  it('agrega el cliente nuevo a las tres estructuras del store', () => {
+    const store = crearStoreCliente();
+    montar(store);
+
+    emitir(Mens.CREAR, {
+      mensaje: Mens.CREAR,
+      entidad: 'cliente',
+      dato: {
+        id: 'c1',
+        nombre: 'Ana',
+        telefono: '+5491100000001',
+        deleted: false,
+        fechaCreacion: '2024-01-02T00:00:00.000Z',
+        resumen: { pendiente: 0, listo: 0, retirado: 0, cancelado: 0 },
+      },
+    });
+
+    const { cliente: estado } = store.getState();
+    expect(idsCliente(estado.busquedaActual.datosQuery)).toEqual(['c1']);
+    expect(idsCliente(estado.datosIniciales.datosQuery)).toEqual(['c1']);
+    expect(idsCliente(estado.ultimasBusqueda[0].datosQuery)).toEqual(['c1']);
+    expect(estado.busquedaActual.datosQuery[0].nombre).toBe('Ana');
+    expect(estado.busquedaActual.total).toBe(1);
+  });
+
+  it('no agrega un cliente que no coincide con la busqueda activa', () => {
+    const store = crearStoreCliente({
+      ...crearState<ClienteProp>(),
+      busquedaActual: { ...crearBusqueda<ClienteProp>(), query: 'gomez' },
+    });
+    montar(store);
+
+    emitir(Mens.CREAR, {
+      mensaje: Mens.CREAR,
+      entidad: 'cliente',
+      dato: { id: 'c1', nombre: 'Ana Perez', deleted: false },
+    });
+
+    expect(store.getState().cliente.busquedaActual.datosQuery).toHaveLength(0);
+  });
+
+  it('actualiza el cliente existente al recibir updeate', () => {
+    const store = crearStoreCliente(crearState([cliente('c1', 'Ana')]));
+    montar(store);
+
+    emitir(Mens.EDITAR, {
+      mensaje: Mens.EDITAR,
+      entidad: 'cliente',
+      dato: { id: 'c1', nombre: 'Ana Gomez', telefono: '+5491100000002', deleted: false },
+    });
+
+    const { cliente: estado } = store.getState();
+    expect(estado.busquedaActual.datosQuery).toHaveLength(1);
+    expect(estado.busquedaActual.datosQuery[0].nombre).toBe('Ana Gomez');
+    expect(estado.datosIniciales.datosQuery[0].telefono).toBe('+5491100000002');
+    expect(estado.ultimasBusqueda[0].datosQuery[0].nombre).toBe('Ana Gomez');
+  });
+
+  it('elimina el cliente por id en las tres estructuras', () => {
+    const store = crearStoreCliente(crearState([cliente('c1', 'Ana'), cliente('c2', 'Pedro')]));
+    montar(store);
+
+    emitir(Mens.ELIMINAR, { mensaje: Mens.ELIMINAR, entidad: 'cliente', id: 'c1' });
+
+    const { cliente: estado } = store.getState();
+    expect(idsCliente(estado.busquedaActual.datosQuery)).toEqual(['c2']);
+    expect(idsCliente(estado.datosIniciales.datosQuery)).toEqual(['c2']);
+    expect(idsCliente(estado.ultimasBusqueda[0].datosQuery)).toEqual(['c2']);
   });
 });
 
