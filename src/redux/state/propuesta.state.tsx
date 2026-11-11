@@ -11,8 +11,10 @@ import {
   cambiarOrden,
   resetRedux,
   eliminarElemento,
+  modificarElementoRedux,
 } from '../utils/funcionesGenericasEmpresa';
 import { estadoInicialRedux } from '../utils/reduxInicial';
+import { agregarPropuestaSocket } from '../utils/funcionesPropuesta';
 
 const cantidadBusquedas: number = 15;
 
@@ -31,6 +33,8 @@ export const propuestaSlice = createSlice({
     cambiarOrdenPropuesta: cambiarOrden<PropuestaProp>,
     resetReduxPropuesta: resetRedux<PropuestaProp>,
     eliminarPropuestaRedux: eliminarElemento<PropuestaProp>,
+    agregarPropuestaSocketRedux: agregarPropuestaSocket,
+    actualizarPropuestaSocketRedux: modificarElementoRedux<PropuestaProp>,
   },
 });
 
@@ -44,6 +48,8 @@ export const {
   cambiarOrdenPropuesta,
   resetReduxPropuesta,
   eliminarPropuestaRedux,
+  agregarPropuestaSocketRedux,
+  actualizarPropuestaSocketRedux,
 } = propuestaSlice.actions;
 
 export default propuestaSlice.reducer;

@@ -10,10 +10,12 @@ import socket from '../../socket';
 import { precioSlice } from '../../redux/state/precio.state';
 import { clienteSlice } from '../../redux/state/cliente.state';
 import { mensajeSlice } from '../../redux/state/mensaje.state';
+import { propuestaSlice } from '../../redux/state/propuesta.state';
 import { Mens } from '../../modelo/socket/enum/mens.enum';
 import type { PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
 import type { ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
 import type { MensajeProp } from '../../modelo/Entidades/mensaje/mensaje.interface';
+import type { PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interface';
 import { resumenInicial } from '../../modelo/Entidades/cliente/resumen.interface';
 import type {
   ReduxProp,
@@ -116,10 +118,26 @@ const crearStoreMensaje = (state: ReduxProp<MensajeProp> = crearState<MensajePro
     preloadedState: { mensaje: state },
   });
 
+const propuesta = (id: string, nombre: string, cantidadLibros = 1): PropuestaProp => ({
+  id,
+  nombre,
+  ultAct: '2024-01-01T00:00:00.000Z',
+  deleted: false,
+  cantidadLibros,
+  libro: [],
+});
+
+const crearStorePropuesta = (state: ReduxProp<PropuestaProp> = crearState<PropuestaProp>()) =>
+  configureStore({
+    reducer: { propuesta: propuestaSlice.reducer },
+    preloadedState: { propuesta: state },
+  });
+
 type Store =
   | ReturnType<typeof crearStore>
   | ReturnType<typeof crearStoreCliente>
-  | ReturnType<typeof crearStoreMensaje>;
+  | ReturnType<typeof crearStoreMensaje>
+  | ReturnType<typeof crearStorePropuesta>;
 
 const montar = (store: Store) =>
   renderHook(() => useSockets({}), {
@@ -361,6 +379,76 @@ describe('useSockets: mensaje', () => {
     expect(idsMensaje(estado.busquedaActual.datosQuery)).toEqual(['m2']);
     expect(idsMensaje(estado.datosIniciales.datosQuery)).toEqual(['m2']);
     expect(idsMensaje(estado.ultimasBusqueda[0].datosQuery)).toEqual(['m2']);
+  });
+});
+
+describe('useSockets: propuesta', () => {
+  const idsPropuesta = (datos: PropuestaProp[]) => datos.map(p => p.id);
+
+  // Payload tal como lo emite el back: retorno de vw_propuesta, con libros.
+  const datoVista = (nombre: string, libros: string[]) => ({
+    id: 'pr1',
+    nombre,
+    deleted: false,
+    fechaCreacion: '2024-01-02T00:00:00.000Z',
+    libros: libros.map((id, i) => ({
+      id,
+      deleted: false,
+      nombre: `Libro ${i + 1}`,
+      editorial: 'Santillana',
+      materia: { id: 'ma1', nombre: 'Matematicas' },
+    })),
+  });
+
+  it('agrega la propuesta nueva con sus libros a las tres estructuras', () => {
+    const store = crearStorePropuesta();
+    montar(store);
+
+    emitir(Mens.CREAR, {
+      mensaje: Mens.CREAR,
+      entidad: 'propuesta_pedido',
+      dato: datoVista('Propuesta A', ['l1', 'l2']),
+    });
+
+    const { propuesta: estado } = store.getState();
+    expect(idsPropuesta(estado.busquedaActual.datosQuery)).toEqual(['pr1']);
+    expect(idsPropuesta(estado.datosIniciales.datosQuery)).toEqual(['pr1']);
+    expect(idsPropuesta(estado.ultimasBusqueda[0].datosQuery)).toEqual(['pr1']);
+    expect(estado.busquedaActual.datosQuery[0].nombre).toBe('Propuesta A');
+    expect(estado.busquedaActual.datosQuery[0].cantidadLibros).toBe(2);
+    expect(estado.busquedaActual.datosQuery[0].libro?.[0].nombre).toBe('Libro 1');
+  });
+
+  it('actualiza la propuesta existente con el payload de la vista', () => {
+    const store = crearStorePropuesta(crearState([propuesta('pr1', 'Propuesta A')]));
+    montar(store);
+
+    emitir(Mens.EDITAR, {
+      mensaje: Mens.EDITAR,
+      entidad: 'propuesta_pedido',
+      dato: datoVista('Propuesta A bis', ['l1', 'l2', 'l3']),
+    });
+
+    const { propuesta: estado } = store.getState();
+    expect(estado.busquedaActual.datosQuery).toHaveLength(1);
+    expect(estado.busquedaActual.datosQuery[0].nombre).toBe('Propuesta A bis');
+    expect(estado.busquedaActual.datosQuery[0].cantidadLibros).toBe(3);
+    expect(estado.datosIniciales.datosQuery[0].nombre).toBe('Propuesta A bis');
+    expect(estado.ultimasBusqueda[0].datosQuery[0].cantidadLibros).toBe(3);
+  });
+
+  it('elimina la propuesta por id en las tres estructuras', () => {
+    const store = crearStorePropuesta(
+      crearState([propuesta('pr1', 'Propuesta A'), propuesta('pr2', 'Propuesta B')])
+    );
+    montar(store);
+
+    emitir(Mens.ELIMINAR, { mensaje: Mens.ELIMINAR, entidad: 'propuesta_pedido', id: 'pr1' });
+
+    const { propuesta: estado } = store.getState();
+    expect(idsPropuesta(estado.busquedaActual.datosQuery)).toEqual(['pr2']);
+    expect(idsPropuesta(estado.datosIniciales.datosQuery)).toEqual(['pr2']);
+    expect(idsPropuesta(estado.ultimasBusqueda[0].datosQuery)).toEqual(['pr2']);
   });
 });
 

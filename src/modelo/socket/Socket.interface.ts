@@ -10,7 +10,7 @@ export const EntidadDatoMap = {
   MENSAJE: 'mensaje',
   PEDIDO: 'pedido',
   PRECIO: 'precio',
-  PREOPUESTA: 'propuesta_pedido',
+  PROPUESTA_PEDIDO: 'propuesta_pedido',
   SEDE: 'sede',
   STOCK: 'stock',
   RESUMEN: 'resumen',

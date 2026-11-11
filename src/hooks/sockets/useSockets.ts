@@ -7,9 +7,11 @@ import { EntidadDatoMap, Mensaje } from '../../modelo/socket/Socket.interface';
 import { PrecioAdapterProp, PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
 import { ClienteAdapterProp, ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
 import { MensajeAdapterProp, MensajeProp } from '../../modelo/Entidades/mensaje/mensaje.interface';
+import { PropuestaAdapterProp, PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interface';
 import { precioAdapter } from '../../adaptadores/entrada/precio.adapter';
 import { clienteAdapter } from '../../adaptadores/entrada/cliente.adapter';
 import { mensajeAdapter } from '../../adaptadores/entrada/mensaje.adapter';
+import { propuestaAdapter } from '../../adaptadores/entrada/propuesta.adapter';
 import {
   actualizarPrecioRedux,
   agregarPrecioSocketRedux,
@@ -25,6 +27,11 @@ import {
   agregarMensajeSocketRedux,
   eliminarMensajeRedux,
 } from '../../redux/state/mensaje.state';
+import {
+  actualizarPropuestaSocketRedux,
+  agregarPropuestaSocketRedux,
+  eliminarPropuestaRedux,
+} from '../../redux/state/propuesta.state';
 
 interface Prop {
   libro?: boolean | undefined;
@@ -66,6 +73,17 @@ const normalizarMensaje = (raw: unknown): MensajeProp | undefined => {
   if (!dato.id || !dato.nombre) return undefined;
 
   return mensajeAdapter(dato as MensajeAdapterProp);
+};
+
+const normalizarPropuesta = (raw: unknown): PropuestaProp | undefined => {
+  if (!raw || typeof raw !== 'object') return undefined;
+
+  // `ultAct` lo arma el adapter, no viene en el payload: el guard va por
+  // id + nombre, igual que mensaje.
+  const dato = raw as Partial<PropuestaProp> & Partial<PropuestaAdapterProp>;
+  if (!dato.id || !dato.nombre) return undefined;
+
+  return propuestaAdapter(dato as PropuestaAdapterProp);
 };
 
 const datoDe = (data: Mensaje): unknown => (data as unknown as { dato?: unknown }).dato;
@@ -182,6 +200,13 @@ const useSockets = ({}: Prop) => {
         alCrear: mensaje => dispatch(agregarMensajeSocketRedux(mensaje)),
         alEditar: mensaje => dispatch(actualizarMensajeSocketRedux(mensaje)),
         alEliminar: id => dispatch(eliminarMensajeRedux(id)),
+      }),
+      crearHandlers<PropuestaProp>({
+        entidad: EntidadDatoMap.PROPUESTA_PEDIDO,
+        normalizar: normalizarPropuesta,
+        alCrear: propuesta => dispatch(agregarPropuestaSocketRedux(propuesta)),
+        alEditar: propuesta => dispatch(actualizarPropuestaSocketRedux(propuesta)),
+        alEliminar: id => dispatch(eliminarPropuestaRedux(id)),
       }),
     ];
 
