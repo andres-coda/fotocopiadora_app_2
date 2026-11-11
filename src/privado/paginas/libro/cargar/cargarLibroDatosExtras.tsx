@@ -1,4 +1,4 @@
-import { Control, FieldErrors, Path } from 'react-hook-form';
+import { Control, FieldErrors, Path, UseFormSetValue } from 'react-hook-form';
 import Input from '../../../../componente/formulario/input';
 import {
   formValuesLibroDatosExtras,
@@ -10,11 +10,13 @@ import CargarLibroImagen from './cargarLibroImagen';
 interface Prop<T extends formValuesLibroDatosExtras> {
   control: Control<T>;
   errors: FieldErrors<formValuesLibroDatosExtras>;
+  setValue: UseFormSetValue<T>;
 }
 
 const CargarLibroDatosExtras = <T extends formValuesLibroDatosExtras>({
   control,
   errors,
+  setValue,
 }: Prop<T>) => {
   const nameDescripcion = 'descripcion' as Path<T>;
   const nameAutor = 'autor' as Path<T>;
@@ -62,7 +64,7 @@ const CargarLibroDatosExtras = <T extends formValuesLibroDatosExtras>({
           parseValue={v => parseDecimal(v, 4, 0)}
         />
       </div>
-      <CargarLibroImagen<T> control={control} errors={errors} />
+      <CargarLibroImagen<T> control={control} errors={errors} setValue={setValue} />
     </>
   );
 };

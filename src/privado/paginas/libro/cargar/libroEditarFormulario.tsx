@@ -53,6 +53,7 @@ const LibroEditarFormulario = ({
     formState: { errors },
     reset,
     watch,
+    setValue,
   } = useForm<formValuesLibro>({
     resolver: zodResolver(libro),
     defaultValues: libroFormEdit(libroSelect),
@@ -135,7 +136,11 @@ const LibroEditarFormulario = ({
         textBtnSecundario="Atras"
       >
         <>
-          <CargarLibroDatosExtras<formValuesLibro> control={control} errors={errors} />
+          <CargarLibroDatosExtras<formValuesLibro>
+            control={control}
+            errors={errors}
+            setValue={setValue}
+          />
         </>
       </Formulario>
     );

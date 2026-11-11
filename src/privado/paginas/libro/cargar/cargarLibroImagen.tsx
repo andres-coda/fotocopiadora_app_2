@@ -1,33 +1,51 @@
-import { ChangeEvent, ClipboardEvent, useRef, useState } from 'react';
-import { Control, FieldErrors, FieldValues, Path, useController } from 'react-hook-form';
-
+import { ChangeEvent, ClipboardEvent, useEffect, useRef, useState } from 'react';
+import {
+  Control,
+  FieldError,
+  FieldErrors,
+  FieldPathValue,
+  FieldValues,
+  Path,
+  UseFormSetValue,
+  useWatch,
+} from 'react-hook-form';
+import Input from '../../../../componente/formulario/input';
 import Texto from '../../../../componente-estilo/texto/texto';
 import Boton from '../../../../componente-estilo/boton/boton';
-import useInput from '../../../../componente/formulario/hook/useInput';
-import useImgSubirApi from '../../../../servicio/libro/useImgSubirApi';
+import useApi from '../../../../servicio/hooks/useApi';
+import { httpMethod } from '../../../../modelo/HTTP/HttpMethod.enum';
+import { IMG_SUBIR } from '../../../../utils/endpoint';
+import { libroDatosExtras } from '../../../../modelo/Entidades/libro/esqLibro.esquema';
 import './cargarLibroImagen.css';
 
 interface Prop<T extends FieldValues> {
   control: Control<T>;
   errors: FieldErrors<FieldValues>;
+  setValue: UseFormSetValue<T>;
+}
+
+interface ImgSubirResponse {
+  imageUrl: string;
 }
 
 const MAX_BYTES = 5 * 1024 * 1024;
 
-const CargarLibroImagen = <T extends FieldValues>({ control, errors }: Prop<T>) => {
+const CargarLibroImagen = <T extends FieldValues>({ control, errors, setValue }: Prop<T>) => {
   const name = 'img' as Path<T>;
-  const { field } = useController({ control, name });
-  const { subirImagen, loading } = useImgSubirApi();
+  const { fetchData, response, loading, errorFetch } = useApi<ImgSubirResponse>({});
   const [localError, setLocalError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const valor = (useWatch({ control, name }) as string | undefined) ?? '';
+  const imgError = (errors as Record<string, FieldError | undefined>).img;
+  const error = localError || errorFetch;
 
-  const imgError = (errors as Record<string, { message?: string } | undefined>).img;
-  const error = localError || (typeof imgError?.message === 'string' ? imgError.message : null);
-  const { claseInput, claseInputCompleto } = useInput({ hayError: !!error });
+  useEffect(() => {
+    if (response?.imageUrl) {
+      setValue(name, response.imageUrl as FieldPathValue<T, Path<T>>, { shouldValidate: true });
+    }
+  }, [response, setValue, name]);
 
-  const valor = typeof field.value === 'string' ? field.value : '';
-
-  const procesarArchivo = async (file?: File | null) => {
+  const procesarArchivo = (file?: File | null) => {
     if (!file) return;
     setLocalError(null);
     if (!file.type.startsWith('image/')) {
@@ -38,8 +56,15 @@ const CargarLibroImagen = <T extends FieldValues>({ control, errors }: Prop<T>) 
       setLocalError('La imagen supera los 5MB');
       return;
     }
-    const url = await subirImagen(file);
-    if (url) field.onChange(url);
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    fetchData({
+      url: IMG_SUBIR,
+      methodo: httpMethod.POST,
+      bodyData: formData,
+    });
   };
 
   const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -56,22 +81,14 @@ const CargarLibroImagen = <T extends FieldValues>({ control, errors }: Prop<T>) 
 
   return (
     <div className="cargar-libro-imagen" onPaste={onPaste}>
-      <div className={claseInputCompleto}>
-        <span />
-        <div className={claseInput}>
-          <input
-            id="img"
-            type="text"
-            placeholder=" "
-            autoComplete="off"
-            value={valor}
-            onChange={e => field.onChange(e.target.value)}
-            onBlur={field.onBlur}
-          />
-          <label htmlFor="img">Url de imagen</label>
-        </div>
-        <span>{error && <Texto texto={error} error />}</span>
-      </div>
+      <Input<T>
+        name={name}
+        control={control}
+        label="Url de imagen"
+        tipo="text"
+        error={imgError}
+        esquema={libroDatosExtras}
+      />
 
       <div className="cargar-libro-imagen-acciones">
         <Boton
@@ -82,6 +99,8 @@ const CargarLibroImagen = <T extends FieldValues>({ control, errors }: Prop<T>) 
         <span className="cargar-libro-imagen-hint">o pegá una imagen (Ctrl+V)</span>
         <input ref={fileRef} type="file" accept="image/*" hidden onChange={onFileChange} />
       </div>
+
+      {error && <Texto texto={error} error />}
 
       {valor ? (
         <img src={valor} alt="Vista previa" className="cargar-libro-imagen-preview" />

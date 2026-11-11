@@ -53,10 +53,14 @@ function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseAp
       //Diley artificial desarrollo
       // await delay(5000);
 
+      // Con FormData el navegador debe agregar el boundary de multipart,
+      // así que no se fuerza Content-Type.
+      const esFormData = bodyData instanceof FormData;
+
       const res: Response = await fetch(urlLocal, {
         method: methodo || httpMethod.GET,
         headers: {
-          'Content-Type': 'application/json',
+          ...(!esFormData && { 'Content-Type': 'application/json' }),
           ...(token && { Authorization: `Bearer ${token}` }),
         },
         signal: controller.signal,

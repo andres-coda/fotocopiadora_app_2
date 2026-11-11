@@ -37,6 +37,7 @@ const LibroCargar = ({ libroDespuesGuardar }: Prop) => {
     formState: { errors },
     reset,
     watch,
+    setValue,
   } = useForm<formValuesLibro>({
     resolver: zodResolver(libro),
     defaultValues: libroFormEdit(),
@@ -137,7 +138,11 @@ const LibroCargar = ({ libroDespuesGuardar }: Prop) => {
           reset={reset}
         />
 
-        <CargarLibroDatosExtras<formValuesLibro> control={control} errors={errors} />
+        <CargarLibroDatosExtras<formValuesLibro>
+          control={control}
+          errors={errors}
+          setValue={setValue}
+        />
         <CargarLibroDatosLocal<formValuesLibro>
           control={control}
           errors={errors}
