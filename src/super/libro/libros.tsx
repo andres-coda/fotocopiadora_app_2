@@ -17,8 +17,6 @@ import { appStore } from '../../redux/store';
 import useLibrosApi from '../../servicio/libro/useLibrosApi';
 import { useModalContext } from '../../contexto/contextoModal';
 import { agregarLibrosBusquedaActual, crearBusquedaLibro, crearLibros, resetBusquedaLibro, resetSeleccionarLibro, seleccionarLibro } from '../../redux/state/libro.state';
-import { useNavigate } from 'react-router-dom';
-import { RutasSupers } from '../ruta/rutaSupers';
 import LibroSelectSuper from './libroSelectSuper';
 import LibroEditar from '../../privado/paginas/libro/cargar/libro_editar';
 
@@ -26,7 +24,6 @@ const LibrosSuper = () => {
   const libroDatos: ReduxProp<LibroProp> = useSelector((store: appStore) => store.libro);
   const { obtenerLibrosBusqueda, responseLibros, loadingLibros, errorFetchLibros } = useLibrosApi();
   const [valor, setValor] = useState<string>('');
-  const navigate = useNavigate()
   const { modal, setModal } = useModalContext();
   const [select, setSelect] = useState<boolean>(false);
   const [cargar, setCargar] = useState<boolean>(false);
