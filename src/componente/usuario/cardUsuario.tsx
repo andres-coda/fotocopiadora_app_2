@@ -19,6 +19,7 @@ import useUsuarioApi from '../../servicio/usuario/useUsuarioApi';
 import './estilos/cardUsuario.css';
 import Formulario from '../formulario/formulario';
 import Botonera from '../../componente-estilo/botonera/botonera';
+import { useModalContext } from '../../contexto/contextoModal';
 
 const etiquetaRol = (rol: RolUsuario): string => {
   if (rol === 'admin') return 'Administrador';
@@ -39,6 +40,7 @@ interface Prop {
 
 const CardUsuario = ({ usuario, onEliminarUsuario, onCambiarRol = false }: Prop) => {
   const dispatch = useDispatch();
+  const {setModal} = useModalContext();
 
   const { cambiarRol, responseUsuario, errorFetchUsuario, loadingUsuario } = useUsuarioApi();
   const rolAnterior = useRef(usuario.role);
@@ -92,7 +94,7 @@ const CardUsuario = ({ usuario, onEliminarUsuario, onCambiarRol = false }: Prop)
                 edit
                 iconoChico
                 onClick={() => {
-                  (onEliminarUsuario(true), dispatch(seleccionarUsuario(usuario)));
+                  onEliminarUsuario(true), dispatch(seleccionarUsuario(usuario)), setModal(true);
                 }}
                 icono={<Eliminar />}
               />

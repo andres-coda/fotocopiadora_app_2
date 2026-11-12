@@ -19,7 +19,7 @@ const Inicio = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate(`/${rutaPublica.LOGIN}`, { replace: true });
+      navigate(`/${rutaPublica.LOGIN}`);
       return;
     }
     if (sesion.error) {
@@ -28,9 +28,9 @@ const Inicio = () => {
     }
     if (!sesion.cargaInicial) return;
     if (esSuper(sesion.dato)) {
-      navigate(`/${rutaBase.SUPER}`, { replace: true });
+      navigate(`/${rutaBase.SUPER}`);
     } else {
-      navigate(`/${rutaBase.PRIVADO}`, { replace: true });
+      navigate(`/${rutaBase.PRIVADO}`);
     }
   }, [token, sesion.cargaInicial, sesion.dato, sesion.error, navigate, logout]);
 

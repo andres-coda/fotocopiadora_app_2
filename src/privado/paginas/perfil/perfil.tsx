@@ -19,8 +19,8 @@ import SedeCargar from '../sede/cargar/sedeCargar';
 import EliminarSede from '../sede/componente/eliminarSede';
 import EliminarUsuario from './componente/eliminarUsuario';
 import { setMiEmpresa } from '../../../redux/state/miEmpresa.state';
-import './perfil.css';
 import { ContenedorCentro } from '../../../componente-estilo/centro/centroExterior';
+import './perfil.css';
 
 const Perfil = () => {
   // El perfil y la empresa ya vienen cargados por CargarDatosIniciales.
