@@ -11,11 +11,13 @@ import {
   cambiarOrden,
   eliminarElemento,
   resetRedux,
+  modificarElementoRedux,
 } from '../utils/funcionesGenericasEmpresa';
 import {
   actualizarMuchosStockFn,
   actualizarStockFn,
   actualizarStockLocalFn,
+  agregarLibroSocket,
 } from '../utils/funcionesLibro';
 import { estadoInicialRedux } from '../utils/reduxInicial';
 
@@ -37,6 +39,8 @@ export const libroSlice = createSlice({
     cambiarOrdenLibro: cambiarOrden<LibroProp>,
     actualizarStockLocal: actualizarStockLocalFn,
     eliminarLibroRedux: eliminarElemento<LibroProp>,
+    agregarLibroSocketRedux: agregarLibroSocket,
+    actualizarLibroSocketRedux: modificarElementoRedux<LibroProp>,
     resetReduxLibro: resetRedux<LibroProp>,
   },
 });
@@ -53,6 +57,8 @@ export const {
   cambiarOrdenLibro,
   actualizarStockLocal,
   eliminarLibroRedux,
+  agregarLibroSocketRedux,
+  actualizarLibroSocketRedux,
   resetReduxLibro,
 } = libroSlice.actions;
 

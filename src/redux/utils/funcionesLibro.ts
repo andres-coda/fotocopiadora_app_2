@@ -3,6 +3,7 @@ import { LibroProp } from '../../modelo/Entidades/libro/libro.interface';
 import { ReduxProp } from '../modelo/reduxContext.interface';
 import { ActionProp } from '../modelo/reduxContext.interface';
 import { stockIndividualProp, StockProp } from '../../modelo/Entidades/libro/stock.interface';
+import { crearAgregarSocket } from './funcionesGenericasEmpresa';
 
 export const actualizarMuchosStockFn = (
   state: WritableDraft<ReduxProp<LibroProp>>,
@@ -142,3 +143,12 @@ const modificarStockLocalSelected = (
     stock: newStock,
   };
 };
+
+/** La busqueda del back resuelve por nombre (fc_busqueda_libro usa ILIKE). */
+export const coincideLibro = (libro: LibroProp, query?: string): boolean => {
+  if (!query) return true;
+  return (libro.nombre ?? '').toLowerCase().includes(query.toLowerCase());
+};
+
+/** Inserta un libro recibido por socket respetando busqueda, limite y orden. */
+export const agregarLibroSocket = crearAgregarSocket<LibroProp>(coincideLibro);

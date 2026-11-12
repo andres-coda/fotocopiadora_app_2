@@ -25,7 +25,7 @@ interface Props {
 }
 const PeticionCard = ({ peticion }: Props) => {
   const dispatch= useDispatch()
-  const {resolverSolicitud, responseSolicitud, errorFethcSolicitud, loadingSolicitud} = useSolicitudApi()
+  const {resolverPeticion, responseSolicitud, errorFethcSolicitud, loadingSolicitud} = useSolicitudApi()
 
   useEffect(()=>{
     if(responseSolicitud){
@@ -67,14 +67,20 @@ const PeticionCard = ({ peticion }: Props) => {
         </Formulario>
       )}
       <Botonera derecha>
-        <Boton titulo="Rechazar petición" secundario iconoChico icono={<Arrow />} />
+        <Boton
+          titulo="Rechazar petición"
+          secundario
+          iconoChico
+          icono={<Arrow />}
+          onClick={()=> resolverPeticion({id:peticion.id, observaciones: watch().observacion, estado:3})}
+        />
         <Boton
           titulo="Aceptar petición"
           iconoChico
           texto={loadingSolicitud ? 'Proc...' : undefined}
           icono={!loadingSolicitud ? <Arrow /> : null}
           nuevoEstilo="btn-icono-derecha"
-          onClick={()=> resolverSolicitud({id:peticion.id, observaciones: {observacion:watch().observacion}, estado:2})}
+          onClick={()=> resolverPeticion({id:peticion.id, observaciones: watch().observacion, estado:2})}
         />
       </Botonera>
     </Card>

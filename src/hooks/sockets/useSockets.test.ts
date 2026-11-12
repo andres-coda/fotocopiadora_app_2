@@ -11,11 +11,14 @@ import { precioSlice } from '../../redux/state/precio.state';
 import { clienteSlice } from '../../redux/state/cliente.state';
 import { mensajeSlice } from '../../redux/state/mensaje.state';
 import { propuestaSlice } from '../../redux/state/propuesta.state';
+import { libroSlice } from '../../redux/state/libro.state';
 import { Mens } from '../../modelo/socket/enum/mens.enum';
 import type { PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
 import type { ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
 import type { MensajeProp } from '../../modelo/Entidades/mensaje/mensaje.interface';
 import type { PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interface';
+import { libroInicial } from '../../modelo/Entidades/libro/libro.interface';
+import type { LibroProp } from '../../modelo/Entidades/libro/libro.interface';
 import { resumenInicial } from '../../modelo/Entidades/cliente/resumen.interface';
 import type {
   ReduxProp,
@@ -133,11 +136,26 @@ const crearStorePropuesta = (state: ReduxProp<PropuestaProp> = crearState<Propue
     preloadedState: { propuesta: state },
   });
 
+const libro = (id: string, nombre: string): LibroProp => ({
+  ...libroInicial,
+  id,
+  nombre,
+  ultAct: '2024-01-01T00:00:00.000Z',
+  deleted: false,
+});
+
+const crearStoreLibro = (state: ReduxProp<LibroProp> = crearState<LibroProp>()) =>
+  configureStore({
+    reducer: { libro: libroSlice.reducer },
+    preloadedState: { libro: state },
+  });
+
 type Store =
   | ReturnType<typeof crearStore>
   | ReturnType<typeof crearStoreCliente>
   | ReturnType<typeof crearStoreMensaje>
-  | ReturnType<typeof crearStorePropuesta>;
+  | ReturnType<typeof crearStorePropuesta>
+  | ReturnType<typeof crearStoreLibro>;
 
 const montar = (store: Store) =>
   renderHook(() => useSockets({}), {
@@ -449,6 +467,79 @@ describe('useSockets: propuesta', () => {
     expect(idsPropuesta(estado.busquedaActual.datosQuery)).toEqual(['pr2']);
     expect(idsPropuesta(estado.datosIniciales.datosQuery)).toEqual(['pr2']);
     expect(idsPropuesta(estado.ultimasBusqueda[0].datosQuery)).toEqual(['pr2']);
+  });
+});
+
+describe('useSockets: libro', () => {
+  const idsLibro = (datos: LibroProp[]) => datos.map(l => l.id);
+
+  // Payload tal como lo emite el back: retorno de vw_libro_busqueda.
+  const datoLibro = (nombre: string) => ({
+    id: 'lc1',
+    nombre,
+    deleted: false,
+    materia: { id: 'ma1', nombre: 'Matematicas' },
+    componentes: [],
+    cantidadPg: 40,
+    adhesivos: 0,
+    especificacionesDefecto: ['color'],
+    edicion: 1,
+    anio: '2024',
+    nivel: 'Primaria',
+    autor: 'Autor',
+    img: '',
+    descripcion: '',
+    resumen: { pendiente: 0, listo: 0, retirado: 0, cancelado: 0, stock: 0 },
+  });
+
+  it('agrega el libro nuevo a las tres estructuras del store', () => {
+    const store = crearStoreLibro();
+    montar(store);
+
+    emitir(Mens.CREAR, {
+      mensaje: Mens.CREAR,
+      entidad: 'libro',
+      dato: datoLibro('Libro A'),
+    });
+
+    const { libro: estado } = store.getState();
+    expect(idsLibro(estado.busquedaActual.datosQuery)).toEqual(['lc1']);
+    expect(idsLibro(estado.datosIniciales.datosQuery)).toEqual(['lc1']);
+    expect(idsLibro(estado.ultimasBusqueda[0].datosQuery)).toEqual(['lc1']);
+    expect(estado.busquedaActual.datosQuery[0].nombre).toBe('Libro A');
+    expect(estado.busquedaActual.datosQuery[0].materia.nombre).toBe('Matematicas');
+    expect(estado.busquedaActual.total).toBe(1);
+  });
+
+  it('actualiza el libro existente con el payload de la vista', () => {
+    const store = crearStoreLibro(crearState([libro('lc1', 'Libro A')]));
+    montar(store);
+
+    emitir(Mens.EDITAR, {
+      mensaje: Mens.EDITAR,
+      entidad: 'libro',
+      dato: datoLibro('Libro A bis'),
+    });
+
+    const { libro: estado } = store.getState();
+    expect(estado.busquedaActual.datosQuery).toHaveLength(1);
+    expect(estado.busquedaActual.datosQuery[0].nombre).toBe('Libro A bis');
+    expect(estado.datosIniciales.datosQuery[0].nombre).toBe('Libro A bis');
+    expect(estado.ultimasBusqueda[0].datosQuery[0].nombre).toBe('Libro A bis');
+  });
+
+  it('elimina el libro por id en las tres estructuras', () => {
+    const store = crearStoreLibro(
+      crearState([libro('lc1', 'Libro A'), libro('lc2', 'Libro B')])
+    );
+    montar(store);
+
+    emitir(Mens.ELIMINAR, { mensaje: Mens.ELIMINAR, entidad: 'libro', id: 'lc1' });
+
+    const { libro: estado } = store.getState();
+    expect(idsLibro(estado.busquedaActual.datosQuery)).toEqual(['lc2']);
+    expect(idsLibro(estado.datosIniciales.datosQuery)).toEqual(['lc2']);
+    expect(idsLibro(estado.ultimasBusqueda[0].datosQuery)).toEqual(['lc2']);
   });
 });
 

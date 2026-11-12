@@ -8,10 +8,12 @@ import { PrecioAdapterProp, PrecioProp } from '../../modelo/Entidades/precio/pre
 import { ClienteAdapterProp, ClienteProp } from '../../modelo/Entidades/cliente/cliente.interface';
 import { MensajeAdapterProp, MensajeProp } from '../../modelo/Entidades/mensaje/mensaje.interface';
 import { PropuestaAdapterProp, PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interface';
+import { LibroAdapterProp, LibroProp } from '../../modelo/Entidades/libro/libro.interface';
 import { precioAdapter } from '../../adaptadores/entrada/precio.adapter';
 import { clienteAdapter } from '../../adaptadores/entrada/cliente.adapter';
 import { mensajeAdapter } from '../../adaptadores/entrada/mensaje.adapter';
 import { propuestaAdapter } from '../../adaptadores/entrada/propuesta.adapter';
+import { libroAdapter } from '../../adaptadores/entrada/libro.adapter';
 import {
   actualizarPrecioRedux,
   agregarPrecioSocketRedux,
@@ -32,6 +34,11 @@ import {
   agregarPropuestaSocketRedux,
   eliminarPropuestaRedux,
 } from '../../redux/state/propuesta.state';
+import {
+  actualizarLibroSocketRedux,
+  agregarLibroSocketRedux,
+  eliminarLibroRedux,
+} from '../../redux/state/libro.state';
 
 interface Prop {
   libro?: boolean | undefined;
@@ -84,6 +91,17 @@ const normalizarPropuesta = (raw: unknown): PropuestaProp | undefined => {
   if (!dato.id || !dato.nombre) return undefined;
 
   return propuestaAdapter(dato as PropuestaAdapterProp);
+};
+
+// El payload es el retorno de la vista (LibroRetorno); `ultAct` lo arma el
+// adapter, asi que el guard va por id + nombre, igual que propuesta.
+const normalizarLibro = (raw: unknown): LibroProp | undefined => {
+  if (!raw || typeof raw !== 'object') return undefined;
+
+  const dato = raw as Partial<LibroProp> & Partial<LibroAdapterProp>;
+  if (!dato.id || !dato.nombre) return undefined;
+
+  return libroAdapter(dato as LibroAdapterProp);
 };
 
 const datoDe = (data: Mensaje): unknown => (data as unknown as { dato?: unknown }).dato;
@@ -207,6 +225,13 @@ const useSockets = ({}: Prop) => {
         alCrear: propuesta => dispatch(agregarPropuestaSocketRedux(propuesta)),
         alEditar: propuesta => dispatch(actualizarPropuestaSocketRedux(propuesta)),
         alEliminar: id => dispatch(eliminarPropuestaRedux(id)),
+      }),
+      crearHandlers<LibroProp>({
+        entidad: EntidadDatoMap.LIBRO,
+        normalizar: normalizarLibro,
+        alCrear: libro => dispatch(agregarLibroSocketRedux(libro)),
+        alEditar: libro => dispatch(actualizarLibroSocketRedux(libro)),
+        alEliminar: id => dispatch(eliminarLibroRedux(id)),
       }),
     ];
 

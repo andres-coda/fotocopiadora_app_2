@@ -1,5 +1,4 @@
 import { solicitudAdapter } from "../../adaptadores/entrada/solicitud.adapter";
-import { formValuesPeticion } from "../../modelo/Entidades/solicitud/esqSolicitud.esquema";
 import { SolicitudProp } from "../../modelo/Entidades/solicitud/solicitud.interface";
 import { httpMethod } from "../../modelo/HTTP/HttpMethod.enum";
 import { SOLICITUD } from "../../utils/endpoint";
@@ -8,7 +7,7 @@ import useApi from "../hooks/useApi";
 interface Prop{
   id:string;
   estado: number;
-  observaciones?: formValuesPeticion
+  observaciones?: string
 }
 
 const useSolicitudApi = () => {
@@ -19,16 +18,16 @@ const useSolicitudApi = () => {
   const obtenerSolicitud = (id: string) =>
     fetchData({ url: `${SOLICITUD}/${id}`, methodo: httpMethod.GET, adapter: solicitudAdapter });
 
-  const resolverSolicitud = ({id, estado, observaciones}:Prop) =>
+  const resolverPeticion = ({id, estado, observaciones}:Prop) =>
     fetchData({
-      url: `${SOLICITUD}/${id}`,
+      url: `${SOLICITUD}/peticion/${id}`,
       methodo: httpMethod.PATCH,
       bodyData: JSON.stringify({ estado, observaciones }),
       adapter: solicitudAdapter,
     });
 
   return {
-    resolverSolicitud, 
+    resolverPeticion, 
     obtenerSolicitud, 
     responseSolicitud: response, 
     errorFethcSolicitud: errorFetch, 
