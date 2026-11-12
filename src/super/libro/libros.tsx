@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { appStore } from '../../redux/store';
 import useLibrosApi from '../../servicio/libro/useLibrosApi';
 import { useModalContext } from '../../contexto/contextoModal';
-import { agregarLibrosBusquedaActual, crearBusquedaLibro, resetBusquedaLibro, resetSeleccionarLibro, seleccionarLibro } from '../../redux/state/libro.state';
+import { agregarLibrosBusquedaActual, crearBusquedaLibro, crearLibros, resetBusquedaLibro, resetSeleccionarLibro, seleccionarLibro } from '../../redux/state/libro.state';
 import { useNavigate } from 'react-router-dom';
 import { RutasSupers } from '../ruta/rutaSupers';
 import LibroSelectSuper from './libroSelectSuper';
@@ -55,6 +55,7 @@ const LibrosSuper = () => {
     datosRedux: libroDatos,
     resetBusqueda: resetBusquedaLibro,
     crearBusqueda: crearBusquedaLibro,
+    crearBusquedaInicial: crearLibros,
     obtenerBusqueda: obtenerLibrosBusqueda,
     agregarBusqueda: agregarLibrosBusquedaActual,
     response: responseLibros,
@@ -85,7 +86,7 @@ const LibrosSuper = () => {
         loading={loadingLibros}
       >
         {libroDatos.busquedaActual.datosQuery.map(d=>(
-          <LibroCard libro={d} key={`libro-${d}`} selecLibro={seleccionarLibroFc} />
+          <LibroCard libro={d} key={`libro-${d.id}`} selecLibro={seleccionarLibroFc} />
         ))}
       </Centro>
       <Modal>
