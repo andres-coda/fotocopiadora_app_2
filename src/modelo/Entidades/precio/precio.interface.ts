@@ -19,6 +19,8 @@ export interface CategoriaProp {
     id: string;
     nombre: string;
     bloqueado?: boolean;
+    /** Si la empresa tiene al menos un precio en esta categoria. */
+    usada?: boolean;
 }
 
 export interface PrecioAdapterProp extends BaseAdapterProp {

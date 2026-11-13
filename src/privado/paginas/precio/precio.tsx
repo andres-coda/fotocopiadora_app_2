@@ -18,14 +18,24 @@ import Modal from '../../../componente/modal/modal';
 import PrecioCargar from './cargar/precioCargar';
 import { useModalContext } from '../../../contexto/contextoModal';
 import EliminarPrecio from './componente/eliminarPrecio';
+import FiltroPrecio from './componente/filtroPrecio';
+import FiltrosActivosPrecio from './componente/filtrosActivosPrecio';
+import { hayFiltrosPrecio, precioQueryParams } from '../../../filtro/precio.filtro';
 
 const Precios = () => {
   const precioDatos: ReduxProp<PrecioProp> = useSelector((store: appStore) => store.precio);
-  const { obtenerPreciosBusqueda, responsePrecios, loadingPrecios, errorFetchPrecios } = usePreciosApi();
+  const filtros = useSelector((store: appStore) => store.precio.filtrosPrecio);
+  const { obtenerPreciosBusqueda, responsePrecios, loadingPrecios, errorFetchPrecios } =
+    usePreciosApi();
   const [valor, setValor] = useState<string>('');
-  const { modal } = useModalContext();
+  const { modal, setModal } = useModalContext();
   const [eliminar, setEliminar] = useState<boolean>(false);
+  const [filtro, setFiltro] = useState<boolean>(false);
   const dispatch = useDispatch();
+
+  // Igual que en pedidos: con filtros vigentes la clave cambia y la busqueda se
+  // repite aunque el texto sea el mismo o este vacio.
+  const claveBusqueda = hayFiltrosPrecio(filtros) ? precioQueryParams(filtros) : undefined;
 
   const { contenedorRef, nuevoElemento, finListaRef } = useBusquedaPaginada<PrecioProp>({
     valor,
@@ -36,14 +46,22 @@ const Precios = () => {
     agregarBusqueda: agregarPreciosBusquedaActual,
     response: responsePrecios,
     loading: loadingPrecios,
+    claveBusqueda,
   });
 
   useEffect(() => {
     if (!modal) {
       setEliminar(false);
+      setFiltro(false);
       dispatch(resetSeleccionarPrecio());
     }
   }, [modal]);
+
+  const handleFiltro = () => {
+    setFiltro(true);
+    setEliminar(false);
+    setModal(true);
+  };
 
   return (
     <>
@@ -51,12 +69,14 @@ const Precios = () => {
         ref={contenedorRef}
         texto="Buscar precio"
         handleMas={() => nuevoElemento()}
+        handleFiltro={handleFiltro}
         valor={valor}
         setValor={setValor}
         titulo="Lista de precios"
         etiquetaArriba="Al comienzo de la lista"
         etiquetaMas="Nuevo precio"
       />
+      <FiltrosActivosPrecio />
       <Centro
         ref={contenedorRef}
         entidad="precios"
@@ -73,9 +93,8 @@ const Precios = () => {
           <PrecioCard precio={d} key={d.id} setEliminar={setEliminar} />
         ))}
       </Centro>
-      <Modal>
-        {!eliminar && <PrecioCargar />}
-        {eliminar && <EliminarPrecio />}
+      <Modal texto={filtro ? 'Filtros' : undefined}>
+        {filtro ? <FiltroPrecio /> : eliminar ? <EliminarPrecio /> : <PrecioCargar />}
       </Modal>
     </>
   );

@@ -1,0 +1,23 @@
+.filtro-precio__form {
+  width: 100%;
+}
+
+.filtro-precio {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.filtro-precio__lista {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.filtro-precio__lista li {
+  width: 100%;
+  margin: 0;
+}

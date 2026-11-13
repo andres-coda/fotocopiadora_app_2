@@ -9,8 +9,8 @@ import { ReduxSimple } from './modelo/reduxContext.interface';
 import { PedidoProp } from '../modelo/Entidades/pedido/pedido.interface';
 import { pedidoSlice } from './state/pedido.state';
 import { pedidoLibroSlice, PedidoLibroStateProp } from './state/pedido_libro.state';
-import { PrecioProp } from '../modelo/Entidades/precio/precio.interface';
 import { precioSlice } from './state/precio.state';
+import type { PrecioStateProp } from './state/precio.state';
 import { categoriaSlice, CategoriaState } from './state/categoria.state';
 import { sedeSlice } from './state/sede.state';
 import { MensajeProp } from '../modelo/Entidades/mensaje/mensaje.interface';
@@ -33,7 +33,7 @@ export interface appStore {
   especificacion: ReduxSimple<EspecificacionProp>;
   pedido: ReduxProp<PedidoProp>;
   pedidoLibro: PedidoLibroStateProp;
-  precio: ReduxProp<PrecioProp>;
+  precio: PrecioStateProp;
   categoria: CategoriaState;
   sede: ReduxSimple<SedeProp>;
   mensaje: ReduxProp<MensajeProp>;

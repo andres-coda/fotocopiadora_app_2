@@ -1,5 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
+import {
+  PrecioFiltrosProp,
+  filtrosPrecioInicial,
+} from '../../modelo/Entidades/precio/precioFiltro.interface';
 import { ReduxProp } from '../modelo/reduxContext.interface';
 import {
   crearDatoInicial,
@@ -19,7 +23,18 @@ import { agregarPrecioSocket } from '../utils/funcionesPrecio';
 
 const cantidadBusquedas: number = 1;
 
-const estadoPrecioInicial: ReduxProp<PrecioProp> = estadoInicialRedux<PrecioProp>('ultAct', 20);
+/**
+ * Los filtros viven en la raiz del slice para que sobrevivan a cada respuesta:
+ * `busquedaActual` se reemplaza entero en cada fetch.
+ */
+export type PrecioStateProp = ReduxProp<PrecioProp> & {
+  filtrosPrecio: PrecioFiltrosProp;
+};
+
+const estadoPrecioInicial: PrecioStateProp = {
+  ...estadoInicialRedux<PrecioProp>('ultAct', 20),
+  filtrosPrecio: filtrosPrecioInicial,
+};
 
 export const precioSlice = createSlice({
   name: 'precio_empresa',
@@ -36,6 +51,9 @@ export const precioSlice = createSlice({
     actualizarPrecioRedux: modificarElementoRedux<PrecioProp>,
     agregarPrecioInicioRedux: agregarElementoInicio<PrecioProp>,
     agregarPrecioSocketRedux: agregarPrecioSocket,
+    cambiarFiltrosPrecio: (state, action: PayloadAction<PrecioFiltrosProp>) => {
+      state.filtrosPrecio = action.payload;
+    },
     resetReduxPrecio: resetRedux<PrecioProp>,
   },
 });
@@ -52,6 +70,7 @@ export const {
   actualizarPrecioRedux,
   agregarPrecioInicioRedux,
   agregarPrecioSocketRedux,
+  cambiarFiltrosPrecio,
   resetReduxPrecio,
 } = precioSlice.actions;
 

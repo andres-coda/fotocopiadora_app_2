@@ -8,6 +8,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import useSockets from './useSockets';
 import socket from '../../socket';
 import { precioSlice } from '../../redux/state/precio.state';
+import { filtrosPrecioInicial } from '../../modelo/Entidades/precio/precioFiltro.interface';
 import { clienteSlice } from '../../redux/state/cliente.state';
 import { mensajeSlice } from '../../redux/state/mensaje.state';
 import { propuestaSlice } from '../../redux/state/propuesta.state';
@@ -80,7 +81,7 @@ const crearState = <T,>(busquedaActual: T[] = []): ReduxProp<T> => ({
 const crearStore = (state: ReduxProp<PrecioProp> = crearState<PrecioProp>()) =>
   configureStore({
     reducer: { precio: precioSlice.reducer },
-    preloadedState: { precio: state },
+    preloadedState: { precio: { ...state, filtrosPrecio: filtrosPrecioInicial } },
   });
 
 const cliente = (

@@ -21,6 +21,8 @@ interface UseBuscadorPaginadoProp<T> {
   response: PaginadoProp<T> | null;
   loading: boolean;
   limiteLetrasBusqueda?: number;
+  //Huella de los filtros/orden vigentes: si cambia, se repite la busqueda.
+  claveBusqueda?: string;
 }
 
 const useBusquedaPaginada = <T extends HasId>({
@@ -33,6 +35,7 @@ const useBusquedaPaginada = <T extends HasId>({
   crearBusquedaInicial = undefined,
   response,
   limiteLetrasBusqueda = 3,
+  claveBusqueda = undefined,
   loading = false,
 }: UseBuscadorPaginadoProp<T>) => {
   const navigate = useNavigate();
@@ -47,6 +50,7 @@ const useBusquedaPaginada = <T extends HasId>({
     limiteLetrasBusqueda,
     resetearBusqueda: resetBusqueda,
     crearBusqueda: crearBusqueda,
+    clave: claveBusqueda,
   });
 
   useGestionResponse<T>({
@@ -56,6 +60,7 @@ const useBusquedaPaginada = <T extends HasId>({
     crearDatos: crearBusquedaInicial,
     crearBusqueda,
     agregarBusqueda,
+    clave: claveBusqueda,
   })
 
   const nuevoElemento = (ruta?: string) => {
@@ -72,7 +77,10 @@ const useBusquedaPaginada = <T extends HasId>({
     loading, 
     limiteLetrasBusqueda, 
     cargaInicial: !datosRedux.cargaInicial, 
-    obtenerBusqueda
+    obtenerBusqueda,
+    // Con filtros nuevos sin respuesta todavia no se pagina: la pagina 1 de la
+    // nueva clave es la que reemplaza la lista.
+    claves: claveBusqueda !== undefined && datosRedux.busquedaActual.clave !== claveBusqueda,
   })
 
   return { contenedorRef, nuevoElemento, finListaRef };
