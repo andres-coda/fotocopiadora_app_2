@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
 import Heder from './componente/heder/heder';
 import LateralIzquierdo from './componente/lateral/lateralIzquierdo';
 import LateralDerecho from './componente/lateral/lateralDerecho';
