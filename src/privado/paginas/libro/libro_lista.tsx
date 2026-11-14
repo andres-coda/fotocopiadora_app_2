@@ -14,6 +14,7 @@ import PropuestaSelect from '../propuesta/componente/propuestaSelect';
 import './libros.css';
 import { PropuestaProp } from '../../../modelo/Entidades/propuesta/propuesta.interface';
 import { LibroProp } from '../../../modelo/Entidades/libro/libro.interface';
+import LibroCargarPartesInicio from './cargar/partes/libroCargarPartesInicio';
 
 const Libros_lista = () => {
   const [valor, setValor] = useState<string>('')
@@ -75,7 +76,7 @@ const Libros_lista = () => {
       <Modal nuevoEstilo={propuesta ? 'propuesta-select-color' : ''}>
         <>
           {propuesta && <PropuestaSelect propuesta={propuesta} />}
-          {!propuesta && <LibroCargar />}
+          {!propuesta && <LibroCargarPartesInicio />}
         </>
       </Modal>
     </>

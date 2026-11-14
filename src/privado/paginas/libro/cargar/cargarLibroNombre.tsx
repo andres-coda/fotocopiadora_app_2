@@ -15,6 +15,7 @@ import useLibroNombreApi from '../../../../servicio/libro/useLibrosNombre';
 import useMateriasApi from '../../../../servicio/materia/useMateriasApi';
 import { MateriaProp } from '../../../../modelo/Entidades/libro/materia.interface';
 import useEditorialNombreApi from '../../../../servicio/libro/useEditorialNombreApi';
+import { libroSelecProp, useLibroContext } from '../contexto/contexto.libro';
 
 interface Prop<T extends formValuesLibroNombre> {
   control: Control<T>;
@@ -22,23 +23,6 @@ interface Prop<T extends formValuesLibroNombre> {
   watch: UseFormWatch<T>;
   reset: UseFormReset<T>;
 }
-
-interface libroSelecProp {
-  nombre?: string;
-  editorial?: string;
-  materia?: string;
-}
-
-const libroSelectDefecto = <T extends formValuesLibroNombre>(
-  watch: UseFormWatch<T>
-): libroSelecProp | undefined => {
-  if (!watch()) return undefined;
-  return {
-    nombre: watch().nombre,
-    editorial: watch().editorial,
-    materia: watch().materia,
-  };
-};
 
 const limiteBusquedaLibro: number = 3;
 
@@ -52,9 +36,7 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
   const nameMateria = 'materia' as Path<T>;
   const nameEditorial = 'editorial' as Path<T>;
 
-  const [libroSeleccionado, setLibroSeleccionado] = useState<libroSelecProp | undefined>(
-    libroSelectDefecto<T>(watch)
-  );
+  const { armado, setArmado } = useLibroContext();
 
   const {
     obtenerLibrosNombre,
@@ -62,12 +44,13 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
     loadingLibros,
     errorFetchLibros,
   } = useLibroNombreApi();
+  
   const {
     finListaRef: finLibros,
     datos: libros,
     setDatos: setLibros,
   } = useBusquedaSimple<LibroNombreProp>({
-    valor: libroSeleccionado?.nombre != watch().nombre ? watch().nombre : '',
+    valor: armado.libroNombre?.nombre != watch().nombre ? watch().nombre : '',
     response: responseLibroNombre,
     loading: loadingLibros,
     limiteLetrasBusqueda: limiteBusquedaLibro,
@@ -82,21 +65,31 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
       editorial: l.editorial,
       materia: l.materia.nombre,
     });
-    setLibroSeleccionado({
+
+    const libroNombre: libroSelecProp = {
+      id_libro: l.id,
       nombre: l.nombre,
       editorial: l.editorial ?? '',
       materia: l.materia.nombre ?? '',
-    });
+    };
+    setArmado(prev => ({
+      ...prev,
+      libroNombre: libroNombre,
+    }));
   };
 
-  const { obtenerEditorialesNombre, responseEditoriales, loadingEditoriales, errorFetchEditoriales } =
-    useEditorialNombreApi();
+  const {
+    obtenerEditorialesNombre,
+    responseEditoriales,
+    loadingEditoriales,
+    errorFetchEditoriales,
+  } = useEditorialNombreApi();
   const {
     finListaRef: finEditoriales,
     datos: editoriales,
     setDatos: setEditoriales,
   } = useBusquedaSimple<EditorialNombreProp>({
-    valor: libroSeleccionado?.editorial != watch().editorial ? (watch().editorial ?? '') : '',
+    valor: armado.libroNombre?.editorial != watch().editorial ? (watch().editorial ?? '') : '',
     response: responseEditoriales,
     loading: loadingEditoriales,
     limiteLetrasBusqueda: limiteBusquedaLibro,
@@ -109,19 +102,23 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
       ...watch(),
       editorial: e.nombre,
     });
-    setLibroSeleccionado(prev => ({
+    setArmado(prev => ({
       ...prev,
-      editorial: e.nombre,
+      libroNombre: {
+        ...prev.libroNombre,
+        editorial: e.nombre,
+      },
     }));
   };
 
-  const { obtenerMateriaBusqueda, responseMaterias, loadingMaterias, errorFetchMaterias } = useMateriasApi();
+  const { obtenerMateriaBusqueda, responseMaterias, loadingMaterias, errorFetchMaterias } =
+    useMateriasApi();
   const {
     finListaRef: finMaterias,
     datos: materias,
     setDatos: setMaterias,
   } = useBusquedaSimple<MateriaProp>({
-    valor: libroSeleccionado?.materia != watch().materia ? (watch().materia ?? '') : '',
+    valor: armado.libroNombre?.materia != watch().materia ? (watch().materia ?? '') : '',
     response: responseMaterias,
     loading: loadingMaterias,
     limiteLetrasBusqueda: limiteBusquedaLibro,
@@ -134,9 +131,12 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
       ...watch(),
       materia: m.nombre,
     });
-    setLibroSeleccionado(prev => ({
+    setArmado(prev => ({
       ...prev,
-      materia: m.nombre,
+      libroNombre: {
+        ...prev.libroNombre,
+        materia: m.nombre,
+      },
     }));
   };
 
@@ -174,7 +174,11 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
         {editoriales && editoriales.datosQuery.length > 0 && (
           <DesplegablePredictivo
             children={editoriales.datosQuery.map(e => (
-              <EditorialCard editorial={e} selectEditorial={handleSelectEditorial} key={`editorial-${e.id}`} />
+              <EditorialCard
+                editorial={e}
+                selectEditorial={handleSelectEditorial}
+                key={`editorial-${e.id}`}
+              />
             ))}
             finListaRef={finEditoriales}
             loading={loadingEditoriales}

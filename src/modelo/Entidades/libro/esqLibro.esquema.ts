@@ -79,3 +79,30 @@ export const libroFormEdit = (libro?: LibroProp | null): formValuesLibro => {
     componentes: transformarComponente(libro?.componentes),
   };
 };
+
+
+
+export const libroMedio = libroNombre
+  .extend(libroComponentes.shape);
+
+export type formValuesLibroMedio = formValuesLibroNombre &
+  formValuesLibroComponentes;
+
+  export const libroMedioFormDefault: formValuesLibroMedio = {
+  nombre: '',
+  editorial: '',
+  nivel: '',
+  materia: '',
+  componentes: '',
+};
+
+export const libroMedioFormEdit = (libro?: LibroProp | null): formValuesLibroMedio => {
+  if (!libro) return libroFormDefault;
+  return {
+    nombre: libro?.nombre || libroFormDefault.nombre,
+    editorial: libro?.editorial || libroFormDefault.editorial,
+    nivel: libro?.nivel || libroFormDefault.nivel,
+    materia: libro?.materia.nombre || libroFormDefault.materia,
+    componentes: transformarComponente(libro?.componentes),
+  };
+};

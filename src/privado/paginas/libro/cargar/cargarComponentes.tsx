@@ -7,12 +7,12 @@ import {
 import DesplegablePredictivo from '../../../../componente-estilo/predictivo/desplegablePredictivo';
 import ComponenteCard from '../componente/componenteCard';
 import NivelCard from '../componente/nivelCard';
-import { useState } from 'react';
 import useComponenteApi from '../../../../servicio/componente/useComponentesApi';
 import useBusquedaSimple from '../../../../hooks/buscador/useBuscadorSimple';
 import { ComponenteProp } from '../../../../modelo/Entidades/libro/componente.interface';
 import useNivelApi from '../../../../servicio/nivel/useNivel';
 import { NivelProp } from '../../../../modelo/Entidades/libro/nivel.interface';
+import { useLibroContext } from '../contexto/contexto.libro';
 
 interface Prop<T extends formValuesLibroComponentes> {
   control: Control<T>;
@@ -30,12 +30,10 @@ const CargarComponentes = <T extends formValuesLibroComponentes>({
   const nameNivel = 'nivel' as Path<T>;
   const nameComponentes = 'componentes' as Path<T>;
 
-  const [componenteSeleccionado, setComponenteSeleccionado] = useState<string | undefined>(
-    undefined
-  );
-  const [nivelSeleccionado, setNivelSeleccionado] = useState<string | undefined>(undefined);
+  const { armado, setArmado } = useLibroContext();
 
-  const { obtenerComponentes, responseComponentes, loadingComponentes, errorFetchComponentes } = useComponenteApi();
+  const { obtenerComponentes, responseComponentes, loadingComponentes, errorFetchComponentes } =
+    useComponenteApi();
 
   const componentesValor = watch().componentes ?? '';
 
@@ -48,7 +46,7 @@ const CargarComponentes = <T extends formValuesLibroComponentes>({
     datos: componentes,
     setDatos: setComponentes,
   } = useBusquedaSimple<ComponenteProp>({
-    valor: componenteSeleccionado !== componentesValor ? componenteBusqueda : '',
+    valor: armado.libroPrincipal?.componentes_texto !== componentesValor ? componenteBusqueda : '',
     response: responseComponentes,
     loading: loadingComponentes,
     obtenerBusqueda: obtenerComponentes,
@@ -72,7 +70,13 @@ const CargarComponentes = <T extends formValuesLibroComponentes>({
       componentes: partes.join(', '),
     });
 
-    setComponenteSeleccionado(partes.join(', '));
+    setArmado(prev => ({
+      ...prev,
+      libroPrincipal: {
+        ...prev.libroPrincipal,
+        componentes_texto: partes.join(', '),
+      },
+    }));
   };
 
   const { obtenerNivels, responseNivels, loadingNivels, errorFetchNivels } = useNivelApi();
@@ -81,7 +85,7 @@ const CargarComponentes = <T extends formValuesLibroComponentes>({
     datos: niveles,
     setDatos: setNiveles,
   } = useBusquedaSimple<NivelProp>({
-    valor: nivelSeleccionado != watch().nivel ? (watch().nivel ?? '') : '',
+    valor: armado.libroPrincipal?.nivel != watch().nivel ? (watch().nivel ?? '') : '',
     response: responseNivels,
     loading: loadingNivels,
     obtenerBusqueda: obtenerNivels,
@@ -93,7 +97,13 @@ const CargarComponentes = <T extends formValuesLibroComponentes>({
       ...watch(),
       nivel: n.nombre,
     });
-    setNivelSeleccionado(n.nombre);
+    setArmado(prev => ({
+      ...prev,
+      libroPrincipal: {
+        ...prev.libroPrincipal,
+        nivel: n.nombre,
+      },
+    }));
   };
   return (
     <>
@@ -109,7 +119,11 @@ const CargarComponentes = <T extends formValuesLibroComponentes>({
         {componentes && componentes.datosQuery.length > 0 && (
           <DesplegablePredictivo
             children={componentes.datosQuery.map(c => (
-              <ComponenteCard componente={c} selectComponente={handleSelectComponente} key={`comp-${c.id}`}/>
+              <ComponenteCard
+                componente={c}
+                selectComponente={handleSelectComponente}
+                key={`comp-${c.id}`}
+              />
             ))}
             finListaRef={finComponentes}
             error={errorFetchComponentes}
@@ -129,7 +143,7 @@ const CargarComponentes = <T extends formValuesLibroComponentes>({
         {niveles && niveles.datosQuery.length > 0 && (
           <DesplegablePredictivo
             children={niveles.datosQuery.map(n => (
-              <NivelCard nivel={n} selectNivel={handleSelectNivel} key={`nivel-${n.id}`}/>
+              <NivelCard nivel={n} selectNivel={handleSelectNivel} key={`nivel-${n.id}`} />
             ))}
             finListaRef={finNiveles}
             loading={loadingNivels}

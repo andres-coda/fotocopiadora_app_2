@@ -111,6 +111,7 @@ const LibroCargar = ({ libroDespuesGuardar }: Prop) => {
         </Botonera>
       </div>
     );
+    
   return (
     <Formulario
       titulo={`Nuevo libro`}

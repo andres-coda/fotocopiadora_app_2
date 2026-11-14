@@ -25,12 +25,7 @@ export interface LibroNombreProp extends BaseProp {
   materia: MateriaProp;
 }
 
-export interface LibroAdapterProp extends LibroNombreAdapterProp {
-  especificacionesDefecto?: Especificaciones[];
-  cantidadPg: number;
-  adhesivos?: number;
-  detalleImpresion?: string;
-
+export interface LibroCompletoAdapterProp extends LibroNombreAdapterProp {  
   edicion?: number;
   nivel?: string;
   anio?: string;
@@ -39,23 +34,34 @@ export interface LibroAdapterProp extends LibroNombreAdapterProp {
   descripcion?: string;
   componentes_texto?: string;
   componentes: ComponenteAdapterProp[];
+}
+
+export interface LibroCompletoProp extends LibroNombreProp {  
+  edicion?: number;
+  nivel?: string;
+  anio?: string;
+  autor?: string;
+  img?: string;
+  descripcion?: string;
+  componentes_texto?: string;
+  componentes: ComponenteProp[];
+}
+
+export interface LibroAdapterProp extends LibroCompletoAdapterProp {
+  especificacionesDefecto?: Especificaciones[];
+  cantidadPg: number;
+  adhesivos?: number;
+  detalleImpresion?: string;
+  
   resumen?: StockAdapterProp;
   propuesta: PropuestaAdapterProp[];
 }
 
-export interface LibroProp extends LibroNombreProp {
-  detalleImpresion?: string;
-  componentes_texto?: string;
-  descripcion?: string;
-  edicion?: number;
-  nivel?: string;
+export interface LibroProp extends LibroCompletoProp {
+  detalleImpresion?: string;  
   cantidadPg: number;
-  anio?: string;
   adhesivos?: number;
-  autor?: string;
-  img?: string;
   especificacionesDefecto?: Especificaciones[];
-  componentes?: ComponenteProp[];
   stock?: StockProp;
   propuesta?: PropuestaProp[];
 }

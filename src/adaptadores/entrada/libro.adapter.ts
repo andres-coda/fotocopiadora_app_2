@@ -7,6 +7,8 @@ import {
   LibroProp,
   EditorialNombreAdapterProp,
   EditorialNombreProp,
+  LibroCompletoAdapterProp,
+  LibroCompletoProp,
 } from '../../modelo/Entidades/libro/libro.interface';
 import { materiaInicial, MateriaProp } from '../../modelo/Entidades/libro/materia.interface';
 import { StockProp } from '../../modelo/Entidades/libro/stock.interface';
@@ -56,40 +58,53 @@ export const libroNombreAdapter = (libro?: LibroNombreAdapterProp): LibroNombreP
     ? materiaAdapter(libro.materia)
     : undefined;
 
+  if(!materia) throw new Error(`No hay materia en el libro ${libro.nombre}`)
+
+
   const newLibro: LibroNombreProp = {
     ...base,
     nombre: libro.nombre,
     editorial: libro.editorial,
-    materia: materia ?? materiaInicial,
+    materia: materia,
   };
   return newLibro;
 };
 
+export const libroCompletoAdapter = (libro?: LibroCompletoAdapterProp): LibroCompletoProp | undefined => {
+  if (!libro) return undefined;
+
+  const nombre: LibroNombreProp|undefined = libroNombreAdapter(libro);
+  if(!nombre) throw new Error(`La base de datos no reporto datos, o reporto datos dañados para el libro buscado`);
+
+  const componentes: ComponenteProp[] = componenteAdapterArray(libro.componentes);
+
+  return {
+    ...nombre,
+    edicion: libro.edicion,
+    nivel: libro.nivel,
+    anio: libro.anio,
+    autor:libro.autor,
+    img: libro.img,
+    descripcion: libro.descripcion,
+    componentes,
+  }
+}
+
 export const libroAdapter = (libro?: LibroAdapterProp): LibroProp | undefined => {
   if (!libro) return undefined;
 
-  const libroNombre: LibroNombreProp | undefined = libroNombreAdapter(libro);
-  if (!libroNombre) return undefined;
-
-  const componentes: ComponenteProp[] = componenteAdapterArray(libro.componentes);
+  const libroCompleto: LibroCompletoProp | undefined = libroCompletoAdapter(libro);
+  if (!libroCompleto) return undefined;
 
   const stock: StockProp | undefined = libro.resumen ? stockAdapter(libro.resumen) : undefined;
   const propuesta: PropuestaProp[] = propuestaAdapterArray(libro.propuesta);
 
   const newLibro: LibroProp = {
-    ...libroNombre,
+    ...libroCompleto,
     detalleImpresion: libro.detalleImpresion,
-    componentes_texto: libro.componentes_texto,
-    descripcion: libro.descripcion,
-    edicion: libro.edicion,
-    nivel: libro.nivel,
     cantidadPg: libro.cantidadPg,
-    anio: libro.anio,
     adhesivos: libro.adhesivos ?? 0,
-    autor: libro.autor,
-    img: libro.img,
     especificacionesDefecto: libro.especificacionesDefecto,
-    componentes,
     stock: stock,
     propuesta: propuesta.length > 0 ? propuesta : undefined,
   };

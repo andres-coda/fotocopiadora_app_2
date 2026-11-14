@@ -11,6 +11,7 @@ export const EMPRESA_MIA: string = `${EMPRESA}/mia`;
 export const CONFIGURACION: string = `${BASE}/configuracion`;
 export const LIBRO: string = `${BASE}/libro`;
 export const LIBRO_NOMBRE: string = `${LIBRO}/nombre`;
+export const LIBRO_COMPLETO: string = `${LIBRO}/completo`;
 export const LIBRO_STOCK: string = `${LIBRO}/stock`;
 export const LIBRO_EXTRA: string = `${LIBRO}/extra`;
 export const LIBRO_PRINCIPAL: string = `${LIBRO}/principal`;

@@ -1,4 +1,4 @@
-import { LibroProp } from '../modelo/Entidades/libro/libro.interface';
+import { LibroCompletoProp, LibroProp } from '../modelo/Entidades/libro/libro.interface';
 import { Estado } from '../modelo/Entidades/pedido_libro/estado.enum';
 
 export const normalizarTexto = (texto: string | undefined): string => {
@@ -77,7 +77,7 @@ export const estadoPedidoXstring = (estado: Estado): string => {
   }
 };
 
-export const nombreLibroXstring = (libro: LibroProp | undefined) => {
+export const nombreLibroXstring = (libro: LibroCompletoProp | undefined) => {
   if (!libro) return '';
   return `${libro.nombre}${libro.nivel ? ` - ${libro.nivel}` : ''}${libro.componentes_texto ? ` - ${libro.componentes_texto}` : ''}`;
 };
