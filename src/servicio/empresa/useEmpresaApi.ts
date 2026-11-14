@@ -20,13 +20,15 @@ const useEmpresaApi = () => {
       adapter: empresaAdapter,
     });
 
-  const crearEmpresa = (data: formValuesEmpresaCrearSuper) =>
+  const crearEmpresa = (data: formValuesEmpresaCrearSuper) =>{
+
     fetchData({
       url: EMPRESA,
       methodo: httpMethod.POST,
       bodyData: JSON.stringify(empresaCrearSuperDtoAdapter(data)),
       adapter: empresaAdapter,
     });
+  }
 
   const obtenerEmpresaMia = () =>
     fetchData({ url: EMPRESA_MIA, methodo: httpMethod.GET, adapter: empresaAdapter });

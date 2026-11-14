@@ -68,11 +68,13 @@ export const empresaCrearSuper = z.object({
       { message: 'Debe ser un telefono valido' }
     )
     .transform(val => {
-      let cleaned = val.replace(/[^\\d+]/g, '');
-      cleaned = cleaned.replace(/(?!^\\+)\\D/g, '');
+      let cleaned = val.replace(/[^\d+]/g, '');
+      cleaned = cleaned.replace(/(?!^)\+/g, '');
+
       if (!cleaned.startsWith('+') && cleaned.startsWith('0')) {
         cleaned = cleaned.slice(1);
       }
+
       return cleaned;
     }),
   adminNombre: z
