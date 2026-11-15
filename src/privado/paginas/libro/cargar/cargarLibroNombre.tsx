@@ -58,14 +58,6 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
   });
 
   const handleSelectLibro = (l: LibroNombreProp) => {
-    setLibros(undefined);
-    reset({
-      ...watch(),
-      nombre: l.nombre,
-      editorial: l.editorial,
-      materia: l.materia.nombre,
-    });
-
     const libroNombre: libroSelecProp = {
       id_libro: l.id,
       nombre: l.nombre,
@@ -76,6 +68,14 @@ const CargarLibroNombre = <T extends formValuesLibroNombre>({
       ...prev,
       libroNombre: libroNombre,
     }));
+    setLibros(undefined);
+    reset({
+      ...watch(),
+      nombre: l.nombre,
+      editorial: l.editorial,
+      materia: l.materia.nombre,
+    });
+
   };
 
   const {

@@ -14,10 +14,10 @@ const LibroCargarPartesInicio = () => {
   },[armado.libroNombre])
 
   return (
-    <ContenedorCentro scroll>
+    <>
       {!librosCompletos && <LibroCargarPartes/>}
       {librosCompletos?.datos && librosCompletos?.datos.length > 0 && <LibroCompletoLista/>}
-    </ContenedorCentro>
+    </>
   )
 }
 

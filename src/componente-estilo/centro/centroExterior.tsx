@@ -5,8 +5,17 @@ import Cargando from '../../componente/cargando/cargando';
 import './centro.css';
 import useCentro from './useCentro';
 
-export const ContenedorCentro = ({ children, texto = undefined, error = undefined, loading = false, nuevoEstilo = '', desplegable = false, scroll = false, centro = undefined }: CentroDefectoProp) => {
-  const {claseExterior} = useCentro({desplegable, scroll, nuevoEstilo, centro})
+export const ContenedorCentro = ({
+  children,
+  texto = undefined,
+  error = undefined,
+  loading = false,
+  nuevoEstilo = '',
+  desplegable = false,
+  scroll = false,
+  centro = undefined,
+}: CentroDefectoProp) => {
+  const { claseExterior } = useCentro({ desplegable, scroll, nuevoEstilo, centro });
   if (error)
     return (
       <div className={claseExterior}>

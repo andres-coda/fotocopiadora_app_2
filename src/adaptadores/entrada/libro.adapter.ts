@@ -87,6 +87,7 @@ export const libroCompletoAdapter = (libro?: LibroCompletoAdapterProp): LibroCom
     img: libro.img,
     descripcion: libro.descripcion,
     componentes,
+    componentes_texto: libro.componentes_texto
   }
 }
 

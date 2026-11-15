@@ -19,6 +19,7 @@ import { useModalContext } from '../../contexto/contextoModal';
 import { agregarLibrosBusquedaActual, crearBusquedaLibro, crearLibros, resetBusquedaLibro, resetSeleccionarLibro, seleccionarLibro } from '../../redux/state/libro.state';
 import LibroSelectSuper from './libroSelectSuper';
 import LibroEditar from '../../privado/paginas/libro/cargar/libro_editar';
+import { ProveedorLibroContext } from '../../privado/paginas/libro/contexto/contexto.libro';
 
 const LibrosSuper = () => {
   const libroDatos: ReduxProp<LibroProp> = useSelector((store: appStore) => store.libro);
@@ -87,7 +88,11 @@ const LibrosSuper = () => {
         ))}
       </Centro>
       <Modal>
-        {cargar && <LibroCargar />}
+        {cargar && (
+          <ProveedorLibroContext>
+            <LibroCargar />
+          </ProveedorLibroContext>
+        )}
         {select && !editar && !eliminar && <LibroSelectSuper onEditar={setEditar} onEliminar={setEliminar}/>}
         {editar && <LibroEditar/>}
       </Modal>

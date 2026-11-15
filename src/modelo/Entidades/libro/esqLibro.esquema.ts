@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { LibroProp } from './libro.interface';
 import { transformarComponente } from '../../../utils/componente';
+import { ArmadoProp } from '../../../privado/paginas/libro/contexto/contexto.libro';
 
 const libroNombre = z.object({
   nombre: z.string().min(1, 'El libro debe tener un nombre'),
@@ -96,13 +97,18 @@ export type formValuesLibroMedio = formValuesLibroNombre &
   componentes: '',
 };
 
-export const libroMedioFormEdit = (libro?: LibroProp | null): formValuesLibroMedio => {
-  if (!libro) return libroFormDefault;
+interface EditProp {
+  libro?:LibroProp | null;
+  armado?: ArmadoProp;
+}
+
+export const libroMedioFormEdit = ({libro, armado}:EditProp): formValuesLibroMedio => {
+  if (!libro && (!armado?.libroNombre && !armado?.libroPrincipal)) return libroFormDefault;
   return {
-    nombre: libro?.nombre || libroFormDefault.nombre,
-    editorial: libro?.editorial || libroFormDefault.editorial,
-    nivel: libro?.nivel || libroFormDefault.nivel,
-    materia: libro?.materia.nombre || libroFormDefault.materia,
-    componentes: transformarComponente(libro?.componentes),
+    nombre: libro?.nombre || armado?.libroNombre?.nombre || libroFormDefault.nombre,
+    editorial: libro?.editorial || armado?.libroNombre?.editorial || libroFormDefault.editorial,
+    nivel: libro?.nivel || armado?.libroPrincipal?.nivel || libroFormDefault.nivel,
+    materia: libro?.materia.nombre || armado?.libroNombre?.materia || libroFormDefault.materia,
+    componentes: transformarComponente(libro?.componentes) || libro?.componentes_texto || armado?.libroPrincipal?.componentes_texto || transformarComponente(armado?.libroPrincipal?.componentes) || libroFormDefault.componentes,
   };
 };

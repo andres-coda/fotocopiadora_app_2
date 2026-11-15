@@ -20,13 +20,20 @@ const useLibroCompletoApi = () => {
   >({ adapterGet: libroCompletoAdapter });
 
   const obtenerLibrosCompleto = ({ id, nombre,componentes, nivel, limite, pagina }: BusquedaLibroCompletoProp) => {
+    // Ojo: `${cond && `&x=${x}`}` dentro de un template literal NO omite el
+    // parametro cuando `cond` es undefined: renderiza la palabra "undefined".
+    // Asi se enviaba `pagina=2undefined`, el back no podia parsearla y devolvia
+    // la pagina 1 otra vez.
+    const params = new URLSearchParams({
+      limite: String(limite ?? limiteDefecto),
+      pagina: String(pagina ?? 1),
+    });
+    if (nombre) params.set('nombre', nombre);
+    if (componentes) params.set('comp', componentes);
+    if (nivel) params.set('nivel', nivel);
+
     fetchData({
-      url: `${LIBRO_COMPLETO}?id=${id}
-      ${nombre && `&nombre=${nombre}`}
-      ${componentes && `&comp=${componentes}`}
-      ${nivel && `&nivel=${nivel}`}
-      &limite=${limite ?? limiteDefecto}
-      &pagina=${pagina ?? 1}`,
+      url: `${LIBRO_COMPLETO}/${id}?${params.toString()}`,
       methodo: httpMethod.GET,
       adapter: libroCompletoAdapter,
     });

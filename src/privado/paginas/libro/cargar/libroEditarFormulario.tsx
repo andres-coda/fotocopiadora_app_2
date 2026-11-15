@@ -22,6 +22,7 @@ import CargarLibroDatosLocal from './cargarLibroDatosLocal';
 import { useModalContext } from '../../../../contexto/contextoModal';
 import Texto from '../../../../componente-estilo/texto/texto';
 import CargarStock from './cargarStock';
+import { ProveedorLibroContext } from '../contexto/contexto.libro';
 
 interface Prop {
   local?: boolean;
@@ -160,18 +161,20 @@ const LibroEditarFormulario = ({
         textBtnSecundario="Atras"
       >
         <>
-          <CargarLibroNombre<formValuesLibro>
-            control={control}
-            errors={errors}
-            watch={watch}
-            reset={reset}
-          />
-          <CargarComponentes<formValuesLibro>
-            control={control}
-            errors={errors}
-            watch={watch}
-            reset={reset}
-          />
+          <ProveedorLibroContext>
+            <CargarLibroNombre<formValuesLibro>
+              control={control}
+              errors={errors}
+              watch={watch}
+              reset={reset}
+            />
+            <CargarComponentes<formValuesLibro>
+              control={control}
+              errors={errors}
+              watch={watch}
+              reset={reset}
+            />
+          </ProveedorLibroContext>
         </>
       </Formulario>
     );

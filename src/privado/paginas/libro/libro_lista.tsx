@@ -9,12 +9,12 @@ import {
 import useBuscadorLibro from './hook/useBuscadorLibro';
 import PropuestaCard from '../propuesta/componente/propuestaCard';
 import Modal from '../../../componente/modal/modal';
-import LibroCargar from './cargar/libroCargar';
 import PropuestaSelect from '../propuesta/componente/propuestaSelect';
 import './libros.css';
 import { PropuestaProp } from '../../../modelo/Entidades/propuesta/propuesta.interface';
 import { LibroProp } from '../../../modelo/Entidades/libro/libro.interface';
 import LibroCargarPartesInicio from './cargar/partes/libroCargarPartesInicio';
+import { ProveedorLibroContext } from './contexto/contexto.libro';
 
 const Libros_lista = () => {
   const [valor, setValor] = useState<string>('')
@@ -76,7 +76,11 @@ const Libros_lista = () => {
       <Modal nuevoEstilo={propuesta ? 'propuesta-select-color' : ''}>
         <>
           {propuesta && <PropuestaSelect propuesta={propuesta} />}
-          {!propuesta && <LibroCargarPartesInicio />}
+          {!propuesta && (
+            <ProveedorLibroContext>
+              <LibroCargarPartesInicio />
+            </ProveedorLibroContext>
+          )}
         </>
       </Modal>
     </>
