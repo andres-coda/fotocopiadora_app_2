@@ -63,21 +63,17 @@ export const libroFormDefault: formValuesLibro = {
   componentes: '',
 };
 
-export const libroFormEdit = (libro?: LibroProp | null): formValuesLibro => {
-  if (!libro) return libroFormDefault;
+export const libroFormEdit = ({ libro, armado }: EditProp): formValuesLibro => {
+  if (!libro && (!armado?.libroNombre && !armado?.libroPrincipal)) return libroFormDefault;
   return {
-    nombre: libro?.nombre || libroFormDefault.nombre,
+    ...libroMedioFormEdit({ libro, armado }),
     descripcion: libro?.descripcion || libroFormDefault.descripcion,
-    editorial: libro?.editorial || libroFormDefault.editorial,
     edicion: `${libro?.edicion}` || libroFormDefault.edicion,
-    nivel: libro?.nivel || libroFormDefault.nivel,
     cantidadPg: `${libro?.cantidadPg}` || libroFormDefault.cantidadPg,
     anio: libro?.anio || libroFormDefault.anio,
     adhesivos: `${libro?.adhesivos}` || libroFormDefault.adhesivos,
     autor: libro?.autor || libroFormDefault.autor,
     img: libro?.img || libroFormDefault.img,
-    materia: libro?.materia.nombre || libroFormDefault.materia,
-    componentes: transformarComponente(libro?.componentes),
   };
 };
 
@@ -89,7 +85,7 @@ export const libroMedio = libroNombre
 export type formValuesLibroMedio = formValuesLibroNombre &
   formValuesLibroComponentes;
 
-  export const libroMedioFormDefault: formValuesLibroMedio = {
+export const libroMedioFormDefault: formValuesLibroMedio = {
   nombre: '',
   editorial: '',
   nivel: '',
@@ -98,11 +94,11 @@ export type formValuesLibroMedio = formValuesLibroNombre &
 };
 
 interface EditProp {
-  libro?:LibroProp | null;
+  libro?: LibroProp | null;
   armado?: ArmadoProp;
 }
 
-export const libroMedioFormEdit = ({libro, armado}:EditProp): formValuesLibroMedio => {
+export const libroMedioFormEdit = ({ libro, armado }: EditProp): formValuesLibroMedio => {
   if (!libro && (!armado?.libroNombre && !armado?.libroPrincipal)) return libroFormDefault;
   return {
     nombre: libro?.nombre || armado?.libroNombre?.nombre || libroFormDefault.nombre,

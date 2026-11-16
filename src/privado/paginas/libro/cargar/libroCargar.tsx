@@ -40,7 +40,7 @@ const LibroCargar = ({ libroDespuesGuardar }: Prop) => {
     setValue,
   } = useForm<formValuesLibro>({
     resolver: zodResolver(libro),
-    defaultValues: libroFormEdit(),
+    defaultValues: libroFormEdit({}),
   });
 
   const [nombreLibro, setNombreLibro] = useState<string | undefined>(undefined);
@@ -111,7 +111,7 @@ const LibroCargar = ({ libroDespuesGuardar }: Prop) => {
         </Botonera>
       </div>
     );
-    
+
   return (
     <Formulario
       titulo={`Nuevo libro`}

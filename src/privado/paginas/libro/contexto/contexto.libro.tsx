@@ -1,14 +1,10 @@
 import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 import { contextoProps } from '../../../../modelo/contexto/Contexto.interface';
-import { LibroCompletoProp, LibroNombreProp, LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
+import { LibroCompletoProp, LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
 import { ComponenteProp } from '../../../../modelo/Entidades/libro/componente.interface';
 import { useSelector } from 'react-redux';
 import { appStore } from '../../../../redux/store';
 import { PaginadoProp } from '../../../../adaptadores/entrada/paginado.adapter';
-
-interface ContextoLibroProp {
-  libro?: LibroProp;
-}
 
 export interface ArmadoLibroUnoProp {
   componentes?: ComponenteProp[];
@@ -49,6 +45,8 @@ export interface BusquedaLibroCompletoProp {
   id: string;
   nivel?: string;
   componentes?: string;
+  id_libro_completo?:string;
+  libro_completo?:LibroCompletoProp;
 }
 
 const armadoInicial = {

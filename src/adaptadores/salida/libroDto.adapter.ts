@@ -67,11 +67,12 @@ export const libroPrincipalDtoAdapter = (
   return newGrupo;
 };
 
-export const libroDtoAdapter = ({ data, especificaciones }: CrearLibroProp): libroDtoProp => {
+export const libroDtoAdapter = ({ data, especificaciones, id_libro_completo }: CrearLibroProp): libroDtoProp => {
   const newGrupo: libroDtoProp = {
     ...libroExtraDtoAdapter(data),
     ...libroEmpresaEditarDtoAdapter({ data, especificaciones }),
     ...libroPrincipalDtoAdapter(data, data),
+    id_libro_completo,
   };
   return newGrupo;
 };

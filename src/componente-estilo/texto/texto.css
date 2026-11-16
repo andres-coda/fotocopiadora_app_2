@@ -80,3 +80,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.texto b{
+  padding-right: .2rem;
+}

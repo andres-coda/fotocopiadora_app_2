@@ -18,6 +18,7 @@ import useApi from '../hooks/useApi';
 export interface CrearLibroProp {
   data: formValuesLibro;
   especificaciones: Especificaciones[];
+  id_libro_completo?:string;
 }
 
 export interface EditarLibroLocalProp {
@@ -36,11 +37,11 @@ const useLibroApi = () => {
   const obtenerLibroById = (id: string) =>
     fetchData({ url: `${LIBRO}/${id}`, methodo: httpMethod.GET, adapter: libroAdapter });
 
-  const crearLibro = ({ data, especificaciones }: CrearLibroProp) =>
+  const crearLibro = ({ data, especificaciones, id_libro_completo }: CrearLibroProp) =>
     fetchData({
       url: LIBRO,
       methodo: httpMethod.POST,
-      bodyData: JSON.stringify(libroDtoAdapter({ data, especificaciones })),
+      bodyData: JSON.stringify(libroDtoAdapter({ data, especificaciones, id_libro_completo })),
       adapter: libroAdapter,
     });
 

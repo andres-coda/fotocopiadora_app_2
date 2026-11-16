@@ -24,4 +24,6 @@ export interface LibroPrincipalDtoProp {
 }
 
 export interface libroDtoProp
-  extends LibroExtraDtoProp, LibroEmresaDtoProp, LibroPrincipalDtoProp {}
+  extends LibroExtraDtoProp, LibroEmresaDtoProp, LibroPrincipalDtoProp {    
+  id_libro_completo?: string;
+  }

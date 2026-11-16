@@ -1,19 +1,17 @@
 import { useEffect } from 'react';
 import Boton from '../../../../../componente-estilo/boton/boton';
 import Botonera from '../../../../../componente-estilo/botonera/botonera';
-import Card from '../../../../../componente-estilo/card/card';
 import Centro from '../../../../../componente-estilo/centro/centro';
-import Texto from '../../../../../componente-estilo/texto/texto';
 import useFinPagina from '../../../../../hooks/finPagina/useFinPagina';
 import { LibroCompletoProp } from '../../../../../modelo/Entidades/libro/libro.interface';
 import { BusquedaApiProp } from '../../../../../modelo/HTTP/peticiones.interface';
 import useLibroCompletoApi from '../../../../../servicio/libro/useLibroCompletoApi';
 import { limiteDefecto } from '../../../../../utils/constantes';
-import { nombreLibroXstring } from '../../../../../utils/formatoDatos';
 import { useLibroContext } from '../../contexto/contexto.libro';
+import LibroParteCard from '../../componente/card/libroParteCard';
 
 const LibroCompletoLista = () => {
-  const { librosCompletos, setLibrosCompleto, busquedaCompleta } = useLibroContext();
+  const { librosCompletos, setLibrosCompleto, busquedaCompleta, setBusquedaCompleta } = useLibroContext();
 
   const { obtenerLibrosCompleto, responseLibros, errorFetchLibros, loadingLibros } =
     useLibroCompletoApi();
@@ -65,7 +63,11 @@ useEffect(()=>{
     esperarScroll: true,
   });
 
-  const handleLibro = () => {};
+  const handleLibro = (libro:LibroCompletoProp) => {
+    setBusquedaCompleta(prev=>(prev ? {...prev, id_libro_completo:libro.id, libro_completo:libro} : prev));
+    console.log('libro: ',libro)
+  };
+
   return (
     <>
       <Centro 
@@ -74,55 +76,7 @@ useEffect(()=>{
       error={errorFetchLibros}
       >
         {librosCompletos?.datos.map(libro => (
-          <Card key={libro.id} onClick={handleLibro} tituloCard={libro.nombre} retirado>
-            <img src={libro.img} alt={nombreLibroXstring(libro)} />
-            <div className="card-vertical">
-              <Texto texto={libro.nombre} />
-              <div className="card-horizontal">
-                <Texto
-                  textoResaltado={'Año de edición:  '}
-                  texto={libro.anio ?? ''}
-                  etiqueta={libro.anio ?? ''}
-                  chica
-                  inline
-                />
-                <Texto
-                  textoResaltado={'Número de edición:  '}
-                  texto={`${libro.edicion ?? ''}`}
-                  etiqueta={`${libro.edicion ?? ''}`}
-                  chica
-                  inline
-                />
-              </div>
-              <Texto
-                textoResaltado={'Editorial: '}
-                texto={libro.editorial ?? ''}
-                etiqueta={libro.editorial ?? ''}
-                chica
-                inline
-              />
-              <Texto
-                textoResaltado={'Autor:  '}
-                texto={libro.autor ?? ''}
-                etiqueta={libro.autor ?? ''}
-                chica
-                inline
-              />
-              <Texto
-                textoResaltado={'Materia:  '}
-                texto={libro.materia.nombre}
-                etiqueta={libro.materia.nombre ?? ''}
-                chica
-                inline
-              />
-              <Texto
-                textoResaltado={'Descripcion:  '}
-                texto={libro.descripcion ?? ''}
-                etiqueta={libro.descripcion ?? ''}
-                chica
-              />
-            </div>
-          </Card>
+          <LibroParteCard key={libro.id} libro={libro} handleLibro={handleLibro}/>
         ))}
       </Centro>
       <Botonera derecha flotante abajo>

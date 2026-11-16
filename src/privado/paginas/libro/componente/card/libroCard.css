@@ -1,0 +1,23 @@
+.libro_parte_card{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+}
+
+.libro_parte_card img{
+  width: 20%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(1px 1px 2px var(--colorSombra));
+  margin: 0;
+  padding: 0;
+  border-radius: 5px 0 0 5px;
+  filter: drop-shadow(1px 1px 2px var(--colorSombra));
+
+}
+
+.libro_parte_card img:hover{
+  scale: 1.5;
+}

@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { ContenedorCentro } from "../../../../../componente-estilo/centro/centroExterior"
 import { useLibroContext } from "../../contexto/contexto.libro";
 import LibroCargarPartes from "./libroCargarPartes"
 import LibroCompletoLista from "./libroCompletoLista"
+import LibroCargarParteSecundaria from "./libroCargarParteSecundaria";
 
 const LibroCargarPartesInicio = () => {
-  const {librosCompletos, armado} = useLibroContext();
+  const {librosCompletos, armado, busquedaCompleta} = useLibroContext();
 
   useEffect(()=> {
     console.log('armado nombre: ', armado.libroNombre)
@@ -16,7 +16,8 @@ const LibroCargarPartesInicio = () => {
   return (
     <>
       {!librosCompletos && <LibroCargarPartes/>}
-      {librosCompletos?.datos && librosCompletos?.datos.length > 0 && <LibroCompletoLista/>}
+      {!busquedaCompleta?.id_libro_completo && librosCompletos?.datos && librosCompletos?.datos.length > 0 && <LibroCompletoLista/>}
+      {busquedaCompleta?.id_libro_completo && <LibroCargarParteSecundaria/>}
     </>
   )
 }
