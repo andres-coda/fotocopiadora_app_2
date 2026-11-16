@@ -35,7 +35,7 @@ const LibroCargarGuardado = () => {
         <Boton
           onClick={() => {
             dispatch(seleccionarLibro(busquedaCompleta.libro_guardado));
-            navigate(`/${rutaBase.PRIVADO}/${RutasPrivadas.LIBRO}`), 
+            navigate(`/${rutaBase.PRIVADO}/${RutasPrivadas.LIBRO}`);
             setModal(false);
           }}
           texto="Ir al libro"

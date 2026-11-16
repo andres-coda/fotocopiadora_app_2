@@ -168,10 +168,19 @@ const useBuscadorLibro = ({ opcionesActivas, valor }: BuscadorLibroProp) => {
   queryActualLibrosRef.current = query;
   queryActualPropuestaRef.current = query;
 
+  // Al cerrar el modal de una propuesta hay que soltar la propuesta elegida:
+  // si no, la lista queda apuntando a una propuesta que ya no se esta viendo.
+  //
+  // Aca NO se resetea el libro a proposito. Este hook lo comparten la lista de
+  // libros y los buscadores de pedido y propuesta, asi que el efecto corre al
+  // cerrar CUALQUIER modal de la app. Resetear el libro rompia "Ir al libro":
+  // el boton despacha `seleccionarLibro`, navega y recien despues cierra el
+  // modal de crear libro; con el reset aca, la navegacion (diferida por
+  // react-router v7) llegaba con la seleccion ya vacia y la pagina del libro
+  // mostraba "No se encontro el libro seleccionado".
   useEffect(() => {
     if (!modal) {
       dispatch(resetSeleccionarPropuesta());
-      dispatch(resetSeleccionarLibro());
     }
   }, [modal]);
 
