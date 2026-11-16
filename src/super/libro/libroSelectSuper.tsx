@@ -8,7 +8,6 @@ import Editar from '../../assets/edit.svg?react';
 import Eliminar from '../../assets/deleted.svg?react';
 import LibroSelectNombre from '../../privado/paginas/libro/componente/libroSelectNombre';
 import LibroSelectExtra from '../../privado/paginas/libro/componente/libroSelectExtra';
-import LibroSelectLocal from '../../privado/paginas/libro/componente/libroSelectLocal';
 import { Dispatch, SetStateAction } from 'react';
 import '../../privado/paginas/libro/componente/libroSelect.css';
 import Botonera from '../../componente-estilo/botonera/botonera';

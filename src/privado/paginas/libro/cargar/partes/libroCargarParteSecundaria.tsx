@@ -10,7 +10,6 @@ import CargarLibroDatosExtras, { CamposBloqueados } from '../cargarLibroDatosExt
 import CargarLibroDatosLocal from '../cargarLibroDatosLocal';
 import { useForm } from 'react-hook-form';
 import { BusquedaLibroCompletoInicial, PantallaCargarLibro, useLibroContext } from '../../contexto/contexto.libro';
-import { useModalContext } from '../../../../../contexto/contextoModal';
 import useEspecificacionesSelect from '../../../../../hooks/presupuesto/useEspecificacionesSelect';
 import { espDefaultInicial } from '../../../../../utils/especificaciones';
 import LibroParteCard from '../../componente/card/libroParteCard';
@@ -19,7 +18,6 @@ import { useEffect } from 'react';
 
 const LibroCargarParteSecundaria = () => {
   const { armado, busquedaCompleta, setBusquedaCompleta, librosCompletos, setPantalla } = useLibroContext();
-  const { setModal } = useModalContext();
   const { especificaciones, setEspecificaciones } = useEspecificacionesSelect(espDefaultInicial);
 
   const { crearLibro, responseLibro, errorFetchLibro, loadingLibro } = useLibroApi();
@@ -41,7 +39,6 @@ const LibroCargarParteSecundaria = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
     setValue,
   } = useForm<formValuesLibro>({
     resolver: zodResolver(libro),
@@ -62,7 +59,7 @@ const LibroCargarParteSecundaria = () => {
     crearLibro({ data, especificaciones, id_libro_completo: busquedaCompleta?.id_libro_completo });
   };
 
-  const handleLibro = (libro: LibroCompletoProp) => {
+  const handleLibro = (_libro: LibroCompletoProp) => {
     setBusquedaCompleta(undefined);
   };
 

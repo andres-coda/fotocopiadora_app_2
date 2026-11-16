@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Formulario from '../../../../../componente/formulario/formulario';
 import { formValuesLibroMedio, libroMedio, libroMedioFormEdit } from '../../../../../modelo/Entidades/libro/esqLibro.esquema';
 import CargarLibroNombre from '../cargarLibroNombre';
@@ -20,7 +20,6 @@ const LibroCargarPartes = () => {
     formState: { errors },
     reset,
     watch,
-    setValue,
   } = useForm<formValuesLibroMedio>({
     resolver: zodResolver(libroMedio),
     defaultValues: libroMedioFormEdit({armado}),

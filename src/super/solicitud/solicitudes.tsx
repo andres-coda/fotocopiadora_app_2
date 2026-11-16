@@ -4,7 +4,7 @@ import { SolicitudProp } from '../../modelo/Entidades/solicitud/solicitud.interf
 import { ReduxProp } from '../../redux/modelo/reduxContext.interface';
 import { useSelector } from 'react-redux';
 import { appStore } from '../../redux/store';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useBusquedaPaginada from '../../hooks/buscador/useBusquedaPaginada';
 import {
   agregarSolicitudesBusquedaActual,

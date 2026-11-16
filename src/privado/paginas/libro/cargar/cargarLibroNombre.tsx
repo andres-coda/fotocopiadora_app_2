@@ -5,7 +5,6 @@ import DesplegablePredictivo from '../../../../componente-estilo/predictivo/desp
 import LibroCardNombre from '../componente/libroCardNombre';
 import EditorialCard from '../componente/editorialCard';
 import MateriaCard from '../componente/materiaCard';
-import { useState } from 'react';
 import useBusquedaSimple from '../../../../hooks/buscador/useBuscadorSimple';
 import {
   EditorialNombreProp,

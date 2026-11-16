@@ -10,7 +10,7 @@ import {
   LibroCompletoAdapterProp,
   LibroCompletoProp,
 } from '../../modelo/Entidades/libro/libro.interface';
-import { materiaInicial, MateriaProp } from '../../modelo/Entidades/libro/materia.interface';
+import { MateriaProp } from '../../modelo/Entidades/libro/materia.interface';
 import { StockProp } from '../../modelo/Entidades/libro/stock.interface';
 import { PropuestaProp } from '../../modelo/Entidades/propuesta/propuesta.interface';
 import { baseAdapter } from './base.adapter';

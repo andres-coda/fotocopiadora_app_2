@@ -1,4 +1,3 @@
-import { LibroCompletoProp, LibroProp } from '../modelo/Entidades/libro/libro.interface';
 import { Estado } from '../modelo/Entidades/pedido_libro/estado.enum';
 
 export const normalizarTexto = (texto: string | undefined): string => {

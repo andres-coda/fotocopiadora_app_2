@@ -32,7 +32,7 @@ const useUsuariosEmpresa = () => {
     }
   },[])
 
-  const obtenerBusqueda = ({query, limite, pagina}:BusquedaApiProp) => {
+  const obtenerBusqueda = ({limite, pagina}:BusquedaApiProp) => {
     if(loadingUsuarios) return
     if(esSuper(sesion) && empresaSelect) {
       obtenerUsuariosByIdEmpresa({id:empresaSelect.id, pagina, limite});
