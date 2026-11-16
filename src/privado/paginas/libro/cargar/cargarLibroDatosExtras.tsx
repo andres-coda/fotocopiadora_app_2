@@ -7,17 +7,32 @@ import {
 import { parseDecimal } from '../../../../utils/formulario';
 import CargarLibroImagen from './cargarLibroImagen';
 
+/**
+ * Campos que ya vienen cargados desde el catalogo (`libro_completo`) y que, por
+ * lo tanto, no se editan al crear el libro de la empresa. Solo quedan abiertos
+ * los que llegaron vacios.
+ */
+export interface CamposBloqueados {
+  descripcion?: boolean;
+  autor?: boolean;
+  edicion?: boolean;
+  anio?: boolean;
+  img?: boolean;
+}
+
 interface Prop<T extends formValuesLibroDatosExtras> {
   control: Control<T>;
   errors: FieldErrors<formValuesLibroDatosExtras>;
   setValue: UseFormSetValue<T>;
   nuevo?:boolean;
+  bloqueados?: CamposBloqueados;
 }
 
 const CargarLibroDatosExtras = <T extends formValuesLibroDatosExtras>({
   control,
   errors,
   setValue,
+  bloqueados,
 }: Prop<T>) => {
   const nameDescripcion = 'descripcion' as Path<T>;
   const nameAutor = 'autor' as Path<T>;
@@ -33,6 +48,7 @@ const CargarLibroDatosExtras = <T extends formValuesLibroDatosExtras>({
         tipo="text"
         error={errors.descripcion}
         esquema={libroDatosExtras}
+        bloqueado={bloqueados?.descripcion}
       />
       <Input<T>
         name={nameAutor}
@@ -41,6 +57,7 @@ const CargarLibroDatosExtras = <T extends formValuesLibroDatosExtras>({
         tipo="text"
         error={errors.autor}
         esquema={libroDatosExtras}
+        bloqueado={bloqueados?.autor}
       />
 
       <div className="form-horizontal">
@@ -53,6 +70,7 @@ const CargarLibroDatosExtras = <T extends formValuesLibroDatosExtras>({
           esquema={libroDatosExtras}
           formatValue={v => parseDecimal(v, 2, 0)}
           parseValue={v => parseDecimal(v, 2, 0)}
+          bloqueado={bloqueados?.edicion}
         />
         <Input<T>
           name={nameAnio}
@@ -63,9 +81,15 @@ const CargarLibroDatosExtras = <T extends formValuesLibroDatosExtras>({
           esquema={libroDatosExtras}
           formatValue={v => parseDecimal(v, 4, 0)}
           parseValue={v => parseDecimal(v, 4, 0)}
+          bloqueado={bloqueados?.anio}
         />
       </div>
-      <CargarLibroImagen<T> control={control} errors={errors} setValue={setValue} />
+      <CargarLibroImagen<T>
+        control={control}
+        errors={errors}
+        setValue={setValue}
+        bloqueada={bloqueados?.img}
+      />
     </>
   );
 };

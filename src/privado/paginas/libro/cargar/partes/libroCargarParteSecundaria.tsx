@@ -6,7 +6,7 @@ import {
   libroFormEdit,
 } from '../../../../../modelo/Entidades/libro/esqLibro.esquema';
 import useLibroApi from '../../../../../servicio/libro/useLibroApi';
-import CargarLibroDatosExtras from '../cargarLibroDatosExtras';
+import CargarLibroDatosExtras, { CamposBloqueados } from '../cargarLibroDatosExtras';
 import CargarLibroDatosLocal from '../cargarLibroDatosLocal';
 import { useForm } from 'react-hook-form';
 import { BusquedaLibroCompletoInicial, PantallaCargarLibro, useLibroContext } from '../../contexto/contexto.libro';
@@ -23,6 +23,19 @@ const LibroCargarParteSecundaria = () => {
   const { especificaciones, setEspecificaciones } = useEspecificacionesSelect(espDefaultInicial);
 
   const { crearLibro, responseLibro, errorFetchLibro, loadingLibro } = useLibroApi();
+  const libroCompleto = busquedaCompleta?.libro_completo;
+
+  // Regla del formulario: un dato que ya existe en el catalogo no se toca desde
+  // aca, uno vacio se puede completar. En el alta desde cero no hay
+  // `libro_completo`, asi que todos los campos quedan editables.
+  const bloqueados: CamposBloqueados = {
+    descripcion: !!libroCompleto?.descripcion,
+    autor: !!libroCompleto?.autor,
+    edicion: libroCompleto?.edicion != null && `${libroCompleto.edicion}` !== '',
+    anio: !!libroCompleto?.anio,
+    img: !!libroCompleto?.img,
+  };
+
   const {
     control,
     handleSubmit,
@@ -32,7 +45,7 @@ const LibroCargarParteSecundaria = () => {
     setValue,
   } = useForm<formValuesLibro>({
     resolver: zodResolver(libro),
-    defaultValues: libroFormEdit({ armado, libroCompleto:busquedaCompleta?.libro_completo }),
+    defaultValues: libroFormEdit({ armado, libroCompleto }),
   });
 
   useEffect(()=>{
@@ -77,8 +90,8 @@ const LibroCargarParteSecundaria = () => {
       errorFetch={errorFetchLibro}
       loading={loadingLibro}
       encabezado={
-        busquedaCompleta?.libro_completo && (
-          <LibroParteCard libro={busquedaCompleta?.libro_completo} handleLibro={handleLibro} />
+        libroCompleto && (
+          <LibroParteCard libro={libroCompleto} handleLibro={handleLibro} />
         )
       }
     >
@@ -87,6 +100,7 @@ const LibroCargarParteSecundaria = () => {
           control={control}
           errors={errors}
           setValue={setValue}
+          bloqueados={bloqueados}
         />
         <CargarLibroDatosLocal<formValuesLibro>
           control={control}

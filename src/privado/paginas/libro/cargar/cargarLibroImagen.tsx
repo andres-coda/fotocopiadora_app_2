@@ -22,6 +22,8 @@ interface Prop<T extends FieldValues> {
   control: Control<T>;
   errors: FieldErrors<FieldValues>;
   setValue: UseFormSetValue<T>;
+  /** La imagen ya viene del catalogo: no se puede reemplazar desde aca. */
+  bloqueada?: boolean;
 }
 
 interface ImgSubirResponse {
@@ -30,7 +32,7 @@ interface ImgSubirResponse {
 
 const MAX_BYTES = 5 * 1024 * 1024;
 
-const CargarLibroImagen = <T extends FieldValues>({ control, errors, setValue }: Prop<T>) => {
+const CargarLibroImagen = <T extends FieldValues>({ control, errors, setValue, bloqueada = false }: Prop<T>) => {
   const name = 'img' as Path<T>;
   const { fetchData, response, loading, errorFetch } = useApi<ImgSubirResponse>({});
   const [localError, setLocalError] = useState<string | null>(null);
@@ -73,6 +75,7 @@ const CargarLibroImagen = <T extends FieldValues>({ control, errors, setValue }:
   };
 
   const onPaste = (e: ClipboardEvent<HTMLDivElement>) => {
+    if (bloqueada) return;
     const item = Array.from(e.clipboardData.items).find(i => i.type.startsWith('image/'));
     if (!item) return;
     e.preventDefault();
@@ -89,14 +92,18 @@ const CargarLibroImagen = <T extends FieldValues>({ control, errors, setValue }:
           tipo="text"
           error={imgError}
           esquema={libroDatosExtras}
+          bloqueado={bloqueada}
         />
         <div className="cargar-libro-imagen-acciones">
           <Boton
             texto={loading ? 'Subiendo...' : 'Subir imagen'}
             secundario
-            onClick={() => fileRef.current?.click()}
+            nuevoEstilo={bloqueada ? 'btn-apagado' : undefined}
+            onClick={bloqueada ? undefined : () => fileRef.current?.click()}
           />
-          <span className="cargar-libro-imagen-hint">o pegá una imagen (Ctrl+V)</span>
+          {!bloqueada && (
+            <span className="cargar-libro-imagen-hint">o pegá una imagen (Ctrl+V)</span>
+          )}
           <input ref={fileRef} type="file" accept="image/*" hidden onChange={onFileChange} />
         </div>
       </div>

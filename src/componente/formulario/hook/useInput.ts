@@ -7,7 +7,8 @@ const useInput = ({
   hayError = false,
   nuevoEstiloInput = '',
   chico = false,
-  esDesplegable = false
+  esDesplegable = false,
+  bloqueado = false
 }:InputClaseProp) => {
   const claseInputCompleto =[
     'inputs-span',
@@ -23,6 +24,7 @@ const useInput = ({
     alingDerecha && 'alin-derecha',
     chico && 'select-chico',
     esDesplegable && 'no-label',
+    bloqueado && 'is-bloqueado',
   ]
   .filter(Boolean)
   .join(' ');

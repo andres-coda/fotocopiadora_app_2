@@ -63,6 +63,23 @@
   cursor: pointer;
 }
 
+/*
+ * Campo bloqueado: el valor viene del catalogo y no se edita desde aca.
+ * Se pisa el estilo nativo de `disabled` para que siga el tema del proyecto.
+ */
+.is-bloqueado input,
+.is-bloqueado select,
+.is-bloqueado textarea {
+  background-color: var(--colorFondo);
+  border-color: var(--colorSombra);
+  color: var(--colorSombra);
+  cursor: not-allowed;
+}
+
+.is-bloqueado label {
+  color: var(--colorSombra);
+}
+
 .select-chico, .select-chico  select {
   height: fit-content;
   width: fit-content;

@@ -17,10 +17,12 @@ const Input = <T extends FieldValues>({
   esquema,
   formatValue,
   parseValue,
+  bloqueado,
 }: InputProps<T>) => {
   const {claseInput, claseInputCompleto} = useInput({
     alingDerecha,
-    hayError: error ? true : false
+    hayError: error ? true : false,
+    bloqueado
   })
   return (
     <div className={claseInputCompleto}>
@@ -38,6 +40,9 @@ const Input = <T extends FieldValues>({
               placeholder={' '}
               autoComplete="off"
               {...field}
+              // Despues del spread: `Controller` puede traer su propio
+              // `disabled` y lo pisaria con `undefined`.
+              disabled={bloqueado}
               value={formatValue ? formatValue(field.value) : (field.value ?? '')}
               onChange={e => {
                 const raw = e.target.value;

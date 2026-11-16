@@ -8,6 +8,8 @@ export interface InputClaseProp {
   nuevoEstiloInput?: string;
   chico?:boolean;
   esDesplegable?:boolean;
+  /** Campo con dato que no se puede modificar desde este formulario. */
+  bloqueado?: boolean;
 }
 
 

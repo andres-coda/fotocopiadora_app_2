@@ -63,15 +63,24 @@ export const libroFormDefault: formValuesLibro = {
   componentes: '',
 };
 
+/**
+ * Un campo vacio tiene que llegar al formulario como cadena vacia, no como el
+ * texto `"undefined"`: un template literal sobre `undefined` devuelve una
+ * cadena truthy, que rompe la validacion (por ejemplo `cantidadPg`, donde el
+ * `min(1)` de Zod daria por valido un campo que el usuario ve vacio).
+ */
+const textoFormulario = (valor?: string | number | null): string =>
+  valor === undefined || valor === null ? '' : String(valor);
+
 export const libroFormEdit = ({ libro, armado, libroCompleto }: EditProp): formValuesLibro => {
   if (!libro && (!armado?.libroNombre && !armado?.libroPrincipal) && !libroCompleto) return libroFormDefault;
   return {
     ...libroMedioFormEdit({ libro, armado }),
     descripcion: libro?.descripcion || libroCompleto?.descripcion || libroFormDefault.descripcion,
-    edicion: `${libro?.edicion}` || `${libroCompleto?.edicion}` || libroFormDefault.edicion,
-    cantidadPg: `${libro?.cantidadPg}` || libroFormDefault.cantidadPg,
+    edicion: textoFormulario(libro?.edicion) || textoFormulario(libroCompleto?.edicion) || libroFormDefault.edicion,
+    cantidadPg: textoFormulario(libro?.cantidadPg),
     anio: libro?.anio || libroCompleto?.anio || libroFormDefault.anio,
-    adhesivos: `${libro?.adhesivos}` || libroFormDefault.adhesivos,
+    adhesivos: textoFormulario(libro?.adhesivos) || libroFormDefault.adhesivos,
     autor: libro?.autor || libroCompleto?.autor || libroFormDefault.autor,
     img: libro?.img || libroCompleto?.img || libroFormDefault.img,
   };
