@@ -67,12 +67,18 @@ export const libroPrincipalDtoAdapter = (
   return newGrupo;
 };
 
+/**
+ * `id_libro_completo` solo viaja cuando hay un libro del catalogo elegido. Si
+ * se agrega siempre, el DTO queda con una clave propia en `undefined` que
+ * `Object.keys` ve aunque `JSON.stringify` la descarte: el objeto deja de
+ * reflejar el body que se manda.
+ */
 export const libroDtoAdapter = ({ data, especificaciones, id_libro_completo }: CrearLibroProp): libroDtoProp => {
   const newGrupo: libroDtoProp = {
     ...libroExtraDtoAdapter(data),
     ...libroEmpresaEditarDtoAdapter({ data, especificaciones }),
     ...libroPrincipalDtoAdapter(data, data),
-    id_libro_completo,
+    ...(id_libro_completo ? { id_libro_completo } : {}),
   };
   return newGrupo;
 };

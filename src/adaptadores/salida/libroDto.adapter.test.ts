@@ -156,5 +156,15 @@ describe('libroDto.adapter', () => {
         'nombre',
       ]);
     });
+
+    // El catalogo solo viene cuando la pantalla manda un libro existente. Si se
+    // omite, la clave no debe existir en el objeto; si viene, tiene que viajar.
+    it('agrega id_libro_completo solo cuando hay libro del catalogo', () => {
+      const conCatalogo = libroDtoAdapter({ data, especificaciones, id_libro_completo: 'abc-123' });
+
+      expect(conCatalogo.id_libro_completo).toBe('abc-123');
+      expect(Object.keys(conCatalogo)).toContain('id_libro_completo');
+      expect(Object.keys(libroDtoAdapter({ data, especificaciones }))).not.toContain('id_libro_completo');
+    });
   });
 });
