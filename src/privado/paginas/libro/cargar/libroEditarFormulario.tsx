@@ -57,7 +57,7 @@ const LibroEditarFormulario = ({
     setValue,
   } = useForm<formValuesLibro>({
     resolver: zodResolver(libro),
-    defaultValues: libroFormEdit(libroSelect),
+    defaultValues: libroFormEdit({ libro: libroSelect }),
   });
 
   const { setModal } = useModalContext();
@@ -86,13 +86,13 @@ const LibroEditarFormulario = ({
   };
 
   const retroceder = () => {
-    reset(libroFormEdit());
+    reset(libroFormEdit({ libro: libroSelect }));
     setModal(false);
   };
 
   useEffect(() => {
     if (responseLibro || response) {
-      reset(libroFormEdit());
+      reset(libroFormEdit({ libro: libroSelect }));
       setModal(false);
     }
   }, [responseLibro, response]);
