@@ -1,8 +1,9 @@
 import { FormularioEstiloProp } from "../modelo/formulario.interface"
 
-const useFormulario = ({estiloBoton = '', claseForm = '', hayTxtBtnConfirmar = false, iconoChico = false, hayTxtBtnSecundario = false}:FormularioEstiloProp) => {
+const useFormulario = ({estiloBoton = '', claseForm = '', hayTxtBtnConfirmar = false, iconoChico = false, hayTxtBtnSecundario = false, centrado=false}:FormularioEstiloProp) => {
   const clase = [
     'formulario',
+    centrado && 'form-centrado',
     claseForm
   ]
     .filter(Boolean)

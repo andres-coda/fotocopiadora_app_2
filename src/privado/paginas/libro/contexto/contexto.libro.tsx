@@ -42,14 +42,33 @@ export interface ArmadoProp {
 // lo mismo: en el flujo de alta `armado.libroPrincipal` esta vacio y los valores
 // reales viven en el formulario.
 export interface BusquedaLibroCompletoProp {
+  libro_seleccionado?: LibroCompletoSeleccionado;
+  id_libro_completo?:string;
+  libro_completo?:LibroCompletoProp;
+  libro_guardado?:LibroProp;
+}
+
+interface LibroCompletoSeleccionado {
   id: string;
   nivel?: string;
   componentes?: string;
-  id_libro_completo?:string;
-  libro_completo?:LibroCompletoProp;
 }
 
-const armadoInicial = {
+export const BusquedaLibroCompletoInicial:BusquedaLibroCompletoProp = {
+  libro_seleccionado: undefined,
+  id_libro_completo:undefined,
+  libro_completo:undefined,
+  libro_guardado:undefined
+}
+
+export enum PantallaCargarLibro {
+  INICIO ='inicio',
+  LISTA = 'lista',
+  SECUNDARIO = 'secundario',
+  GURDADO = 'guardado'
+}
+
+export const armadoInicial = {
   libroNombre: undefined,
   libroPrincipal: undefined,
   libroSecundario: undefined,
@@ -62,6 +81,8 @@ interface ContextoLibroValor {
   setBusquedaCompleta: Dispatch<SetStateAction<BusquedaLibroCompletoProp | undefined>>;
   armado: ArmadoProp;
   setArmado: Dispatch<SetStateAction<ArmadoProp>>;
+  pantalla: PantallaCargarLibro;
+  setPantalla: Dispatch<SetStateAction<PantallaCargarLibro>>;
 }
 
 export const contextoLibro = createContext<ContextoLibroValor | undefined>(undefined);
@@ -70,6 +91,7 @@ export const ProveedorLibroContext = ({ children }: contextoProps) => {
   const [armado, setArmado] = useState<ArmadoProp>(armadoInicial);
   const [librosCompletos, setLibrosCompleto] = useState<PaginadoProp<LibroCompletoProp> | undefined>(undefined);
   const [busquedaCompleta, setBusquedaCompleta] = useState<BusquedaLibroCompletoProp | undefined>(undefined);
+  const [pantalla, setPantalla ] = useState<PantallaCargarLibro>(PantallaCargarLibro.INICIO);
 
   const libro: LibroProp | undefined = useSelector(
     (store: appStore) => store.libro.datoSeleccionado
@@ -97,6 +119,8 @@ export const ProveedorLibroContext = ({ children }: contextoProps) => {
         setLibrosCompleto,
         busquedaCompleta,
         setBusquedaCompleta,
+        pantalla,
+        setPantalla
       }}
     >
       {children}

@@ -6,11 +6,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useModalContext } from '../../../../../contexto/contextoModal';
 import CargarComponentes from '../cargarComponentes';
-import { useLibroContext } from '../../contexto/contexto.libro';
+import { BusquedaLibroCompletoInicial, PantallaCargarLibro, useLibroContext } from '../../contexto/contexto.libro';
 import useLibroCompletoApi from '../../../../../servicio/libro/useLibroCompletoApi';
 
 const LibroCargarPartes = () => {
-  const {armado, setLibrosCompleto, setBusquedaCompleta} = useLibroContext();
+  const {armado, setLibrosCompleto, setBusquedaCompleta, setPantalla} = useLibroContext();
   const {setModal} = useModalContext();
 
   const {obtenerLibrosCompleto, responseLibros, errorFetchLibros, loadingLibros}=useLibroCompletoApi()
@@ -29,6 +29,11 @@ const LibroCargarPartes = () => {
   useEffect(()=>{
     if(responseLibros){
       setLibrosCompleto(responseLibros);
+    if(responseLibros?.total===0){
+      setPantalla(PantallaCargarLibro.SECUNDARIO);
+    } else {
+      setPantalla(PantallaCargarLibro.LISTA);
+    }
     }
   },[responseLibros])
 
@@ -47,7 +52,7 @@ const LibroCargarPartes = () => {
       nivel: armado.libroPrincipal?.nivel ?? watch().nivel,
       componentes: armado.libroPrincipal?.componentes_texto ?? watch().componentes,
     };
-    setBusquedaCompleta(criterios);
+    setBusquedaCompleta({...BusquedaLibroCompletoInicial, libro_seleccionado: criterios});
     obtenerLibrosCompleto({
       ...criterios,
     });

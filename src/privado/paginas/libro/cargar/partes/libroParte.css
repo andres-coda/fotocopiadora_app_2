@@ -1,0 +1,9 @@
+.libro-partes-lista{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding-bottom: 2.5rem;
+}

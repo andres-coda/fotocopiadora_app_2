@@ -5,7 +5,7 @@
   align-items: stretch;
   height: max-content;
   padding: 1rem 1rem 2rem 1rem;
-  gap: 0.5rem;
+  gap: 1rem;
   box-shadow: 1px 1px 1px var(--colorSombra);
   border-radius: 10px;
   box-sizing: border-box;
@@ -47,6 +47,10 @@
   flex-direction: row;
 }
 
+.form-horizontal .inputs-span span {
+  min-height: 17px;
+}
+
 .form-horizontal-flexible {
   flex-wrap: wrap;
 }
@@ -58,4 +62,8 @@
   justify-content: space-around;
   gap: 0.5rem;
   box-sizing: border-box;
+}
+
+.form-centrado{
+  align-items: center;
 }

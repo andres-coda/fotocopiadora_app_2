@@ -6,6 +6,7 @@ export interface FormularioEstiloProp {
   hayTxtBtnConfirmar?:boolean;
   iconoChico?:boolean;
   hayTxtBtnSecundario?: boolean;
+  centrado?:boolean;
 }
 
 export interface FormularioProp extends Omit<FormularioEstiloProp, 'hayTxtBtnConfirmar' | 'hayTxtBtnSecundario'> {
@@ -21,4 +22,6 @@ export interface FormularioProp extends Omit<FormularioEstiloProp, 'hayTxtBtnCon
   loading?: boolean;
   errorFetch?: string | null;
   simple?:boolean;
+  //Cualquier elemento que vaya antes del formulario aparte del titulo
+  encabezado?: ReactNode;
 }

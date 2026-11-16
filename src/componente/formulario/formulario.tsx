@@ -24,6 +24,8 @@ function Formulario({
   errorFetch = undefined,
   iconoChico,
   simple = false,
+  centrado,
+  encabezado = undefined
 }: FormularioProp) {
   const { clase, claseBtnConfirmar, claseBtnSecundario } = useFormulario({
     estiloBoton,
@@ -31,6 +33,7 @@ function Formulario({
     iconoChico,
     hayTxtBtnConfirmar: textBtnConfirmar ? true : false,
     hayTxtBtnSecundario: textBtnSecundario ? true : false,
+    centrado
   });
 
   const handleSubmit = (e: BaseSyntheticEvent<object, any, any> | undefined) => {
@@ -54,6 +57,7 @@ function Formulario({
   return (
     <div className={clase}>
       {titulo ? <Titulo titulo={titulo} /> : null}
+      {encabezado && encabezado}
       <form onSubmit={handleSubmit} onReset={onReset}>
         {children}
         <Botonera

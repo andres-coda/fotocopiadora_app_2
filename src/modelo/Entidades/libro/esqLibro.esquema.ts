@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { LibroProp } from './libro.interface';
+import { LibroCompletoProp, LibroProp } from './libro.interface';
 import { transformarComponente } from '../../../utils/componente';
 import { ArmadoProp } from '../../../privado/paginas/libro/contexto/contexto.libro';
 
@@ -63,17 +63,17 @@ export const libroFormDefault: formValuesLibro = {
   componentes: '',
 };
 
-export const libroFormEdit = ({ libro, armado }: EditProp): formValuesLibro => {
-  if (!libro && (!armado?.libroNombre && !armado?.libroPrincipal)) return libroFormDefault;
+export const libroFormEdit = ({ libro, armado, libroCompleto }: EditProp): formValuesLibro => {
+  if (!libro && (!armado?.libroNombre && !armado?.libroPrincipal) && !libroCompleto) return libroFormDefault;
   return {
     ...libroMedioFormEdit({ libro, armado }),
-    descripcion: libro?.descripcion || libroFormDefault.descripcion,
-    edicion: `${libro?.edicion}` || libroFormDefault.edicion,
+    descripcion: libro?.descripcion || libroCompleto?.descripcion || libroFormDefault.descripcion,
+    edicion: `${libro?.edicion}` || `${libroCompleto?.edicion}` || libroFormDefault.edicion,
     cantidadPg: `${libro?.cantidadPg}` || libroFormDefault.cantidadPg,
-    anio: libro?.anio || libroFormDefault.anio,
+    anio: libro?.anio || libroCompleto?.anio || libroFormDefault.anio,
     adhesivos: `${libro?.adhesivos}` || libroFormDefault.adhesivos,
-    autor: libro?.autor || libroFormDefault.autor,
-    img: libro?.img || libroFormDefault.img,
+    autor: libro?.autor || libroCompleto?.autor || libroFormDefault.autor,
+    img: libro?.img || libroCompleto?.img || libroFormDefault.img,
   };
 };
 
@@ -96,6 +96,7 @@ export const libroMedioFormDefault: formValuesLibroMedio = {
 interface EditProp {
   libro?: LibroProp | null;
   armado?: ArmadoProp;
+  libroCompleto?:LibroCompletoProp;
 }
 
 export const libroMedioFormEdit = ({ libro, armado }: EditProp): formValuesLibroMedio => {

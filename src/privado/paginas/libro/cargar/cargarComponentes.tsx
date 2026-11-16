@@ -13,6 +13,7 @@ import { ComponenteProp } from '../../../../modelo/Entidades/libro/componente.in
 import useNivelApi from '../../../../servicio/nivel/useNivel';
 import { NivelProp } from '../../../../modelo/Entidades/libro/nivel.interface';
 import { useLibroContext } from '../contexto/contexto.libro';
+import { useEffect } from 'react';
 
 interface Prop<T extends formValuesLibroComponentes> {
   control: Control<T>;
@@ -90,6 +91,10 @@ const CargarComponentes = <T extends formValuesLibroComponentes>({
     loading: loadingNivels,
     obtenerBusqueda: obtenerNivels,
   });
+
+  useEffect(()=>{
+    setArmado(prev=>({...prev, libroPrincipal: {...prev.libroPrincipal, nivel: watch().nivel}}))
+  },[watch().nivel])
 
   const handleSelectNivel = (n: NivelProp) => {
     setNiveles(undefined);

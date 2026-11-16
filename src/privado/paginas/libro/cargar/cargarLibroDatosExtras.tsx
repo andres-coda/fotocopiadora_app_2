@@ -11,6 +11,7 @@ interface Prop<T extends formValuesLibroDatosExtras> {
   control: Control<T>;
   errors: FieldErrors<formValuesLibroDatosExtras>;
   setValue: UseFormSetValue<T>;
+  nuevo?:boolean;
 }
 
 const CargarLibroDatosExtras = <T extends formValuesLibroDatosExtras>({

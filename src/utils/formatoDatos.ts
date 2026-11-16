@@ -77,7 +77,13 @@ export const estadoPedidoXstring = (estado: Estado): string => {
   }
 };
 
-export const nombreLibroXstring = (libro: LibroCompletoProp | undefined) => {
+interface DatosNombrelibroProp {
+  nombre?:string;
+  componentes_texto?:string;
+  nivel?:string;
+}
+
+export const nombreLibroXstring = (libro: DatosNombrelibroProp | undefined) => {
   if (!libro) return '';
   return `${libro.nombre}${libro.nivel ? ` - ${libro.nivel}` : ''}${libro.componentes_texto ? ` - ${libro.componentes_texto}` : ''}`;
 };

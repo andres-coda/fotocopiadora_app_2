@@ -7,11 +7,20 @@ import { LibroCompletoProp } from '../../../../../modelo/Entidades/libro/libro.i
 import { BusquedaApiProp } from '../../../../../modelo/HTTP/peticiones.interface';
 import useLibroCompletoApi from '../../../../../servicio/libro/useLibroCompletoApi';
 import { limiteDefecto } from '../../../../../utils/constantes';
-import { useLibroContext } from '../../contexto/contexto.libro';
+import { PantallaCargarLibro, useLibroContext } from '../../contexto/contexto.libro';
 import LibroParteCard from '../../componente/card/libroParteCard';
+import './libroParte.css';
+import { nombreLibroXstring } from '../../../../../utils/formatoDatos';
 
 const LibroCompletoLista = () => {
-  const { librosCompletos, setLibrosCompleto, busquedaCompleta, setBusquedaCompleta } = useLibroContext();
+  const {
+    armado,
+    librosCompletos,
+    setLibrosCompleto,
+    busquedaCompleta,
+    setBusquedaCompleta,
+    setPantalla,
+  } = useLibroContext();
 
   const { obtenerLibrosCompleto, responseLibros, errorFetchLibros, loadingLibros } =
     useLibroCompletoApi();
@@ -19,29 +28,34 @@ const LibroCompletoLista = () => {
   // Criterios resueltos al disparar la busqueda. Se usan como "query" del
   // paginado: mientras no cambien, se sigue buscando lo mismo y solo cambia la
   // pagina. Reconstruirlos desde `armado` rompia a partir de la pagina 2.
-  const criterios = busquedaCompleta
-    ? `${busquedaCompleta.id}|${busquedaCompleta.nivel ?? ''}|${busquedaCompleta.componentes ?? ''}`
+  const criterios = busquedaCompleta?.libro_seleccionado
+    ? `${busquedaCompleta.libro_seleccionado.id}|${busquedaCompleta.libro_seleccionado.nivel ?? ''}|${busquedaCompleta.libro_seleccionado.componentes ?? ''}`
     : '';
 
   const obtenerBusqueda = ({ limite, pagina }: BusquedaApiProp) => {
-    if (!busquedaCompleta) return;
+    if (!busquedaCompleta?.libro_seleccionado) return;
 
     obtenerLibrosCompleto({
-      ...busquedaCompleta,
+      ...busquedaCompleta.libro_seleccionado,
       limite,
       pagina,
     });
   };
 
-useEffect(()=>{
-  if(responseLibros){
-    setLibrosCompleto(prev=> ({
-      ...prev,
-      ...responseLibros,
-      datos:[...(prev?.datos ?? []), ...responseLibros.datos]
-    }))
-  }
-},[responseLibros])
+  useEffect(() => {
+    if (responseLibros?.total === 0) {
+      setPantalla(PantallaCargarLibro.SECUNDARIO);
+    }
+    if (responseLibros) {
+      setLibrosCompleto(prev => ({
+        ...prev,
+        ...responseLibros,
+        datos: [...(prev?.datos ?? []), ...responseLibros.datos],
+      }));
+
+      setPantalla(PantallaCargarLibro.LISTA);
+    }
+  }, [responseLibros]);
 
   const { finListaRef, contenedorRef } = useFinPagina<LibroCompletoProp>({
     datos: {
@@ -63,27 +77,42 @@ useEffect(()=>{
     esperarScroll: true,
   });
 
-  const handleLibro = (libro:LibroCompletoProp) => {
-    setBusquedaCompleta(prev=>(prev ? {...prev, id_libro_completo:libro.id, libro_completo:libro} : prev));
-    console.log('libro: ',libro)
+  const handleLibro = (libro: LibroCompletoProp) => {
+    setBusquedaCompleta(prev =>
+      prev ? { ...prev, id_libro_completo: libro.id, libro_completo: libro } : prev
+    );
+    setPantalla(PantallaCargarLibro.SECUNDARIO)
   };
 
   return (
-    <>
-      <Centro 
-      ref={contenedorRef}
-      finListaRef={finListaRef}
-      error={errorFetchLibros}
+    <div className="libro-partes-lista">
+      <Centro
+        texto={nombreLibroXstring({ ...armado.libroNombre, ...armado.libroPrincipal })}
+        ref={contenedorRef}
+        finListaRef={finListaRef}
+        error={errorFetchLibros}
+        vacio={
+          !librosCompletos || librosCompletos.datos.length === 0 || librosCompletos.total === 0
+        }
+        loading={loadingLibros}
+        entidad="libros"
+        query="los datos seleccionados para crear el libro"
       >
         {librosCompletos?.datos.map(libro => (
-          <LibroParteCard key={libro.id} libro={libro} handleLibro={handleLibro}/>
+          <LibroParteCard key={libro.id} libro={libro} handleLibro={handleLibro} />
         ))}
       </Centro>
       <Botonera derecha flotante abajo>
-        <Boton secundario texto="atras" onClick={() => setLibrosCompleto(undefined)} />
-        <Boton texto="siguiente" />
+        <Boton
+          secundario
+          texto="atras"
+          onClick={() => {
+            setLibrosCompleto(undefined), setPantalla(PantallaCargarLibro.INICIO)
+          }}
+        />
+        <Boton texto="siguiente" onClick={() => setPantalla(PantallaCargarLibro.SECUNDARIO)} />
       </Botonera>
-    </>
+    </div>
   );
 };
 

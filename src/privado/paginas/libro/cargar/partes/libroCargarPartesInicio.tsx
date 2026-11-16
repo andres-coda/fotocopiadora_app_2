@@ -1,25 +1,20 @@
-import { useEffect } from "react";
-import { useLibroContext } from "../../contexto/contexto.libro";
-import LibroCargarPartes from "./libroCargarPartes"
-import LibroCompletoLista from "./libroCompletoLista"
-import LibroCargarParteSecundaria from "./libroCargarParteSecundaria";
+import { PantallaCargarLibro, useLibroContext } from '../../contexto/contexto.libro';
+import LibroCargarPartes from './libroCargarPartes';
+import LibroCompletoLista from './libroCompletoLista';
+import LibroCargarParteSecundaria from './libroCargarParteSecundaria';
+import LibroCargarGuardado from './libroCargarGuardado';
 
 const LibroCargarPartesInicio = () => {
-  const {librosCompletos, armado, busquedaCompleta} = useLibroContext();
-
-  useEffect(()=> {
-    console.log('armado nombre: ', armado.libroNombre)
-    console.log('armado principal: ', armado.libroPrincipal)
-    console.log('armado extra: ', armado.libroSecundario)
-  },[armado.libroNombre])
+  const { pantalla } = useLibroContext();
 
   return (
     <>
-      {!librosCompletos && <LibroCargarPartes/>}
-      {!busquedaCompleta?.id_libro_completo && librosCompletos?.datos && librosCompletos?.datos.length > 0 && <LibroCompletoLista/>}
-      {busquedaCompleta?.id_libro_completo && <LibroCargarParteSecundaria/>}
+      {pantalla === PantallaCargarLibro.INICIO && <LibroCargarPartes />}
+      {pantalla === PantallaCargarLibro.LISTA && <LibroCompletoLista />}
+      {pantalla === PantallaCargarLibro.SECUNDARIO && <LibroCargarParteSecundaria />}
+      {pantalla === PantallaCargarLibro.GURDADO && <LibroCargarGuardado />}
     </>
-  )
-}
+  );
+};
 
-export default LibroCargarPartesInicio
+export default LibroCargarPartesInicio;
