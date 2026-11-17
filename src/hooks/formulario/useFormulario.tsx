@@ -85,7 +85,7 @@ const useFormulario = <T, F extends FieldValues, P extends HasId>({
 
     if (newReset) newReset();
     if (resetSelectLocal) dispatch(resetSelectLocal());
-    if (newSetModal) setNewModal(false);
+    if (newSetModal) setNewModal(prev =>(!prev));
     if (newAtras) {
       navigate(-1);
     }

@@ -6,7 +6,9 @@ import {
   CambiarEstadoPedidoCompletoProp,
   CambiarEstadoPedidoProp,
 } from '../../modelo/Entidades/pedido_libro/cambioEstado.interface';
-import { PedidoLibroProp } from '../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
+import { PedidoLibroConstruccionProp, PedidoLibroProp } from '../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
+import { PrecioProp } from '../../modelo/Entidades/precio/precio.interface';
+import { calcularPrecio } from '../../utils/precio';
 
 export const modificarEstadoPedidoRedux = (
   state: WritableDraft<ReduxProp<PedidoProp>>,
@@ -205,4 +207,20 @@ const actualizarEstadoPedidoLibroLista = (
       pedido,
     };
   });
+};
+
+export const calcularTotal = (precios: PrecioProp[], libros?: PedidoLibroConstruccionProp[]): number => {
+  return (
+    libros?.reduce(
+      (acc, p) =>
+        acc +
+        calcularPrecio({
+          libro: p.libro,
+          precios,
+          especificaciones: p.especificaciones,
+          cantidad: p.cantidad,
+        }),
+      0
+    ) ?? 0
+  );
 };
