@@ -1,8 +1,8 @@
-import './boton.css';
 import { MouseEvent } from 'react';
 import useBoton from './hooks/useBoton';
 import { BotonProp } from './modelo/boton.interface';
 import Texto from '../texto/texto';
+import './estilos/boton.css';
 
 function Boton({
   onClick = undefined,

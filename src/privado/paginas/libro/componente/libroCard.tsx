@@ -5,11 +5,10 @@ import { LibroProp } from '../../../../modelo/Entidades/libro/libro.interface';
 import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import { useEffect } from 'react';
 import useLibroApi from '../../../../servicio/libro/useLibroApi';
-import Boton from '../../../../componente-estilo/boton/boton';
-import Copiar from '../../../../assets/copiar.svg?react';
 import usePresupuesto from '../../../../hooks/presupuesto/usePresupuesto';
 import Cargando from '../../../../componente/cargando/cargando';
 import { nombreLibroXstring } from '../../../../utils/formatoDatos';
+import BtnCopiar from '../../../../componente-estilo/boton/btnCopiar';
 import './libroCard.css';
 
 interface Props {
@@ -43,19 +42,18 @@ const LibroCard = ({ libro, selecLibro }: Props) => {
   };
 
   return (
-    <Card limitado onClick={handleClick} nuevoEstilo={'card-libro'} tituloCard={nombreLibroXstring(libro)}>
+    <Card
+      limitado
+      onClick={handleClick}
+      nuevoEstilo={'card-libro'}
+      tituloCard={nombreLibroXstring(libro)}
+    >
       <img src={libro.img} alt={nombreLibroXstring(libro)} />
       {!loadingLibro && !errorFetchLibro ? (
         <div className="card-vertical vertical-libro-card">
           <div className="card-horizontal">
             <Texto texto={nombreLibroXstring(libro)} chica negrita centrado />
-            <Boton
-              icono={<Copiar />}
-              edit
-              nuevoEstilo="btn-icono-chico"
-              titulo={`Copiar presupuesto`}
-              onClick={copiarPresupuesto}
-            />
+            <BtnCopiar copiar={copiarPresupuesto} texto="Copiar presupuesto" />
           </div>
           <div className="card-horizontal">
             <div className="card-vertical">

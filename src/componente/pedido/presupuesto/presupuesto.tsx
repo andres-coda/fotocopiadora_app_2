@@ -1,11 +1,10 @@
-import Boton from '../../../componente-estilo/boton/boton';
 import Texto from '../../../componente-estilo/texto/texto';
 import { LibroProp } from '../../../modelo/Entidades/libro/libro.interface';
 import { Especificaciones } from '../../../modelo/Entidades/especificacion/especificacion.enum';
 import usePresupuesto from '../../../hooks/presupuesto/usePresupuesto';
-import Copiar from '../../../assets/copiar.svg?react';
 import useEspecificacionesSelect from '../../../hooks/presupuesto/useEspecificacionesSelect';
 import EspecificacionesSelect from '../../especificaciones/especificacionesSelect';
+import BtnCopiar from '../../../componente-estilo/boton/btnCopiar';
 
 interface Prop {
   libro: LibroProp;
@@ -27,15 +26,10 @@ const Presupuesto = ({ libro, nuevasEsp }: Prop) => {
         especificaciones={especificaciones}
         setEspecificaciones={setEspecificaciones}
       />
-      {
-        //<InputCheckFueraForm lista={listaEspecificaciones} elementosSelect={especificaciones} setelementosSelect={setEspecificaciones} normalizar={normalizarEspecificaciones} />
-      }
-      <Boton
-        icono={<Copiar />}
-        secundario
-        onClick={copiarPresupuesto}
+      <BtnCopiar
+        copiar={copiarPresupuesto}
+        texto="Copiar presupuesto"
         nuevoEstilo="btn-icono-mediano"
-        titulo="Copiar presupuesto"
       />
     </div>
   );

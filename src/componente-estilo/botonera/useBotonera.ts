@@ -1,12 +1,12 @@
 import { BotoneraClaseProp } from "./botonera.interface"
 
-const useBotonera = ({ nuevoEstilo = '', derecha = false, ajustada = false, flotante = false }: BotoneraClaseProp) => {
+const useBotonera = ({ nuevoEstilo = '', derecha = false, ajustada = false, flotante = false, abajo = false }: BotoneraClaseProp) => {
   const clase: string = [
     'botonera',
     derecha && 'botonera-derecha',
     ajustada && 'botonera-ajustada',
     flotante && 'botonera-flotante',
-    flotante && 'botonera-abajo',
+    abajo && 'botonera-abajo',
     nuevoEstilo
   ]
     .filter(Boolean)

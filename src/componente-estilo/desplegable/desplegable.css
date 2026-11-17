@@ -45,3 +45,7 @@
 .desplegable-gris {
   background-color: var(--colorCardGris);
 }
+
+.desplegable-titulo-chico{
+  max-width: 60%;
+}

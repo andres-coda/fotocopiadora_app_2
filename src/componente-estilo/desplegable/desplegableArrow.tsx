@@ -23,12 +23,15 @@ const DesplegableArrow = ({
   error = undefined,
   contenedorRef = undefined,
   botones = undefined,
+  btnSup = undefined,
+  tituloChico
 }: DesplegableProp) => {
   const [activo, setActivo] = useState<boolean>(false);
-  const { clase } = useDesplegableClase({ verde, gris, nuevoEstilo });
+  const { clase, claseTitulo } = useDesplegableClase({ verde, gris, nuevoEstilo, tituloChico });
   return (
-    <div className={clase}>
-      <Texto texto={titulo} mediana negrita />
+    <div className={clase} title={titulo}>
+      <Texto texto={titulo} nuevoEstilo={claseTitulo} />
+      {btnSup && btnSup}
       <Boton
         cerrar
         nuevoEstilo={`btn-icono-chico ${activo ? 'btn-icono-arriba' : 'btn-icono-abajo'}`}

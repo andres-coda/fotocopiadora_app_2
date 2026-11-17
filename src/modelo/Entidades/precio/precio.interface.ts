@@ -15,6 +15,14 @@ export interface PrecioNombreProp {
   descripcion?: string;
 }
 
+export interface CategoriaAdapteProp {
+    id: string;
+    nombre: string;
+    bloqueado?: boolean;
+    /** Si la empresa tiene al menos un precio en esta categoria. */
+    usada?: boolean;
+}
+
 export interface CategoriaProp {
     id: string;
     nombre: string;

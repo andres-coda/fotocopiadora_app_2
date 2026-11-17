@@ -20,7 +20,7 @@ export const pedidoLibroAdapter = (
 
   if (!base) return undefined;
 
-  const libro: LibroProp | undefined = libroAdapter(pedidoLibro.libro);
+  const libro: LibroProp | undefined = pedidoLibro.libro.nombre ? libroAdapter(pedidoLibro.libro) : undefined;
   const sede: SedeProp | undefined = sedeAdapter(pedidoLibro.sede);
   const pedido: PedidoProp | undefined = pedidoAdapter(pedidoLibro.pedido);
 

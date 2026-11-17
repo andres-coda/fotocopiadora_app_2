@@ -36,9 +36,12 @@ import {
 } from '../../redux/state/propuesta.state';
 import {
   actualizarLibroSocketRedux,
+  actualizarStockLocal,
   agregarLibroSocketRedux,
   eliminarLibroRedux,
 } from '../../redux/state/libro.state';
+import { stockIndividualAdapterProp, stockIndividualProp } from '../../modelo/Entidades/libro/stock.interface';
+import { stockIndividualAdapter } from '../../adaptadores/entrada/stock.adapter';
 
 interface Prop {
   libro?: boolean | undefined;
@@ -80,6 +83,15 @@ const normalizarMensaje = (raw: unknown): MensajeProp | undefined => {
   if (!dato.id || !dato.nombre) return undefined;
 
   return mensajeAdapter(dato as MensajeAdapterProp);
+};
+
+const normalizarStock = (raw: unknown): stockIndividualProp | undefined => {
+  if (!raw || typeof raw !== 'object') return undefined;
+
+  const dato = raw as Partial<stockIndividualProp> & Partial<stockIndividualAdapterProp>;
+  if (!dato.id || !dato.stock) return undefined;
+
+  return stockIndividualAdapter(dato as stockIndividualAdapterProp);
 };
 
 const normalizarPropuesta = (raw: unknown): PropuestaProp | undefined => {
@@ -241,6 +253,13 @@ const useSockets = ({}: Prop) => {
         alCrear: libro => dispatch(agregarLibroSocketRedux(libro)),
         alEditar: libro => dispatch(actualizarLibroSocketRedux(libro)),
         alEliminar: id => dispatch(eliminarLibroRedux(id)),
+      }),
+      crearHandlers<stockIndividualProp>({
+        entidad: EntidadDatoMap.STOCK,
+        normalizar: normalizarStock,
+        alCrear: () => null,
+        alEditar: stock => dispatch(actualizarStockLocal(stock)),
+        alEliminar: () => null,
       }),
     ];
 

@@ -2,8 +2,6 @@ import Boton from '../../../../componente-estilo/boton/boton';
 import Card from '../../../../componente-estilo/card/card';
 import Texto from '../../../../componente-estilo/texto/texto';
 import { PropuestaProp } from '../../../../modelo/Entidades/propuesta/propuesta.interface';
-import './propuestacard.css';
-import Copiar from '../../../../assets/copiar.svg?react';
 import Arrow from '../../../../assets/arrow.svg?react';
 import usePresupuesto from '../../../../hooks/presupuesto/usePresupuesto';
 import Botonera from '../../../../componente-estilo/botonera/botonera';
@@ -11,6 +9,8 @@ import { nombreLibroXstring } from '../../../../utils/formatoDatos';
 import { useModalContext } from '../../../../contexto/contextoModal';
 import { useDispatch } from 'react-redux';
 import { seleccionarPropuesta } from '../../../../redux/state/propuesta.state';
+import BtnCopiar from '../../../../componente-estilo/boton/btnCopiar';
+import './propuestacard.css';
 
 interface Prop {
   propuesta: PropuestaProp;
@@ -46,13 +46,7 @@ const PropuestaCard = ({ propuesta, selectPropuesta = undefined }: Prop) => {
           ajustado
         />
         <Texto texto={`${propuesta.nombre}`} centrado negrita inline />
-        <Boton
-          icono={<Copiar />}
-          edit
-          nuevoEstilo="btn-icono-chico"
-          titulo={`Copiar presupuesto`}
-          onClick={copiarPresupuestoLibros}
-        />
+        <BtnCopiar copiar={copiarPresupuestoLibros} texto="Copiar presupuesto" />
       </div>
       <div className="card-horizontal card-propuesta-horizontal">
         <div className="card-vertical propuesta-vertical">

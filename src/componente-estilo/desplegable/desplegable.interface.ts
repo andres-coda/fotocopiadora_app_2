@@ -4,6 +4,7 @@ export interface DesplegableClasProp {
   nuevoEstilo?: string;
   verde?: boolean;
   gris?: boolean;
+  tituloChico?:boolean;
 
 }
 
@@ -23,5 +24,8 @@ export interface DesplegableProp extends DesplegableClasProp {
   //error al hacer peticion a la api
   error?: string | null;
   contenedorRef?: RefObject<HTMLDivElement>
+  //Botones al final del desplegable, al cerrar el desp. se destruyen
   botones?: ReactNode;
+  //Botones superiores, a la derecha de la flecha, estan todo el tiempo presente
+  btnSup?: ReactNode;
 }

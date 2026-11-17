@@ -2,8 +2,6 @@ import { Dispatch, SetStateAction } from 'react';
 import Boton from '../../../../componente-estilo/boton/boton';
 import Card from '../../../../componente-estilo/card/card';
 import Texto from '../../../../componente-estilo/texto/texto';
-import Copiar from '../../../../assets/copiar.svg?react';
-import Check from '../../../../assets/check.svg?react';
 import Editar from '../../../../assets/edit.svg?react';
 import Estrella from '../../../../assets/star.svg?react';
 import Eliminar from '../../../../assets/deleted.svg?react';
@@ -11,7 +9,7 @@ import useEditar from '../../../../hooks/editar/useEditar';
 import { MensajeProp } from '../../../../modelo/Entidades/mensaje/mensaje.interface';
 import Botonera from '../../../../componente-estilo/botonera/botonera';
 import './mensajeCard.css';
-import useCopiar from '../../../../hooks/copiar/useCopiar';
+import BtnCopiar from '../../../../componente-estilo/boton/btnCopiar';
 
 interface Prop {
   mensaje: MensajeProp;
@@ -20,8 +18,20 @@ interface Prop {
   eliminarMensaje?: Dispatch<SetStateAction<boolean>>;
 }
 
-const MensajeCard = ({ mensaje, puedeEditar = false, onToggleFavorito, eliminarMensaje = undefined }: Prop) => {
-  const {copiado, handleCopiar } = useCopiar()
+const MensajeCard = ({
+  mensaje,
+  puedeEditar = false,
+  onToggleFavorito,
+  eliminarMensaje = undefined,
+}: Prop) => {
+  
+  const handleCopiar = () => {
+    if(!mensaje.mensaje) {
+      navigator.clipboard.writeText('El mensaje esta vacio');
+    } else {
+      navigator.clipboard.writeText(mensaje.mensaje);
+    }
+  };
 
   const { handleEdit } = useEditar({ setModalLocal: true });
 
@@ -43,13 +53,17 @@ const MensajeCard = ({ mensaje, puedeEditar = false, onToggleFavorito, eliminarM
           )}
           {puedeEditar && (
             <>
-              {eliminarMensaje && <Boton
-                icono={<Eliminar />}
-                edit
-                nuevoEstilo="btn-icono-chico"
-                titulo="Editar mensaje"
-                onClick={() => {eliminarMensaje( true ), handleEdit({ mensaje })}}
-              />}
+              {eliminarMensaje && (
+                <Boton
+                  icono={<Eliminar />}
+                  edit
+                  nuevoEstilo="btn-icono-chico"
+                  titulo="Editar mensaje"
+                  onClick={() => {
+                    (eliminarMensaje(true), handleEdit({ mensaje }));
+                  }}
+                />
+              )}
               <Boton
                 icono={<Editar />}
                 edit
@@ -59,12 +73,9 @@ const MensajeCard = ({ mensaje, puedeEditar = false, onToggleFavorito, eliminarM
               />
             </>
           )}
-          <Boton
-            icono={copiado ? <Check /> : <Copiar />}
-            edit
-            nuevoEstilo="btn-icono-chico"
-            titulo={copiado ? 'Copiado' : 'Copiar mensaje'}
-            onClick={()=>handleCopiar({mensaje: mensaje.mensaje ?? mensaje.nombre})}
+          <BtnCopiar
+            copiar={() => handleCopiar()}
+            texto={`Copiar mensaje ${mensaje.nombre}`}
           />
         </Botonera>
       </div>

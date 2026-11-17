@@ -7,12 +7,13 @@ import Eliminar from '../../../../assets/deleted.svg?react';
 import { useModalContext } from '../../../../contexto/contextoModal';
 import { rutaBase, RutasPrivadas } from '../../../rutas/rutasPrivadas';
 import useEditar from '../../../../hooks/editar/useEditar';
-import Texto from '../../../../componente-estilo/texto/texto';
 import Copiar from '../../../../assets/copiar.svg?react';
-import './propuestacard.css';
 import usePresupuesto from '../../../../hooks/presupuesto/usePresupuesto';
 import { useState } from 'react';
 import EliminarPropuesta from './eliminarPropuesta';
+import Centro from '../../../../componente-estilo/centro/centro';
+import './propuestacard.css';
+import Texto from '../../../../componente-estilo/texto/texto';
 
 interface Prop {
   propuesta: PropuestaProp;
@@ -28,10 +29,53 @@ const PropuestaSelect = ({ propuesta }: Prop) => {
     propuesta,
   });
 
-  if(eliminarProp) return <EliminarPropuesta retroceder={()=>setEliminarProp(false)} propuesta={propuesta}/>
+  if (eliminarProp)
+    return <EliminarPropuesta retroceder={() => setEliminarProp(false)} propuesta={propuesta} />;
 
   return (
-    <div className="propuesta-select propuesta-select-color">
+    <div className="propuesta-select">
+      <Texto texto={propuesta.nombre} centrado negrita mediana />
+      <div className='propuesta-select-cabecera'>
+        <Texto ajustado texto={`Cantidad de libros: ${propuesta.cantidadLibros}`} />
+        <Botonera derecha ajustada>
+          <Boton
+            icono={<Eliminar />}
+            terciario
+            nuevoEstilo={`btn-icono-chico`}
+            titulo={`Eliminar propuesta`}
+            onClick={() => {
+              setEliminarProp(true);
+            }}
+          />
+          <Boton
+            icono={<Editar />}
+            secundario
+            nuevoEstilo="btn-icono-chico"
+            titulo={`Editar propuesta`}
+            onClick={() => handleEdit({ propuesta })}
+          />
+          <Boton
+            icono={<Copiar />}
+            nuevoEstilo="btn-icono-chico"
+            titulo={`Copiar presupuesto`}
+            onClick={copiarPresupuestoLibros}
+          />
+        </Botonera>
+      </div>
+
+      <Centro scroll>
+        {propuesta.libro?.map(l => (
+          <LibroCard libro={l} key={l.id} selecLibro={() => setModal(false)} />
+        ))}
+      </Centro>
+    </div>
+  );
+};
+
+export default PropuestaSelect;
+
+/*
+<div className="propuesta-select propuesta-select-color">
       <Texto texto={propuesta.nombre} centrado negrita mediana />
       <Texto texto={`Cantidad de libros: ${propuesta.cantidadLibros}`} chica />
       {propuesta.libro?.map(l => (
@@ -62,7 +106,4 @@ const PropuestaSelect = ({ propuesta }: Prop) => {
         />
       </Botonera>
     </div>
-  );
-};
-
-export default PropuestaSelect;
+*/

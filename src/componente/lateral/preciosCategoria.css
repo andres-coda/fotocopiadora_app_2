@@ -12,12 +12,15 @@
 }
 
 .precios-categoria__lista {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   min-height: 0;
   overflow-y: auto;
   padding-right: 0.15rem;
+  padding-bottom: .5rem;
+  box-sizing: border-box;
 }
 
 .precios-categoria__grupo {

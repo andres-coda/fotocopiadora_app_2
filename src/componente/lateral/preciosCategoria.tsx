@@ -5,6 +5,7 @@ import { CategoriaProp, PrecioProp } from '../../modelo/Entidades/precio/precio.
 import Texto from '../../componente-estilo/texto/texto';
 import CategoriaLateral from '../../privado/paginas/precio/componente/categoriaLateral';
 import './preciosCategoria.css';
+import { ContenedorCentro } from '../../componente-estilo/centro/centroExterior';
 
 const PreciosCategoria = () => {
   // Las categorias llegan sin precios: el lateral solo necesita id + nombre y
@@ -25,34 +26,32 @@ const PreciosCategoria = () => {
     [categorias]
   );
 
-  const [copiada, setCopiada] = useState<string | null>(null);
-
-  // El tilde de "copiado" vuelve al icono de copiar despues de un momento.
-  useEffect(() => {
-    if (!copiada) return;
-
-    const timer = setTimeout(() => setCopiada(null), 1000);
-    return () => clearTimeout(timer);
-  }, [copiada]);
-
   if (bloqueadas.length === 0) return null;
 
   return (
-    <div className="precios-categoria">
-      <Texto texto="Precios" mediana negrita />
-      <div className="precios-categoria__lista">
-        {bloqueadas.map(categoria => (
-          <CategoriaLateral
-            key={categoria.id}
-            categoria={categoria}
-            precios={precios ?? []}
-            copiada={copiada === categoria.id}
-            onCopiar={() => setCopiada(categoria.id)}
-          />
-        ))}
-      </div>
-    </div>
+    <ContenedorCentro scroll>
+      <Texto texto='Precios' mediana negrita />
+      {bloqueadas.map(categoria => (
+        <CategoriaLateral
+          key={categoria.id}
+          categoria={categoria}
+          precios={precios ?? []}
+        />
+      ))}
+
+    </ContenedorCentro>
   );
 };
 
 export default PreciosCategoria;
+
+/*
+
+
+    <div className="precios-categoria">
+      <Texto texto="Precios" mediana negrita />
+      <div className="precios-categoria__lista">
+      </div>
+    </div>
+
+    */

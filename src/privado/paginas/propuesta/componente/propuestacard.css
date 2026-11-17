@@ -50,13 +50,23 @@
 }
 
 .propuesta-select {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 0.5rem;
-  min-width: 250px;
+  gap: .5rem;
+  width: 100%;
+  overflow: hidden;
+  max-height: 65vh;
 }
 
 .propuesta-select-color {
   background-color: var(--colorPropuesta);
+}
+
+.propuesta-select-cabecera{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }

@@ -1,6 +1,17 @@
 import { DesplegableClasProp } from "./desplegable.interface";
 
-const useDesplegableClase = ({verde, gris, nuevoEstilo = ''}:DesplegableClasProp) => {
+const clasChica = (tituloChico:boolean):string =>{
+    if(!tituloChico) return `mediana negrita`
+
+    return `inline desplegable-titulo-chico`
+  }
+
+const useDesplegableClase = ({
+  verde = false, 
+  gris = false, 
+  tituloChico = false,
+  nuevoEstilo = '', 
+}:DesplegableClasProp) => {
   const clase = [
     'desplegable-arrow',
     verde && 'desplegable-verde',
@@ -10,7 +21,11 @@ const useDesplegableClase = ({verde, gris, nuevoEstilo = ''}:DesplegableClasProp
     .filter(Boolean)
     .join(' ');
 
-  return { clase }
+  
+
+  const claseTitulo = clasChica(tituloChico);
+
+  return { clase, claseTitulo }
 }
 
 export default useDesplegableClase
