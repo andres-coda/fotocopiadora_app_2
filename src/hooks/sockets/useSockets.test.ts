@@ -542,6 +542,57 @@ describe('useSockets: libro', () => {
     expect(idsLibro(estado.datosIniciales.datosQuery)).toEqual(['lc2']);
     expect(idsLibro(estado.ultimasBusqueda[0].datosQuery)).toEqual(['lc2']);
   });
+
+  // Mismo payload de la vista, pero sin `materia`: la fila no tiene ninguna y
+  // el back la omite. El adapter la exige y lanza.
+  const datoLibroSinMateria = (nombre: string) => ({
+    id: 'lc9',
+    nombre,
+    deleted: false,
+    componentes: [],
+    cantidadPg: 40,
+    adhesivos: 0,
+    especificacionesDefecto: ['color'],
+    edicion: 1,
+    anio: '2024',
+    nivel: 'Primaria',
+    autor: 'Autor',
+    img: '',
+    descripcion: '',
+    resumen: { pendiente: 0, listo: 0, retirado: 0, cancelado: 0, stock: 0 },
+  });
+
+  it('descarta un libro sin materia sin romper el listener', () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const store = crearStoreLibro();
+    montar(store);
+
+    expect(() =>
+      emitir(Mens.EDITAR, {
+        mensaje: Mens.EDITAR,
+        entidad: 'libro',
+        dato: datoLibroSinMateria('Libro sin materia'),
+      })
+    ).not.toThrow();
+
+    // El payload se descarta: no se dispatcha un libro incompleto.
+    const { libro: estado } = store.getState();
+    expect(estado.busquedaActual.datosQuery).toHaveLength(0);
+    expect(estado.datosIniciales.datosQuery).toHaveLength(0);
+    expect(estado.ultimasBusqueda[0].datosQuery).toHaveLength(0);
+    expect(error).toHaveBeenCalled();
+
+    // El listener sigue vivo: un libro valido posterior si llega al store.
+    emitir(Mens.CREAR, {
+      mensaje: Mens.CREAR,
+      entidad: 'libro',
+      dato: datoLibro('Libro posterior'),
+    });
+
+    expect(idsLibro(store.getState().libro.busquedaActual.datosQuery)).toEqual(['lc1']);
+
+    error.mockRestore();
+  });
 });
 
 describe('useSockets: payloads invalidos', () => {

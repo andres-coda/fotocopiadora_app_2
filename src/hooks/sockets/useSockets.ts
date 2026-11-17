@@ -101,7 +101,16 @@ const normalizarLibro = (raw: unknown): LibroProp | undefined => {
   const dato = raw as Partial<LibroProp> & Partial<LibroAdapterProp>;
   if (!dato.id || !dato.nombre) return undefined;
 
-  return libroAdapter(dato as LibroAdapterProp);
+  try {
+    return libroAdapter(dato as LibroAdapterProp);
+  } catch {
+    // El payload del socket puede llegar sin `materia` porque el backend la omite
+    // cuando la fila no tiene ninguna; el adapter la exige y lanza. Un libro
+    // descartado no debe romper el listener: se devuelve undefined y el handler
+    // lo ignora, igual que cualquier otro dato no normalizable.
+    console.error(`No se pudo normalizar el libro ${dato.id} recibido por socket`);
+    return undefined;
+  }
 };
 
 const datoDe = (data: Mensaje): unknown => (data as unknown as { dato?: unknown }).dato;
