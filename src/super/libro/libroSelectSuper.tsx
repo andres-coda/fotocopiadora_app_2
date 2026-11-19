@@ -9,9 +9,10 @@ import Eliminar from '../../assets/deleted.svg?react';
 import LibroSelectNombre from '../../privado/paginas/libro/componente/libroSelectNombre';
 import LibroSelectExtra from '../../privado/paginas/libro/componente/libroSelectExtra';
 import { Dispatch, SetStateAction } from 'react';
-import '../../privado/paginas/libro/componente/libroSelect.css';
 import Botonera from '../../componente-estilo/botonera/botonera';
 import DesplegableEmpresas from './componente/desplegableEmpresas';
+import Texto from '../../componente-estilo/texto/texto';
+import './libro.css';
 
 interface Prop {
   onEliminar?: Dispatch<SetStateAction<boolean>>;
@@ -23,10 +24,10 @@ const LibroSelectSuper = ({ onEditar = undefined, onEliminar = undefined }: Prop
     (store: appStore) => store.libro.datoSeleccionado
   );
 
-  if (!libro) return <p>No se encontro el libro seleccionado</p>;
+  if (!libro) return <Texto texto={'No se encontro el libro seleccionado'}/>;
   return (
     <ContenedorCentro scroll>
-      <div className="libro-superior" title={nombreLibroXstring(libro)}>
+      <div className="libro-superior-super" title={nombreLibroXstring(libro)}>
         {libro.img ? <img src={libro.img} alt={libro.nombre} className="libro-img" /> : null}
         <div className="div-vertical">
           <LibroSelectNombre libro={libro} />

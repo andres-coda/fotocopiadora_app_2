@@ -4,6 +4,7 @@ import Texto from '../texto/texto';
 import Cargando from '../../componente/cargando/cargando';
 import './centro.css';
 import useCentro from './useCentro';
+import TextoVacio from '../../componente/Textos/textoVacio';
 
 export const ContenedorCentro = ({
   children,
@@ -14,6 +15,10 @@ export const ContenedorCentro = ({
   desplegable = false,
   scroll = false,
   centro = undefined,
+  vacio = false,
+  entidad = undefined,
+  query  = undefined,
+  filtro = undefined
 }: CentroDefectoProp) => {
   const { claseExterior } = useCentro({ desplegable, scroll, nuevoEstilo, centro });
   if (error)
@@ -32,6 +37,13 @@ export const ContenedorCentro = ({
       </div>
     );
 
+  if (vacio)
+    return (
+      <div className={claseExterior}>
+        {texto && <Titulo titulo={texto} />}
+        <TextoVacio entidad={entidad} filtro={filtro} query={query} />
+      </div>
+    );
   return (
     <div className={claseExterior}>
       {texto && <Titulo titulo={texto} />}

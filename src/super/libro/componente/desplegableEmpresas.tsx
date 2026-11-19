@@ -35,7 +35,7 @@ const DesplegableEmpresas = () => {
     obtenerBusqueda: obtenerEmpresasByLibro,
     resetearBusqueda: resetBusquedaEmpresa,
     crearBusqueda: crearBusquedaEmpresa,
-    condicion: loadingEmpresa,
+    condicion: false,
   });
 
   useGestionResponse<EmpresaProp>({
@@ -61,7 +61,7 @@ const DesplegableEmpresas = () => {
       error={errorFetchEmpresa}
       contenedorRef={contenedorRef}
       finListaRef={finListaRef}
-      vacio={empresaRedux.busquedaActual.datosQuery.length === 0}
+      vacio={empresaRedux.busquedaActual.total != 0 || empresaRedux.busquedaActual.datosQuery.length === 0}
       titulo="Empresas que usan el libro"
     >
       {empresaRedux.busquedaActual.datosQuery.map(e => (

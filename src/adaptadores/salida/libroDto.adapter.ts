@@ -29,11 +29,22 @@ const numeroOpcional = (valor?: string): number | undefined => {
   return Number.isNaN(numero) ? undefined : numero;
 };
 
+/**
+ * `edicion` viaja como texto de punta a punta. Un campo vacio en el formulario
+ * significa "sin edicion" y tiene que llegar como undefined: pasarlo por Number
+ * lo convertia en 0 (o en NaN, que se serializa como null) y el libro quedaba
+ * con una edicion que nadie cargo.
+ */
+const textoOpcional = (valor?: string): string | undefined => {
+  const texto = valor?.trim();
+  return texto ? texto : undefined;
+};
+
 export const libroExtraDtoAdapter = (data: formValuesLibroDatosExtras): LibroExtraDtoProp => {
   const newGrupo: LibroExtraDtoProp = {
     descripcion: data.descripcion,
     autor: data.autor,
-    edicion: numeroOpcional(data.edicion),
+    edicion: textoOpcional(data.edicion),
     anio: data.anio,
     img: data.img,
   };

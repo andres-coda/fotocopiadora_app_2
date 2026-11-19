@@ -26,7 +26,7 @@ export interface LibroNombreProp extends BaseProp {
 }
 
 export interface LibroCompletoAdapterProp extends LibroNombreAdapterProp {  
-  edicion?: number;
+  edicion?: string;
   nivel?: string;
   anio?: string;
   autor?: string;
@@ -37,7 +37,7 @@ export interface LibroCompletoAdapterProp extends LibroNombreAdapterProp {
 }
 
 export interface LibroCompletoProp extends LibroNombreProp {  
-  edicion?: number;
+  edicion?: string;
   nivel?: string;
   anio?: string;
   autor?: string;
@@ -71,7 +71,7 @@ export const libroInicial: LibroProp = {
   nombre: '',
   descripcion: '',
   editorial: '',
-  edicion: 0,
+  edicion: '',
   nivel: '',
   cantidadPg: 0,
   anio: '',

@@ -28,13 +28,13 @@ const data: formValuesLibro = {
 
 describe('libroDto.adapter', () => {
   describe('libroExtraDtoAdapter', () => {
-    it('mapea los datos extras y convierte la edicion a numero', () => {
+    it('mapea los datos extras y deja la edicion como texto', () => {
       const dto = libroExtraDtoAdapter(data);
 
       expect(dto).toEqual({
         descripcion: 'Tapa blanda',
         autor: 'Pérez',
-        edicion: 2,
+        edicion: '2',
         anio: '2024',
         img: 'portada.png',
       });
@@ -50,6 +50,19 @@ describe('libroDto.adapter', () => {
       const dto = libroExtraDtoAdapter({ ...data, edicion: undefined });
 
       expect(JSON.stringify(dto)).not.toContain('"edicion":null');
+    });
+
+    // Un campo vacio es "sin edicion": ni 0 ni NaN, que es lo que dejaba el
+    // Number() viejo. La clave tiene que desaparecer del body.
+    it('trata la edicion vacia como ausente', () => {
+      expect(libroExtraDtoAdapter({ ...data, edicion: '' }).edicion).toBeUndefined();
+      expect(libroExtraDtoAdapter({ ...data, edicion: '   ' }).edicion).toBeUndefined();
+    });
+
+    // La edicion ya no es un numero: 'mayúscula' o '2' viajan tal cual.
+    it('deja pasar la edicion como texto sin convertirla', () => {
+      expect(libroExtraDtoAdapter({ ...data, edicion: 'mayúscula' }).edicion).toBe('mayúscula');
+      expect(libroExtraDtoAdapter({ ...data, edicion: ' 12 ' }).edicion).toBe('12');
     });
   });
 
@@ -121,7 +134,7 @@ describe('libroDto.adapter', () => {
       expect(dto).toEqual({
         descripcion: 'Tapa blanda',
         autor: 'Pérez',
-        edicion: 2,
+        edicion: '2',
         anio: '2024',
         img: 'portada.png',
         cantidadPg: 64,

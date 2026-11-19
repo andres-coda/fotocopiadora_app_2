@@ -12,7 +12,7 @@ export interface LibroExtraDtoProp {
   img?: string;
   descripcion?: string;
   autor?: string;
-  edicion?: number;
+  edicion?: string;
 }
 
 export interface LibroPrincipalDtoProp {

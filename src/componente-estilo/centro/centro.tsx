@@ -20,12 +20,16 @@ const Centro = forwardRef<HTMLDivElement, CentroProp>(
       scroll = false,
       error = undefined,
       loading = false,
-      nuevoEstiloExterior
+      nuevoEstiloExterior,
     },
     ref
   ) => {
-
-    const {claseCentro, claseExterior} = useCentro({desplegable, nuevoEstilo, scroll, nuevoEstiloExterior})
+    const { claseCentro, claseExterior } = useCentro({
+      desplegable,
+      nuevoEstilo,
+      scroll,
+      nuevoEstiloExterior,
+    });
 
     // `error` y `loading` reemplazan al contenido en `ContenedorCentro`, asi
     // que solo tienen sentido cuando no hay nada que mostrar. En los listados
@@ -40,18 +44,29 @@ const Centro = forwardRef<HTMLDivElement, CentroProp>(
 
     if (vacio)
       return (
-        <ContenedorCentro texto={texto} centro={claseExterior} error={errorVisible} loading={cargandoVisible}>
+        <ContenedorCentro
+          texto={texto}
+          centro={claseExterior}
+          error={errorVisible}
+          loading={cargandoVisible}
+        >
           <TextoVacio entidad={entidad} filtro={filtro} query={query} />
         </ContenedorCentro>
       );
 
     return (
-      <ContenedorCentro texto={texto} centro={claseExterior} error={errorVisible} loading={cargandoVisible}>
+      <ContenedorCentro
+        texto={texto}
+        centro={claseExterior}
+        error={errorVisible}
+        loading={cargandoVisible}
+        vacio={vacio}
+        entidad={entidad}
+        filtro={filtro}
+      >
         <div className={claseCentro} ref={ref}>
           {children}
-          {finListaRef && (
-            <div ref={finListaRef} className='centro-fin'></div>
-          )}
+          {finListaRef && <div ref={finListaRef} className="centro-fin"></div>}
         </div>
       </ContenedorCentro>
     );

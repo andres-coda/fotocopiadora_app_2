@@ -1,0 +1,33 @@
+.libro-superior-super {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  justify-content: center;
+  gap: 1rem;
+  box-sizing: border-box;
+  padding: 0.5rem;
+}
+
+.libro-superior-super img {
+  width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(1px 1px 2px var(--colorSombra));
+  box-sizing: border-box;
+  max-height: 333px;
+}
+
+.libro-superior-super img:hover {
+  scale:1.1;
+}
+
+@media (width > 500px) {
+  .libro-superior-super {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+  .libro-superior-super img {
+    max-width: 50%;
+  }
+}

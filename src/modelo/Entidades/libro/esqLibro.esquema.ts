@@ -52,7 +52,7 @@ export const libroFormDefault: formValuesLibro = {
   nombre: '',
   descripcion: '',
   editorial: '',
-  edicion: undefined,
+  edicion: '1',
   nivel: '',
   cantidadPg: '',
   anio: '',

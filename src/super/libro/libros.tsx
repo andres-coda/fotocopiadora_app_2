@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import LibroCard from '../../privado/paginas/libro/componente/libroCard';
 import { LibroProp } from '../../modelo/Entidades/libro/libro.interface';
 import { listaLibroPropuestaSeleccionable, normalizarLibroPropuesta } from '../../privado/paginas/libro/util/funcionesAdicionales';
 import BuscadorPaginadoCompleto from '../../componente/buscador/buscadorPaginadoCompleto';
@@ -16,6 +15,7 @@ import { agregarLibrosBusquedaActual, crearBusquedaLibro, crearLibros, resetBusq
 import LibroSelectSuper from './libroSelectSuper';
 import LibroEditar from '../../privado/paginas/libro/cargar/libro_editar';
 import { ProveedorLibroContext } from '../../privado/paginas/libro/contexto/contexto.libro';
+import LibroParteCard from '../../privado/paginas/libro/componente/card/libroParteCard';
 
 const LibrosSuper = () => {
   const libroDatos: ReduxProp<LibroProp> = useSelector((store: appStore) => store.libro);
@@ -29,9 +29,9 @@ const LibrosSuper = () => {
   const dispatch = useDispatch();
 
   const seleccionarLibroFc = (libro:LibroProp) => {
+    dispatch(seleccionarLibro(libro));
     setSelect(true);
     setModal(true);
-    dispatch(seleccionarLibro(libro))
   }
 
   useEffect(()=>{
@@ -80,7 +80,7 @@ const LibrosSuper = () => {
         loading={loadingLibros}
       >
         {libroDatos.busquedaActual.datosQuery.map(d=>(
-          <LibroCard libro={d} key={`libro-${d.id}`} selecLibro={seleccionarLibroFc} />
+          <LibroParteCard libro={d} key={`libro-${d.id}`} handleLibro={()=>seleccionarLibroFc(d)} />
         ))}
       </Centro>
       <Modal>

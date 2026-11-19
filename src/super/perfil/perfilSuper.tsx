@@ -18,7 +18,7 @@ const PerfilSuper = () => {
           <Texto texto="Sesión actual" mediana negrita />
           <CardPerfil
             usuario={usuarioSesion.dato}
-            onEditarPerfil={() => setModal(prev => prev)}
+            onEditarPerfil={() => setModal(prev => !prev)}
           />
         </>
       )}

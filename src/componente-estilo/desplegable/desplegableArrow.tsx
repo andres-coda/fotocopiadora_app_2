@@ -24,7 +24,7 @@ const DesplegableArrow = ({
   contenedorRef = undefined,
   botones = undefined,
   btnSup = undefined,
-  tituloChico
+  tituloChico,
 }: DesplegableProp) => {
   const [activo, setActivo] = useState<boolean>(false);
   const { clase, claseTitulo } = useDesplegableClase({ verde, gris, nuevoEstilo, tituloChico });
@@ -51,7 +51,7 @@ const DesplegableArrow = ({
         </Centro>
       )}
       {activo && !grid && (
-        <ContenedorCentro loading={loading} error={error}>
+        <ContenedorCentro entidad={entidad} vacio={vacio} loading={loading} error={error}>
           {children}
         </ContenedorCentro>
       )}
