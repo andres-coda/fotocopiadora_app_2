@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { appStore } from '../../redux/store';
 import { CategoriaProp, PrecioProp } from '../../modelo/Entidades/precio/precio.interface';

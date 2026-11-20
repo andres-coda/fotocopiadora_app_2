@@ -4,8 +4,6 @@ import { BtnCopiarClasProp } from "../modelo/btnCopiar.interface"
 
 const useBtnCopiar = ({
   nuevoEstilo= '',
-  flotante = false,
-  derecha = false,
 }:BtnCopiarClasProp) => {
   const [copiada, setCopiada] = useState<boolean>(false);
 

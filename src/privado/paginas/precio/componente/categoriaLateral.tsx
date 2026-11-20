@@ -1,7 +1,5 @@
-import { useMemo, useState } from 'react';
-import Boton from '../../../../componente-estilo/boton/boton';
+import { useMemo } from 'react';
 import Texto from '../../../../componente-estilo/texto/texto';
-import Arrow from '../../../../assets/arrow.svg?react';
 import { CategoriaProp, PrecioProp } from '../../../../modelo/Entidades/precio/precio.interface';
 import BtnCopiar from '../../../../componente-estilo/boton/btnCopiar';
 import './categoriaLateral.css';

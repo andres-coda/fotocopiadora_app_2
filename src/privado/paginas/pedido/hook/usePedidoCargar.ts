@@ -4,8 +4,6 @@ import { PedidoProp } from "../../../../modelo/Entidades/pedido/pedido.interface
 import { UseFormWatch } from "react-hook-form";
 import { formValuesPedido } from "../../../../modelo/Entidades/pedido/esqPedido.esquema";
 import { normalizarTelefono } from "../../../../utils/telefono";
-import { useSelector } from "react-redux";
-import { appStore } from "../../../../redux/store";
 
 interface Prop {
   watch: UseFormWatch<formValuesPedido>;
