@@ -344,7 +344,7 @@ describe('usePedidoApi: errores', () => {
     await llamar(() => result.current.editarPedido(formPedido, 'ped-1', []));
 
     expect(result.current.errorFetchPedido).toBe(
-      'La petición falló (HTTP 400 Bad Request): La fecha de entrega es obligatoria'
+      'La fecha de entrega es obligatoria'
     );
     expect(result.current.responsePedido).toBeNull();
   });

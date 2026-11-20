@@ -68,7 +68,7 @@ function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseAp
       });
 
       if (!res.ok) {
-        let errorMsg = 'La petición falló';
+        let errorMsg = `La petición falló (HTTP ${res.status} ${res.statusText})`;
         try {
           const errorData = await res.json();
           errorMsg = errorData?.message || errorMsg;
@@ -85,7 +85,7 @@ function useApi<T>({ urlGet = null, adapterGet = null, blob = undefined }: UseAp
       setErrorFetch(null);
     } catch (err) {
       if (err instanceof HttpApiError) {
-        setErrorFetch(`La petición falló (HTTP ${err.status} ${err.statusText}): ${err.message}`);
+        setErrorFetch(err.message);
         console.error(err);
       } else if (err instanceof Error) {
         if (err.name === 'AbortError') {

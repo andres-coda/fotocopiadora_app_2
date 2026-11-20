@@ -175,7 +175,7 @@ describe('useClienteApi: errores', () => {
     await llamar(() => result.current.obtenerClienteById('cli-1'));
 
     expect(result.current.errorFetchCliente).toBe(
-      'La petición falló (HTTP 404 Not Found): El cliente no existe'
+      'El cliente no existe'
     );
     expect(result.current.responseCliente).toBeNull();
   });

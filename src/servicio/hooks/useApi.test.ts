@@ -201,7 +201,7 @@ describe('useApi: adaptadores', () => {
 });
 
 describe('useApi: errores', () => {
-  it('arma errorFetch con status, statusText y el message del back', async () => {
+  it('usa el message del back como errorFetch', async () => {
     fetchMock.mockResolvedValue(
       respuestaError(422, 'Unprocessable Entity', { message: 'El telefono ya existe' })
     );
@@ -209,9 +209,7 @@ describe('useApi: errores', () => {
 
     await llamar(result.current.fetchData, { url: URL });
 
-    expect(result.current.errorFetch).toBe(
-      'La petición falló (HTTP 422 Unprocessable Entity): El telefono ya existe'
-    );
+    expect(result.current.errorFetch).toBe('El telefono ya existe');
     expect(result.current.response).toBeNull();
   });
 
@@ -222,7 +220,7 @@ describe('useApi: errores', () => {
     await llamar(result.current.fetchData, { url: URL });
 
     expect(result.current.errorFetch).toBe(
-      'La petición falló (HTTP 500 Internal Server Error): La petición falló'
+      'La petición falló (HTTP 500 Internal Server Error)'
     );
   });
 

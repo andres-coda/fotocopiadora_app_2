@@ -163,7 +163,7 @@ describe('useConfiguracionApi: errores', () => {
     await llamar(() => result.current.cambiarFechaEntrega({ fechaEntrega: '2026-12-01' }));
 
     expect(result.current.errorFetchConfiguracion).toBe(
-      'La petición falló (HTTP 422 Unprocessable Entity): La hora de entrega no puede ser mayor a 23'
+      'La hora de entrega no puede ser mayor a 23'
     );
     expect(result.current.responseConfiguracion).toBeNull();
   });
