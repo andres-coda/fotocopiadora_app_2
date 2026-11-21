@@ -80,12 +80,13 @@
   color: var(--colorSombra);
 }
 
-.select-chico, .select-chico  select {
+.select-chico,
+.select-chico select {
   height: fit-content;
   width: fit-content;
 }
 
-.no-span span{
+.no-span span {
   display: none;
 }
 
@@ -107,6 +108,7 @@
   background-color: transparent;
   font-size: 0.8em;
   font-weight: 200;
+  background-color: var(--colorFondo);
 }
 
 .no-label label {
@@ -170,7 +172,7 @@
 .input-buscador .inputs-entero input:not(:placeholder-shown)+label {
   font-size: 0.8em;
   font-weight: 400;
-  background-color: var(--colorBlanco);
+  background-color: var(--colorFondo);
 }
 
 .btn-general.btn-buscador {
@@ -288,6 +290,7 @@
   margin: 0;
   border-radius: 5px;
   padding: 0.5rem 0;
+  flex-shrink: 0;
 }
 
 .inputCheck-fuera-formulario li {

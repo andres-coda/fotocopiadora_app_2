@@ -74,18 +74,6 @@ const Pedidos = () => {
 
   return (
     <>
-      <BuscadorPaginadoCompleto
-        ref={contenedorRef}
-        texto="Buscar pedido"
-        handleMas={() =>
-          nuevoElemento(`/${rutaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}`)
-        }
-        valor={valor}
-        setValor={setValor}
-        titulo="Lista de pedidos"
-        etiquetaArriba="Al comienzo de la lista"
-        etiquetaMas={'Nuevo pedido'}
-      />
       <Centro
         ref={contenedorRef}
         entidad="pedidos"
@@ -95,6 +83,18 @@ const Pedidos = () => {
         }
         query={valor}
         finListaRef={finListaRef}
+        texto='Lista de pedidos'
+        buscador={
+          <BuscadorPaginadoCompleto
+            ref={contenedorRef}
+            texto="Buscar pedido"
+            handleMas={() => nuevoElemento(`/${rutaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}`)}
+            valor={valor}
+            setValor={setValor}
+            etiquetaArriba="Al comienzo de la lista"
+            etiquetaMas={'Nuevo pedido'}
+          />
+        }
       >
         {pedidoDatos.busquedaActual.datosQuery.map(d => (
           <PedidoCard pedido={d} key={d.id} onClick={handlePedido} />

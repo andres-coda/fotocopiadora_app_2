@@ -6,10 +6,10 @@ import { Estado } from '../../../../modelo/Entidades/pedido_libro/estado.enum';
 import { PedidoLibroConstruccionProp } from '../../../../modelo/Entidades/pedido_libro/pedidoLibro.interface';
 import { claseXestado, nombreLibroXstring } from '../../../../utils/formatoDatos';
 import { calcularPrecio } from '../../../../utils/precio';
-import './pedidoCard.css';
 import { PrecioProp } from '../../../../modelo/Entidades/precio/precio.interface';
 import { appStore } from '../../../../redux/store';
 import { usePedidoContext } from '../../../../contexto/contextoPedido';
+import './pedidoCard.css';
 
 interface Prop {
   pL: PedidoLibroConstruccionProp;

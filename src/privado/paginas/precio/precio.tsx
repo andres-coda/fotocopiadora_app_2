@@ -64,39 +64,40 @@ const Precios = () => {
   };
 
   return (
-    <>
-      <BuscadorPaginadoCompleto
-        ref={contenedorRef}
-        texto="Buscar precio"
-        handleMas={() => nuevoElemento()}
-        handleFiltro={handleFiltro}
-        valor={valor}
-        setValor={setValor}
-        titulo="Lista de precios"
-        etiquetaArriba="Al comienzo de la lista"
-        etiquetaMas="Nuevo precio"
-      />
-      <FiltrosActivosPrecio />
-      <Centro
-        ref={contenedorRef}
-        entidad="precios"
-        vacio={
-          !precioDatos.busquedaActual.datosQuery ||
-          precioDatos.busquedaActual.datosQuery.length === 0
-        }
-        query={valor}
-        finListaRef={finListaRef}
-        error={errorFetchPrecios}
-        loading={loadingPrecios}
-      >
-        {precioDatos.busquedaActual.datosQuery.map(d => (
-          <PrecioCard precio={d} key={d.id} setEliminar={setEliminar} />
-        ))}
-      </Centro>
+    <Centro
+      ref={contenedorRef}
+      entidad="precios"
+      vacio={
+        !precioDatos.busquedaActual.datosQuery || precioDatos.busquedaActual.datosQuery.length === 0
+      }
+      query={valor}
+      finListaRef={finListaRef}
+      error={errorFetchPrecios}
+      loading={loadingPrecios}
+      texto="Lista de precios"
+      buscador={
+        <>
+          <BuscadorPaginadoCompleto
+            ref={contenedorRef}
+            texto="Buscar precio"
+            handleMas={() => nuevoElemento()}
+            handleFiltro={handleFiltro}
+            valor={valor}
+            setValor={setValor}
+            etiquetaArriba="Al comienzo de la lista"
+            etiquetaMas="Nuevo precio"
+          />
+          <FiltrosActivosPrecio />
+        </>
+      }
+    >
+      {precioDatos.busquedaActual.datosQuery.map(d => (
+        <PrecioCard precio={d} key={d.id} setEliminar={setEliminar} />
+      ))}
       <Modal texto={filtro ? 'Filtros' : undefined}>
         {filtro ? <FiltroPrecio /> : eliminar ? <EliminarPrecio /> : <PrecioCargar />}
       </Modal>
-    </>
+    </Centro>
   );
 };
 

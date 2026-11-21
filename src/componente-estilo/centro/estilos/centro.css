@@ -11,7 +11,16 @@
   box-sizing: border-box;
   border-radius: 5px;
   width: 100%;
+  flex-shrink: 0;
   background-color: transparent;
+}
+
+/* El header del centro no se comprime cuando la lista desborda: la altura la
+   cede .centro, que ya tiene overflow-y: auto y hace de contenedor de scroll. */
+.centro-exterior > .texto,
+.centro-exterior > .inputCheck-fuera-formulario,
+.centro-exterior > .buscador-filtros-completo {
+  flex-shrink: 0;
 }
 
 .centro {

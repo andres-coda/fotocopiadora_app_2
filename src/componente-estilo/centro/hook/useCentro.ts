@@ -1,5 +1,5 @@
 
-import { CentroClaseProp } from "./centro.interface"
+import { CentroClaseProp } from "../interface/centro.interface"
 
 const useCentro = ({ scroll, desplegable, nuevoEstilo = '', centro = '', nuevoEstiloExterior =  '' }: CentroClaseProp) => {
   const claseExterior = centro ? centro : [

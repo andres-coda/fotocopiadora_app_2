@@ -1,7 +1,6 @@
 import { Navigate, Route } from 'react-router-dom';
 import RutaInvalida from '../componente/ruta_invalida/rutaInvalida';
 import { RutasPrivadas } from './rutas/rutasPrivadas';
-import PrivadoContenedor from '../componente-estilo/Contenedor/privadoContenedor';
 import CargarDatosIniciales from '../redux/cargadatos/cargarDatosIniciales';
 import LibroSelect from './paginas/libro/componente/libroSelect';
 import ClienteSelect from './paginas/cliente/componente/clienteSelect';
@@ -22,27 +21,25 @@ import Mensajes from './paginas/mensaje/mensajes';
 const PrivadoRuta = () => {
   return (
     <CargarDatosIniciales>
-      <PrivadoContenedor>
-        <ProveiderPedidoContext>
-          <RutaInvalida>
-            <Route path="/" element={<Navigate to={RutasPrivadas.LIBRO_LISTA} />}></Route>
-            <Route path={RutasPrivadas.LIBRO_LISTA} element={<Libros_lista />}></Route>
-            <Route path={RutasPrivadas.LIBRO} element={<LibroSelect />}></Route>
-            <Route path={RutasPrivadas.LIBRO_EDITAR} element={<LibroEditar />}></Route>
-            <Route path={RutasPrivadas.PROPUESTA_CARGAR} element={<PropuestaCargar />}></Route>
-            <Route path={RutasPrivadas.CLIENTE_LISTA} element={<Cliente_lista />}></Route>
-            <Route path={RutasPrivadas.CLIENTE} element={<ClienteSelect />}></Route>
-            <Route path={RutasPrivadas.PRECIO_LISTO} element={<Precios />}></Route>
-            <Route path={RutasPrivadas.PRECIO_CARGAR} element={<PrecioCargar />}></Route>
-            <Route path={RutasPrivadas.MENSAJE_LISTA} element={<Mensajes />}></Route>
-            <Route path={RutasPrivadas.PEDIDO_LISTA} element={<Pedidos />}></Route>
-            <Route path={RutasPrivadas.PEDIDO_CARGAR} element={<PedidoCargar />}></Route>
-            <Route path={RutasPrivadas.PEDIDO} element={<PedidoSelect />}></Route>
-            <Route path={RutasPrivadas.PEDIDO_LIBRO_LISTA} element={<ItemsLista />}></Route>
-            <Route path={RutasPrivadas.PERFIL} element={<Perfil />}></Route>
-          </RutaInvalida>
-        </ProveiderPedidoContext>
-      </PrivadoContenedor>
+      <ProveiderPedidoContext>
+        <RutaInvalida>
+          <Route path="/" element={<Navigate to={RutasPrivadas.LIBRO_LISTA} />}></Route>
+          <Route path={RutasPrivadas.LIBRO_LISTA} element={<Libros_lista />}></Route>
+          <Route path={RutasPrivadas.LIBRO} element={<LibroSelect />}></Route>
+          <Route path={RutasPrivadas.LIBRO_EDITAR} element={<LibroEditar />}></Route>
+          <Route path={RutasPrivadas.PROPUESTA_CARGAR} element={<PropuestaCargar />}></Route>
+          <Route path={RutasPrivadas.CLIENTE_LISTA} element={<Cliente_lista />}></Route>
+          <Route path={RutasPrivadas.CLIENTE} element={<ClienteSelect />}></Route>
+          <Route path={RutasPrivadas.PRECIO_LISTO} element={<Precios />}></Route>
+          <Route path={RutasPrivadas.PRECIO_CARGAR} element={<PrecioCargar />}></Route>
+          <Route path={RutasPrivadas.MENSAJE_LISTA} element={<Mensajes />}></Route>
+          <Route path={RutasPrivadas.PEDIDO_LISTA} element={<Pedidos />}></Route>
+          <Route path={RutasPrivadas.PEDIDO_CARGAR} element={<PedidoCargar />}></Route>
+          <Route path={RutasPrivadas.PEDIDO} element={<PedidoSelect />}></Route>
+          <Route path={RutasPrivadas.PEDIDO_LIBRO_LISTA} element={<ItemsLista />}></Route>
+          <Route path={RutasPrivadas.PERFIL} element={<Perfil />}></Route>
+        </RutaInvalida>
+      </ProveiderPedidoContext>
     </CargarDatosIniciales>
   );
 };

@@ -41,15 +41,6 @@ const Solicitudes = () => {
 
   return (
     <>
-      <BuscadorPaginadoCompleto
-        ref={contenedorRef}
-        texto="Buscar solicitud"
-        valor={valor}
-        setValor={setValor}
-        titulo="Lista de solicitudes de edición de libros"
-        etiquetaArriba="Al comienzo de la lista"
-        etiquetaMas="Nueva solicitud"
-      />
       <Centro
         ref={contenedorRef}
         finListaRef={finListaRef}
@@ -62,13 +53,24 @@ const Solicitudes = () => {
         query={valor}
         loading={loadingSolicitudes}
         error={errorSolicitudes ?? undefined}
+        texto="Lista de solicitudes de edición de libros"
+        buscador={
+          <BuscadorPaginadoCompleto
+            ref={contenedorRef}
+            texto="Buscar solicitud"
+            valor={valor}
+            setValor={setValor}
+            etiquetaArriba="Al comienzo de la lista"
+            etiquetaMas="Nueva solicitud"
+          />
+        }
       >
-        {solicitudRedux.busquedaActual.datosQuery.map((s) => 
+        {solicitudRedux.busquedaActual.datosQuery.map(s => (
           <SolicitudCard solicitud={s} key={s.id} />
-        )}
+        ))}
       </Centro>
       <Modal>
-        <SolicitudDetalle solicitud={solicitudRedux.datoSeleccionado}/>
+        <SolicitudDetalle solicitud={solicitudRedux.datoSeleccionado} />
       </Modal>
     </>
   );

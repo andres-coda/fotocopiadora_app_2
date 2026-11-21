@@ -36,6 +36,7 @@
   overflow: hidden;
   box-sizing: border-box;
   box-shadow: 1px 1px 1px var(--colorSombra);
+  background-color: var(--colorFondo);
   border-radius: 5px;
 }
 

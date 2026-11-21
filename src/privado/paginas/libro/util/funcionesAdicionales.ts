@@ -1,6 +1,6 @@
 export const listaLibroPropuestaSeleccionable = [
   { nombre: 'Todo' },
-  { nombre: 'Propuestas' },
+  { nombre: 'Libros agrupados' },
   { nombre: 'Libros' },
 ];
 

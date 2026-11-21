@@ -45,19 +45,6 @@ const Cliente_lista = () => {
 
   return (
     <>
-      <BuscadorPaginadoCompleto
-        ref={contenedorRef}
-        texto="Buscar cliente"
-        handleMas={() => {
-          dispatch(resetSeleccionarCliente());
-          nuevoElemento();
-        }}
-        valor={valor}
-        setValor={setValor}
-        titulo="Lista de clientes"
-        etiquetaArriba="Al comienzo de la lista"
-        etiquetaMas={'Nuevo cliente'}
-      />
       <Centro
         ref={contenedorRef}
         finListaRef={finListaRef}
@@ -67,6 +54,21 @@ const Cliente_lista = () => {
         }
         entidad="clientes"
         query={valor}
+        texto="Lista de clientes"
+        buscador={
+          <BuscadorPaginadoCompleto
+            ref={contenedorRef}
+            texto="Buscar cliente"
+            handleMas={() => {
+              dispatch(resetSeleccionarCliente());
+              nuevoElemento();
+            }}
+            valor={valor}
+            setValor={setValor}
+            etiquetaArriba="Al comienzo de la lista"
+            etiquetaMas={'Nuevo cliente'}
+          />
+        }
       >
         {clienteDatos.busquedaActual.datosQuery.map(d => (
           <ClienteCard cliente={d} key={d.id} />

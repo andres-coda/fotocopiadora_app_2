@@ -28,6 +28,7 @@ import PedidoCard from '../componente/pedidoCard';
 import usePedidoCargar from '../hook/usePedidoCargar';
 import { calcularTotal } from '../../../../redux/utils/funcionesPedido';
 import PedidoClienteCargar from './pedidoClienteCargar';
+import { useModalContext } from '../../../../contexto/contextoModal';
 
 
 const PedidoCargar = () => {
@@ -39,6 +40,7 @@ const PedidoCargar = () => {
   );
   const configuracion = useSelector((store: appStore) => store.miEmpresa.dato?.configuracion);
 
+  const {setModal} = useModalContext();
   const {
     control,
     handleSubmit,
@@ -84,6 +86,7 @@ const PedidoCargar = () => {
     if (pedidoSelect?.libroPedidos && pedidoSelect?.libroPedidos.length > 0) {
       setDatos({ pedidos: normalizarPedidoLibro(pedidoSelect.libroPedidos) });
     }
+    setModal(false); 
   }, []);
 
   const dataForm = watch();
@@ -114,6 +117,17 @@ const PedidoCargar = () => {
     // Se dispara una vez por alta confirmada por el back, no por cada render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     reset;
+  }, [responsePedido]);
+
+  // El contexto del pedido vive en ProveiderPedidoContext, que envuelve todas
+  // las rutas privadas: sobrevive al alta. Si no se limpia, el proximo
+  // "Nuevo pedido" arranca con los libros del anterior.
+  useEffect(() => {
+    if (!responsePedido || pedidoSelect?.id) return;
+    setDatos(undefined);
+    // Solo interesa la respuesta del back: pedidoSelect cambia despues de este
+    // commit (useFormulario lo selecciona), no queremos reevaluar la condicion.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responsePedido]);
 
   const { retroceder } = useFormulario<PedidoProp, formValuesPedido, PedidoProp>({

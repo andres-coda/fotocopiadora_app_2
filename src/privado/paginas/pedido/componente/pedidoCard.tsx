@@ -38,6 +38,7 @@ import { armarMensajeRetiro } from '../../../../utils/whatsapp';
 import Centro from '../../../../componente-estilo/centro/centro';
 import usePedidoClase from '../hook/usePedidoClase';
 import './pedidoCard.css';
+import { useModalContext } from '../../../../contexto/contextoModal';
 
 interface Props {
   pedido: PedidoProp;
@@ -50,6 +51,7 @@ interface Props {
 const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) => {
   const { claseCard } = usePedidoClase({ activo, nuevoEstilo });
 
+  const {setModal} = useModalContext();
   const {
     control,
     formState: { errors },
@@ -180,12 +182,12 @@ const PedidoCard = ({ pedido, onClick, activo, nuevoEstilo, cliente }: Props) =>
             titulo="Editar pedido"
             secundario
             nuevoEstilo="btn-icono-mediano"
-            onClick={() =>
+            onClick={() => {
               handleSelect({
                 pedido,
                 rutaLocal: `/${rutaBase.PRIVADO}/${RutasPrivadas.PEDIDO_CARGAR}`,
               })
-            }
+            }}
           />
         </Botonera>
       )}

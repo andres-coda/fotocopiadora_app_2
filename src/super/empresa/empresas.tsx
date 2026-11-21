@@ -7,7 +7,6 @@ import {
 } from '../../redux/state/empresa.state';
 import { appStore } from '../../redux/store';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import useEmpresasApi from '../../servicio/empresa/useEmpresasApi';
 import useEmpresaApi from '../../servicio/empresa/useEmpresaApi';
 import useBusquedaPaginada from '../../hooks/buscador/useBusquedaPaginada';
@@ -20,15 +19,14 @@ import { ReduxProp } from '../../redux/modelo/reduxContext.interface';
 import { rutaBase } from '../../privado/rutas/rutasPrivadas';
 
 const Empresas = () => {
-  const empresaRedux:  ReduxProp<EmpresaProp> = useSelector((store: appStore) => store.empresa);
-  const navigate = useNavigate();
+  const empresaRedux: ReduxProp<EmpresaProp> = useSelector((store: appStore) => store.empresa);
 
   const [valor, setValor] = useState<string>('');
   const { obtenerEmpresaBusqueda, responseEmpresa, errorFetchEmpresa, loadingEmpresa } =
     useEmpresasApi();
   const { eliminarEmpresa } = useEmpresaApi();
 
-  const { contenedorRef, finListaRef } = useBusquedaPaginada<EmpresaProp>({
+  const { contenedorRef, finListaRef, nuevoElemento } = useBusquedaPaginada<EmpresaProp>({
     valor,
     datosRedux: empresaRedux,
     crearBusquedaInicial: crearEmpresas,
@@ -47,39 +45,39 @@ const Empresas = () => {
   };
 
   return (
-    <>
-      <BuscadorPaginadoCompleto
-        ref={contenedorRef}
-        texto="Buscar empresa"
-        valor={valor}
-        setValor={setValor}
-        titulo="Empresas"
-        etiquetaArriba="Al comienzo de la lista"
-        etiquetaMas="Nueva empresa"
-        handleMas={() => navigate(`/${rutaBase.SUPER}/${RutasSupers.EMPRESA_CREAR}`)}
-      />
-      <Centro
-        ref={contenedorRef}
-        finListaRef={finListaRef}
-        vacio={
-          empresaRedux.cargaInicial &&
-          (!empresaRedux.busquedaActual.datosQuery ||
-            empresaRedux.busquedaActual.datosQuery.length === 0)
-        }
-        entidad="empresas"
-        query={valor}
-        error={errorFetchEmpresa ?? undefined}
-        loading={loadingEmpresa}
-      >
-        {empresaRedux.busquedaActual.datosQuery.map(empresa => (
-          <EmpresaCard
-            empresa={empresa}
-            key={empresa.id}
-            onEliminar={() => handleEliminar(empresa.id)}
-          />
-        ))}
-      </Centro>
-    </>
+    <Centro
+      ref={contenedorRef}
+      finListaRef={finListaRef}
+      vacio={
+        empresaRedux.cargaInicial &&
+        (!empresaRedux.busquedaActual.datosQuery ||
+          empresaRedux.busquedaActual.datosQuery.length === 0)
+      }
+      entidad="empresas"
+      query={valor}
+      error={errorFetchEmpresa ?? undefined}
+      loading={loadingEmpresa}
+      texto='Empresas'
+      buscador={
+        <BuscadorPaginadoCompleto
+          ref={contenedorRef}
+          texto="Buscar empresa"
+          valor={valor}
+          setValor={setValor}
+          etiquetaArriba="Al comienzo de la lista"
+          etiquetaMas="Nueva empresa"
+          handleMas={() => nuevoElemento(`/${rutaBase.SUPER}/${RutasSupers.EMPRESA_CREAR}`)}
+        />
+      }
+    >
+      {empresaRedux.busquedaActual.datosQuery.map(empresa => (
+        <EmpresaCard
+          empresa={empresa}
+          key={empresa.id}
+          onEliminar={() => handleEliminar(empresa.id)}
+        />
+      ))}
+    </Centro>
   );
 };
 

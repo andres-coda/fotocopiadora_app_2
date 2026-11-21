@@ -12,6 +12,7 @@
   min-height: 40px;
   /* Cambia height por min-height */
   position: relative;
+  width: 100%;
   /* Para posicionamiento absoluto */
   box-sizing: border-box;
 }
@@ -23,6 +24,7 @@
   max-width: fit-content;
   height: 40px;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .input-buscador-completo {
@@ -93,8 +95,8 @@
   background-color: transparent;
 }
 
-.inputs-entero-buscador input:focus + label,
-.inputs-entero-buscador input:not(:placeholder-shown) + label {
+.inputs-entero-buscador input:focus+label,
+.inputs-entero-buscador input:not(:placeholder-shown)+label {
   top: 0;
   left: 0;
   font-size: 0.8em !important;

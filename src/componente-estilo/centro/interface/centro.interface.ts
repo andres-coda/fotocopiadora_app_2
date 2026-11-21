@@ -12,11 +12,9 @@ export interface CentroClaseProp {
   nuevoEstiloExterior?:string;
 }
 
-export interface CentroDefectoProp extends CentroClaseProp {
+export interface CentroOpcionesProp {
   // Lo que sea que vaya en el children, estara en grid.
   children?: ReactNode;
-  // El texto simboliza un titulo, va encima del centro, los estilos son del titulo base
-  texto?: string;
   //error al hacer peticion a la api
   error?: string | null;
   //Loading para saber si la petición fue enviada y esta cargando los datos
@@ -30,6 +28,12 @@ export interface CentroDefectoProp extends CentroClaseProp {
   query?: string;
   //Igual que query
   filtro?: boolean;
+}
+
+export interface CentroDefectoProp extends CentroClaseProp, CentroOpcionesProp {
+  // El texto simboliza un titulo, va encima del centro, los estilos son del titulo base
+  texto?: string;
+  buscador?:ReactNode;
 }
 
 export interface CentroProp extends Omit<CentroDefectoProp, 'centro'> {

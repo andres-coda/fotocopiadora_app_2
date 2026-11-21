@@ -1,10 +1,8 @@
 import Titulo from '../texto/titulo';
-import { CentroDefectoProp } from './centro.interface';
-import Texto from '../texto/texto';
-import Cargando from '../../componente/cargando/cargando';
-import './centro.css';
-import useCentro from './useCentro';
-import TextoVacio from '../../componente/Textos/textoVacio';
+import { CentroDefectoProp } from './interface/centro.interface';
+import useCentro from './hook/useCentro';
+import CentroOpciones from './centroOpciones';
+import './estilos/centro.css';
 
 export const ContenedorCentro = ({
   children,
@@ -17,37 +15,24 @@ export const ContenedorCentro = ({
   centro = undefined,
   vacio = false,
   entidad = undefined,
-  query  = undefined,
-  filtro = undefined
+  query = undefined,
+  filtro = undefined,
+  buscador = undefined,
 }: CentroDefectoProp) => {
   const { claseExterior } = useCentro({ desplegable, scroll, nuevoEstilo, centro });
-  if (error)
-    return (
-      <div className={claseExterior}>
-        {texto && <Titulo titulo={texto} />}
-        <Texto texto={error} error />
-      </div>
-    );
-
-  if (loading)
-    return (
-      <div className={claseExterior}>
-        {texto && <Titulo titulo={texto} />}
-        <Cargando />
-      </div>
-    );
-
-  if (vacio)
-    return (
-      <div className={claseExterior}>
-        {texto && <Titulo titulo={texto} />}
-        <TextoVacio entidad={entidad} filtro={filtro} query={query} />
-      </div>
-    );
   return (
     <div className={claseExterior}>
       {texto && <Titulo titulo={texto} />}
-      {children}
+      {buscador && buscador}
+      <CentroOpciones
+        error={error}
+        loading={loading}
+        vacio={vacio}
+        entidad={entidad}
+        filtro={filtro}
+        query={query}
+        children={children}
+      />
     </div>
   );
 };

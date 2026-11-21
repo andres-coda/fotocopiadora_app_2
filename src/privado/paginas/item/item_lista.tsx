@@ -18,7 +18,6 @@ import FiltrosActivos from './componente/filtrosActivos';
 import OrdenItem from './componente/ordenItem';
 
 const ItemsLista = () => {
- 
   const [valor, setValor] = useState<string>('');
   const [filtro, setFiltro] = useState<boolean>(false);
   const [ordenar, setOrdenar] = useState<boolean>(false);
@@ -27,12 +26,17 @@ const ItemsLista = () => {
   );
   const { setModal, modal } = useModalContext();
 
-
-  const { nuevoElemento, finListaRef, contenedorRef, handleSeleccionarItem, error, loading, items } = useBuscadorPedido({
+  const {
+    nuevoElemento,
+    finListaRef,
+    contenedorRef,
+    handleSeleccionarItem,
+    error,
+    loading,
+    items,
+  } = useBuscadorPedido({
     valor,
-    
   });
-
 
   useEffect(() => {
     if (!modal) {
@@ -60,40 +64,40 @@ const ItemsLista = () => {
       : `Pedido de ${pedido?.cliente.telefono ? formatoTelefonoMostrar(pedido?.cliente.telefono) : (pedido?.cliente.email ?? '')}`;
 
   return (
-    <>
-      <BuscadorPaginadoCompleto
-        ref={contenedorRef}
-        texto="Buscar pedido"
-        valor={valor}
-        setValor={setValor}
-        titulo="Lista de pedidos"
-        etiquetaArriba="Al comienzo de la lista"
-        etiquetaMas={'Nuevo pedido'}
-        handleMas={() =>
-          nuevoElemento()
-        }
-        handleFiltro={handleFiltro}
-        handleOrden={handleOrden}
-      />
-      <FiltrosActivos />
-      <Centro
-        ref={contenedorRef}
-        finListaRef={finListaRef}
-        vacio={!items.busquedaActual || items.busquedaActual.datosQuery.length === 0}
-        entidad="items"
-        query={valor}
-        loading={loading}
-        error={error}
-      >
-        {items?.busquedaActual?.datosQuery?.map(d => (
-          <ItemCardCompleto
-            item={d}
-            key={d.id}
-            idPedido={d.idPedido}
-            onClick={handleSeleccionarItem}
+    <Centro
+      ref={contenedorRef}
+      finListaRef={finListaRef}
+      vacio={!items.busquedaActual || items.busquedaActual.datosQuery.length === 0}
+      entidad="items"
+      query={valor}
+      loading={loading}
+      error={error}
+      texto="Lista de pedidos"
+      buscador={
+        <>
+          <BuscadorPaginadoCompleto
+            ref={contenedorRef}
+            texto="Buscar pedido"
+            valor={valor}
+            setValor={setValor}
+            etiquetaArriba="Al comienzo de la lista"
+            etiquetaMas={'Nuevo pedido'}
+            handleMas={() => nuevoElemento()}
+            handleFiltro={handleFiltro}
+            handleOrden={handleOrden}
           />
-        ))}
-      </Centro>
+          <FiltrosActivos />
+        </>
+      }
+    >
+      {items?.busquedaActual?.datosQuery?.map(d => (
+        <ItemCardCompleto
+          item={d}
+          key={d.id}
+          idPedido={d.idPedido}
+          onClick={handleSeleccionarItem}
+        />
+      ))}
       <Modal texto={textoModal}>
         {filtro ? (
           <FiltroItem />
@@ -107,7 +111,7 @@ const ItemsLista = () => {
           </>
         )}
       </Modal>
-    </>
+    </Centro>
   );
 };
 

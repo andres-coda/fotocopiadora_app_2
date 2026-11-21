@@ -69,16 +69,6 @@ const Mensajes = () => {
 
   return (
     <>
-      <BuscadorPaginadoCompleto
-        ref={contenedorRef}
-        texto="Buscar mensaje"
-        valor={valor}
-        setValor={setValor}
-        titulo="Mensajes"
-        etiquetaArriba="Al comienzo de la lista"
-        etiquetaMas="Nuevo mensaje"
-        handleMas={esAdmin ? () => nuevoElemento() : undefined}
-      />
       <Centro
         ref={contenedorRef}
         finListaRef={finListaRef}
@@ -91,6 +81,18 @@ const Mensajes = () => {
         query={valor}
         error={errorFetchMensajes ?? undefined}
         loading={loadingMensajes}
+        texto='Lista de mensajes'
+        buscador={
+          <BuscadorPaginadoCompleto
+            ref={contenedorRef}
+            texto="Buscar mensaje"
+            valor={valor}
+            setValor={setValor}
+            etiquetaArriba="Al comienzo de la lista"
+            etiquetaMas="Nuevo mensaje"
+            handleMas={esAdmin ? () => nuevoElemento() : undefined}
+          />
+        }
       >
         {mensajeDatos.busquedaActual.datosQuery.map(mensaje => (
           <MensajeCard
